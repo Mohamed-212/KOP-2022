@@ -47,6 +47,10 @@ class Offer extends Model
             return 'http://via.placeholder.com/200x200?text=No+Image';
         }
     }
+    public function branches()
+    {
+        return $this->belongsToMany('App\Models\Branch', 'branch_offer');
+    }
 
 
 }

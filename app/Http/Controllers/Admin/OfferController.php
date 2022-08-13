@@ -11,6 +11,7 @@ use App\Models\Offer;
 use App\Models\OfferBuyGet;
 use App\Models\OfferDiscount;
 use App\Models\User;
+use App\Models\Branch;
 use Auth;
 use Validator;
 use Carbon\Carbon;
@@ -43,7 +44,8 @@ class OfferController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.offer.create', compact('categories'));
+        $branches = Branch::get();
+        return view('admin.offer.create', compact('categories','branches'));
     }
 
     /**
@@ -62,6 +64,7 @@ class OfferController extends Controller
             'service_type' => 'required|in:takeaway,delivery',
             'date_from' => 'required|date|before_or_equal:date_to',
             'date_to' => 'required|date',
+            'branches' => 'required|array',
             'description' => 'nullable',
             'description_ar' => 'nullable',
             'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -165,6 +168,7 @@ class OfferController extends Controller
         $users = User::whereHas('roles', function ($role) {
             $role->where('name', 'customer');
         })->get();
+        $offer->branches()->sync($request->branches);
 
         foreach ($users as $user) {
             \App\Http\Controllers\NotificationController::pushNotifications($user->id,  "New Offer: " . $request->title, "Offer");
@@ -248,7 +252,8 @@ class OfferController extends Controller
         //         break;
         // }
         $categories = \App\Models\Category::all();
-        return view('admin.offer.edit', compact('offer', 'categories'));
+        $branches = Branch::get();
+        return view('admin.offer.edit', compact('offer', 'categories','branches'));
     }
 
     /**
@@ -268,7 +273,7 @@ class OfferController extends Controller
             'service_type' => 'required',
             'date_from' => 'required|date',
             'date_to' => 'required|date',
-            // 'branches' => 'required|array',
+            'branches' => 'required|array',
             'description' => 'nullable',
             'description_ar' => 'nullable',
             'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -299,6 +304,8 @@ class OfferController extends Controller
             'offer_type' => $request->offer_type,
             'updated_by' => Auth::user()->id
         ]);
+        $offer->branches()->detach();
+        $offer->branches()->syncWithoutDetaching($request->branches);
         $this->Make_Log('App\Models\Offer','updete',$offer->id);
         if ($request->offer_type == 'discount') {
 

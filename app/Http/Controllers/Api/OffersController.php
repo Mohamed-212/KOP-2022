@@ -12,12 +12,22 @@ use App\Models\Order;
 use App\Models\Without;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class OffersController extends BaseController
 {
     public function index(Request $request, OfferFilters $filters)
     {
+        $user_branches = Auth::user()->branches()->pluck('branches.id')->toArray();
+
+        if (!empty($user_branches)) {
+            $offer_id = DB::table("branch_offer")->whereIn('branch_id', $user_branches)->pluck('offer_id');
+            $offers = Offer::whereIn('id',$offer_id);
+        }
+
         $offers = Offer::with('buyGet', 'discount')->filter($filters)->get();
+
         return $this->sendResponse($offers, 'Offers retreived successfully');
     }
 
