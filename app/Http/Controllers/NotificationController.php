@@ -34,8 +34,8 @@ class NotificationController extends Controller
      */
     public static function pushNotifications($user_id, $message, $type = "Notification", $data_message = null, $chat_id = null, $customer_id = null)
     {
-        $tokens = NotiToken::where('user_id', $user_id)->get();
-        $user = User::find($user_id);
+         $tokens = NotiToken::where('user_id',$user_id)->get();
+         $user = User::find($user_id);
         if ($user) {
             foreach($tokens as $token) {
                 self::pushSingleNotification($token->token, $message, $type, $data_message, $chat_id, true, $user_id, $customer_id);
@@ -91,8 +91,8 @@ class NotificationController extends Controller
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
-            // $result = curl_exec($ch);
-            // file_put_contents("test.txt", $result);
+            $result = curl_exec($ch);
+            file_put_contents("test.txt", $result);
         
             curl_close($ch);
     }
