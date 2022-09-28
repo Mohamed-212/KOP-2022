@@ -29,18 +29,19 @@ class NotificationController extends BaseController
         
         $tokens = NotiToken::where('user_id', $request->user_id)->where('platform', $request->platform)->get();
         
-        if($tokens->count() > 0) {
-            NotiToken::where('user_id', $request->user_id)->where('platform', $request->platform)->update(['token' => $request->token]);
-        } else {
+        // if($tokens->count() > 0) {
+        //     NotiToken::where('user_id', $request->user_id)->where('platform', $request->platform)->update(['token' => $request->token]);
+        // } else {
             $token = new NotiToken;
             $token->user_id = $request->user_id;
-            $token->platform = $request->platform;
+            $token->platform = 'Android';
             $token->token = $request->token;
             $token->save();
-        }
+            
+        // }
         
         
-        $token = NotiToken::where('user_id', $request->user_id)->where('platform', $request->platform)->first();
+        $token = NotiToken::where('user_id', $request->user_id)->where('platform', 'Android')->first();
         return $this->sendResponse($token, __('general.Token Updated Successfully'));
         
     }
