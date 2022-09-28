@@ -56,15 +56,12 @@ class NotificationController extends Controller
 
         $notification = new \Fcm\Push\Notification();
         $notification
-            ->addRecipient($deviceId1)
-            ->addRecipient($deviceGroupID)
-            ->addRecipient($arrayIDs)
+             ->addRecipient($token)
             ->setTitle('Hello from php-fcm!')
             ->setColor('#20F037')
             ->setSound("default")
             ->setBadge(11)
             ->addData("key","value");
-
         // Shortcut function:
         // $notification = $client->pushNotification('The title', 'The body', $deviceId);
 
