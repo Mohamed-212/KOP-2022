@@ -34,8 +34,8 @@ class NotificationController extends Controller
      */
     public static function pushNotifications($user_id, $message, $type = "Notification", $data_message = null, $chat_id = null, $customer_id = null)
     {
-        $tokens = NotiToken::where('user_id', $user_id)->get();
-        $user = User::find($user_id);
+        return $tokens = NotiToken::where('user_id',$user_id)->get();
+         $user = User::find($user_id);
         if ($user) {
             foreach($tokens as $token) {
                 self::pushSingleNotification($token->token, $message, $type, $data_message, $chat_id, true, $user_id, $customer_id);
@@ -49,52 +49,69 @@ class NotificationController extends Controller
      */
     public static function pushSingleNotification($token, $message, $type = "Notification", $data_message = null, $chat_id = null, $notification_sound = 1, $cashier_id, $customer_id = null)
     {
-            $notification_sound = $notification_sound? true : false;
+
+        $serverKey='AAAAL-i2Lz0:APA91bG80IvTG2ggBe4kaOKfRnRWx-dskewqFrapJn3i6p4z6OGk1SZZWlyFu4ymsGxaaL7CFZdabV-d5uAYRhx5VjBqnXL58_ETlyEPk-iYomLO2xmncz-5Ebb2EJT7QoG5UobDpOXw';
+        $senderId='205767716669';
+        $client = new \Fcm\FcmClient($serverKey, $senderId);
+
+        $notification = new \Fcm\Push\Notification();
+        $notification
+             ->addRecipient('dYXVz0PGSnOoKZLqzPVaqc:APA91bFyIJHu6roLMXWmLIeznKcB2MFgi0TQw_0Bvxh99kLPHlCKgkoegUhPOXq_N7SSMvoJWu9wGj3R_gX1NHpW2RcLw_ro3nIrcZ_fffFYlaqzAjqk8Ja7UX6MlOqwcX_WnyOlcPbb')
+            ->setTitle('Hello from php-fcm!')
+            ->setColor('#20F037')
+            ->setSound("default")
+            ->setBadge(11)
+            ->addData("key","value");
+        // Shortcut function:
+        // $notification = $client->pushNotification('The title', 'The body', $deviceId);
+
+        $response = $client->send($notification);
+            // $notification_sound = $notification_sound? true : false;
                 
-            /* Send notification */
-            $fcmUrl = NotiToken::FCM_URL;
-            $notification = [
-                'body' => $message,
-                'sound' => $notification_sound,
-            ];
+            // /* Send notification */
+            // $fcmUrl = NotiToken::FCM_URL;
+            // $notification = [
+            //     'body' => $message,
+            //     'sound' => $notification_sound,
+            // ];
         
-            $data = [
-                'type' => $type, // Message / Notification.
-                'message' => $data_message, //To display into the chat directly.
-                'chat_id' => $chat_id
-            ];
+            // $data = [
+            //     'type' => $type, // Message / Notification.
+            //     'message' => $data_message, //To display into the chat directly.
+            //     'chat_id' => $chat_id
+            // ];
         
-            $fcmNotification = [
-                'to'        => $token,
-                'notification' => $notification,
-                'data'      => $data
-            ];
+            // $fcmNotification = [
+            //     'to'        => $token,
+            //     'notification' => $notification,
+            //     'data'      => $data
+            // ];
 
-            $headers = [
-                'Authorization: key=' . NotiToken::FCM_AUTH_KEY,
-                'Content-Type: application/json'
-            ];
+            // $headers = [
+            //     'Authorization: key=' . NotiToken::FCM_AUTH_KEY,
+            //     'Content-Type: application/json'
+            // ];
             
-            NotificationLog::create([
-                'user_id' => $cashier_id,
-                'chat_id' => $chat_id,
-                'body' => $message,
-                'data' => $data_message,
-                'type' => $type,
-                'customer_id' => $customer_id,
-            ]);
+            // NotificationLog::create([
+            //     'user_id' => $cashier_id,
+            //     'chat_id' => $chat_id,
+            //     'body' => $message,
+            //     'data' => $data_message,
+            //     'type' => $type,
+            //     'customer_id' => $customer_id,
+            // ]);
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,$fcmUrl);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL,$fcmUrl);
+            // curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
             // $result = curl_exec($ch);
             // file_put_contents("test.txt", $result);
         
-            curl_close($ch);
+            // curl_close($ch);
     }
     
     public static function pushAllNotification($message, $type = "Notification", $data_message = null, $chat_id = null, $customer_id = null)

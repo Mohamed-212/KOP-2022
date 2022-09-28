@@ -245,10 +245,12 @@ class OrdersController extends BaseController
         //     return $this->sendError('Order did not placed');
         // }
 
-        $cashiers = Branch::find($branch_id);
+         $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'cashier');})->get();
         if ($cashiers) {
-            foreach ($cashiers->cashiers2 as $cashier) {
-                \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
+            foreach ($cashiers as $cashier) {
+               
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
             }
         }
 
@@ -444,9 +446,10 @@ class OrdersController extends BaseController
                 return $this->sendError('Order did not placed');
             }
 
-            $cashiers = Branch::find($branch_id);
+             $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'cashier');})->get();
             if ($cashiers) {
-                foreach ($cashiers->cashiers2 as $cashier) {
+                foreach ($cashiers as $cashier) {
                     \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
                 }
             }
