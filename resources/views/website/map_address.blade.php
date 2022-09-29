@@ -124,7 +124,7 @@
                                                                 {{ __('general.Area') }}
                                                             </label>
                                                             <div class="input-group">
-                                                                <select disabled class="form-control area w-100" name="area_id"
+                                                                <select class="form-control area w-100" name="area_id"
                                                                     required>
                                                                     <option value="">
 
