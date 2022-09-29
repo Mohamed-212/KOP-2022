@@ -75,7 +75,7 @@ class BranchesController extends BaseController
                 $to= date('Y-m-d H:i', strtotime("$date $close[$i]"));
             }
          
-             $to= date('Y-m-d H:i ', strtotime("$date $close[$i]"));
+             $to= date('Y-m-d H:i', strtotime("$date $close[$i]"));
             //  return [$from,date('Y-m-d H:i'),$to];
             if((strtotime($from) < strtotime(date('Y-m-d H:i'))) and (strtotime($to)>  strtotime(date('Y-m-d H:i'))))
             {
