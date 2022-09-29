@@ -239,7 +239,7 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{env('MAP_KEY')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGRuzTOs7B8UgziioeYl_-oykZDRaj2K4"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 	<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script>
 	<script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
