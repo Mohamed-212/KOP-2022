@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Website;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrdersController as ApiOrdersController;
 use App\Models\Branch;
@@ -476,6 +477,9 @@ class OrdersController extends Controller
                 'quantity' => ($item['quantity']) ? $item['quantity'] : 1
             ]);
         }
+
+        broadcast(new OrderCreated($order))->toOthers();
+
         return (app(ApiOrdersController::class)->sendResponse($order,  __('general.Order created successfully!')))->getOriginalContent();
 
         // return redirect()->route('get.orders')->with(['success' => __('general.Your order been submitted successfully')]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\OrderCreated;
 use App\Models\OfferBuyGet;
 use App\Models\OfferDiscount;
 use App\Models\Payment;
@@ -332,6 +333,8 @@ class OrdersController extends BaseController
                 'quantity' => array_key_exists('quantity', $item) ? $item['quantity'] : 1
             ]);
         }
+
+        broadcast(new OrderCreated($order))->toOthers();
 
         return $this->sendResponse($order,  __('general.Order created successfully!'));
     }

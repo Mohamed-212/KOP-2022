@@ -66,7 +66,7 @@ class MenuController extends BaseController
 
                 if ($parent_offer) {
 
-                    if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                         $parent_offer = null;
                     }
                 }
@@ -110,7 +110,7 @@ class MenuController extends BaseController
 
                 if ($parent_offer) {
 
-                    if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                         $parent_offer = null;
                     }
                 }
@@ -156,7 +156,7 @@ class MenuController extends BaseController
 
                 if ($parent_offer) {
 
-                    if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                         $parent_offer = null;
                     }
                 }
@@ -197,8 +197,8 @@ class MenuController extends BaseController
             //  if ($parent_offer)  break;
         
         if ($parent_offer) {
-           if(isset($parent_offer->offer->date_from)){
-            if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+           if(isset(optional($parent_offer->offer)->date_from)){
+            if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                 $parent_offer = null;
             }}
             else{break;}

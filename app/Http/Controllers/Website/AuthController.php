@@ -117,7 +117,7 @@ class AuthController extends Controller
 
         $user=User::where('email',request('email'))->first();
         if($user){
-        if ($user->hasRole('customer')) {
+        // if ($user->hasRole('customer')) {
             if ($user->email_verified_at == null) {
                 // return $user->id;
                 $phone=$user->first_phone;
@@ -131,7 +131,7 @@ class AuthController extends Controller
                     return redirect()->route('home.page');
                 }
             }
-        }
+        // }
         return redirect()->back()->with(['error' => __('session_messages.Unauthorized! Please Check Your Credentials')]);
     }
 
