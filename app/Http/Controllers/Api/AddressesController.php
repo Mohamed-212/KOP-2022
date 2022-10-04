@@ -150,7 +150,7 @@ class AddressesController extends BaseController
             'area' => ['nullable', 'string'],
             'customer_id' => ['exists:users,id'],
         ]);
-
+        $request->area=trim($request->area);
         if ($validator->fails())
             return $this->sendError(__('general.validation_errors'), $validator->errors(), 400);
 
