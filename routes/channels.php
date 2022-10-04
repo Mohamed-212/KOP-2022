@@ -16,5 +16,9 @@
 // });
 
 Broadcast::channel('online', function ($user) {
-    return $user;
+    $user = Auth::user();
+    if ($user->hasRole('cashier')) {
+        return $user;
+    }
+    return false;
 });
