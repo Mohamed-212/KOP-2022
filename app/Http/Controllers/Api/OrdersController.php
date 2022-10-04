@@ -249,8 +249,12 @@ class OrdersController extends BaseController
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
+<<<<<<< HEAD
                
               \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
+=======
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+>>>>>>> master
             }
         }
 
@@ -450,7 +454,7 @@ class OrdersController extends BaseController
             $role->where('name', 'cashier');})->get();
             if ($cashiers) {
                 foreach ($cashiers as $cashier) {
-                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
+                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
                 }
             }
 

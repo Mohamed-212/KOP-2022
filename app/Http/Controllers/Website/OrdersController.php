@@ -483,13 +483,20 @@ class OrdersController extends Controller
         }
 
         // send notification to all user_branches
-        $cashiers = Branch::find($branch_id);
-        if ($cashiers) {
-            if ($cashiers->cashiers2) {
-                foreach ($cashiers->cashiers2 as $cashier) {
+        // $cashiers = Branch::find($branch_id);
+        // if ($cashiers) {
+        //     if ($cashiers->cashiers2) {
+        //         foreach ($cashiers->cashiers2 as $cashier) {
 
-                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
-                }
+        //             \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
+        //         }
+        //     }
+        // }
+        $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'cashier');})->get();
+        if ($cashiers) {
+            foreach ($cashiers as $cashier) {
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
             }
         }
 
