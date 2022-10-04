@@ -60,7 +60,7 @@ window.io = require("socket.io-client");
 //     // forceTLS: true
 // });
 
-alert($('meta[name="csrf-token"]').attr('content'));
+// alert($('meta[name="csrf-token"]').attr('content'));
 
 window.Echo = new Echo({
     broadcaster:  'socket.io',
@@ -77,6 +77,9 @@ window.Echo = new Echo({
 window.Echo.join('online')
     .here((users) => {
         console.log(users);
+    })
+    .listen('OrderCreated', (e) => {
+        console.log(e);
     })
     .joining((user) => {
         console.log(user.name);

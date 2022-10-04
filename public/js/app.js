@@ -47737,8 +47737,8 @@ window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.i
 //     // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     // forceTLS: true
 // });
+// alert($('meta[name="csrf-token"]').attr('content'));
 
-alert($('meta[name="csrf-token"]').attr('content'));
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: window.location.origin + ':6001',
@@ -47750,6 +47750,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 window.Echo.join('online').here(function (users) {
   console.log(users);
+}).listen('OrderCreated', function (e) {
+  console.log(e);
 }).joining(function (user) {
   console.log(user.name);
 }).leaving(function (user) {
