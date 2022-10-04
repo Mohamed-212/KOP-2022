@@ -8,6 +8,8 @@
     <meta name="format-detection" content="telephone=no">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="shortcut icon" href="{{ asset('website-assets/img/faviconkop.png') }}" type="image/x-icon">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');

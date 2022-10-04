@@ -21,6 +21,7 @@
         "laravel/tinker": "^1.0",
         "mcamara/laravel-localization": "^1.6",
         "moyasar/moyasar": "^1.0",
+        "predis/predis": "^2.0",
         "twilio/sdk": "^6.12",
         "zizaco/entrust": "5.2.x-dev"
     },

@@ -39,3 +39,52 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+import Echo from "laravel-echo";
+
+// window.Pusher = require('pusher-js');
+// window.io = require("socket.io-client");
+window.io = require("socket.io-client");
+// window.io = io;
+// const socket = io();
+
+// window.Echo = new Echo({
+//     // broadcaster: 'socket.io',
+//     host: window.location.hostname + ":6001",
+//     broadcaster: "socket.io",
+//     // client: io,
+//     // encrypted: false,
+//     // transports: ["websocket"],
+//     // key: process.env.MIX_PUSHER_APP_KEY,
+//     // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     // forceTLS: true
+// });
+
+alert($('meta[name="csrf-token"]').attr('content'));
+
+window.Echo = new Echo({
+    broadcaster:  'socket.io',
+    host: window.location.origin + ':6001',
+    headers:
+    {
+        // 'Authorization': 'Bearer ' + accToken,
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+// console.log(window.Echo);
+
+window.Echo.join('online')
+    .here((users) => {
+        console.log(users);
+    })
+    .joining((user) => {
+        console.log(user.name);
+    })
+    .leaving((user) => {
+        console.log(user.name);
+    });
+
+// window.Echo.private('online').listen("ShippingStatusUpdated", (e) => {
+//     console.log(e);
+// });
