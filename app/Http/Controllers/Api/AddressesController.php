@@ -150,7 +150,6 @@ class AddressesController extends BaseController
             'area' => ['nullable', 'string'],
             'customer_id' => ['exists:users,id'],
         ]);
-        $request->area=trim($request->area);
         if ($validator->fails())
             return $this->sendError(__('general.validation_errors'), $validator->errors(), 400);
 
@@ -266,6 +265,7 @@ class AddressesController extends BaseController
             return $this->sendError(__('general.validation_errors'), $validator->errors(), 400);
         $areaId=null;
         $cityId=null;
+        $request->area=str_replace('حي ','',$request->area);
         $city = City::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
         if($city){
             $area = Area::where('city_id', $city->id)->where('name_en', "LIKE", "%$request->area%")->orWhere('name_ar', "LIKE", "%$request->area%")->first();
