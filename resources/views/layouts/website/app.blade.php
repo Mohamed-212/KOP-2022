@@ -102,9 +102,9 @@
 
                                                             {{ $address->name }}
                                                             ,
-                                                            {{ app()->getLocale() == 'ar' ? $address->city->name_ar : $address->city->name_en }}
+                                                            {{ app()->getLocale() == 'ar' ? optional($address->city)->name_ar : optional($address->city)->name_en }}
                                                             ,
-                                                            {{ app()->getLocale() == 'ar' ? $address->area->name_ar : $address->area->name_en }}
+                                                            {{ app()->getLocale() == 'ar' ? optional($address->area)->name_ar : optional($address->area)->name_en }}
                                                         </h6>
                                                         <p class="text-black">
                                                             {{ $address->street }}
