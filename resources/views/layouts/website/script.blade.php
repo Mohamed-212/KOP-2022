@@ -34,3 +34,5 @@
 @endif
 
 {{-- <script src="{{asset('website-assets/js/main.js')}}"></script> --}} 
+
+<script src="{{asset('js/app.js')}}"></script>
