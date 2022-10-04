@@ -139,7 +139,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Spatie\Permission\PermissionServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
