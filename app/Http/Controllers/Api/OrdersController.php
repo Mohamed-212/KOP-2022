@@ -22,7 +22,7 @@ use App\Models\PointsTransaction;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Events\orderupdate;
 class OrdersController extends BaseController
 {
     use GeneralTrait;
@@ -337,6 +337,7 @@ class OrdersController extends BaseController
             ]);
         }
 
+        broadcast(new orderupdate($order))->toOthers();
 
         return $this->sendResponse($order,  __('general.Order created successfully!'));
     }

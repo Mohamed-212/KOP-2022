@@ -546,6 +546,7 @@ class OrdersController extends Controller
                 'quantity' => ($item['quantity']) ? $item['quantity'] : 1
             ]);
         }
+        broadcast(new orderupdate($order))->toOthers();
         return (app(ApiOrdersController::class)->sendResponse($order,  __('general.Order created successfully!')))->getOriginalContent();
 
         // return redirect()->route('get.orders')->with(['success' => __('general.Your order been submitted successfully')]);

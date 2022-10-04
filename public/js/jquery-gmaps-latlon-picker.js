@@ -89,6 +89,8 @@ $.fn.gMapsLatLonPicker = (function() {
 				$(_self.vars.cssID + ".gllpLocationName").val(results[1].formatted_address);
 					var add= results[1].formatted_address ;
 					var  value=add.split(",");
+					console.log('address');
+					console.log(add);
 					count=value.length;
 					country=value[count-1];
 					city=value[count-2];

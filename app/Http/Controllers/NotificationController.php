@@ -53,38 +53,38 @@ class NotificationController extends Controller
         // $response = $client->send($notification);
             $notification_sound = $notification_sound? true : false;
                 
-            // /* Send notification */
-            // $fcmUrl = NotiToken::FCM_URL;
-            // $notification = [
-            //     'body' => $message,
-            //     'sound' => $notification_sound,
-            // ];
+            /* Send notification */
+            $fcmUrl = NotiToken::FCM_URL;
+            $notification = [
+                'body' => $message,
+                'sound' => $notification_sound,
+            ];
         
-            // $data = [
-            //     'type' => $type, // Message / Notification.
-            //     'message' => $data_message, //To display into the chat directly.
-            //     'chat_id' => $chat_id
-            // ];
+            $data = [
+                'type' => $type, // Message / Notification.
+                'message' => $data_message, //To display into the chat directly.
+                'chat_id' => $chat_id
+            ];
         
-            // $fcmNotification = [
-            //     'to'        => $token,
-            //     'notification' => $notification,
-            //     'data'      => $data
-            // ];
+            $fcmNotification = [
+                'to'        => $token,
+                'notification' => $notification,
+                'data'      => $data
+            ];
 
-            // $headers = [
-            //     'Authorization: key=' . NotiToken::FCM_AUTH_KEY,
-            //     'Content-Type: application/json'
-            // ];
+            $headers = [
+                'Authorization: key=' . NotiToken::FCM_AUTH_KEY,
+                'Content-Type: application/json'
+            ];
             
-            // NotificationLog::create([
-            //     'user_id' => $cashier_id,
-            //     'chat_id' => $chat_id,
-            //     'body' => $message,
-            //     'data' => $data_message,
-            //     'type' => $type,
-            //     'customer_id' => $customer_id,
-            // ]);
+            NotificationLog::create([
+                'user_id' => $cashier_id,
+                'chat_id' => $chat_id,
+                'body' => $message,
+                'data' => $data_message,
+                'type' => $type,
+                'customer_id' => $customer_id,
+            ]);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,$fcmUrl);
@@ -96,7 +96,7 @@ class NotificationController extends Controller
             $result = curl_exec($ch);
             file_put_contents("test.txt", $result);
         
-            // curl_close($ch);
+            curl_close($ch);
     }
     
     public static function pushAllNotification($message, $type = "Notification", $data_message = null, $chat_id = null, $customer_id = null)
