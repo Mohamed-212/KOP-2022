@@ -162,6 +162,9 @@
 
 @push('js')
     <script>
+        window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
         var i = 1;
         var rmoveID = 0;
         $(document).ready(function () {

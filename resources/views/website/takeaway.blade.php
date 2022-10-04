@@ -96,14 +96,18 @@
                                                                 </li>
                                                                 <div class="btn-group" role="group"
                                                                     aria-label="Basic example">
+                                                                    @if (in_array('delivery', explode(',', $branch->service_type)))
                                                                     <button type="button"
-                                                                        class="btn btn-sm @if (in_array('delivery', explode(',', $branch->service_type))) btn-secondary @else btn-danger @endif">
-                                                                        {{ __('general.Delivery') }}
+                                                                        class="btn btn-sm  btn-secondary">
+                                                                        {{ __('general.Delivery') }} {{in_array('takeaway', explode(',', $branch->service_type)) ? '' : __('general.only')}}
                                                                     </button>
+                                                                    @endif
+                                                                    @if (in_array('takeaway', explode(',', $branch->service_type)))
                                                                     <button type="button"
-                                                                        class="btn btn-sm @if (in_array('takeaway', explode(',', $branch->service_type))) btn-secondary @else btn-danger @endif">
-                                                                        {{ __('general.Take away') }}
+                                                                        class="btn btn-sm btn-secondary">
+                                                                        {{ __('general.Take away') }} {{in_array('delivery', explode(',', $branch->service_type)) ? '' : __('general.only')}}
                                                                     </button>
+                                                                    @endif
                                                                 </div>
                                                                 <div class="">
                                                                     <i class="fa fa-clock"></i>

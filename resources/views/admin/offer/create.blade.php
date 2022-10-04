@@ -44,6 +44,7 @@
                                     <select class="form-control {!! $errors->first('service_type', 'is-invalid') !!}"
                                         id="exampleInputService" name="service_type">
                                         <option value="">Select Service</option>
+                                        <option value="all">All</option>
                                         <option value="delivery">Delivery</option>
                                         <option value="takeaway">Takeaway</option>
                                     </select>
@@ -138,9 +139,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
 
-                                    <label for="exampleInputFile">Menu Image (website,mobile)</label>
+                                    <label for="exampleInputFile">Mobile Image </label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
+                                        <b>Note</b> Image Dimensions Must Be: 550 * 465
                                     </div>
                                     <div class="custom-file">
                                         <input type="file"
@@ -176,15 +177,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Mobile Home Page Image</label>
+                                    <label for="exampleInputFile">Website Menu Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 800 * 418
+                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
                                     </div>
                                     <div class="custom-file">
                                         <input type="file"
-                                            class="custom-file-input {!! $errors->first('mobile_image', 'is-invalid') !!}"
-                                            id="exampleInputFile" name="mobile_image" value="{{old('mobile_image')}}">
-                                        @error('mobile_image')
+                                            class="custom-file-input {!! $errors->first('website_image_menu', 'is-invalid') !!}"
+                                            id="exampleInputFile" name="website_image_menu" value="{{old('website_image_menu')}}">
+                                        @error('website_image_menu')
                                         <div class="help-block">{{ $message }}</div>
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
@@ -338,20 +339,20 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="exampleInputQuauntity">Quauntity</label>
-                                            <input type="number"
-                                                class="form-control {!! $errors->first('discount_quantity', 'is-invalid') !!}"
+                                            <label for="exampleInputQuauntity">Quauntity</label> --}}
+                                            <input type="hidden" hidden
+                                                class="form-control"
                                                 id="exampleInputQuauntity" placeholder="Enter Quauntity"
                                                 name="discount_quantity"
-                                            value="{{old('discount_quantity')}}">
-                                            @error('discount_quantity')
+                                            value="1">
+                                            {{-- @error('discount_quantity')
                                             <div class="help-block">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    </div> --}}
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputCategory">Category</label>
                                             <select
@@ -424,6 +425,9 @@
 @endsection
 @push('js')
 <script>
+    window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
     $("#exampleInputCategory1").click(function(e){
     e.preventDefault();
     var category_id = $("#exampleInputCategory1").val();

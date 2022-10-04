@@ -95,7 +95,7 @@
             }
 
             /*============ colors ========*/
-         
+
             .alert.alert-info .icon,
             .alert.alert-info .icon:after {
                 border-color: none;
@@ -113,7 +113,7 @@
     @section('content')
         <main class="page-main">
             <section class="page-header"
-            style="background-image: url({{ asset('website2-assets/img/page-header-theme.jpg') }})">
+                style="background-image: url({{ asset('website2-assets/img/page-header-theme.jpg') }})">
                 <div class="bg-shape grey"></div>
                 <div class="container">
                     <div class="page-header-content">
@@ -133,16 +133,20 @@
                 <div class="uk-margin-small-top uk-container">
                     @if (Session::has('success'))
                         <div class="row mr-2 ml-2">
-                            <button type="text" class="btn btn-lg btn-block btn-success mb-2"
-                                id="type-error">{{ Session::get('success') }}
-                            </button>
+                            <div class="col-12 justify-content-center align-items-center d-flex my-2" style="min-height: 50px;">
+                                <button type="text" class="btn btn-lg btn-block btn-success mb-2"
+                                    id="type-error">{{ Session::get('success') }}
+                                </button>
+                            </div>
                         </div>
                     @endif
                     @if (Session::has('error'))
                         <div class="row mr-2 ml-2">
-                            <button type="text" class="btn btn-lg btn-block btn-outline-danger mb-2"
-                                id="type-error">{{ Session::get('error') }}
-                            </button>
+                            <div class="col-12 justify-content-center align-items-center d-flex my-2" style="min-height: 50px;">
+                                <button type="text" class="btn btn-lg btn-block btn-outline-danger mb-2"
+                                    id="type-error">{{ Session::get('error') }}
+                                </button>
+                            </div>
                         </div>
                     @endif
                     <section class="py-4 osahan-main-body">

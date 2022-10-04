@@ -78,16 +78,29 @@ class CartController extends BaseController
         if ($cart->offer_id) {
             $offer = Offer::find($cart->offer_id);
             /* to delete offer(buy and get) package from cart */
-            if ($offer->offer_type == 'buy-get') {
-                $deletedID = Auth::user()->carts()->where('offer_id', $cart->offer_id)
-                    ->where('created_at', $cart->created_at)
-                    ->select('id')->get();
-                Auth::user()->carts()->where('offer_id', $cart->offer_id)
-                    ->where('created_at', $cart->created_at)
-                    ->delete();
-                return $this->sendResponse($deletedID, __('general.deleted', ['key' => __('general.cart_item')]));
+            if($offer)
+            {
+                if ($offer->offer_type == 'buy-get') {
+                    $deletedID = Auth::user()->carts()->where('offer_id', $cart->offer_id)
+                        ->where('created_at', $cart->created_at)
+                        ->select('id')->get();
+                    Auth::user()->carts()->where('offer_id', $cart->offer_id)
+                        ->where('created_at', $cart->created_at)
+                        ->delete();
+                    return $this->sendResponse($deletedID, __('general.deleted', ['key' => __('general.cart_item')]));
+                }
             }
+            else{
+                $deletedID = Auth::user()->carts()->where('offer_id', $cart->offer_id)
+                ->where('created_at', $cart->created_at)
+                ->select('id')->get();
+            Auth::user()->carts()->where('offer_id', $cart->offer_id)
+                ->where('created_at', $cart->created_at)
+                ->delete();
+            return $this->sendResponse($deletedID, __('general.deleted', ['key' => __('general.cart_item')]));
         }
+            }
+        
         $cart->delete();
         return $this->sendResponse($deletedID, __('general.deleted', ['key' => __('general.cart_item')]));
     }

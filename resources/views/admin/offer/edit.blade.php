@@ -129,10 +129,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
 
-                                    <label for="exampleInputFile">Menu Image</label>
-                                    <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
-                                    </div>
+                                    <label for="exampleInputFile">Mobile Image</label>
                                     @if($offer->image)
                                     <img src="{{ $offer->image }}" alt="..." class="img-thumbnail">
                                     @endif
@@ -144,6 +141,9 @@
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
+                                    <div class="help-block text-info">
+                                        <b>Note</b> Image Dimensions Must Be: 550 * 465
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,9 +152,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Website Home Image</label>
-                                    <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
-                                    </div>
+                                    
                                     @if($offer->website_image)
                                     <img src="{{ asset($offer->website_image) }}" alt="..." class="img-thumbnail">
                                     @endif
@@ -166,23 +164,26 @@
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
+                                    <div class="help-block text-info">
+                                        <b>Note</b> Image Dimensions Must Be: 509 * 459
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Mobile Home Image</label>
+                                    <label for="exampleInputFile">Website Menu Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 800 * 418
+                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
                                     </div>
-                                    @if($offer->mobile_image)
-                                    <img src="{{ asset($offer->mobile_image) }}" alt="..." class="img-thumbnail">
+                                    @if($offer->website_image_menu)
+                                    <img src="{{ asset($offer->website_image_menu) }}" alt="..." class="img-thumbnail">
                                     @endif
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile" name="mobile_image"
-                                            value="{{$offer->mobile_image}}">
-                                        @error('mobile_image')
+                                        <input type="file" class="custom-file-input" id="exampleInputFile" name="website_image_menu"
+                                            value="{{$offer->website_image_menu}}">
+                                        @error('website_image_menu')
                                         <div class="help-block">{{ $message }}</div>
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
@@ -195,9 +196,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputOfferType">Offer Type</label>
                                     <select class="form-control" id="exampleInputOfferType" name="offer_type" readonly>
-                                        <option value="">Select Offer Type</option>
-                                        <option value="buy-get" @if($offer->offer_type == 'buy-get') selected @endif >Buy / Get</option>
-                                        <option value="discount" @if($offer->offer_type == 'discount') selected @endif>Discount</option>
+                                    @if($offer->offer_type == 'buy-get')
+                                        <option value="buy-get" selected>Buy / Get</option>
+                                    @else
+                                        <option value="discount"  selected >Discount</option>
+                                        @endif
                                     </select>
                                     @error('offer_type')
                                     <div class="help-block">{{ $message }}</div>
@@ -317,15 +320,15 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputQuauntity">Quauntity</label>
-                                            <input type="number" class="form-control" id="exampleInputQuauntity"
+                                    {{-- <div class="col-md-6">
+                                        <div class="form-group"> --}}
+                                            {{-- <label for="exampleInputQuauntity">Quauntity</label> --}}
+                                            <input type="hidden" hidden class="form-control" id="exampleInputQuauntity"
                                                 placeholder="Enter Quauntity" name="discount_quantity"
-                                                value="{{ $offer->discount->quantity }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                                value="1">
+                                        {{-- </div>
+                                    </div> --}}
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputCategory">Category</label>
                                             <select class="form-control category-select" id="exampleInputCategory1"
@@ -392,6 +395,9 @@
 @endsection
 @push('js')
 <script>
+     window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
     $("#exampleInputCategory1").click(function(e){
     e.preventDefault();
     var category_id = $("#exampleInputCategory1").val();
@@ -456,6 +462,11 @@
 </script>
 
 <script>
+//    $("a").on('click', function(event) {
+//         alert('hi');
+//         e.preventDefault();
+//         return false;
+//    }
     $("#exampleInputCategory3").click(function(e){
     e.preventDefault();
     var category_id = $("#exampleInputCategory3").val();
@@ -485,5 +496,16 @@
       $("#items3").append('<option value="">Choose Item</option>');
     }
   });
+  function con() {
+    alert('hi');
+    var answer = confirm("do you want to check our other products")
+    if (answer){
+
+        alert("bye");
+    }
+    else{
+        window.location = "http://www.example.com";
+    }
+}
 </script>
 @endpush

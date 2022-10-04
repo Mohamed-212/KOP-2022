@@ -54,7 +54,7 @@
                                 <th>Name EN</th>
                                 <th>Price</th>
                                 <th>Calories</th>
-                                <th>Image</th>
+                                {{-- <th>Image</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@
                                 <td>{{ $without->name_en }}</td>
                                 <td>{{ $without->price }}</td>
                                 <td>{{ $without->calories }}</td>
-                                <td><img src="{{ $without->image }}" style="max-width: 75px" ></td>
+                                {{-- <td><img src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
                                 <td>
                                     <a href="{{ route('admin.without.show', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     <a href="{{ route('admin.without.edit', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>

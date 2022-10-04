@@ -1,7 +1,16 @@
 @extends('layouts.website.app')
 
 @section('title')
-    Item
+    {{ app()->getLocale() == 'ar' ? $item['name_ar'] : $item['name_en'] }}
+@endsection
+
+@section('share_meta')
+    <meta property="og:url" content="{{ route('item.page', [$item->category_id, $item->id]) }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ app()->getLocale() == 'ar' ? $item['name_ar'] : $item['name_en'] }} - KOP" />
+    <meta property="og:description"
+        content="{{ app()->getLocale() == 'ar' ? $item['description_ar'] : $item['description_en'] }}" />
+    <meta property="og:image" content="{{ asset($item->image) }}" />
 @endsection
 
 @section('styles')
@@ -72,8 +81,79 @@
             border-color: #6dc405 !important;
             color: #fff !important;
         }
+
         .btn-outline-primary {
             background-color: #eee;
+        }
+
+        .effect {
+            width: 100%;
+            /* padding: 50px 0px 70px 0px; */
+            /* background-color: #212121; */
+        }
+
+        .effect .buttons {
+            /* margin-top: 50px; */
+            display: flex;
+            /* justify-content: center; */
+        }
+
+        .effect a:last-child {
+            margin-right: 0px;
+        }
+
+        /*common link styles !!!YOU NEED THEM*/
+        .effect {
+            /*display: flex; !!!uncomment this line !!!*/
+        }
+
+        .effect a {
+            text-decoration: none !important;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-right: 20px;
+            font-size: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .effect a i {
+            position: relative;
+            z-index: 3;
+        }
+
+        .effect a.fb {
+            background-color: #3b5998 !important;
+        }
+
+        .effect a.tw {
+            background-color: #00aced !important;
+        }
+
+        .effect a.insta {
+            background-color: #bc2a8d !important;
+        }
+
+        .effect.aeneas a {
+            transition: transform 0.4s linear 0s, border-top-left-radius 0.1s linear 0s, border-top-right-radius 0.1s linear 0.1s, border-bottom-right-radius 0.1s linear 0.2s, border-bottom-left-radius 0.1s linear 0.3s;
+        }
+
+        .effect.aeneas a i {
+            transition: transform 0.4s linear 0s;
+        }
+
+        .effect.aeneas a:hover {
+            transform: rotate(360deg);
+            border-radius: 50%;
+        }
+
+        .effect.aeneas a:hover i {
+            transform: rotate(-360deg);
         }
     </style>
 @endsection
@@ -100,9 +180,7 @@
                 info: '{{ app()->getLocale() == 'ar' ? $item['description_ar'] : $item['description_en'] }}',
                 category: '{{ app()->getLocale() == 'ar' ? $item['category']['name_ar'] : $item['category']['name_en'] }}',
                 calories: {{ $item->calories }},
-                @if (isset($item['dough_type']) && !empty($item['dough_type']) && isset($item['dough_type'][1]))
-                dough: '{{ $item['dough_type'][1]['name_ar'] }},{{ $item['dough_type'][1]['name_en'] }}',
-                @endif
+                @if (isset($item['dough_type']) && !empty($item['dough_type']) && isset($item['dough_type'][1])) dough: '{{ $item['dough_type'][1]['name_ar'] }},{{ $item['dough_type'][1]['name_en'] }}', @endif
                 @if (isset($item['dough_type_2']) && !empty($item['dough_type_2']) && isset($item['dough_type_2'][0])) dough2: '{{ $item['dough_type_2'][0]['name_ar'] }},{{ $item['dough_type_2'][0]['name_en'] }}', @endif
                 real_price: {{ round($item->price, 2) }},
                 price: {{ round(isset($item['offer']) ? $item['offer']['offer_price'] : $item->price, 2) }},
@@ -227,25 +305,59 @@
                                         <span class="counter" style="display: flex;"><span class="minus" x-data
                                                 x-on:click="$dispatch('remove-last-item')"
                                                 style="font-size: 50px;cursor: pointer;">-</span><input disabled
-                                                type="text" name="quantity" x-bind:value="items.length + items.reduce((a, b) => a += b.quantity -1, 0)" id="quantity"
+                                                type="text" name="quantity"
+                                                x-bind:value="items.length + items.reduce((a, b) => a += b.quantity - 1, 0)"
+                                                id="quantity"
                                                 style="width: 20%;margin-left: 5px; margin-right: 5px;text-align: center;"><span
                                                 class="plus" x-data x-on:click="$dispatch('add-item')"
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
-                                        <div> <button @auth
-                                                    @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif
-                                                @endauth class="purchase-btn cart"
+                                        <div> <button
+                                                @auth
+@if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
+                                                class="purchase-btn cart"
                                                 type="submit">{{ __('home.Add to Cart') }}</button></div>
                                     </div>
                                     <ul class="product-meta">
                                         <li>{{ __('general.calories') }}:<a
                                                 href="javascript:void(0)">{{ $item->calories }}</a></li>
                                     </ul>
-                                    <ul class="social-icon">
-                                        <li>Share:</li>
-                                        <li><a href="#"><i class="lab la-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="lab la-twitter"></i></a></li>
-                                        <li><a href="#"><i class="lab la-behance"></i></a></li>
-                                    </ul>
+                                    <div class="effect aeneas">
+                                        <ul class="social-icon buttons ">
+                                            <li>{{ __('general.share') }}:</li>
+                                            {{-- <li>
+                                                <iframe
+                                                    src="https://www.facebook.com/plugins/share_button.php?href={{ route('item.page', [$item->category_id, $item->id]) }}&layout=button&size=small&width=96&height=20&appId"
+                                                    width="96" height="20" style="border:none;overflow:hidden;"
+                                                    scrolling="no" frameborder="0" allowfullscreen="true"
+                                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                                            </li> --}}
+                                            <li>
+                                                <a href="http://www.facebook.com/share.php?u={{ route('item.page', [$item->category_id, $item->id]) }}"
+                                                    class="fb mx-1" title="Join us on Facebook" style="background-color: #3B5998 !important;">
+                                                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://twitter.com/intent/tweet?text={{ route('item.page', [$item->category_id, $item->id]) }}"
+                                                    class="tw mx-1" title="Join us on Twitter" style="background-color: #1da1f2 !important;">
+                                                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            {{-- <li>
+                                                <a href="https://twitter.com/intent/tweet?text={{ route('item.page', [$item->category_id, $item->id]) }}"
+                                                    class="insta mx-1" title="Join us on Instgram">
+                                                    <i class="fab fa-instagram"
+                                                        aria-hidden="true"></i>
+                                                    </a>
+                                            </li> --}}
+                                            {{-- <li><a target="_blank"
+                                                    href="http://www.facebook.com/share.php?u={{ route('item.page', [$item->category_id, $item->id]) }}"><i
+                                                        class="lab la-facebook-f"></i></a></li>
+                                            <li><a href="https://twitter.com/intent/tweet?text={{ route('item.page', [$item->category_id, $item->id]) }}"
+                                                    target="_blank"><i class="lab la-twitter"></i></a></li> --}}
+                                            {{-- <li><a href="#"><i class="lab la-behance"></i></a></li> --}}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -261,39 +373,42 @@
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" x-bind:id="'flush-heading' + item.uid">
-                            <button class="accordion-button collapsed d-flex justify-content-between" type="button" data-bs-toggle="collapse"
-                                x-bind:data-bs-target="'#flush-collapse' + item.uid" aria-expanded="false"
-                                x-bind:aria-controls="'flush-collapse' + item.uid" x-text="'Sandwich ' + (sinx+1)">
+                            <button class="accordion-button collapsed d-flex justify-content-between" type="button"
+                                data-bs-toggle="collapse" x-bind:data-bs-target="'#flush-collapse' + item.uid"
+                                aria-expanded="false" x-bind:aria-controls="'flush-collapse' + item.uid"
+                                x-text="'Sandwich ' + (sinx+1)" x-bind:class="{ 'collapsed': sinx !== 0 }">
                             </button>
-                            
+
                         </h2>
                         <div x-bind:id="'flush-collapse' + item.uid" class="accordion-collapse collapse"
-                            x-bind:aria-labelledby="'flush-heading' + item.uid" data-bs-parent="#accordionFlushExample">
+                            x-bind:class="{ 'show': sinx == 0 }" x-bind:aria-labelledby="'flush-heading' + item.uid"
+                            data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
                                 <div class="container">
                                     <div class="d-flex justify-content-between">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 @if (isset($item['dough_type']) && !empty($item['dough_type']) && isset($item['dough_type'][0]))
-                                                <div class="col-md-6 my-2">
-                                                    {{ __('general.Dough Type') }}:&nbsp;
-                                                    <div class="btn-group" role="group"
-                                                        aria-label="Basic radio toggle button group" style="width: 50%;">
-                                                        @foreach ($item['dough_type'] as $dough)
-                                                            <input class="btn-check" autocomplete="off"
-                                                                x-bind:id="'{{ $dough['name_en'] }}' + item.uid" type="radio"
-                                                                x-bind:name="'dough_type' + item.uid"
-                                                                value="{{ $dough['name_ar'] }},{{ $dough['name_en'] }}"
-                                                                @if ($loop->first) checked @endif>
-                                                            <label class="btn btn-outline-primary"
-                                                                x-bind:for="'{{ $dough['name_en'] }}' + item.uid"
-                                                                x-on:click="item.dough = '{{ $dough['name_ar'] }},{{ $dough['name_en'] }}'">
-                                                                <span>{{ app()->getLocale() == 'ar' ? $dough->name_ar : $dough->name_en }}</span></label>
-                                                        @endforeach
-                                                    </div>
-                                                    @endif
-                                                </div>
-                                                @if (isset($item['dough_type_2']) && !empty($item['dough_type_2']))
+                                                    <div class="col-md-6 my-2">
+                                                        {{ __('general.Dough Type') }}:&nbsp;
+                                                        <div class="btn-group" role="group"
+                                                            aria-label="Basic radio toggle button group"
+                                                            style="width: 50%;">
+                                                            @foreach ($item['dough_type'] as $dough)
+                                                                <input class="btn-check" autocomplete="off"
+                                                                    x-bind:id="'{{ $dough['name_en'] }}' + item.uid"
+                                                                    type="radio" x-bind:name="'dough_type' + item.uid"
+                                                                    value="{{ $dough['name_ar'] }},{{ $dough['name_en'] }}"
+                                                                    @if ($loop->last) checked @endif>
+                                                                <label class="btn btn-outline-primary"
+                                                                    x-bind:for="'{{ $dough['name_en'] }}' + item.uid"
+                                                                    x-on:click="item.dough = '{{ $dough['name_ar'] }},{{ $dough['name_en'] }}'">
+                                                                    <span>{{ app()->getLocale() == 'ar' ? $dough->name_ar : $dough->name_en }}</span></label>
+                                                            @endforeach
+                                                        </div>
+                                                @endif
+                                            </div>
+                                            @if (isset($item['dough_type_2']) && !empty($item['dough_type_2']))
                                                 <div class="col-md-6 my-2">
                                                     {{ __('general.Dough Type2') }} :&nbsp;
                                                     <div class="btn-group" role="group"
@@ -312,10 +427,10 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            </div>
                                         </div>
+                                    </div>
 
-                                        {{-- <div class="d-flex justify-content-center align-items-center">
+                                    {{-- <div class="d-flex justify-content-center align-items-center">
                                             <span class="counter" style="display: flex;"><span class="minus" x-data
                                                 x-on:click="item.quantity--"
                                                 style="font-size: 50px;cursor: pointer;">-</span><input disabled
@@ -324,102 +439,117 @@
                                                 class="plus" x-data x-on:click="item.quantity++"
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
                                         </div> --}}
-                                    </div>
+                                </div>
 
-                                    <div class="row mt-3">
-                                        @if ($item['category']['extras']->count() > 0)
-                                            <div class="col-md-6">
-                                                <table class="table product-table">
-                                                    <thead>
+                                <div class="row mt-3">
+                                    @if ($item['category']['extras']->count() > 0)
+                                        <div class="col-md-6">
+                                            <table class="table product-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">@lang('general.Extra')</th>
+                                                        <th scope="col">@lang('general.Select')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($item['category']['extras'] as $extra)
                                                         <tr>
-                                                            <th scope="col">Extra</th>
-                                                            <th scope="col">Select</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($item['category']['extras'] as $extra)
-                                                            <tr>
-                                                                <td><b style="color:black;">
+                                                            <td class="row">
+                                                                <div class="col-5">
+                                                                    <b style="color:black;">
                                                                         {{ app()->getLocale() == 'ar' ? $extra['name_ar'] : $extra['name_en'] }}</b>
-                                                                    <br>
-                                                                    <span>
-                                                                        {{ __('home.Calories') }}:
-                                                                        {{ $extra['calories'] }}
-                                                                    </span>
-                                                                    <span>
-                                                                        ({{ round($extra['price'], 2) }}
-                                                                        {{ __('general.SR') }})
-                                                                    </span>
-
-                                                                </td>
-                                                                <td> <input type="checkbox" value="{{ $extra['id'] }}"
-                                                                        name="extras[]" class="checkExtra" x-data
-                                                                        x-on:click="addToItem(
+                                                                </div>
+                                                                <span class="col-4">
+                                                                    {{ __('home.Calories') }}:
+                                                                    {{ $extra['calories'] }}
+                                                                </span>
+                                                                <span class="col-3">
+                                                                    {{ round($extra['price'], 2) }}
+                                                                    {{ __('general.SR') }}
+                                                                </span>
+                                                            </td>
+                                                            <td> <input type="checkbox" value="{{ $extra['id'] }}"
+                                                                    name="extras[]" class="checkExtra" x-data
+                                                                    x-on:click="addToItem(
                                                                                     'extras',
                                                                                     {{ $extra['id'] }},
                                                                                     '{{ app()->getLocale() == 'ar' ? $extra['name_ar'] : $extra['name_en'] }}',
                                                                                     {{ round($extra['price'], 2) }},
                                                                                     item.uid
                                                                                 )">
-                                                                </td>
+                                                            </td>
 
 
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        @endif
-                                        @if ($item['category']['withouts']->count() > 0)
-                                            <div class="col-md-6">
-                                                <table class="table product-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Without</th>
-                                                            <th scope="col">Select</th>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($item['category']['withouts'] as $without)
-                                                            <tr>
-                                                                <td><b style="color:black;">
-                                                                        {{ app()->getLocale() == 'ar' ? $without['name_ar'] : $without['name_en'] }}</b>
-                                                                    <br>
-                                                                    <span>
-                                                                        {{ __('home.Calories') }}:
-                                                                        {{ $without['calories'] }}
-                                                                    </span>
-                                                                    <span>
-                                                                        ({{ round($without['price'], 2) }}
-                                                                        {{ __('general.SR') }})
-                                                                    </span>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
+                                    @if ($item['category']['withouts']->count() > 0)
+                                        <div class="col-md-6">
+                                            <table class="table product-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">@lang('general.Without')</th>
+                                                        <th scope="col">@lang('general.Select')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($item['category']['withouts'] as $without)
+                                                        <tr>
+                                                            {{-- <td><b style="color:black;">
+                                                                    {{ app()->getLocale() == 'ar' ? $without['name_ar'] : $without['name_en'] }}</b>
+                                                                <br>
+                                                                <span>
+                                                                    {{ __('home.Calories') }}:
+                                                                    {{ $without['calories'] }}
+                                                                </span>
+                                                                <span>
+                                                                    ({{ round($without['price'], 2) }}
+                                                                    {{ __('general.SR') }})
+                                                                </span>
 
-                                                                </td>
-                                                                <td> <input type="checkbox" x-data
-                                                                        value="{{ $without['id'] }}" name="without[]"
-                                                                        class="checkExtra"
-                                                                        x-on:click="addToItem(
+                                                            </td> --}}
+                                                            <td class="row">
+                                                                <div class="col-8 ">
+                                                                    <b style="color:black;" class="px-1 text-left">
+                                                                        {{ app()->getLocale() == 'ar' ? $without['name_ar'] : $without['name_en'] }}</b>
+                                                                </div>
+                                                                <span class="col-4">
+                                                                    {{ __('home.Calories') }}:
+                                                                    {{ $without['calories'] }}
+                                                                </span>
+                                                                {{-- <span class="col-3">
+                                                                    ({{ round($without['price'], 2) }}
+                                                                    {{ __('general.SR') }})
+                                                                </span> --}}
+                                                            </td>
+                                                            <td> <input type="checkbox" x-data
+                                                                    value="{{ $without['id'] }}" name="without[]"
+                                                                    class="checkExtra"
+                                                                    x-on:click="addToItem(
                                                                                     'withouts',
                                                                                     {{ $without['id'] }},
                                                                                     '{{ app()->getLocale() == 'ar' ? $without['name_ar'] : $without['name_en'] }}',
                                                                                     {{ round($without['price'], 2) }},
                                                                                     item.uid
                                                                                 )">
-                                                                </td>
+                                                            </td>
 
 
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        @endif
-                                    </div>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                </template>
+            </div>
+            </template>
             </div>
         </section>
 

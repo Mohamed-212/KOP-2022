@@ -177,6 +177,9 @@
 
 @push('js')
     <script>
+        window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
         var i = 1;
         $(document).ready(function () {
             $('#add-customer').validate({

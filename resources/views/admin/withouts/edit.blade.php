@@ -125,7 +125,9 @@
 
 @push('js')
 <script>
-
+window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
     $('.custom-file-input').on('change',function(){
         //get the file name
         var fileName = $(this).val();

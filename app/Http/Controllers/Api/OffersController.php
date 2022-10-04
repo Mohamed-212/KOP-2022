@@ -21,10 +21,10 @@ class OffersController extends BaseController
     public function index(Request $request, OfferFilters $filters)
     {
         $user_branches = Auth::user()->branches()->pluck('branches.id')->toArray();
-        $offers=[];
+        $offers = [];
         if (!empty($user_branches)) {
             $offer_id = DB::table("branch_offer")->whereIn('branch_id', $user_branches)->pluck('offer_id');
-            $offers = Offer::whereIn('id',$offer_id)->with('buyGet', 'discount')->filter($filters)->orderBy('created_at', 'desc')->get();
+            $offers = Offer::whereIn('id', $offer_id)->with('buyGet')->filter($filters)->orderBy('created_at', 'desc')->get();
         }
 
         // $offers =  $offerswith('buyGet', 'discount')->filter($filters)->get();
@@ -32,9 +32,9 @@ class OffersController extends BaseController
         return $this->sendResponse($offers, 'Offers retreived successfully');
     }
 
-    public function get(Request $request, Offer $offer)
+    public function get(Request $request, $id)
     {
-
+        $offer = Offer::where('id', $id)->with('buyGet', 'discount')->first();
         $result = $offer->toArray();
 
 
@@ -79,7 +79,7 @@ class OffersController extends BaseController
             // $details = $offer->buyGet;
             $details['buy_items'] = $buy_items;
             $details['get_items'] = [];
-            
+
             $details['buy_category'] = $offer->buyGet->buyCategory;
             $details['get_category'] = $offer->buyGet->getCategory;
 
@@ -91,9 +91,9 @@ class OffersController extends BaseController
                 if ($offer->buyGet->offer_price) {
                     $disccountValue = $item['price'] * $offer->buyGet->offer_price / 100;
                     // $item['offer_price'] = $item['price'] - $disccountValue;
-                    $item['offer_price'] = - $item['price'];
+                    $item['offer_price'] = -$item['price'];
                 } else {
-                    $item['offer_price'] = - $item['price'];
+                    $item['offer_price'] = -$item['price'];
                     // dd($item);
                 }
                 $result['details']['get_items'][] = $item;
@@ -108,7 +108,7 @@ class OffersController extends BaseController
             //dd($offer->discount);
             //$itemsIds = explode(',', $offer->discount->items); // wrong
             $itemsIds = [];
-            foreach ($offer->discount->items as $item){
+            foreach ($offer->discount->items as $item) {
                 $itemsIds[] = $item['id'];
             }
             $items = Item::whereIn('id', $itemsIds)->get();
@@ -117,18 +117,19 @@ class OffersController extends BaseController
             // $details['items'] = $items;
             $result['details'] = $details;
 
-            foreach ($items as $item) {
-                $item = $item->toArray();
-                if ($offer->discount->discount_type == 1) {
-                    $disccountValue = $item['price'] * $offer->discount->discount_value / 100;                   
-                    $item['offer_price'] = round($item['price'] - $disccountValue, 2);                    
-                } elseif ($offer->discount->discount_type == 2) {
-                    $item['offer_price'] = round($item['price'] - $offer->discount->discount_value);
-                }
-                // $result['details']['items'];
-                $result['details']['items'][] = $item;
-            }
-            
+            // foreach ($items as $item) {
+            //     $item = $item->toArray();
+            //     $item['offer_price'] = 0;
+            //     if ($offer->discount->discount_type == 1) {
+            //         $disccountValue = $item['price'] * $offer->discount->discount_value / 100;                   
+            //         $item['offer_price'] = round($item['price'] - $disccountValue, 2);                    
+            //     } elseif ($offer->discount->discount_type == 2) {
+            //         $item['offer_price'] = round($item['price'] - $offer->discount->discount_value);
+            //     }
+            //     // $result['details']['items'];
+            //     // $result['details']['items'][] = $item;
+            // }
+
             return $this->sendResponse($result, 'offer details');
         }
 
@@ -270,12 +271,12 @@ class OffersController extends BaseController
             if (
                 $offer &&
                 (
-                (!empty($visibleOfferPivotRows->first()->offer_last_updated_at) &&
-                    $offer->updated_at->gt($visibleOfferPivotRows->first()->offer_last_updated_at)))
+                    (!empty($visibleOfferPivotRows->first()->offer_last_updated_at) &&
+                        $offer->updated_at->gt($visibleOfferPivotRows->first()->offer_last_updated_at)))
             ) {
                 $is_updated = true;
             }
-            if ($is_updated == true){
+            if ($is_updated == true) {
                 $is_valid = false;
             }
             //$is_valid = false;
@@ -424,8 +425,7 @@ class OffersController extends BaseController
              */
             foreach ($reorder['offers'] as $offer) {
                 foreach ($offer['order_items'] as $item) {
-                    if($offer['is_valid'] == true)
-                    {
+                    if ($offer['is_valid'] == true) {
                         $newOrder->items()->attach($item->item_id, [
                             'item_extras' =>   $item->item_extras,
                             'item_withouts' =>   $item->item_withouts,
@@ -438,8 +438,7 @@ class OffersController extends BaseController
                             'offer_last_updated_at' =>  $offer['offer']->updated_at, // TODO: Add offer_last_updated_at
                             'quantity' => $item->quantity,
                         ]);
-                    }
-                    else{
+                    } else {
                         //dd($item->item_id);
                         $mainItem = Item::where('id', $item->item_id)->first();
                         //dd($mainItem);
@@ -785,12 +784,11 @@ class OffersController extends BaseController
             $item = $buyItems->where('id', $pivot->item_id)->first();
             $mainItem = Item::where('id', $pivot->item_id)->first();
 
-            if($is_valid == true)
-            {
+            if ($is_valid == true) {
 
                 $itemType = 'discount';
                 if ($offer->offer_type == 'buy-get') {
-                    if ($item && $pivot->price !=0) {
+                    if ($item && $pivot->price != 0) {
                         $itemType = 'buy';
                     } else {
                         $item  = $getItems->where('id', $pivot->item_id)->first();
@@ -800,12 +798,11 @@ class OffersController extends BaseController
 
                 $pivot->offer_price = $itemType == 'get' ? 0 : $item->price;
                 $pivot->type = $itemType;
-            }
-            else{
+            } else {
 
                 $itemType = 'discount';
                 if ($offer->offer_type == 'buy-get') {
-                    if ($item && $pivot->price !=0) {
+                    if ($item && $pivot->price != 0) {
                         $itemType = 'buy';
                     } else {
                         $item  = $getItems->where('id', $pivot->item_id)->first();
@@ -835,29 +832,31 @@ class OffersController extends BaseController
         return compact('extras', 'withouts', 'item');
     }
 
-    protected function takeway_offer(Request $request, OfferFilters $filters ,$branch_id)
+    protected function takeway_offer(Request $request, OfferFilters $filters, $branch_id)
     {
-       
-            $offer_id = DB::table("branch_offer")->where('branch_id',  $branch_id)->pluck('offer_id');
-            $offers = Offer::whereIn('id',$offer_id)->where('service_type','takeaway')->with('buyGet', 'discount')->filter($filters)->get();
-        
 
-        // $offers = Offer::with('buyGet', 'discount')->filter($filters)->get();
+        $offer_id = DB::table("branch_offer")->where('branch_id',  $branch_id)->pluck('offer_id');
+        $offers = Offer::whereIn('id', $offer_id)->where('offer_type', 'buy-get')->where('service_type', 'takeaway')->with('buyGet')->filter($filters)->get();
+
+
+        // $offers = Offer::with('buyGet')->filter($filters)->get();
 
         return $this->sendResponse($offers, 'Offers retreived successfully');
     }
 
-    protected function delivery_offer(Request $request, OfferFilters $filters , $address_id)
+    protected function delivery_offer(Request $request, OfferFilters $filters, $address_id)
     {
-         $address = Address::find($address_id);
-        $branches=DB::table('branch_delivery_areas')->where('area_id',$address->area_id)->pluck('branch_id');
+        $address = Address::find($address_id);
+        if (!$address) {
+            return $this->sendError(__('general.branch_no_cover'));
+        }
+        $branches = DB::table('branch_delivery_areas')->where('area_id', $address->area_id)->pluck('branch_id');
         if (!empty($branches)) {
             $offer_id = DB::table("branch_offer")->whereIn('branch_id', $branches)->pluck('offer_id');
-            $offers = Offer::whereIn('id',$offer_id)->where('service_type','delivery')->with('buyGet', 'discount')->filter($filters)->get();
+            $offers = Offer::whereIn('id', $offer_id)->where('offer_type', 'buy-get')->where('service_type', 'delivery')->with('buyGet')->filter($filters)->get();
         }
 
 
         return $this->sendResponse($offers, 'Offers retreived successfully');
-
     }
 }

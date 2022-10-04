@@ -71,3 +71,11 @@
     </section>
 </div>
 @endsection
+@push('js')
+<script>
+    window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
+   
+</script>
+@endpush

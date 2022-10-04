@@ -88,6 +88,9 @@
 @endsection
 @push('js')
     <script>
+        window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
         $(document).ready(function() {
             $('#fileimage').change(function(){
                 var input = this;

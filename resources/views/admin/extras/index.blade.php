@@ -54,7 +54,7 @@
                                 <th>Name EN</th>
                                 <th>Price</th>
                                 <th>Calories</th>
-                                <th>Image</th>
+                                {{-- <th>Image</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@
                                 <td>{{ $extra->name_en }}</td>
                                 <td>{{ $extra->price }}</td>
                                 <td>{{ $extra->calories }}</td>
-                                <td><img src="{{ $extra->image }}" style="max-width: 75px" ></td>
+                                {{-- <td><img src="{{ $extra->image }}" style="max-width: 75px" ></td> --}}
                                 <td>
                                     <a href="{{ route('admin.extra.show', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     <a href="{{ route('admin.extra.edit', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>

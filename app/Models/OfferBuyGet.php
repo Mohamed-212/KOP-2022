@@ -12,6 +12,8 @@ class OfferBuyGet extends Model
 
     protected $table = 'offers_buy_get';
 
+    protected $appends = ['offer_price_without_tax'];
+
     public function offer()
     {
         return $this->belongsTo('App\Models\Offer');
@@ -36,4 +38,13 @@ class OfferBuyGet extends Model
     {
         return $this->belongsTo('App\Models\Category', 'get_category_id');
     }
+
+    public function getOfferPriceWithoutTaxAttribute()
+    {
+        if (!$this->offer_price) {
+            return null;
+        }
+        return round($this->offer_price / 1.15);
+    }
+
 }

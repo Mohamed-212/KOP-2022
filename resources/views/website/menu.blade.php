@@ -11,7 +11,10 @@
         .product-item .ratting {
             min-height: 30px;
             max-height: 30px;
-            font-size: 15px;}
+            font-size: 15px;
+            padding-top: 2%;
+
+        }
 
             .food-info h4 {
             font-size: 16px;
@@ -50,7 +53,7 @@
         <section class="food-menu bg-grey padding">
             <div class="container">
                 <ul class="food-menu-filter">
-                    <li class="active" data-filter="*">All</li>
+                    <li class="active" data-filter="*">@lang('general.All')</li>
                     @foreach($menu['categories'] as $index => $category)
                     @if($category->items!=[])
                     <li data-filter=".{{$category->id}}">{{(app()->getLocale() == 'ar')? $category->name_ar : $category->name_en}}</li>
@@ -60,27 +63,40 @@
                 <div class="row product-items">
                 @foreach($menu['categories'] as $index => $category)    
                     @foreach($category->items as $dealItem)
-                    <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{$dealItem->category->id}}">
-                        <div class="product-item" >
-                           <!-- <div class="sale"></div> -->
-                            <div class="product-thumb">
-                                <img src="{{asset($dealItem->website_image)}}" alt="food">
-                                <div><a @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{url('item/'.$dealItem->category_id.'/'.$dealItem->id)}}" class="order-btn cart">Order Now</a></div>
-                            </div>
-                            <div class="food-info">
-                               <ul class="ratting">
-                                   <li>{{(app()->getLocale() == 'ar')? $category->name_ar : $category->name_en}}</li>
-                               </ul>
-                                <h4>{{$dealItem['name_'.app()->getLocale()]}}</h4>
-                                <div class="price">
-                                    <h4>@lang('home.Price'): <span>{{$dealItem->price}} @lang('general.SR')</span> </h4>
+                        <div onclick="location.href='{{url('item/'.$dealItem->category_id.'/'.$dealItem->id)}}';" style="cursor: pointer;" class="col-lg-4 col-md-6 padding-15 isotop-grid {{$dealItem->category->id}}">
+                            <div class="product-item" >
+                            <!-- <div class="sale"></div> -->
+                                <div class="product-thumb">
+                                    <img src="{{asset($dealItem->website_image)}}" alt="food" style="height: 300px;width:300px;border-radius: 100%;" />
+                                    <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
+                                    @csrf
+                                        <input type="hidden" name="offer_id"
+                                            value="">
+                                        <input type="hidden" name="offer_price"
+                                            value="">
+                                        <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
+                                        <input type='hidden' name='add_items[]' value="{{$dealItem}}" />
+                                        <input type='hidden' name='quantity' value="1" />
+
+                                        <div><button type="submit" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{route('add.cart')}}" class="order-btn cart">@lang('general.Order Now')</button></div>
+                                    </form>
+                                </div>
+                                <div class="food-info">
+                                <ul class="ratting">
+                                    <li>{{(app()->getLocale() == 'ar')? $category->name_ar : $category->name_en}}</li>
+                                </ul>
+                                    <h4>{{$dealItem['name_'.app()->getLocale()]}}</h4>
                                     <ul class="product-meta">
-                                        <li>{{__('general.calories')}}:<a href="javascript:void(0)">{{ $dealItem->calories }}</a></li>
-                                    </ul>
+                                            <li>{{__('general.calories')}}:<a href="javascript:void(0)">{{ $dealItem->calories }}</a></li>
+                                        </ul>
+                                    <div class="price">
+                                
+                                        <h4>@lang('home.Price'): <span>{{$dealItem->price}} @lang('general.SR')</span> </h4>
+                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 @endforeach
                 @endforeach
             </div>
@@ -151,7 +167,7 @@
                                     '<div class="product-item__media">'+
                                     '<a href="{{url('/item/')}}'+ '/' + item.category_id + '/' + item.id + '">'+
                                     '<div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">'+
-                                    '<img class="w-100 h-100" src="' + asset(item.image) + '" alt="Image"/>'+
+                                    '<img class="w-100 h-100" src="' + asset(item.image) + '" alt="Image" style="height: 250px;width:250px;border-radius: 100%;" />'+
                                     '</div>'+
                                     '</a>'+
                                     '</div>'+

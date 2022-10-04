@@ -146,8 +146,9 @@
                                     </p>
                                 </div>
                                 <ul class="contact-details">
-                                    <li><i class="fas fa-map-marker-alt mx-1"></i>الأحساء - المبرز - شارع البستان - برج الملحم
-                                        الأداري - الدور الثالث<br> المملكة العربية السعودية</li>
+                                    <li><i class="fas fa-map-marker-alt mx-1"></i>
+                                        {{__('general.rest_address')}}
+                                    </li>
                                     <li><i class="fas fa-envelope mx-1"></i>
                                         <a style="color: inherit;"
                                             href="mailto:Admin@gulfinvestment.net">Admin@gulfinvestment.net</a>
@@ -164,11 +165,8 @@
                                         <i class="fas fa-clock mx-1 fa-2x"></i>
                                         <div class="block-with-phone">
                                             <div><b>{{ __('general.Delivery Hours') }}</b>
-                                                <div>@lang('footer.Sat') – @lang('footer.Thur'): 05:00 @lang('footer.AM') – 12:00
-                                                    @lang('footer.PM')<br> @lang('footer.Sat') – @lang('footer.Thur'): 04:00
-                                                    @lang('footer.PM') – 01:00 @lang('footer.AM')<br> @lang('footer.Fri'): 05:00
-                                                    @lang('footer.AM') – 10:30 @lang('footer.AM')<br> @lang('footer.Fri'):
-                                                    04:00
+                                                <div>@lang('footer.Sat') – @lang('footer.Fri'): 05:00 @lang('footer.AM') – 12:00
+                                                    @lang('footer.PM')<br> @lang('footer.Sat') – @lang('footer.Fri'): 04:00
                                                     @lang('footer.PM') – 01:00 @lang('footer.AM')
                                                 </div>
                                             </div>
@@ -260,16 +258,21 @@
                                         {{-- <li><a href="tel:{{ $branch->second_phone }}">
                                                 {{ $branch->second_phone }}</a></li> --}}
                                         <li><a href="mailto:{{ $branch->email }}">{{ $branch->email }}</a></li>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button"
-                                                class="btn btn-sm @if (in_array('delivery', explode(',', $branch->service_type))) btn-secondary @else btn-danger @endif">
-                                                {{ __('general.Delivery') }}
-                                            </button>
-                                            <button type="button"
-                                                class="btn btn-sm @if (in_array('takeaway', explode(',', $branch->service_type))) btn-secondary @else btn-danger @endif">
-                                                {{ __('general.Take away') }}
-                                            </button>
-                                        </div>
+                                        <div class="btn-group" role="group"
+                                        aria-label="Basic example">
+                                        @if (in_array('delivery', explode(',', $branch->service_type)))
+                                        <button type="button"
+                                            class="btn btn-sm  btn-secondary">
+                                            {{ __('general.Delivery') }} {{in_array('takeaway', explode(',', $branch->service_type)) ? '' : __('general.only')}}
+                                        </button>
+                                        @endif
+                                        @if (in_array('takeaway', explode(',', $branch->service_type)))
+                                        <button type="button"
+                                            class="btn btn-sm btn-secondary">
+                                            {{ __('general.Take away') }} {{in_array('delivery', explode(',', $branch->service_type)) ? '' : __('general.only')}}
+                                        </button>
+                                        @endif
+                                    </div>
                                     </ul>
                                 </div>
                             </div>

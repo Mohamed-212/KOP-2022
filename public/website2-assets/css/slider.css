@@ -152,6 +152,7 @@
 .slider-shape.left{
     background-position: left bottom;
     left: 0;
+    
 }
 /*Food Image*/
 .food-img{
@@ -161,8 +162,8 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    right: 50px;
-    bottom: -30px;
+    /* right: 50px;
+    bottom: -30px; */
 }
 /*Food Design*/
 .food-design{
@@ -187,8 +188,8 @@
 .single-slide.center .food-img{
     background-position: bottom center;
     background-size: 60%;
-    bottom: -50%;
-    right: -5%;
+    bottom: -37%;
+    right: 0%;
 }
 
 .single-slide.center .food-design{
@@ -200,9 +201,10 @@
 .single-slide.right{}
 .single-slide.right .food-img{
     background-position: center left;
-    background-size: 55%;
-    top: 15%;
-    right: 0;
+    background-size: 45%;
+    top: 2%;
+    /* right: 55%;
+   transform: scaleX(-1); */
 }
 .single-slide.right .food-design{
     background-position: left center;

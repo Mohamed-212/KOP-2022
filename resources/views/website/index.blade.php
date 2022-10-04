@@ -8,7 +8,10 @@
     .product-item .ratting {
     min-height: 30px;
     max-height: 30px;
-    font-size: 15px;}
+    font-size: 15px;
+    padding-top: 2%;
+
+}
 
     .food-info h4 {
     font-size: 16px;
@@ -55,6 +58,9 @@
     padding-top: 9% !important;*/} 
    
     </style>
+  
+
+
 @endsection
 
 
@@ -85,12 +91,17 @@
                 @else
                 <div class="slider-shape" style="background-image: url({{asset('website2-assets/img/slider-shape-01.png')}});" data-animation="fade-in-right" data-delay="0.5s"></div>
                 @endif
+                @if (app()->getLocale() === 'ar')
+                <div class="food-img" style="background-image: url({{asset('website2-assets/img/food-img-01-ltr.png')}});" data-animation="fade-in-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}" data-delay="1s"></div>
+                @else
                 <div class="food-img" style="background-image: url({{asset('website2-assets/img/food-img-01.png')}});" data-animation="fade-in-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}" data-delay="1s"></div>
+                @endif
                 <div class="food-design" style="background-image: url({{asset('website2-assets/img/slider-elements.png')}});{{app()->getLocale() == 'ar' ? 'right: -10%;' : ''}}" data-animation="zoomIn" data-delay="1.3s"></div>
+
                 <div class="slider-content-wrap d-flex align-items-center">
                     <div class="container">
                         <div class="slider-content" dir="{{app()->getLocale() === 'ar' ? 'rtl' : ''}}">
-                            <div class="slider-caption medium" ><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">Eat Sleep And</div></div></div>
+                            <div class="slider-caption medium" ><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">{{__('home.Eat Sleep And')}}</div></div></div>
                             <div class="slider-caption big"><div class="inner-layer"><div data-animation="reveal-text" data-delay="1s">{{__('home.Order Today, While It’s Hot!')}}</div></div>
                             </div>
                             <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s">{{__('home.Eat Delicious & Tasty Fast-Foods With Real Flavours')}}</div></div></div>
@@ -112,10 +123,10 @@
                 <div class="slider-content-wrap d-flex align-items-center text-center">
                     <div class="container">
                         <div class="slider-content">
-                           <div class="slider-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">Eat Sleep And</div></div></div>
-                            <div class="slider-caption big"><div class="inner-layer"><div class="char-top" data-delay="1s" data-splittin>Tasty Pizza</div></div>
+                           <div class="slider-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">{{__('home.Eat Sleep And')}}</div></div></div>
+                            <div class="slider-caption big"><div class="inner-layer"><div class="char-top" data-delay="1s" data-splittin>{{__('home.Tasty Pizza')}}</div></div>
                             </div>
-                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="1.5s">Food is any substance consumed to provide nutritional <br>support for an organism.</div></div></div>
+                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="1.5s">{!!__('home.slider2_descriptiopn')!!}</div></div></div>
                             <div class="slider-btn-group justify-content-center">
                                 <div class="inner-layer">
                                 <a href="{{route('menu.page')}}" class="slider-btn" data-animation="fade-in-bottom" data-delay="2.5s">{{__('footer.Our Menu')}}</a>
@@ -134,15 +145,19 @@
                 <div class="slider-shape" style="background-image: url({{asset('website2-assets/img/slider-shape-01.png')}});" data-animation="fade-in-right" data-delay="0.5s"></div>
                 @endif
 
+                @if(app()->getLocale() !== 'ar')
                 <div class="food-img" style="background-image: url({{asset('website2-assets/img/food-img-03.png')}});" data-animation="fade-in-top" data-delay="1s"></div>
+                @else
+                <div class="food-img" style="background-image: url({{asset('website2-assets/img/food-img-03-rtl.png')}});" data-animation="fade-in-top" data-delay="1s"></div>
+                @endif
                 <div class="food-design" style="background-image: url({{asset('website2-assets/img/slider-elements.png')}});" data-animation="zoomIn" data-delay="1.3s"></div>
                 <div class="slider-content-wrap d-flex align-items-center text-right">
                     <div class="container" @if (app()->getLocale() === 'ar') style="justify-content: flex-start;"@endif>
                         <div class="slider-content">
-                           <div class="slider-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">ewewEat Sleep And</div></div></div>
-                            <div class="slider-caption big"><div class="inner-layer"><div class="char-right" data-delay="1s" data-splittin>Fried masala <br>in town!</div></div>
+                           <div class="slider-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">{{__('home.Eat Sleep And')}}</div></div></div>
+                            <div class="slider-caption big"><div class="inner-layer"><div class="char-right" data-delay="1s" data-splittin>{!!__('home.pick it up really fast, happy to SERVE you at our branches')!!}</div></div>
                             </div>
-                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s">Food is any suwwwewebstance consumed to provide nutritional <br>support for an organism.</div></div></div>
+                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s">{!!__('home.slider2_descriptiopn')!!}</div></div></div>
                             <div class="slider-btn-group justify-content-left">
                                 <div class="inner-layer">
                                 <a href="{{route('menu.page')}}" class="slider-btn" data-animation="fade-in-bottom" data-delay="2.5s">{{__('footer.Our Menu')}}</a>
@@ -158,8 +173,8 @@
             <div class="bg-shape white"></div>
             <div class="container">
             <div class="section-heading mb-30 text-center wow fadeInUp" data-wow-delay="200ms">
-                    <h4>recommended Dishes</h4>
-                    <h2>Our Delicious <span>Foods</span></h2>
+                    <h4>@lang('general.recommended_Dishes')</h4>
+                    <h2>{!!__('general.ourDeliciousFood')!!} </h2>
                 </div>
                 <div class="nav-outside">
                   <div class="food-carousel swiper-container nav-visible"> 
@@ -174,8 +189,8 @@
                                         <h3>{{(app()->getLocale() == 'ar') ?$recommended->name_ar:$recommended->name_en}}</h3>
                                         <p>{{(app()->getLocale() == 'ar') ?$recommended->description_ar:$recommended->description_en}}</p>
                                     </div>
-                                    <div class="food-thumb">
-                                        <img src="{{asset($recommended->website_image)}}" alt="img">
+                                    <div class="food-thumbw">
+                                        <img src="{{asset($recommended->website_image)}}" alt="img" style="height: 210px;width:210px;border-radius: 100%;">
                                     </div>
                                 </div>
                            </div>
@@ -205,17 +220,19 @@
                             <div class="sale">
                             @if($main_offer->discount)
                                 <div>
-                                    <h4>Get </h4>
+                                    <h4>@lang('general.Get')</h4>
                                     @if($main_offer->discount->discount_type==1)
-                                        <h2><span>{{$main_offer->discount->discount_value}}%</span>Off Now</h2>
+                                        <h2><span>{{$main_offer->discount->discount_value}}%</span></h2>
+                                        <h2>@lang('general.Off_Now')</h2>
                                         @else
-                                        <h2><span>{{$main_offer->discount->discount_value}} @lang('general.SR')</span>Off Now</h2>
+                                        <h2><span>{{$main_offer->discount->discount_value." "}} @lang('general.SR')</span></h2>
+                                        <h2>@lang('general.Off_Now')</h2>
                                         @endif
                                     </div>
                                 @elseif($main_offer->buyGet)
                                 <div>
-                                <h4>Buy {{$main_offer->buyGet->buy_quantity}}</h4>
-                                <h2><span>GET {{$main_offer->buyGet->get_quantity}}</span></h2>
+                                <h4>@lang('general.Buy') {{$main_offer->buyGet->buy_quantity}}</h4>
+                                <h2>@lang('general.Get') {{$main_offer->buyGet->get_quantity}} <span>@lang('general.now')</span></h2>
                                 </div>
                                 @endif    
                                 </div>
@@ -226,13 +243,13 @@
                                 <h2>{{(app()->getLocale() == 'ar') ?$main_offer->title_ar:$main_offer->title}}</h2>
                                 <p>{{(app()->getLocale() == 'ar') ?$main_offer->description_ar:$main_offer->description}}</p>
                                 <ul class="check-list">
-                                    <li><i class="fas fa-check"></i>Delicious &amp; Healthy Foods</li>
-                                    <li><i class="fas fa-check"></i>Spacific Family And Kids Zone</li>
-                                    <li><i class="fas fa-check"></i>Music &amp; Other Facilities</li>
-                                    <li><i class="fas fa-check"></i>Fastest Food Home Delivery</li>
+                                    <li><i class="fas fa-check"></i>{!!__('home.desc1')!!}</li>
+                                    <li><i class="fas fa-check"></i>{!!__('home.desc2')!!}</li>
+                                    <li><i class="fas fa-check"></i>{!!__('home.desc3')!!}</li>
+                                    <li><i class="fas fa-check"></i>{!!__('home.desc4')!!}</li>
                                 </ul>
                             
-                                <a  @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{route('offer.item',$main_offer->id)}}" class="default-btn cart">Order Now <span></span></a>
+                                <a  @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{route('offer.item',$main_offer->id)}}" class="default-btn cart">@lang('general.Order Now') <span></span></a>
                             </div>
                         </div>
                     </div>
@@ -245,9 +262,9 @@
         <section class="food-menu bg-grey padding">
             <div class="container">
                 <div class="section-heading mb-30 text-center wow fadeInUp" data-wow-delay="200ms">
-                    <h4>MENU</h4>
-                    <h2>Our Delicious <span>Foods</span></h2>
-                    <p>Food is any substance consumed to provide nutritional <br> support for an organism.</p>
+                    <h4>@lang('general.menu')</h4>
+                    <h2>{!!__('general.ourDeliciousFood')!!} </h2>
+                    <p>@lang('general.home.food')</p>
                 </div>
                 <ul class="food-menu-filter">
                     <!-- <li class="active" data-filter="*">All</li> -->
@@ -264,39 +281,50 @@
                 <div class="row product-items">
                     @foreach($menu['dealItems'] as $dealItem)
                     @if($c==$dealItem->category_id)
-                    <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{$dealItem->category_id}}"  >
+                    <div onclick="location.href='{{url('item/'.$dealItem->category_id.'/'.$dealItem->id)}}';" style="cursor: pointer;" class="col-lg-4 col-md-6 padding-15 isotop-grid {{$dealItem->category_id}}"  >
                     @else
                     <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{$dealItem->category_id}}"  style="display:none;">
                     @endif
                         <div class="product-item " >
                           
                            <div class="product-thumb">
-                                <img src="{{asset($dealItem->website_image)}}" alt="food">
-                                <div><a @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{url('item/'.$dealItem->category_id.'/'.$dealItem->id)}}" class="order-btn cart">Order Now</a></div>
-                            </div>
+                                <img src="{{asset($dealItem->website_image)}}" alt="food" style="height: 300px;width:300px;border-radius: 100%;">
+                                <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
+                                    @csrf
+                                        <input type="hidden" name="offer_id"
+                                            value="">
+                                        <input type="hidden" name="offer_price"
+                                            value="">
+                                        <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
+                                        <input type='hidden' name='add_items[]' value="{{$dealItem}}" />
+                                        <input type='hidden' name='quantity' value="1" />
+
+                                        <div><button type="submit" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth href="{{route('add.cart')}}" class="order-btn cart">@lang('general.Order Now')</button></div>
+                                    </form>                            </div>
                             <div class="food-info">
                                <ul class="ratting">
-                                   <li>{{$dealItem['name_'.app()->getLocale()]}}</li>
+                                   <li>{{$dealItem['category_name_'.app()->getLocale()]}}</li>
                                  
                                </ul>
                                 <h4>{{$dealItem['description_'.app()->getLocale()]}}</h4>
                                 <div class="price">
-                                    <h4>@lang('home.Price'): <span>{{$dealItem->price}} @lang('general.SR')</span> </h4>
-                                    <ul class="product-meta">
+                                <ul class="product-meta">
                                         <li>{{__('general.calories')}}:<a href="javascript:void(0)">{{ $dealItem->calories }}</a></li>
                                     </ul>
+                                    <h4>@lang('home.Price'): <span>{{$dealItem->price}} @lang('general.SR')</span> </h4>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
-                <a href="{{route('menu.page')}}" class="default-btn cart">{{__('footer.Our Menu')}}<span></span></a>
+                <a href="{{route('menu.page')}}" class="default-btn">{{__('footer.Our Menu')}}<span></span></a>
 
             </div>
         </section><!--/.food-menu-->
 
-        <section class="content-section" style="height: 400px;">
+        <section class="content-section" >
             <div class="bg-shape white"></div>
             <div class="bg-shape grey"></div>
             <div class="container">
@@ -325,8 +353,8 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 wow fadeInLeft" data-wow-delay="200ms">
                         <div class="delivery-info">
-                            <h2>A Moments Of Delivered <br> On <span>Right Time</span> &amp; Place</h2>
-                            <p>The restaurants in Hangzhou also catered to many northern Chinese who had fled south from Kaifeng during the Jurchen invasion of the 1120s, while it is also known that many restaurants were run by families.</p>
+                            <h2>{!! __('general.delivery_caption') !!}</h2>
+                            <p>{!! __('general.delivery_description') !!}</p>
                             <div class="order-content">
                                <a href="{{route('menu.page')}}" class="default-btn">{{ __('header.Menu')}}<span></span></a>
                                 <h3><span>{{__('general.hot_line')}}</span> <a href="tel:920001939" style="color: #f99839;">
@@ -353,8 +381,7 @@
                             <img src="{{asset($menu['homeitem'][0]->image)}}" alt="banner">
                             <div class="banner-content">
                                 <h2>{{(app()->getLocale() == 'ar') ?$menu['homeitem'][0]->description_ar:$menu['homeitem'][0]->description_en}}</h2>
-                                <p>Sale off 50% only this week</p>
-                                <a href="{{url('item/'.$menu['homeitem'][0]->category_id.'/'.$menu['homeitem'][0]->id)}}"@auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">Order Now</a>
+                                <a href="{{url('item/'.$menu['homeitem'][0]->category_id.'/'.$menu['homeitem'][0]->id)}}"@auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">@lang('general.Order Now')</a>
                             </div>
                         </div>
                    </div>
@@ -365,8 +392,7 @@
                             <img src="{{asset($menu['homeitem'][1]->image)}}" alt="banner">
                             <div class="banner-content">
                                 <h2>{{(app()->getLocale() == 'ar') ?$menu['homeitem'][1]->description_ar:$menu['homeitem'][1]->description_en}}</h2>
-                                <p>Sale off 50% only this week</p>
-                                <a href="{{url('item/'.$menu['homeitem'][1]->category_id.'/'.$menu['homeitem'][1]->id)}}"  @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">Order Now</a>
+                                <a href="{{url('item/'.$menu['homeitem'][1]->category_id.'/'.$menu['homeitem'][1]->id)}}"  @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">@lang('general.Order Now')</a>
                             </div>
                         </div>
                            </div>
@@ -375,8 +401,7 @@
                             <img src="{{asset($menu['homeitem'][2]->image)}}" alt="banner">
                             <div class="banner-content">
                                 <h2>{{(app()->getLocale() == 'ar') ?$menu['homeitem'][2]->description_ar:$menu['homeitem'][2]->description_en}}</h2>
-                                <p>Sale off 50% only this week</p>
-                                <a href="{{url('item/'.$menu['homeitem'][2]->category_id.'/'.$menu['homeitem'][2]->id)}}" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">Order Now</a>
+                                <a href="{{url('item/'.$menu['homeitem'][2]->category_id.'/'.$menu['homeitem'][2]->id)}}" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">@lang('general.Order Now')</a>
                             </div>
                         </div>
                            </div>
@@ -385,8 +410,7 @@
                             <img src="{{asset($menu['homeitem'][3]->image)}}" alt="banner">
                             <div class="banner-content">
                                 <h2>{{(app()->getLocale() == 'ar') ?$menu['homeitem'][3]->description_ar:$menu['homeitem'][3]->description_en}}</h2>
-                                <p>Sale off 50% only this week</p>
-                                <a href="{{url('item/'.$menu['homeitem'][3]->category_id.'/'.$menu['homeitem'][3]->id)}}" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">Order Now</a>
+                                <a href="{{url('item/'.$menu['homeitem'][3]->category_id.'/'.$menu['homeitem'][3]->id)}}" @auth @if(!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth class="order-btn cart">@lang('general.Order Now')</a>
                             </div>
                         </div>
                            </div>
@@ -400,9 +424,9 @@
            <div class="bg-shape white"></div>
             <div class="container">
                 <div class="section-heading mb-30 text-center wow fadeInUp" data-wow-delay="200ms">
-                    <h4>Latest Blog Posts</h4>
-                    <h2>This Is All About <span>Foods</span></h2>
-                    <p>Food is any substance consumed to provide nutritional <br> support for an organism.</p>
+                    <h4>@lang('general.home.Blog_Posts')</h4>
+                    <h2>{!! __('general.blog_caption') !!}</h2>
+                    <p>{!! __('general.blog_description') !!}</p>
                 </div>
                 <div class="row blog-posts">
                 @if(isset($menu['news']))

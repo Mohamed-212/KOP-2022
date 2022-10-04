@@ -5,18 +5,41 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends BaseController
 {
 
 
-    public function index($amount)
+    public function index($id, $amount, $hash)
     {
-        return view('api.paymentMobile', compact(['amount']));
+        if (!is_numeric($amount) || strlen($hash) < 16) {
+            return $this->sendError('hash is less than 16 chars');
+        }
+
+        $user = User::findOrFail($id);
+
+        session(['payment_hash' => $hash]);
+        session(['user_id' => $user->id]);
+        session(['payment_amount' => $amount]);
+
+        return view('website.payment', compact('user', 'amount'));
+    }
+
+    public function check($hash)
+    {
+        $payment = Payment::where('hash', $hash)->where('customer_id', Auth::id())->first();
+
+        if (!$payment) {
+            return $this->sendError(__('general.payment_not_found'));
+        }
+
+        return $this->sendResponse($payment, __('general.' . str_replace(" (Test Environment)", "", $payment->message)));
     }
 
     public function get_payment(Request $request)
@@ -116,5 +139,22 @@ class PaymentController extends BaseController
             return $this->sendError($payment, $e->getMessage());
 
         }
+    }
+
+    public function store_payment(Request $request)
+    {
+        $payment = Payment::create([
+            'payment_id' => $request->id,
+            'customer_id' => Auth::id(),
+            'total_paid' => $request->amount,
+            'data' => json_encode($request->all()),
+            'hash' => session('payment_hash', null),
+        ]);
+
+        if ($payment) {
+            return response()->json([], 201);
+        }
+
+        return response(__('general.payment_not_found'), 404);
     }
 }

@@ -34,7 +34,7 @@ class BranchController extends Controller
         'email' => 'required|email',
         'service_type.*' => 'required|string',
         'WorkingDay' => 'array',
-        'delivery_fees' => 'integer',
+        // 'delivery_fees' => 'integer',
         'areas.*' => 'exists:areas,id|required'
     ];
 
@@ -81,7 +81,7 @@ class BranchController extends Controller
             'email' => 'required|email',
             'service_type' => 'required|array',
             // 'areas.*' => 'exists:areas,id',
-            'delivery_fees' => 'integer',
+            // 'delivery_fees' => 'integer',
         ]);
 
         if ($validator->fails())
@@ -103,7 +103,8 @@ class BranchController extends Controller
             'second_phone' => $input['second_phone'],
             'email' => $input['email'],
             'service_type' => $attributes['service_type'],
-            'delivery_fees' => $input['delivery_fees'],
+            // 'delivery_fees' => $input['delivery_fees'],
+            'delivery_fees' => 0,
 
         ]);
 

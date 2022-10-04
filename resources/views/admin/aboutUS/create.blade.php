@@ -181,6 +181,9 @@
 
 @push('js')
 <script>
+    window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
     $(document).ready(function() {
         $('#type').on('change', function() {
             const val = $(this).val();

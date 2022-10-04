@@ -36,7 +36,8 @@
 
         <section class="checkout-section bg-grey padding">
             <div class="container">
-                <form class="checkout-form-wrap"method="post">
+                <form class="checkout-form-wrap" method="post"
+                    action="@if (isset($payment) && $payment) {{ route('make_order') }} @endif">
                     <div class="row">
 
                         <div class="col-lg-8 sm-padding">
@@ -119,32 +120,86 @@
                                 </div>
                             @endif
                             <!-- <div class="additional-info mb-30">
-                                                <h2>Additional Information</h2>
-                                                <div class="form-field">
-                                                    <textarea id="message" name="message" cols="30" rows="3" class="form-control" placeholder="Order Note"></textarea>
-                                                </div>
-                                            </div> -->
+                                                        <h2>Additional Information</h2>
+                                                        <div class="form-field">
+                                                            <textarea id="message" name="message" cols="30" rows="3" class="form-control" placeholder="Order Note"></textarea>
+                                                        </div>
+                                                    </div> -->
                             <div class="payment-method d-flex w-100 justi align-content-center flex-row">
-                                <div>
-                                    <h2>
-                                        {{ __('general.payment_type') }}:&nbsp;&nbsp;
-                                    </h2>
-                                </div>
-                                <div class="mb-20">
-                                    <button class="btn default-btn bg-primary rounded shadow selectType" type="button"
-                                        data-formaction="{{ route('make_order') }}">
-                                        {{ __('general.Confirm Order Cash') }}
+                                @if (isset($payment) && $payment)
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h6>
+                                                        {{ __('general.payment_type') }} {{ __('general.Details') }}:
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row mb-3">
+                                                        <label for="paymentID" class="col-sm-2 col-form-label">
+                                                            {{ __('general.ID') }}
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="paymentID"
+                                                                value="{{ $payment->payment_id }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="paymentStatus" class="col-sm-2 col-form-label">
+                                                            {{ __('general.status') }}
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="paymentStatus"
+                                                                value="{{ __('general.' . str_replace(' (Test Environment)', '', $payment->status)) }}"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="paymentmessage" class="col-sm-2 col-form-label">
+                                                            {{ __('general.message') }}
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="paymentmessage"
+                                                                value="{{ __('general.' . str_replace(' (Test Environment)', '', $payment->message)) }}"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="paymentmessage" class="col-sm-2 col-form-label">
+                                                            {{ __('general.date_time') }}
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="paymentmessage"
+                                                                value="{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->updated_at)->translatedFormat('d M Y H:i:sa') }}"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div>
+                                        <h2>
+                                            {{ __('general.payment_type') }}:&nbsp;&nbsp;
+                                        </h2>
+                                    </div>
+                                    <div class="mb-20">
+                                        <button class="btn default-btn bg-primary rounded shadow selectType"
+                                            type="button" data-formaction="{{ route('make_order') }}">
+                                            {{ __('general.Confirm Order Cash') }}
 
-                                        <span></span>
-                                    </button>
-                                    <button class="btn default-btn bg-primary rounded shadow selectType" type="button"
-                                        data-formaction="{{ route('payment') }}">
-                                        {{ __('general.Confirm Order OnlinePay') }}
+                                            <span></span>
+                                        </button>
+                                        <button class="btn default-btn bg-primary rounded shadow selectType"
+                                            type="button" data-formaction="{{ route('payment') }}">
+                                            {{ __('general.Confirm Order OnlinePay') }}
 
-                                        <span></span>
-                                    </button>
-                                </div>
-
+                                            <span></span>
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
                             <ul class="mb-20">
                                 <input id="subtotalinput" hidden name="subtotal" value="{{ $request->subtotal }} " />
@@ -155,7 +210,8 @@
                                     value="{{ $request->delivery_fees }}" />
 
                                 @if ($request->has('points_paid'))
-                                    <input id="pointsinput" hidden name="points_paid"value="{{ $request->points_paid }}" />
+                                    <input id="pointsinput" hidden
+                                        name="points_paid"value="{{ $request->points_paid }}" />
                                 @endif
                                 @if ($request->has('points_value'))
                                     <input id="pointsinput55" hidden
@@ -165,7 +221,8 @@
                                     <input hidden name="branch_id" value="{{ $request->branch_id }}" />
                                 @endif
                                 @if ($request->has('address_id'))
-                                    <input id="pointsinput" hidden name="address_id" value="{{ $request->address_id }}" />
+                                    <input id="pointsinput" hidden name="address_id"
+                                        value="{{ $request->address_id }}" />
                                 @endif
                                 @if ($request->has('service_type'))
                                     <input id="pointsinput" hidden name="service_type"
@@ -189,7 +246,8 @@
                                 <li><span>{{ __('general.Taxes') }} :</span>{{ round($request->taxes, 2) }}
                                     {{ __('general.SR') }}</li>
 
-                                <li><span>{{ __('general.Delivery Fees') }} :</span>{{ round($request->delivery_fees, 2) }}
+                                <li><span>{{ __('general.Delivery Fees') }}
+                                        :</span>{{ round($request->delivery_fees, 2) }}
                                     {{ __('general.SR') }}</li>
 
                                 <li><span>{{ __('general.discount') }} :</span>- {{ round($request->discount, 2) }}
@@ -217,7 +275,7 @@
                                     <div class="card-body">
                                         <div class="form-floating">
                                             <textarea class="form-control" placeholder="{{ __('general.desc_label') }}" id="floatingTextarea2"
-                                                style="height: 200px" name="description" value="{{ old('description') }}"></textarea>
+                                                style="height: 200px" name="description">{{ $request->description }}</textarea>
                                             <label for="floatingTextarea2">
 
                                             </label>

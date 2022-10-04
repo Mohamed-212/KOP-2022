@@ -248,7 +248,7 @@ button{
 }
 .default-btn{
     display: inline-block;
-    background: #ff9d2d;
+    background: #f4901e;
     color: #fff;
     font-family: 'Cairo', sans-serif;
     font-size: 14px;
@@ -678,10 +678,10 @@ max-height: 600px;
 .food-menu{ position: relative; }
 .product-item {
     background-color: #fff;
-    padding: 70px 40px 40px;
+    padding: 25px 20px 20px;
     position: relative;
-    min-height: 490px;
-    max-height: 490px;
+    min-height: 455px;
+    max-height: 455px;
 }
 .product-item .sale{
     background-color: #f43127;
@@ -693,13 +693,14 @@ max-height: 600px;
     line-height: 1;
     text-transform: uppercase;
     position: absolute;
-    left: 40px;
-    top: 40px;
+    left: 20px;
+    top: 15px;
 }
 .product-thumb {
     position: relative;
-    max-height: 250px;
-    min-height: 250px;
+    max-height: 270px;
+    min-height: 270px;
+    text-align: center;
 
 }
 .product-thumb img{width: 100%;}
@@ -781,7 +782,7 @@ max-height: 600px;
 .food-menu-filter li {
     background-color: #fff;
     font-family: "Cairo",sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     color: #0e1318;
     display: inline-block;
@@ -1206,8 +1207,8 @@ max-height: 600px;
     background-size: cover;
     position: relative;
     overflow: hidden;
-    min-height: 500px;
-    max-height: 500px;
+    min-height: 600px;
+    max-height: 600px;
 
 }
 .content-section .bg-shape.grey{

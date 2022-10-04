@@ -44,7 +44,7 @@ class MediaController extends Controller
         $validatedData = $request->validate([
             'title_ar' => ['required', 'string', 'unique:media,title_ar'],
             'title_en' => ['required', 'string', 'unique:media,title_en'],
-            'author' => ['required', 'string'],
+            // 'author' => ['required', 'string'],
             "url" => 'required|mimes:mp4,ogg,wmv',
             'img' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=150,height=150',
         ]);
@@ -52,7 +52,7 @@ class MediaController extends Controller
             $media = new Media();
             $media->title_ar = $request->title_ar;
             $media->title_en = $request->title_en;
-            $media->author = $request->author;
+            $media->author = '';
             if ($request->hasFile('url')) {
                 $video = $request->url;
                 $video_new_name = time() . $video->getClientOriginalName();
@@ -118,7 +118,7 @@ class MediaController extends Controller
         $validatedData = $request->validate([
             'title_ar' => ['required', 'unique:media,title_ar,' . $request->id],
             'title_en' => ['required', 'unique:media,title_en,' . $request->id],
-            'author' => ['required'],
+            // 'author' => ['required'],
             "url" => 'mimes:mp4,ogx,oga,ogv,ogg,webm,flv,wmv',
             'img' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=150,height=150',
         ]);
@@ -126,7 +126,7 @@ class MediaController extends Controller
             $media = Media::findOrFail($id);
             $media->title_ar = $request->title_ar;
             $media->title_en = $request->title_en;
-            $media->author = $request->author;
+            $media->author = '';
             if ($request->hasFile('url')) {
                 $oldVideo = $media->url;
                 $video = $request->url;

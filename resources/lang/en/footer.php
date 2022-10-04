@@ -17,6 +17,7 @@ return [
     'Home' => 'Home',
     'Offers' => 'Offers',
     'Wishlist' => 'Wishlist',
+    'financial' => 'Financial experts support or help you to to find out which way you can raise your funds more.',
     'News' => 'News',
     'Contact' => 'Contact',
     'Search' => 'Search...',

@@ -78,6 +78,8 @@ Route::group([
             Route::get('order-customer', 'ReportController@getOrderCustomer')->name('order-customer');
             Route::get('income', 'ReportController@getIncome')->name('income');
             Route::get('order-item', 'ReportController@getOrderItems')->name('order-item');
+            Route::get('payments', 'ReportController@getPayments')->name('payments');
+            Route::get('payments/{id}', 'ReportController@getOnePayment')->name('payments.one');
         });
 
         //healthinfo
@@ -166,8 +168,8 @@ Route::group([
         /* for verification */
         // Route::group(['middleware' => ['auth']], function() {
             Route::get('/verification-code', 'AuthController@get_code')->name('verifyCode.page');
-            Route::get('resend-verification-code', 'AuthController@resendVerificationCode')->name('verifyCode.resend');
-            Route::get('verify-account', 'AuthController@setVerificationCode')->name('verifyCode.save');
+            Route::post('resend-verification-code', 'AuthController@resendVerificationCode')->name('verifyCode.resend');
+            Route::post('verify-account', 'AuthController@setVerificationCode')->name('verifyCode.save');
         // });
 
         /*********** Auth Routes ***********/
@@ -197,11 +199,13 @@ Route::group([
 
                 Route::post('/payment', 'PaymentController@index')->name('payment');
                 Route::post('payment/order', 'PaymentController@get_payment')->name('do.payment');
+                Route::post('payment/save', 'PaymentController@store_payment')->name('payment.store');
                 Route::get('/payment/make-order', 'OrdersController@make_order_payment')->name('make-order.payment');
                 Route::get('/payment/refund/{id}', 'PaymentController@refund')->name('get.refund');
 
                 /*****************Begin Checkout And Orders Routes ****************/
                 Route::post('get-checkout/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('checkout');
+                Route::get('get-checkout-payment/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('payment.checkout');
                 Route::post('make-order/', [\App\Http\Controllers\Website\OrdersController::class, 'make_order'])->name('make_order');
                 /*****************End Checkout And Orders Routes ****************/
             });

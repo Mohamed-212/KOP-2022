@@ -24,7 +24,7 @@
               <th>#ID</th>
               <th>Title_en</th>
               <th>Title_ar</th>
-              <th>Author</th>
+              {{-- <th>Author</th> --}}
               <th>Action</th>
             </tr>
           </thead>
@@ -36,7 +36,7 @@
             </td>
               <td>{{$media->title_en}}</td>
               <td>{{$media->title_ar}}</td>
-              <td>{{$media->author}}</td>
+              {{-- <td>{{$media->author}}</td> --}}
               <td>
                   <a href="{{ route('admin.media.show', $media->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                   <a href="{{ route('admin.media.edit', $media->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>

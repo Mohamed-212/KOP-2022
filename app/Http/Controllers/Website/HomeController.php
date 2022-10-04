@@ -91,12 +91,14 @@ class HomeController extends Controller
             {
                 if($count == 3)
                 {break;}
+                $item->category_name_ar= $category->name_ar;
+                $item->category_name_en= $category->name_en;
                 array_push($menu['dealItems'] , $item);
                 $count++;
             }
             $count=0;
         }
-       
+    //    return  $menu['dealItems'] ;
         $menu['recommended']=Item::where('recommended', true)->get();
         $menu['homeitem']=HomeItem::all();
          $menu['anoucement']=Anoucement::all();

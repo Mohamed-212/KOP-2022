@@ -10,7 +10,14 @@ class Extra extends Model
 {
     use SoftDeletes;
     protected $guarded = [];
+
+    protected $appends = ['price_without_tax'];
     
+    public function getPriceWithoutTaxAttribute()
+    {
+        return round($this->price / 1.15, 2);
+    }
+
     public function category(){
         return $this->belongsTo('App\Models\Category');
     }

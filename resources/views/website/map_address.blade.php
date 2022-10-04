@@ -39,6 +39,7 @@
                 <input type="text" class="gllpSearchField" style="color:black; width:100%;height:45px;width: 115%;" placeholder="{{__('general.search address')}}">
         </div>
         <span class="d-none text-danger mb-2 font-weight-bold not_found" >{{__('general.branch_no_cover')}}</span>
+        <span class="d-none text-danger mb-2 font-weight-bold riyadh" >{{__('general.no delivery riyadh')}}</span>
 			<!-- <input type="button" class=" default-btn" value=" بحث عن عنوان" style="padding: 2px 15px; vertical-align: none;float:right;background:rgb(3, 169, 245); margin-right:1%"> -->
             
         </div>
@@ -77,7 +78,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
                                                             <label for="inputPassword4"
-                                                                class="text-dark">{{ __('general.Delivery Area') }}</label>
+                                                                class="text-dark">{{ __('general.Address Name') }}</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control"
                                                                     placeholder="{{ __('general.Address Name') }}"
@@ -97,7 +98,7 @@
                                                                 {{ __('general.City') }}
                                                             </label>
                                                             <div class="input-group">
-                                                                <select id="city-select"
+                                                                <select id="city-select" disabled
                                                                     class="form-control select2-cities city w-100 select2-cities"
                                                                     name="city_id" required>
                                                                     <option value="" selected>
@@ -238,7 +239,7 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{env('MAP_KEY')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGRuzTOs7B8UgziioeYl_-oykZDRaj2K4"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 	<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script>
 	<script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>

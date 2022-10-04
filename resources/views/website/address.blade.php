@@ -494,7 +494,8 @@
                             selectele.parent().parent().next().first().find('.area').html('');
                             selectele.parent().parent().next().first().find('.area').append(
                                 '<option selected value="">{{ __('general.Choose Area') }}</option>');
-                            $.each(data, function(index, area) {
+                                console.log(data);
+                            $.each(data.data, function(index, area) {
                                 selectele.parent().parent().next().first().find('.area').append(
                                     '<option value="' + area.id + '">' + area.name_ar +
                                     '</option>');

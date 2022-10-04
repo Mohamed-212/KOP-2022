@@ -65,7 +65,7 @@
                                                 {{-- <h3><a href="javascript:void">
                                                         {{ $info['title_' . app()->getLocale()] }}
                                                     </a></h3> --}}
-                                                <p>
+                                                <p class="line-clamp5">
                                                     {{ $info['description_' . app()->getLocale()] }}
                                                 </p>
                                                 {{-- <a href="{{ route('get.new', $info->id) }}" class="read-more">

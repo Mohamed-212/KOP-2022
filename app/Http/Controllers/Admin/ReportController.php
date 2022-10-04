@@ -16,6 +16,8 @@ use App\Filters\ItemFilters;
 use App\Filters\ExtraFilters;
 use App\Filters\OrderFilters;
 use App\Filters\IncomeFilters;
+use App\Filters\PaymentFilter;
+use App\Models\Payment;
 
 class ReportController extends Controller
 {
@@ -93,5 +95,17 @@ class ReportController extends Controller
         return view('admin.report.order-customer' , compact('orders', 'customers'));
     }
 
+    public function getPayments(Request $request, PaymentFilter $filters)
+    {
+        $payments = Payment::filter($filters)->orderBy('id', 'DESC')->get();
+        $this->Make_Log('App\Models\Payment','report',0);
+    	return view('admin.payment.index' , compact('payments'));
+    }
 
+    public function getOnePayment(Request $request, $id)
+    {
+        $py = Payment::findOrFail($id);
+
+        return view('admin.payment.show' , compact('py'));
+    }
 }

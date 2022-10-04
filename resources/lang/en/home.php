@@ -12,12 +12,23 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'pick it up really fast, happy to SERVE you at our branches' => 'pick it up fast,<br>happy to serve you',
     'Fresh Ingredients' => 'Fresh Ingredients',
+    'desc1' => 'Delicious &amp; Healthy Foods',
+    'desc2' => 'Spacific Family And Kids Zone',
+    'desc3' => 'Music &amp; Other Facilities',
+    'desc4' => 'Fastest Food Home Delivery',
     'The Certified Chefs' => 'The Certified Chefs',
     '30 Mins Delivery' => '30 Mins Delivery',
     'Our Special Deals' => 'Our Special Food' ,
     'Calories' => 'Calories' ,
     'Add to Cart' => 'Add to Cart' ,
+    'Tasty Pizza' => 'Tasty Pizza' ,
+    'Eat Sleep And' => 'Eat Sleep And',
+    'slider2_descriptiopn' => 'Food is any substance consumed to provide nutritional <br>support for an organism.',
+    'slider3_descriptiopn' => 'Food is any substance consumed to provide nutritional <br>support for an organism.',
+    'Fried masala' => 'Fried masala <br>in town!',
+
     'Price' => 'Price' ,
     'Order Your Own Tasty Food' => 'Order Your Own Tasty Food' ,
     'It Takes 2 Minutes To Make Your' => 'It Takes 2 Minutes To Make Your' ,

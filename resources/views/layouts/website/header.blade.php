@@ -5,7 +5,8 @@
             <div class="primary-header-inner">
                 <div class="header-logo">
                     <a href="{{ route('home.page') }}">
-                        <img class="light" style="max-width: 120px" src="{{ asset('website-assets/img/logokop.bmp') }}" alt="Logo" />
+                        <img class="light" style="max-width: 120px" src="{{ asset('website-assets/img/logokop_l.png') }}"
+                            alt="Logo" />
                     </a>
                 </div><!-- /.header-logo -->
                 <div class="header-menu-wrap">
@@ -14,17 +15,16 @@
                                 href="{{ route('menu.page') }}">{{ __('header.Menu') }}</a></li>
                         <li class="{{ request()->routeIs('takeaway.page') ? 'active' : '' }}"><a
                                 href="{{ route('takeaway.page') }}">{{ __('general.Branches') }}</a></li>
-                        <li><a class="cart" @auth
-                                    @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif
-                                @endauth href="{{ route('offers') }}">{{ __('header.Offers') }}</a></li>
-                        <li class="{{ request()->routeIs('aboutUS.page') ? 'active' : '' }}"><a
-                                href="{{ route('aboutUS.page') }}">
-                                {{ __('general.about_us') }}</a></li>
-                        <li class="{{ request()->routeIs('contact.page') ? 'active' : '' }}"><a
-                                href="{{ route('contact.page') }}">
-                                {{ __('general.contact_us') }}
-                            </a></li>
 
+
+                        <li class="{{ request()->routeIs('news.all') ? 'active' : '' }}"><a
+                                href="{{ route('news.all') }}">
+                                {{ __('general.blog') }}
+                            </a></li>
+                        <li><a class="cart"
+                                @auth
+@if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
+                                href="{{ route('offers') }}">{{ __('header.Offers') }}</a></li>
                         <li><a href="javascript:void(0)">{{ __('general.media_cen') }}</a>
                             <ul>
                                 <li class="{{ request()->routeIs('gallery.page') ? 'active' : '' }}"><a
@@ -33,16 +33,25 @@
                                         href="{{ route('video.page') }}">{{ __('general.Video Library') }}</a></li>
                             </ul>
                         </li>
-                        <li class="{{ request()->routeIs('news.all') ? 'active' : '' }}"><a
-                            href="{{ route('news.all') }}">
-                            {{ __('general.blog') }}
-                        </a></li>
-                    <li class="{{ request()->routeIs('health-infos.all') ? 'active' : '' }}"><a
-                            href="{{ route('health-infos.all') }}">
-                            {{ __('general.Health Information') }}
-                        </a></li>
-                        <li class="{{ request()->routeIs('careers.all') ? 'active' : '' }}"><a
+
+                        <li class="{{ request()->routeIs('health-infos.all') ? 'active' : '' }}"><a
+                                href="{{ route('health-infos.all') }}">
+                                {{ __('general.Health Information') }}
+                            </a></li>
+                        
+                            <li class="{{ request()->routeIs('careers.all') ? 'active' : '' }}"><a
                                 href="{{ route('careers.all') }}">{{ __('general.Careers') }}</a></li>
+                                <li class="{{ request()->routeIs('contact.page') ? 'active' : '' }}"><a
+                                    href="{{ route('contact.page') }}">
+                                    {{ __('general.contact_us') }}
+                                </a></li>
+                        <li class="{{ request()->routeIs('aboutUS.page') ? 'active' : '' }}"><a
+                                href="{{ route('aboutUS.page') }}">
+                                {{ __('general.about_us') }}</a></li>
+
+
+
+                       
                         <li><a href="javascript:void(0)">
                                 {{-- {{ __('general.language') }} --}}
                                 @if (app()->getLocale() === 'ar')

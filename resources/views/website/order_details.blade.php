@@ -132,11 +132,11 @@
                             </div>
                         </div>
                     @endforeach
-                    <form action="" method="get">
+                    <form method="post" id="checkout-form">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-12">
                                         <div class="card-header mt-30">
                                             <h5 class='card-title'>
@@ -176,7 +176,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 @isset($address)
                                     <div class="row">
                                         <div class="col-12">
@@ -238,6 +238,57 @@
                                         </div>
                                     </div>
                                 @endisset
+
+                                <div class='row my-3'>
+                                    <div class="card-header">
+                                        <h5 class='card-title'>
+                                            {{ __('general.payment_type') }}:&nbsp;&nbsp;<b class="uppercase">{{ $order->payment_type }}</b>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        @if ($order->payment_type === 'online' && $payment)
+                                            <h6>
+                                                {{ __('general.Details') }}
+                                            </h6>
+                                            <div class="row mb-3">
+                                                <label for="paymentID" class="col-sm-2 col-form-label">
+                                                    {{__('general.ID')}}
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="paymentID"
+                                                        value="{{ $payment->payment_id }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="paymentStatus" class="col-sm-2 col-form-label">
+                                                    {{__('general.status')}}
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="paymentStatus"
+                                                        value="{{ __('general.' . str_replace(" (Test Environment)", "", $payment->status)) }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="paymentmessage" class="col-sm-2 col-form-label">
+                                                    {{__('general.message')}}
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="paymentmessage"
+                                                        value="{{ __('general.' . str_replace(" (Test Environment)", "", $payment->message)) }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="paymentmessage" class="col-sm-2 col-form-label">
+                                                    {{__('general.date_time')}}
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="paymentmessage"
+                                                        value="{{$payment->updated_at->translatedFormat('d M Y H:i:sa')}}" readonly>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6 ">
                                 <div class="row">
@@ -381,7 +432,7 @@
             $(document).ready(function() {
                 let busy = false;
                 const reorderErrorModal = new bootstrap.Modal('#reorder-error', {
-                    backdrop: 'static',
+                    // backdrop: 'static',
                     keyboard: false,
                 });
                 $('.checkout-btn').click(function() {
@@ -410,7 +461,10 @@
                                 return;
                             }
 
-                            window.location.href = "{{ route('get.cart') }}";
+                            $('#checkout-form').attr('action', "{{route('checkout')}}");
+                            $('#checkout-form').submit();
+
+                            // window.location.href = "{{ route('get.cart') }}";
                         },
                         error: function(err) {
                             // console.log(err);

@@ -44,18 +44,17 @@ class PasswordResetController extends Controller
         $passwordReset = DB::table('password_resets')->updateOrInsert($data);
 
         if ($user && $passwordReset) {
-            try {
-                $this->sendMessage(
-                    $user->first_phone,
-                    "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $data['token'] . "\n\n شكرا على التسجيل! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $data['token']
-                );
-            } catch (\Exception $e) {
-                // return redirect()->back()->with(['error' => __('general.Something Went Wrong')])->withInput();
-            }
+            // try {
+            //     $this->sendMessage(
+            //         $user->first_phone,
+            //         "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $data['token'] . "\n\n شكرا على التسجيل! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $data['token']
+            //     );
+            // } catch (\Exception $e) {
+            //      return redirect()->back()->with(['error' => __('general.Something Went Wrong')])->withInput();
+            // }
 
             $user->notify(new PasswordResetRequest($data['token']));
-
-            return view('website.password-get-code', compact('email'))->with(['success' => __('general.We have e-mailed your password reset Code!')]);
+            return redirect(route('get.login'))->with(['success' => __('general.We have e-mailed your password reset link!')])->withInput();
         }
         return redirect()->back()->with(['error' => __('general.You are not a user')])->withInput();
     }

@@ -38,9 +38,52 @@ class MenuController extends BaseController
                 $address = Address::find($request->id);
                 $request->request->add(['branch_id' => DB::table('branch_delivery_areas')->where('area_id',$address->area_id)->pluck('branch_id')->first()]);
             }}
+
             $categories = Category::with('items')->get();
             $categories->first()->loadMissing('items');
+            foreach($categories as $category){
+                foreach ($category->items as $key => $item) {
+                    $branches = explode(',', $item->branches);
+                    //if(in_array($request->branch_id, $branches))
+                    {
+                         $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
         
+                        $parent_offer = null;
+                        foreach ($offers as $offer) {
+                            $parent_offer = OfferDiscount::find($offer->offer_id);
+                            if (isset($parent_offer->offer)) {
+        
+                                if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                                     $parent_offer = null;
+                                }
+                            }
+        
+                            if ($parent_offer)  break;
+                        }
+                        // return $parent_offer;
+                      
+        
+                        $item->discountAmount=null;
+                        $item->offer_price=null;
+                        $item->offer_price_without_tax = null;
+                        $item->offer = $parent_offer;
+                        if ($parent_offer) {
+                            if ($parent_offer->discount_type == 1) {
+                                $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                                $item->offer->offer_price = $item->price - $disccountValue;
+                            } elseif ($parent_offer->discount_type == 2) {
+                                $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                            }
+                            $item->discountAmount=(double)$item->price-(double)$item->offer->offer_price;
+                            $item->offer_price=round($item->offer->offer_price, 2);
+                            $item->offer_price_without_tax = round($item->offer_price / 1.15, 2);
+                            unset($item->offer->offer);
+                        }
+                    }
+                }
+            }
+            
+    
         return $this->sendResponse($categories, __('general.ret', ['key' => __('general.cat_ret')]));
     }
 
@@ -108,7 +151,7 @@ class MenuController extends BaseController
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer) {
+                if ($parent_offer && $parent_offer->offer) {
 
                     if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                         $parent_offer = null;

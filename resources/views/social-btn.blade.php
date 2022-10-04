@@ -6,14 +6,12 @@
         <span></span>
     </div>
     <ul class="social-widget">
-        <li><a class="facebook" href="#"><i class="mx-1 fab fa-facebook-f"></i>Facebook</a>
+        <li><a class="facebook" target="_blank" href="https://www.facebook.com/groups/1324000870991750/?ref=share"><i class="mx-1 fab fa-facebook-f"></i>{{__('general.fb')}}</a>
         </li>
-        <li><a class="twitter" href="#"><i class="mx-1 fab fa-twitter"></i>Twitter</a></li>
-        <li><a class="instagram" href="#"><i class="mx-1 fab fa-instagram"></i>Instagram</a>
+        <li><a class="twitter" target="_blank" href="https://twitter.com/kingdomof_p?s=21&t=8gPTwTI5Ao33PFBlqOYatQ"><i class="mx-1 fab fa-twitter"></i>{{__('general.twitter')}}</a></li>
+        <li><a class="instagram" target="_blank" href="https://instagram.com/kingdom.of_p?igshid=NmNmNjAwNzg="><i class="mx-1 fab fa-instagram"></i>
+        {{__('general.insta')}}
+        </a>
         </li>
-        <li><a class="pinterest" href="#"><i class="mx-1 fab fa-pinterest"></i>Pinterest</a>
-        </li>
-        <li><a class="dribbble" href="#"><i class="mx-1 fab fa-dribbble"></i>Dribbble</a></li>
-        <li><a class="linkedin" href="#"><i class="mx-1 fab fa-linkedin"></i>Linkedin</a></li>
     </ul>
 </div>

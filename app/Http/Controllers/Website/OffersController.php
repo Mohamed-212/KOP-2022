@@ -56,6 +56,7 @@ class OffersController extends Controller
         // if ($return['success'] == 'success') {
         //      $offers = $return['data'];
         // }
+
         return view('website.offers', compact(['offers']));
     }
     
@@ -63,8 +64,11 @@ class OffersController extends Controller
     {
         $request = new \Illuminate\Http\Request();
         $offer = Offer::find($offerID);
-        $return = (app(\App\Http\Controllers\Api\OffersController::class)->get($request, $offer))->getOriginalContent();
+        $return = (app(\App\Http\Controllers\Api\OffersController::class)->get($request,$offerID))->getOriginalContent();
+        // dd($return);
         $offers = $return['data'];
+        
+        // return  $offers['buy_get']['buy_quantity'];
         if ($offer->offer_type == 'discount') {
             return view('website.offerDiscount', compact(['offers']));
         }

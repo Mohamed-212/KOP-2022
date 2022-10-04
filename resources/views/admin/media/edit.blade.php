@@ -57,7 +57,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    {{-- <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="author">Author</label>
                                             <div class="help-block text-info">
@@ -70,7 +70,7 @@
                                             <div class="help-block">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Video</label>
@@ -129,6 +129,9 @@
 @endsection
 @push('js')
     <script>
+        window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
         $(document).ready(function() {
             $('#fileimage').change(function(){
                 var input = this;

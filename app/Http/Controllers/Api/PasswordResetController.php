@@ -61,13 +61,14 @@ class PasswordResetController extends BaseController
         $passwordReset = DB::table('password_resets')->where('token', $token)->first();
 
         if (!$passwordReset)
-            return view('api.change-password' )->with([
-                'type' => 'error', 'message' =>__('general.This password reset token is invalid.')]);
+            return  redirect()->route('api.faild');
+
 
 
         if (Carbon::parse($passwordReset->created_at)->addMinutes(720)->isPast()) {
             $passwordReset->delete();
-             return view('website.password-reset')->withErrors(__('general.This password reset token is invalid.'));
+            return  redirect()->route('api.faild');
+
         }
         $email=$passwordReset->email;
         return view('api.change-password' ,compact('token','email'));
@@ -99,23 +100,20 @@ class PasswordResetController extends BaseController
         $passwordReset = DB::table('password_resets')->where([['token', $request->token],['email', $request->email]])->first();
 
         if (!$passwordReset)
-                return redirect()->back()->with([
-                    'type' => 'error', 'message' =>__('general.This password reset token is invalid.')]);
+            return  redirect()->route('api.faild');
 
 
         $user = User::where('email', $passwordReset->email)->first();
 
         if (!$user)
-        return redirect()->back()->with([
-            'type' => 'error', 'message' =>__('general.We can\'t find a user with that e-mail address.')]);
+            return  redirect()->route('api.faild');
 
 
         $user->update(['password' => bcrypt($request->password)]);
         DB::table('password_resets')->where([['token', $request->token],['email', $request->email]])->delete();
 
         // $user->notify(new PasswordResetSuccess($passwordReset));
-        return redirect()->back()->with([
-            'type' => 'success', 'message' =>__('general.Your Password Changed Successfully')]);
+        return  redirect()->route('api.success');
 
         // return $this->sendresponse($user, 'successful message');
     }

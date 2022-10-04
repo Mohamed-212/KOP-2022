@@ -8,7 +8,7 @@ use App\Notifications\activateSMS;
 use App\Notifications\SignupActivate;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -20,29 +20,29 @@ class AuthController extends Controller
 
     public function get_login()
     {
-        return view('website.login'); 
+        return view('website.login');
     }
 
     public function get_sign_up()
     {
-        
+
         return view('website.signup');
     }
 
     public function sign_up(Request $request)
     {
         // return $request;
-        
-    //    return $validator = Validator::make($request->all(), );
-    //     //, 'unique:users,first_phone'
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator->getMessageBag())->withInput();
-    //     }
 
-    $message = str_replace('characters', 'numbers', __('validation.size.string'));
-    if (app()->getLocale() === 'ar') {
-        $message = preg_replace("/حروفٍ\/حرفًا/", "رقماُ", __('validation.size.string'));
-    }
+        //    return $validator = Validator::make($request->all(), );
+        //     //, 'unique:users,first_phone'
+        //     if ($validator->fails()) {
+        //         return redirect()->back()->withErrors($validator->getMessageBag())->withInput();
+        //     }
+
+        $message = str_replace('characters', 'numbers', __('validation.size.string'));
+        if (app()->getLocale() === 'ar') {
+            $message = preg_replace("/حروفٍ\/حرفًا/", "رقماُ", __('validation.size.string'));
+        }
 
         $req = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -75,16 +75,15 @@ class AuthController extends Controller
             $user->attachRole(3);
 
             // Mail::to($user->email)->send();
-            try {
-                // $user->notify(new SignupActivate);
-            } catch (\Exception $e) {
-
-            }
+            // try {
+            //     // $user->notify(new SignupActivate);
+            // } catch (\Exception $e) {
+            // }
 
             try {
                 $this->sendMessage(
                     $user->first_phone,
-                    "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $user->activation_token . "\n\n شكرا على التسجيل! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $user->activation_token
+                    "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $user->activation_token . "\n\n شكرا على تسجيلك! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $user->activation_token
                 );
                 // return redirect()->back()->with(['success'=>__('auth.Sent SMS successfully.')]);
             } catch (\Exception $e) {
@@ -94,7 +93,17 @@ class AuthController extends Controller
                 // return redirect()->back()->withErrors(['errors' => __('auth.phone_number_error')]);
             }
 
-            return redirect(route('get.login'))->with(['success' => __('general.created', ['key' => __('auth.user_account')]), 'email' => $user->email]);
+            session(['user' => [
+                'email' => $user->email,
+                'phone' => $user->first_phone,
+                'id' => $user->id
+            ]]);
+
+            session()->flash('success', __('auth.verify'));
+
+            return redirect()->route('verifyCode.page');
+
+            // return redirect(route('verifyCode.page'))->with(['success' => __('general.created', ['key' => __('auth.user_account')]), 'email' => $user->email]);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['errors' => __('general.error')]);
         }
@@ -115,23 +124,33 @@ class AuthController extends Controller
             'password' => request('password')
         ];
 
-        $user=User::where('email',request('email'))->first();
-        if($user){
-        // if ($user->hasRole('customer')) {
-            if ($user->email_verified_at == null) {
-                // return $user->id;
-                $phone=$user->first_phone;
-                $user_id=$user->id;
-                $password=request('password');
-                        return view('website.verification-code',compact('phone','user_id','password'));
-                    }
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-                    $user->branches; //??                    
-                    return redirect()->route('home.page');
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->hasRole('customer')) {
+                if ($user->email_verified_at == null) {
+                    // return $user->id;
+                    $phone = $user->first_phone;
+                    $user_id = $user->id;
+                    $password = request('password');
+                    auth()->logout();
+                    session()->flush();
+                    $this->sendMessage(
+                        $user->first_phone,
+                        "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $user->activation_token . "\n\n شكرا على تسجيلك! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $user->activation_token
+                    );
+
+                    session(['user' => [
+                        'email' => $user->email,
+                        'phone' => $user->first_phone,
+                        'id' => $user->id
+                    ]]);
+
+                    session()->flash('error', __('auth.verify'));
+
+                    return redirect()->route('verifyCode.page');
                 }
             }
-        // }
+        }
         return redirect()->back()->with(['error' => __('session_messages.Unauthorized! Please Check Your Credentials')]);
     }
 
@@ -150,46 +169,40 @@ class AuthController extends Controller
 
     public function setVerificationCode(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'verify' => 'required',
-            'user_id' => 'required',
-            'password' => 'required',
-        ]);
+        $user = User::where('id', $request->user_id)->where('first_phone', $request->phone)->first();
 
-        if ($validator->fails()) {
-            redirect()->back()->with([
-                'error' => $validator->errors()
-            ]);
+        abort_unless($user, 404);
+
+        if ($user->activation_token !== $request->token) {
+            session()->flash('error', __('auth.invalid_otp'));
+            return redirect()->back();
         }
-        
-        $user=User::find($request->user_id);
 
-     
         $user->email_verified_at = now();
+        $user->active = true;
         $user->save();
 
-        $credentials = [
-            'email' => $user->email,
-            'password' => $request->password
-        ];
+        session()->forget('user');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-                $user->branches; //??                    
-                return redirect()->route('home.page');
-            }
+        $user->branches; //?? 
 
-            return redirect()->back()->withErrors(['errors' => __('general.error')]);
+        Auth::login($user);
+
+        return redirect()->route('home.page');
     }
 
-    public function resendVerificationCode()
-    {        
+    public function resendVerificationCode(Request $request)
+    {
+        $user = User::where('id', $request->user_id)->where('first_phone', $request->phone)->first();
+
+        abort_unless($user, 404);
+
         try {
-            // auth()->user()->notify(new SignupActivate);
-            
+            // $user->notify(new SignupActivate);
+
             $this->sendMessage(
-                auth()->user()->first_phone,
-                "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . auth()->user()->activation_token . "\n\n شكرا على التسجيل! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . auth()->user()->activation_token
+                $user->first_phone,
+                "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $user->activation_token . "\n\n شكرا على تسجيلك! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $user->activation_token
             );
             return redirect()->back()->with(['success' => __('auth.Sent SMS successfully.')]);
         } catch (\Exception $e) {

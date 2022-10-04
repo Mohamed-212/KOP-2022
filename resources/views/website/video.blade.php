@@ -53,7 +53,7 @@
                         <div class="col-md-3">
                             <ul class="list-group list-group-flush">
                                 @foreach ($videos as $video)
-                                    <li class="list-group-item play-video d-flex rounded @if($loop->first) bg-primary text-white @else bg-transparent @endif" data-url="{{$video->url}}">
+                                    <li class="list-group-item play-video d-flex rounded @if($loop->first) bg-primary text-white @else bg-transparent @endif" data-url="{{asset($video->url)}}">
                                         <div class="flex-shrink-0">
                                             <img width='50' height='50' class="rounded" src="{{ asset($video->img) }}" alt="{{ $video->title_en }}" />
                                         </div>

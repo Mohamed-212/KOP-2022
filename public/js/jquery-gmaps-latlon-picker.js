@@ -95,6 +95,9 @@ $.fn.gMapsLatLonPicker = (function() {
 					areaMap=value[count-3];
 					selectedId=0
 					$(".city").html('');
+					$(".area").val("");
+					$("#street").val("");
+
 					$(".city").append(
 						'<option  value="" >'+message[2]+'</option>');
 					
@@ -110,9 +113,15 @@ $.fn.gMapsLatLonPicker = (function() {
 						}
 						
 					})
-					if(selectedId!=0)
+					if(selectedId==3)
+					{
+						$('.riyadh').removeClass('d-none').addClass('d-block');
+						$('.not_found').removeClass('d-block').addClass('d-none');
+					}
+					else if(selectedId!=0)
 					{
 						$('.not_found').removeClass('d-block').addClass('d-none');
+						$('.riyadh').removeClass('d-block').addClass('d-none');
 						document.getElementById('city-select').value=selectedId;
 						$.ajax({
 							type: 'get',
@@ -141,10 +150,10 @@ $.fn.gMapsLatLonPicker = (function() {
 						})
 						$('#street').val(add);
 					}
-					console.log($('#city-select').val());
-					if($('#city-select').val()=="")
+					else if($('#city-select').val()=="")
 					{
 						$('.not_found').removeClass('d-none').addClass('d-block');
+						$('.riyadh').removeClass('d-block').addClass('d-none');
 					}
 
 					

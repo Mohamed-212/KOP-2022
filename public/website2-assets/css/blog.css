@@ -54,8 +54,8 @@
     position: relative;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
-    min-height: 500px;
-    max-height: 500px;
+    /* min-height: 500px;
+    max-height: 500px; */
 
 }
 .blog-posts .post-card:hover .post-thumb img{}

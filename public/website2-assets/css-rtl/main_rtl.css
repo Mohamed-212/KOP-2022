@@ -248,7 +248,7 @@ button{
 }
 .default-btn{
     display: inline-block;
-    background: #ff9d2d;
+    background: #f4901e;
     color: #fff;
     font-family: 'Cairo', sans-serif;
     font-size: 14px;
@@ -569,7 +569,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
 }
 .about-section .content-img-holder .sale{
     background-image: url(../img/sale-shape-red.png);
-    right: 100px;
+    right: 340px;
     top: 0;
 }
 .about-section .content-img-holder .sale h4,
@@ -669,10 +669,12 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     Food Menu Section
 =======================================================*/
 .food-menu{ position: relative; }
-.product-item{
+.product-item {
     background-color: #fff;
-    padding: 70px 40px 40px;
+    padding: 25px 20px 20px;
     position: relative;
+    min-height: 455px;
+    max-height: 455px;
 }
 .product-item .sale{
     background-color: #f43127;
@@ -684,11 +686,15 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     line-height: 1;
     text-transform: uppercase;
     position: absolute;
-    right: 40px;
-    top: 40px;
+    right: 20px;
+    top: 15px;
 }
-.product-thumb{
+.product-thumb {
     position: relative;
+    max-height: 270px;
+    min-height: 270px;
+    text-align: center;
+
 }
 .product-thumb img{width: 100%;}
 .product-thumb .order-btn{
@@ -762,7 +768,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     text-align: center;
     margin-bottom: 20px;
 }
-.food-menu-filter li{
+/* .food-menu-filter li{
     background-color: #fff;
     font-family: "Cairo",sans-serif;
     font-size: 16px;
@@ -773,6 +779,21 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     padding: 5px 20px;
     border: 1px solid #eee;
     cursor: pointer;
+} */
+.food-menu-filter li {
+    background-color: #fff;
+    font-family: "Cairo",sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: #0e1318;
+    display: inline-block;
+    margin: 3px 5px;
+    padding: 5px 20px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    width: 18%;
+    max-height: 15%;
+    min-height: 15%;
 }
 .food-menu-filter li.active{
     background-color: #ff9d2d;
@@ -1187,6 +1208,8 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     background-size: cover;
     position: relative;
     overflow: hidden;
+    min-height: 600px;
+    max-height: 600px;
 }
 .content-section .bg-shape.grey{
     bottom: auto;
@@ -1239,7 +1262,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     font-size: 42px;
 }
 .content-img-holder .sale div{
-    margin: 35px 0px 0px 30px;
+    margin: 35px 70px 0px 30px;
 }
 .delivery-girl{
     position: relative;

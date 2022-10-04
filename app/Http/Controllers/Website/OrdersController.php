@@ -17,6 +17,7 @@ use App\Models\Without;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\PointsTransaction;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -61,6 +62,16 @@ class OrdersController extends Controller
                 session()->forget('point_claim_value');
                 session()->forget('points_value');
             }
+
+            if (session()->has('payment')) {
+                $payment = Payment::where('payment_id', session('payment')['payment_id'])->where('customer_id', Auth::id())->first();
+
+                $payment->order_id = $return['data']['id'];
+                $payment->save();
+
+                session()->forget('payment');
+            }
+
             // return redirect()->route('get.cart')->with(['success' => __('general.Your order been submitted successfully')]);
             return redirect()->route('get.orders');
         }
@@ -69,7 +80,22 @@ class OrdersController extends Controller
     /* To view payment page */
     public function make_order_payment(Request $request)
     {
-        if ($request->status == 'paid' && $request->message == 'Succeeded!' && session('checkOut_details')) {
+        $paymentId = Payment::where('payment_id', $request->id)->where('customer_id', Auth::id())->first();
+
+        if (!$paymentId) {
+            session()->flash('error', 'payment id is not valid');
+            return redirect()->route('payment');
+        }
+
+        $testMessage = ' (Test Environment)';
+
+        if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage" && session('checkOut_details')) {
+
+            // $payment = \Moyasar\Facades\Payment::fetch($request->id);
+
+            // abort_if($payment->status !== 'paid' || $payment->amount !== (int)$paymentId->total_paid, 404);
+
+            $payment = $paymentId;
 
             if (session()->has('checkOut_details')) {
                 $request->merge([
@@ -83,65 +109,86 @@ class OrdersController extends Controller
                     'points' => array_key_exists("points_value", session('checkOut_details')) ? session('checkOut_details')['points_value'] : 0,
                     'taxes' => session('checkOut_details')['taxes'],
                     'customer_id' => auth()->user()->id,
+                    'payment_method' => 'online',
                 ]);
 
                 // submit order
-                $items = auth()->user()->carts;
-                foreach ($items as $item) {
-                    $item->extras = json_decode($item->extras);
-                    $item->withouts = json_decode($item->withouts);
-                    $item->offerId = $item->offer_id;
-                    $item->offer_price = round($item->offer_price, 2);
-                    $item->price = Item::find($item->item_id)->price;
-                }
-                if (!$request->has('points_paid')) {
-                    $request = $request->merge([
-                        'items' => $items,
-                        'points_paid' => 0,
-                    ]);
-                } else {
-                    $request = $request->merge([
-                        'items' => $items,
-                        'points_paid' => $request->points_paid,
+                // $items = auth()->user()->carts;
+                // foreach ($items as $item) {
+                //     $item->extras = json_decode($item->extras);
+                //     $item->withouts = json_decode($item->withouts);
+                //     $item->offerId = $item->offer_id;
+                //     $item->offer_price = round($item->offer_price, 2);
+                //     $item->price = Item::find($item->item_id)->price;
+                // }
+                // if (!$request->has('points_paid')) {
+                //     $request = $request->merge([
+                //         'items' => $items,
+                //         'points_paid' => 0,
+                //     ]);
+                // } else {
+                //     $request = $request->merge([
+                //         'items' => $items,
+                //         'points_paid' => $request->points_paid,
 
-                    ]);
-                }
-                $return = $this->store_order($request);
-                if ($return['success'] == true) {
+                //     ]);
+                // }
+                // $return = $this->store_order($request);
+                // if ($return['success'] == true) {
 
-                    Payment::create([
-                        'payment_id' => $request->id,
-                        'customer_id' => auth()->user()->id,
-                        'status' => $request->status,
-                        'message' => $request->message,
-                        'order_id' => $return['data']->id,
-                        'total_paid' => $request->amount / 100
-                    ]);
-                    session()->put(['success' => $return['success']]);
-                    foreach ($items as $item) {
-                        $item->delete();
-                    }
-                    if (session()->has('point_claim_value')) {
-                        session()->forget('point_claim_value');
-                        session()->forget('points_value');
-                    }
-                    session()->flash('success', __('general.Order Payed Successfully'));
-                    return redirect()->route('get.cart');
-                }
+                //     // Payment::create([
+                //     //     'payment_id' => $request->id,
+                //     //     'customer_id' => auth()->user()->id,
+                //     //     'status' => $request->status,
+                //     //     'message' => $request->message,
+                //     //     'order_id' => $return['data']->id,
+                //     //     'total_paid' => $request->amount / 100
+                //     // ]);
+               
+                // }
             }
+
+            $paymentId->status = $request->status;
+            $paymentId->message = $request->message;
+            $paymentId->data = $payment->toJson();
+            // $paymentId->order_id = $return['data']['id'];
+            $paymentId->save();
+            //     session()->put(['success' => $return['success']]);
+            //     foreach ($items as $item) {
+            //         $item->delete();
+            //     }
+            //     if (session()->has('point_claim_value')) {
+            //         session()->forget('point_claim_value');
+            //         session()->forget('points_value');
+            //     }
+            session()->flash('success', __('general.Order Payed Successfully'));
+            session(['payment' => $paymentId->toArray()]);
+
+            if (session()->has('payment_hash')) {
+                return view('api.payment_response');
+                session()->forget('payment_hash');
+            }
+
+            return redirect()->route('payment.checkout');
         } else {
             if ($request->status == 'failed') {
-                switch ($request->message) {
-                    case 'Unable to process the purchase transaction':
-                        return redirect(route('get.payment'))->with(['error' => __('general.Unable to process the purchase transaction')]);
-                    case 'Insufficient Funds':
-                        return redirect(route('get.payment'))->with(['error' => __('general.Insufficient Funds')]);
-                    case 'Declined':
-                        return redirect(route('get.payment'))->with(['error' => __('general.Declined')]);
-                    default:
-                        return redirect(route('get.payment'))->with(['error' => $request->message]);
-                }
-                return redirect(route('get.payment'))->with(['error' => $request->message]);
+
+                // switch ($request->message) {
+                //     case 'Unable to process the purchase transaction':
+                //         return redirect(route('get.payment'))->with(['error' => __('general.Unable to process the purchase transaction')]);
+                //     case 'Insufficient Funds':
+                //         return redirect(route('get.payment'))->with(['error' => __('general.Insufficient Funds')]);
+                //     case 'Declined':
+                //         return redirect(route('get.payment'))->with(['error' => __('general.Declined')]);
+                //     default:
+                //         return redirect(route('get.payment'))->with(['error' => $request->message]);
+                // }
+                session()->flash('error', strtolower(str_replace(" (Test Environment)", "", $request->message)));
+
+                // delete this payment from payments
+                $paymentId->delete();
+
+                return redirect(route('get.payment'));
             }
             session()->flash('error', __('general.error'));
             return redirect()->route('get.payment');
@@ -182,6 +229,11 @@ class OrdersController extends Controller
 
         $items = $order->items;
 
+        $payment = null;
+        if ($order->payment_type === 'online') {
+            $payment = Payment::where('order_id', $order->id)->where('customer_id', $order->customer_id)->first();
+        }
+
         $items->map(function (&$item, $key) {
             if ($item->pivot->offer_id) {
                 $offer = Offer::find($item->pivot->offer_id);
@@ -193,9 +245,9 @@ class OrdersController extends Controller
             }
         });
         if ($reorder != null) {
-            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'reorder'));
+            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'reorder', 'payment'));
         } else {
-            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order'));
+            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'payment'));
         }
     }
 
@@ -417,17 +469,35 @@ class OrdersController extends Controller
         ];
 
         $order = Order::create($orderData);
+        
         if (!$order) {
             return ['error' => 'Order not found'];
         }
-        // send notification to all user_branches
-        $cashiers = Branch::find($branch_id);
-        if ($cashiers) {
-            if ($cashiers->cashiers2) {
-                foreach ($cashiers->cashiers2 as $cashier) {
 
-                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
-                }
+        if ($pointsValue) {
+            PointsTransaction::create([
+                'points' => $pointsValue,
+                'order_id' => $order->id,
+                'user_id' => Auth::id(),
+                'status' => 2,
+            ]);
+        }
+
+        // send notification to all user_branches
+        // $cashiers = Branch::find($branch_id);
+        // if ($cashiers) {
+        //     if ($cashiers->cashiers2) {
+        //         foreach ($cashiers->cashiers2 as $cashier) {
+
+        //             \App\Http\Controllers\NotificationController::pushNotifications($cashier->id, "New Order has been placed", "Order", null, null, $request->customer_id);
+        //         }
+        //     }
+        // }
+        $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'cashier');})->get();
+        if ($cashiers) {
+            foreach ($cashiers as $cashier) {
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
             }
         }
 
@@ -470,7 +540,7 @@ class OrdersController extends Controller
                 'dough_type_ar' => ($item['dough_type_ar']) ? $item['dough_type_ar'] : null,
                 'dough_type_en' => ($item['dough_type_en']) ? $item['dough_type_en'] : null,
                 'price' => $itemPrice,
-                'pure_price' => $item->price,
+                'pure_price' => $orderItem->price,
                 'offer_price' => ($item['offer_price'] && $item['offer_price'] != null) ? $itemOfferPrice : null, // TODO: Remove price
                 'offer_id' => optional($offer)->id,
                 'offer_last_updated_at' => optional($offer)->updated_at, //??

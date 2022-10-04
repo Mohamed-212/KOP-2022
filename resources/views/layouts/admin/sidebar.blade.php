@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="height: 140vh;">
     <div
         class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
         <div class="os-resize-observer-host">
@@ -269,6 +269,7 @@
                                    request()->segment(4)=='extra'||
                                    request()->segment(4)=='order-customer'||
                                    request()->segment(4)=='order-item'||
+                                   request()->segment(4)=='payments'||
                                    request()->segment(4)=='order-status'
                                             ? 'menu-open': ''}}
                                     ">
@@ -322,6 +323,12 @@
                                             <a href="{{route('admin.report.order-item')}}" class="nav-link"><i
                                                     class="fas fa-dice-three nav-icon"></i>
                                                 <p>Order / Item</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('admin.report.payments')}}" class="nav-link"><i
+                                                    class="fas fa-dice-three nav-icon"></i>
+                                                <p>Payment Transaction</p>
                                             </a>
                                         </li>
                                     </ul>

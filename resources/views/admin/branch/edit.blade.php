@@ -107,7 +107,7 @@
                 </div>
               </div>
             </div>
-              <div class="row">
+              {{-- <div class="row">
                   <div class="col-md-12">
                       <div class="form-group">
                           <label for="exampleInputDeliveryFees">Delivery Fees</label>
@@ -115,7 +115,7 @@
                           {!! $errors->first('delivery_fees', '<p class="invalid-feedback">:message</p>') !!}
                       </div>
                   </div>
-              </div>
+              </div> --}}
             <div class="row">
               <div class="col-md-4">
                 <label for="exampleInputServiceType">ServiceType</label>
@@ -721,6 +721,21 @@
                               </div>
                             </div>
                             @endforeach
+                            @else
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <label for="city">Select City</label>
+                                  <select class="form-control select2-cities-delivery {!! $errors->first('city_id', 'is-invalid') !!}" id="city-select" name="city_id">
+                                    <option>Select Delivery City</option>
+  
+                                  </select>
+                                    @error('city_id')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                              </div>
+                            </div>
                             @endif
                           </div>
                         </div>
@@ -742,6 +757,9 @@
 @endsection
 @push('js')
 <script>
+  window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
   $( document ).ready(function() {
 
       let app_url = '{{ url('/') }}';
@@ -804,13 +822,13 @@
         $.get(endpoint, function(res) {;
 
         var element = '';
-        var size = res.length;
+        var size = res.data.length;
 
-        for(let i=0; i < res.length; i++) {
+        for(let i=0; i < res.data.length; i++) {
 
-            let name = res[i]['name_'+'{{app()->getLocale()}}'];
+            let name = res.data[i]['name_'+'{{app()->getLocale()}}'];
             let index = i+1;
-            let id = res[i].id;
+            let id = res.data[i].id;
 
             element += `<option value="${id}">${name}</option>`;
 
@@ -835,13 +853,13 @@
       $.get(endpoint, function(res) {
 
         var element = '';
-        var size = res.length;
+        var size = res.data.length;
 
-        for(let i=0; i < res.length; i++) {
+        for(let i=0; i < res.data.length; i++) {
 
-          let name = res[i]['name_'+'{{app()->getLocale()}}'];
+          let name = res.data[i]['name_'+'{{app()->getLocale()}}'];
           let index = i+1;
-          let id = res[i].id;
+          let id = res.data[i].id;
 
           element += `<div class="col-md-4">
           <div class="form-group">

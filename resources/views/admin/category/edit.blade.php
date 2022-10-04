@@ -156,6 +156,10 @@
 
 @push('js')
 <script>
+    window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
+    
     $( document ).ready(function() {
 
         $('.custom-file-input').on('change',function(){

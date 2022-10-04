@@ -31,12 +31,14 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('create', 'Api\PasswordResetController@create');
         Route::get('find/{token}', 'Api\PasswordResetController@find');
         Route::post('reset', 'Api\PasswordResetController@createNewPassword')->name('reset');
+        Route::view('/success', 'api.success')->name('api.success');
+        Route::view('/faild', 'api.faild')->name('api.faild');
     });
 
     Route::post('resend-code', 'Api\AuthController@resendCode');
     /* for verification */
     Route::post('resend-verification-code', 'Api\AuthController@resendVerificationCode');
-    Route::post('verify-account/{code}', 'Api\AuthController@setVerificationCode');
+    Route::post('verify-account', 'Api\AuthController@setVerificationCode');
 
     Route::post('verify-user/{id}', 'Api\AuthController@activateUser')->name('verify-user');
 
@@ -77,6 +79,7 @@ Route::middleware('api')->group(function () {
     Route::group(['prefix' => 'branches'], function () {
         Route::get('', 'Api\BranchesController@index');
         Route::Get('/{branch}', 'Api\BranchesController@show');
+        Route::Get('/check/{branch}', 'Api\BranchesController@check');
     });
 
 
@@ -169,7 +172,11 @@ Route::group(['prefix' => 'menu', 'middleware' => ['authIfTokenFound']], functio
 
     Route::get('/recommended', 'Api\MenuController@getRecommendedItems');
 });
-Route::get('/payment/{amount}', 'Api\PaymentController@index')->name('get.paymentMobile');
+Route::get('/payment/make-order', 'Api\OrdersController@make_order_payment')->name('api.make-order.payment');
+Route::get('/payment/{id}/{amount}/{hash}', 'Api\PaymentController@index')->name('get.paymentMobile');
+Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth:api')->name('api.payment.store');
+
+Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth:api')->name('check.paymentMobile');
 
 // helper endpoints
 Route::get('/cities', "Api\HelperController@getCities");

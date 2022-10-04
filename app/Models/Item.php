@@ -18,9 +18,11 @@ class Item extends Model
     protected $fillable = ['branches','name_ar', 'name_en', 'price', 'calories', 'category_id', 'description_ar', 'description_en', 'image', 'website_image'];
 
     // protected $hidden = ["branches"];
-    protected $appends = ['is_hidden', 'dough_type', 'dough_type_2', 'favoured', 'price_without_tax'];
+    protected $appends = ['is_hidden', 'dough_type', 'dough_type_2', 'favoured', 'price_without_tax', 
+    'offer_price_without_tax'
+];
 
-    public $casts = ['main' => 'boolean'];
+    protected $casts = ['main' => 'boolean'];
 
     public function category()
     {
@@ -73,7 +75,7 @@ class Item extends Model
     {
         // $category = Category::where('id', $this->category_id)->first();
         $category = Category::find($this->category_id);
-        if (!$category) {
+        if (!$category || null === $category->dough_type_id) {
             return [];
         }
         $dough_type_id = $category->dough_type_id;
@@ -107,6 +109,14 @@ class Item extends Model
     public function getPriceWithoutTaxAttribute()
     {
         return (string)round($this->price / 1.15, 2);
+    }
+
+    public function getOfferPriceWithoutTaxAttribute()
+    {
+        if (!$this->offer || !optional($this->offer)->offer_price) {
+            return null;
+        }
+        return round($this->offer->offer_price / 1.15);
     }
 
     public function isVisibleForAuthUser()

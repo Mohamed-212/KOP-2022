@@ -64,7 +64,7 @@
                 <div class="form-group">
                   <label for="exampleInputArea">Area</label>
                   <select class="form-control select2 {!! $errors->first('area_id', 'is-invalid') !!}" id="exampleInputArea" name="area_id">
-                    <option value="">Select City</option>
+                    <option value="">Select Area</option>
                   </select>
                     @error('area_id')
                     <div class="help-block">{{ $message }}</div>
@@ -125,7 +125,7 @@
                 </div>
               </div>
             </div>
-              <div class="row">
+              {{-- <div class="row">
                   <div class="col-md-12">
                       <div class="form-group">
                           <label for="exampleInputEmail">Delivery Fees</label>
@@ -135,7 +135,7 @@
                           @enderror
                       </div>
                   </div>
-              </div>
+              </div> --}}
             <div class="row">
               <div class="col-md-4">
                 <label for="exampleInputServiceType">ServiceType</label>
@@ -774,7 +774,9 @@
 @endsection
 @push('js')
 <script>
-
+window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
 
     $( document ).ready(function() {
 
@@ -785,6 +787,7 @@
                     url: app_url + "/api/cities/",
                     dataType: 'json',
                     processResults: function (data) {
+                      console.log('www');
                         console.log(data)
 
                         return {
@@ -835,14 +838,16 @@
 
 
         let target_name = e.target.dataset.target;
+        // console.log(target_name);
         let target_selector = "select[name='" + target_name + "']";
+        // console.log(target_selector);
 
         let city_id = e.target.value;
         let app_url = '{{ url('/') }}';
 
         let endpoint = `${app_url}/api/cities/${city_id}/areas`;
 
-            console.log(endpoint);
+            // console.log(endpoint);
 
         $.get(endpoint, res => {
 
@@ -850,7 +855,7 @@
 
             let elements = '';
 
-            res.forEach(element => {
+            res.data.forEach(element => {
                 elements += `<option value="${element.id}">${element['name_'+'{{app()->getLocale()}}']}</option>`;
             });
 
@@ -875,13 +880,13 @@
       $.get(endpoint, function(res) {;
 
         var element = '';
-        var size = res.length;
+        var size = res.data.length;
 
-        for(let i=0; i < res.length; i++) {
+        for(let i=0; i < res.data.length; i++) {
 
-          let name = res[i]['name_'+'{{app()->getLocale()}}'];
+          let name = res.data[i]['name_'+'{{app()->getLocale()}}'];
           let index = i+1;
-          let id = res[i].id;
+          let id = res.data[i].id;
 
           element += `
           <div class="col-md-4">

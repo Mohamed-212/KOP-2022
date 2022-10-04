@@ -20,19 +20,7 @@
             border-top: none !important;
         }
 
-        .line-clamp2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .line-clamp5 {
-            display: -webkit-box;
-            -webkit-line-clamp: 5;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+       
         .post-navigation {
             align-items: unset;
         }
@@ -92,19 +80,20 @@
                                                 {{-- <h3><a href="{{ route('get.new', $ar->id) }}">
                                                         {{ $ar['title_' . app()->getLocale()] }}
                                                     </a></h3> --}}
-                                                <p>
-                                                    {{ Str::limit($ar['description_' . app()->getLocale()], 60) }}
+                                                <p class="line-clamp5">
+                                                     {{$ar['description_'.app()->getLocale()]}}
                                                 </p>
                                                 @isset($health)
-                                                <a href="{{ route('health-infos.show', $ar->id) }}" class="read-more">
+                                                <a href="{{ route('health-infos.show', $ar->id) }}" class="read-more" style="justify-content: flex-end;
+                                                    display: flex;">
                                                     {{__('general.Read More')}} <i
                                                         class="las la-long-arrow-alt-right"></i></a>
                                                 @else
-                                                <a href="{{ route('get.new', $ar->id) }}" class="read-more">
+                                                <a href="{{ route('get.new', $ar->id) }}" class="read-more" style="justify-content: flex-end;
+                                                    display: flex;">
                                                     {{__('general.Read More')}} <i
                                                         class="las la-long-arrow-alt-right"></i></a>
                                                 @endisset
-                                                
                                             </div>
                                         </div>
                                     </div>

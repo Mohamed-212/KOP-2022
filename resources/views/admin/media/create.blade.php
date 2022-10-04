@@ -45,7 +45,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="author">Author</label>
                                         <div class="help-block text-info">
@@ -57,7 +57,7 @@
                                             <div class="help-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Video</label>
@@ -114,3 +114,11 @@
         </section>
     </div>
 @endsection
+@push('js')
+<script>
+    window.onbeforeunload = function () {
+        return 'Are you sure? Your work will be lost. ';
+    };
+   
+</script>
+@endpush

@@ -52,5 +52,4 @@ class Offer extends Model
         return $this->belongsToMany('App\Models\Branch', 'branch_offer');
     }
 
-
 }

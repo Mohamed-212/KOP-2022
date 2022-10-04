@@ -10,11 +10,11 @@ class Branch extends Model
     use SoftDeletes;
     protected $guarded = [];
 
-    protected $casts = ['service_type' => 'array'];
+    protected $casts = ['service_type' => 'array', 'delivery_fees' => 'double'];
 
 
     protected function todayTimes() {
-        return $this->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->first();
+        return $this->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->get();
     }
 
     public function cashiers()
@@ -51,10 +51,18 @@ class Branch extends Model
     }
 
     public function open() {
-        return $this->todayTimes()->time_from;
+        foreach($this->todayTimes() as $todayTime)
+        { 
+            $times[]=optional($todayTime)->time_from;
+        }
+        return $times;
     }
 
     public function close() {
-        return $this->todayTimes()->time_to;
+        foreach($this->todayTimes() as $todayTime)
+        { 
+            $times[]=optional($todayTime)->time_to;
+        }
+        return $times;
     }
 }

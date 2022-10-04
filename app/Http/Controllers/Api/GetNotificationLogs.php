@@ -30,7 +30,7 @@ class GetNotificationLogs extends BaseController
 
     public function getAllNotification(Request $request)
     {
-        $notifications=Messages::with('user')->get();
+        $notifications=Messages::with('user')->orderBy('created_at', 'desc')->get();
         return $this->sendResponse($notifications, __('general.ret', ['key' => __('general.logs')]));
     }
 }

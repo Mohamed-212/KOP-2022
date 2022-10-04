@@ -14,8 +14,8 @@ class MenuController extends Controller
 {
     public function menuPage(){
         $menu = [];
-
-        $return = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories2())->getOriginalContent();
+        $request = new \Illuminate\Http\Request();
+        $return = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories($request))->getOriginalContent();
         
         if($return['success'] == 'success'){
             $menu['categories'] = $return['data'];
@@ -57,7 +57,7 @@ class MenuController extends Controller
 
                 }
 
-                if ($parent_offer) {
+                if ($parent_offer && $parent_offer->offer) {
 
                     if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
                         $parent_offer = null;
