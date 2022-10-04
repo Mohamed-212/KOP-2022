@@ -15,10 +15,11 @@
 //     return (int) $user->id === (int) $id;
 // });
 
+use Illuminate\Support\Facades\Auth;
+
 Broadcast::channel('online', function ($user) {
-    $user = Auth::user();
-    if ($user->hasRole('cashier')) {
-        return $user;
+    if (Auth::check() && (Auth::user())->hasRole('cashier')) {
+        return Auth::user();
     }
     return false;
 });

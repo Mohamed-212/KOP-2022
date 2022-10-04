@@ -149,6 +149,10 @@ class AuthController extends Controller
 
                     return redirect()->route('verifyCode.page');
                 }
+
+
+                $user->branches; //??                    
+                return redirect()->route('home.page');
             // }
         }
         return redirect()->back()->with(['error' => __('session_messages.Unauthorized! Please Check Your Credentials')]);
