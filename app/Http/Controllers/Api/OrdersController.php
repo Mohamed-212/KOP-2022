@@ -239,6 +239,7 @@ class OrdersController extends BaseController
         ];
 
         $order = Order::create($orderData);
+        $savedOrder = $order;
 
         // try{
 
@@ -338,7 +339,9 @@ class OrdersController extends BaseController
             ]);
         }
 
-        broadcast(new OrderCreated($order))->toOthers();
+        broadcast(new OrderCreated(Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
+            $address->with(['city', 'area']);
+        }])->where('id', $savedOrder->id)->first()))->toOthers();
 
         return $this->sendResponse($order,  __('general.Order created successfully!'));
     }

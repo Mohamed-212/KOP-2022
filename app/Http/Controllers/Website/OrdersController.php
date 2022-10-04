@@ -548,7 +548,9 @@ class OrdersController extends Controller
             ]);
         }
 
-        broadcast(new OrderCreated($order))->toOthers();
+        broadcast(new OrderCreated(Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
+            $address->with(['city', 'area']);
+        }])->where('id', $order->id)->first()))->toOthers();
 
         return (app(ApiOrdersController::class)->sendResponse($order,  __('general.Order created successfully!')))->getOriginalContent();
 
