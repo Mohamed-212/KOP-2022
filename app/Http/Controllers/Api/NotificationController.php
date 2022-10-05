@@ -15,7 +15,8 @@ class NotificationController extends BaseController
 {
     
     public function setPushToken(Request $request)
-    {
+    {  
+        
         if ($request->user_id == null || $request->platform == null) {
             return $this->sendError(__('general.Information is Missed'), [], 404);
         }
@@ -37,7 +38,6 @@ class NotificationController extends BaseController
             $token->platform = 'Android';
             $token->token = $request->token;
             $token->save();
-            
         // }
         
         

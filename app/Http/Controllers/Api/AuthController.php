@@ -58,8 +58,8 @@ class AuthController extends BaseController
 
                 $data = [
                     'userData' => $user,
-                    // 'token' => $user->createToken('AppName')->accessToken,
-                    'token' => $user->token,
+                    'token' => $user->createToken('AppName')->accessToken,
+                    // 'token' => $user->token,
                 ];
 
                 $setPushToken = new NotificationController();
