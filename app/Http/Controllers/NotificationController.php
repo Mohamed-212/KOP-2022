@@ -34,7 +34,7 @@ class NotificationController extends Controller
      */
     public static function pushNotifications($user_id, $message, $type = "Notification", $data_message = null, $chat_id = null, $customer_id = null)
     {
-        $tokens = NotiToken::where('user_id',$user_id)->get()->unique('token');
+        $tokens = NotiToken::where('user_id',$user_id)->get();
         $user = User::find($user_id);
         if ($user) {
             foreach($tokens as $token) {
