@@ -74,19 +74,19 @@ window.Echo = new Echo({
 
 // console.log(window.Echo);
 
-window.Echo.join('online')
-    .here((users) => {
-        console.log(users);
-    })
-    .listen('OrderCreated', (e) => {
-        console.log(e);
-    })
-    .joining((user) => {
-        console.log(user.name);
-    })
-    .leaving((user) => {
-        console.log(user.name);
-    });
+// window.Echo.join('online')
+//     .here((users) => {
+//         console.log(users);
+//     })
+//     .listen('OrderCreated', (e) => {
+//         console.log(e);
+//     })
+//     .joining((user) => {
+//         console.log(user.name);
+//     })
+//     .leaving((user) => {
+//         console.log(user.name);
+//     });
 
 // window.Echo.private('online').listen("ShippingStatusUpdated", (e) => {
 //     console.log(e);

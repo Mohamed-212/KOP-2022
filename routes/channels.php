@@ -11,15 +11,12 @@
 |
 */
 
-// Broadcast::channel('App.User.{id}', function ($user, $id) {
-//     return (int) $user->id === (int) $id;
-// });
-
-use Illuminate\Support\Facades\Auth;
-
-Broadcast::channel('online', function ($user) {
-    if (Auth::check() && (Auth::user())->hasRole('cashier')) {
-        return Auth::user();
-    }
-    return false;
+Broadcast::channel('neworder.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
+
+// use Illuminate\Support\Facades\Auth;
+
+// Broadcast::channel('online', function ($user) {
+//     return $user;
+// }); 

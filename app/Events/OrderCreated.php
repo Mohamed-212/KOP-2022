@@ -16,24 +16,26 @@ class OrderCreated implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
+    public $cashier_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order,$cashier_id)
     {
         $this->order = $order;
+        $this->cashier_id = $cashier_id;
     }
 
     /**
-     * Get the channels the event should broadcast on.
+     * Get the channels the event should broadcast on. 
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('online');
+        return new PrivateChannel('neworder'.$this->cashier_id);
     }
 }
