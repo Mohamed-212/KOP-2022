@@ -84,7 +84,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Extra Price</label>
-                                    <input type="number" step="0.1" class="form-control {!! $errors->first('price', 'is-invalid') !!}" placeholder="Enter Extra Price" name="price" value="{{ old('price') ?? $extra->price}}">
+                                    <input type="number" step="0.01" class="form-control {!! $errors->first('price', 'is-invalid') !!}" placeholder="Enter Extra Price" name="price" value="{{ old('price') ?? $extra->price}}">
                                     {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>

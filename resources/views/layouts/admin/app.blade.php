@@ -31,6 +31,13 @@
 
 @include('layouts.admin.scripts')
 
+<script>
+    $(document).ready(function() {
+      $('form').on('submit', function() {
+        window.onbeforeunload = null;
+      });
+    });
+  </script>
 </body>
 
 </html>
