@@ -493,11 +493,16 @@ class OrdersController extends Controller
         //         }
         //     }
         // }
+        $new_order=Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
+            $address->with(['city', 'area']);
+        }])->where('id', $savedOrder->id)->first();
+
         $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
               \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+              broadcast(new OrderCreated($new_order,$cashier->user_id));
             }
         }
 
@@ -547,10 +552,6 @@ class OrdersController extends Controller
                 'quantity' => ($item['quantity']) ? $item['quantity'] : 1
             ]);
         }
-
-        broadcast(new OrderCreated(Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
-            $address->with(['city', 'area']);
-        }])->where('id', $order->id)->first()))->toOthers();
 
         return (app(ApiOrdersController::class)->sendResponse($order,  __('general.Order created successfully!')))->getOriginalContent();
 
