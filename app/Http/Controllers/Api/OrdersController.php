@@ -288,6 +288,8 @@ class OrdersController extends BaseController
 
             $orderItem = Item::where('id', $item['item_id'])->first();
             $orderItemExtras = null;
+            $item['extras'] = $item['extras'][0];
+            $item['withouts'] = $item['withouts'][0];
 
 
             if (array_key_exists('extras', $item)) {
@@ -326,10 +328,10 @@ class OrdersController extends BaseController
             $order->items()->attach($item['item_id'], [
                 'item_extras' =>  is_array($extras) ? implode(', ', $extras) : $extras,
                 'item_withouts' =>  is_array($withouts) ? implode(', ', $withouts) : $withouts,
-                'dough_type_ar' => array_key_exists('dough_type_ar', $item) ? $item['dough_type_ar'] : null,
-                'dough_type_en' => array_key_exists('dough_type_en', $item) ? $item['dough_type_en'] : null,
-                'dough_type_2_ar' => array_key_exists('dough_type_2_ar', $item) ? $item['dough_type_2_ar'] : null,
-                'dough_type_2_en' => array_key_exists('dough_type_2_en', $item) ? $item['dough_type_2_en'] : null,
+                'dough_type_ar' => array_key_exists('dough_type_ar', $item) && isset($item['dough_type_ar'][0]) ? $item['dough_type_ar'][0] : null,
+                'dough_type_en' => array_key_exists('dough_type_en', $item) && isset($item['dough_type_en'][0]) ? $item['dough_type_en'][0] : null,
+                'dough_type_2_ar' => array_key_exists('dough_type_2_ar', $item) && isset($item['dough_type_2_ar'][0]) ? $item['dough_type_2_ar'][0] : null,
+                'dough_type_2_en' => array_key_exists('dough_type_2_en', $item) && isset($item['dough_type_2_en'][0]) ? $item['dough_type_2_en'][0] : null,
                 'price' => $itemPrice,
                 'pure_price' => $orderItem->price,
                 'offer_price' => array_key_exists('offer_price', $item) ? $itemOfferPrice : null, // TODO: Remove price
