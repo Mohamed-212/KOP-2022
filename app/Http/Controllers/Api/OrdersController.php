@@ -288,8 +288,8 @@ class OrdersController extends BaseController
 
             $orderItem = Item::where('id', $item['item_id'])->first();
             $orderItemExtras = null;
-            $item['extras'] = $item['extras'][0];
-            $item['withouts'] = $item['withouts'][0];
+            $item['extras'] = isset($item['extras'][0]) ? $item['extras'][0] : [];
+            $item['withouts'] = isset($item['withouts'][0]) ? $item['withouts'][0] : [];
 
 
             if (array_key_exists('extras', $item)) {
