@@ -261,32 +261,32 @@ class OrdersController extends BaseController
 
         // $subtotal = 0;
 
-        $items = [];
+        $items = $request->items;
         // dd($request->items);
-        foreach ($request->items as $item) {
-            if (gettype($item) == 'object') {
-                $item = $item->toArray();
-            }
-            // if ($item['quantity'] > 1) {
-            for ($i = 0; $i < $item['quantity']; $i++) {
-                $items[] = [
-                    'item_id' => $item['item_id'],
-                    'quantity' => 1,
-                    'offer_price' => isset($item['offer_price']) ? $item['offer_price'] : null,
-                    'price' => $item['price'],
-                    'offerId' => isset($item['offerId']) ? $item['offerId'] : null,
-                    'extras' => isset($item['extras'][$i]) && count($item['extras']) ? $item['extras'][$i] : [],
-                    'withouts' => isset($item['withouts'][$i]) && count($item['withouts']) ? $item['withouts'][$i] : [],
-                    'dough_type_ar' => isset($item['dough_type_ar'][$i]) ? $item['dough_type_ar'][$i] : null,
-                    'dough_type_en' => isset($item['dough_type_en'][$i]) ? $item['dough_type_en'][$i] : null,
-                    'dough_type_2_ar' => isset($item['dough_type_2_ar'][$i]) ? $item['dough_type_2_ar'][$i] : null,
-                    'dough_type_2_en' => isset($item['dough_type_2_en'][$i]) ? $item['dough_type_2_en'][$i] : null,
-                ];
-            }
-            // } else {
-            //     $items[] = $item;
-            // }  
-        }
+        // foreach ($request->items as $item) {
+        //     if (gettype($item) == 'object') {
+        //         $item = $item->toArray();
+        //     }
+        //     // if ($item['quantity'] > 1) {
+        //     for ($i = 0; $i < $item['quantity']; $i++) {
+        //         $items[] = [
+        //             'item_id' => $item['item_id'],
+        //             'quantity' => 1,
+        //             'offer_price' => isset($item['offer_price']) ? $item['offer_price'] : null,
+        //             'price' => $item['price'],
+        //             'offerId' => isset($item['offerId']) ? $item['offerId'] : null,
+        //             'extras' => isset($item['extras'][$i]) && count($item['extras']) ? $item['extras'][$i] : [],
+        //             'withouts' => isset($item['withouts'][$i]) && count($item['withouts']) ? $item['withouts'][$i] : [],
+        //             'dough_type_ar' => isset($item['dough_type_ar'][$i]) ? $item['dough_type_ar'][$i] : null,
+        //             'dough_type_en' => isset($item['dough_type_en'][$i]) ? $item['dough_type_en'][$i] : null,
+        //             'dough_type_2_ar' => isset($item['dough_type_2_ar'][$i]) ? $item['dough_type_2_ar'][$i] : null,
+        //             'dough_type_2_en' => isset($item['dough_type_2_en'][$i]) ? $item['dough_type_2_en'][$i] : null,
+        //         ];
+        //     }
+        //     // } else {
+        //     //     $items[] = $item;
+        //     // }  
+        // }
 
         foreach ($items as $item) {
 
