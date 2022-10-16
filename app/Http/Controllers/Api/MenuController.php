@@ -46,16 +46,19 @@ class MenuController extends BaseController
                     $branches = explode(',', $item->branches);
                     //if(in_array($request->branch_id, $branches))
                     {
-                         $offers = DB::table('offer_discount_items')->join('offers','offers.id','offer_discount_items.offer_id')->where('offers.date_to','>=',date('Y-m-d H:i:s'))->where('offer_discount_items.item_id', $item->id)->get();
+                        $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
         
                         $parent_offer = null;
                         foreach ($offers as $offer) {
-                            $parent_offer = OfferDiscount::find($offer->offer_id);
-                            if (isset($parent_offer->offer)) {
-        
+                            $parent_offer = OfferDiscount::with('offer')->where('id',$offer->offer_id)->first();
+                            if ($parent_offer->offer) {
                                 if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
                                      $parent_offer = null;
                                 }
+                            }
+                              else
+                            {
+                             $parent_offer = null;
                             }
         
                             if ($parent_offer)  break;
