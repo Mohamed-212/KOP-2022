@@ -40,11 +40,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     encrypted: true
 // });
 
-import Echo from "laravel-echo";
+// import Echo from "laravel-echo";
 
 // window.Pusher = require('pusher-js');
 // window.io = require("socket.io-client");
-window.io = require("socket.io-client");
+// window.io = require("socket.io-client");
 // window.io = io;
 // const socket = io();
 
@@ -62,15 +62,15 @@ window.io = require("socket.io-client");
 
 // alert($('meta[name="csrf-token"]').attr('content'));
 
-window.Echo = new Echo({
-    broadcaster:  'socket.io',
-    host: window.location.origin + ':6001',
-    headers:
-    {
-        // 'Authorization': 'Bearer ' + accToken,
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+// window.Echo = new Echo({
+//     broadcaster:  'socket.io',
+//     host: window.location.origin + ':6001',
+//     headers:
+//     {
+//         // 'Authorization': 'Bearer ' + accToken,
+//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+// });
 
 // console.log(window.Echo);
 
