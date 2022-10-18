@@ -241,4 +241,9 @@ return [
         'TWILIO_APP_SID'     => env('TWILIO_APP_SID')
     ],
 
+    'moyasar' => [
+        'api' => env('MOYASAR_API_KEY'),
+        'publisher' => env('MOYASAR_PUBLISHER_KEY')
+    ],
+
 ];

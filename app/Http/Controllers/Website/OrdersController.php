@@ -495,7 +495,7 @@ class OrdersController extends Controller
         // }
         $new_order=Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
             $address->with(['city', 'area']);
-        }])->where('id', $savedOrder->id)->first();
+        }])->where('id', $order->id)->first();
 
         $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
             $role->where('name', 'cashier');})->get();
