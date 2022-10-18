@@ -275,8 +275,10 @@ trait GeneralTrait
     public function sendMessage($phoneNumber, string $message): void
     {
         // ahmed.adel@212sol
-        $accountSid = 'AC20069c0fcbdb65528f5d91dca09be66f';
-        $authToken  = 'a534aac7849ff9a8ccea2c4a7f6d499b';
+        $accountSid = config('app.TWILIO_ACCOUNT_SID');
+        $authToken  = config('app.TWILIO_AUTH_TOKEN');
+        $twilio_number=config('app.TWILIO_NUMBER');
+//dd($twilio_number);
 
         try {
         $client = new Client($accountSid, $authToken);
@@ -284,10 +286,10 @@ trait GeneralTrait
         // Use the client to do fun stuff like send text messages!
         $client->messages->create(
             // the number you'd like to send the message to
-            '+' . $phoneNumber,
+            '+' .'201112297239',
             array(
                 // A Twilio phone number you purchased at twilio.com/console
-                'from' => '+12183180915',
+                'from' => $twilio_number,
                 // the body of the text message you'd like to send
                 'body' => $message
             )

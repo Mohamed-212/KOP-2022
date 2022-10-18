@@ -98,7 +98,7 @@
                                                                 {{ __('general.City') }}
                                                             </label>
                                                             <div class="input-group">
-                                                                <select id="city-select" disabled
+                                                                <select id="city-select" 
                                                                     class="form-control select2-cities city w-100 select2-cities"
                                                                     name="city_id" required>
                                                                     <option value="" selected>

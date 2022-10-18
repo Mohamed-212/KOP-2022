@@ -27,7 +27,9 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    'TWILIO_ACCOUNT_SID'=>'AC2973b4176c91a764c4c7879fd4d93823',
+    'TWILIO_AUTH_TOKEN'=>'16f83e99d19358ef2a565415cde2ea14',
+    'TWILIO_NUMBER'=>'+12068006162',
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
