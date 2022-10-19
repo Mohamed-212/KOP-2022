@@ -139,7 +139,7 @@ class MenuController extends BaseController
     public function getItems(Request $request,$category)
     {
         $items = Category::find($category)->items()->with('category.extras', 'category.withouts')->get();
-
+// dd($items);
         foreach ($items as $key => $item) {
             $branches = explode(',', $item->branches);
             //if(in_array($request->branch_id, $branches))
