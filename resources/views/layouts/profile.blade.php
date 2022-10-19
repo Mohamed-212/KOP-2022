@@ -38,8 +38,7 @@
                     <div class="card-body">
                         <ol class="list-group list-group-flush">
                             <li class="list-group-item bg-primary text-white">
-                                <a class="d-flex align-items-center text-white justify-content-between"
-                                    href="{{ route('loyalty') }}">
+                                <a class="d-flex align-items-center text-white justify-content-between">
                                     <span class="m-0">{{ __('general.Account Points') }}: </span>
                                     <span class="badge bg-info">
                                         @if (isset($points))
