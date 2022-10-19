@@ -65,11 +65,19 @@ class OffersController extends Controller
         $request = new \Illuminate\Http\Request();
         $offer = Offer::find($offerID);
         $return = (app(\App\Http\Controllers\Api\OffersController::class)->get($request,$offerID))->getOriginalContent();
-        // dd($return);
         $offers = $return['data'];
-        
-        // return  $offers['buy_get']['buy_quantity'];
         if ($offer->offer_type == 'discount') {
+            foreach($offers['details']->items as $discountitem)
+            {
+            if($offers['discount']['discount_type']==1)
+            {
+              $discountitem->offer_price=(float)$discountitem->price - ((float)$discountitem->price*((float)$offers['discount']['discount_value']/100));
+            }
+            else 
+            {
+                $discountitem->offer_price=$discountitem->price - (float)$offers['discount']['discount_value'];
+            }
+            }
             return view('website.offerDiscount', compact(['offers']));
         }
         return view('website.offerBuyGet', compact(['offers']));
