@@ -190,7 +190,7 @@
                 amount: {{ $amount * 100 }},
                 currency: 'SAR',
                 description: '{{ $user->name }} Order',
-                publishable_api_key: 'pk_test_q8VZ5iA7J3ZCRXzCo8mVkjgNr1WmDvXJHdm2mQRt',
+                publishable_api_key: '{{config('app.moyasar.publisher')}}',
                 callback_url: "{{ session()->has('payment_hash') ? route('api.make-order.payment') : route('make-order.payment') }}",
                 language: "{{ app()->getLocale() }}",
                 on_completed: function(payment) {
