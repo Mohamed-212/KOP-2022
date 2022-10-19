@@ -235,11 +235,18 @@ class OrdersController extends BaseController
             'order_from' => 'mobile',
             'description_box' => $request->description,
             'payment_type' => $request->payment_type
-
         ];
 
         $order = Order::create($orderData);
         $savedOrder = $order;
+
+        if (empty($request->payment_id)) {
+            $payment = Payment::where('payment_id', $request->payment_id)->first();
+            if ($payment) {
+                $payment->order_id = $savedOrder->id;
+                $payment->save();
+            }
+        }
 
         // try{
 
