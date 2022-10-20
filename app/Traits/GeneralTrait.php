@@ -275,9 +275,9 @@ trait GeneralTrait
     public function sendMessage($phoneNumber, string $message): void
     {
         // ahmed.adel@212sol
-        $accountSid = config('app.TWILIO_ACCOUNT_SID');
-        $authToken  = config('app.TWILIO_AUTH_TOKEN');
-        $twilio_number=config('app.TWILIO_NUMBER');
+        $accountSid = config('app.twilio.account_sid');
+        $authToken  = config('app.twilio.auth_token');
+        $twilio_number=config('app.twilio.phone_number');
 //dd($twilio_number);
 
         try {
@@ -286,7 +286,7 @@ trait GeneralTrait
         // Use the client to do fun stuff like send text messages!
         $client->messages->create(
             // the number you'd like to send the message to
-            '+' .'201112297239',
+            '+' . $phoneNumber,
             array(
                 // A Twilio phone number you purchased at twilio.com/console
                 'from' => $twilio_number,
