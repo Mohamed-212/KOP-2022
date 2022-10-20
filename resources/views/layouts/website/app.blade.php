@@ -208,7 +208,7 @@
    @endauth
 
     $(document).ready(function() {
-        $('.site-preloader-wrap').css('display', 'none');
+        // $('.site-preloader-wrap').css('display', 'none');
     });
 </script>
 
