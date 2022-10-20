@@ -68,12 +68,6 @@
     <body class="page-home dm-dark"> @endsection
 
     @section('content')
-    <div class="site-preloader-wrap">
-            <div class="spinner"></div>
-        </div><!-- /.site-preloader-wrap -->
-
-     
-
         <!-- <div id="popup-search-box">
             <div class="box-inner-wrap d-flex align-items-center">
                 <form id="form" action="#" method="get" role="search">

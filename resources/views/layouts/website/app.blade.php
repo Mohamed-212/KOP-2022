@@ -6,7 +6,10 @@
 @yield('pageName')
 
 <!-- Loader-->
-<div id="page-preloader"><span class="spinner border-t_second_b border-t_prim_a"></span></div>
+{{-- <div id="page-preloader"><span class="spinner border-t_second_b border-t_prim_a"></span></div> --}}
+<div class="site-preloader-wrap">
+    <div class="spinner"></div>
+</div><!-- /.site-preloader-wrap -->
 <!-- Loader end-->
 
 <div class="page-wrapper">
@@ -204,6 +207,9 @@
     }
    @endauth
 
+    $(document).ready(function() {
+        $('.site-preloader-wrap').css('display', 'none');
+    });
 </script>
 
 

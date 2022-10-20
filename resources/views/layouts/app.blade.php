@@ -21,6 +21,9 @@
 </head>
 <body>
     <div id="app">
+        <div class="site-preloader-wrap">
+            <div class="spinner"></div>
+        </div><!-- /.site-preloader-wrap -->
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -75,6 +78,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+        
     </div>
 </body>
 </html>
