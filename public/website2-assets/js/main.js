@@ -312,6 +312,8 @@
         var currentYear  = new Date().getFullYear();
         $('#currentYear').append(currentYear);
 
+        $('.site-preloader-wrap').css('display', 'none');
+
      });
 
 })(jQuery);
