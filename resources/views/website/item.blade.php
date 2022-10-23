@@ -15,6 +15,12 @@
 
 @section('styles')
     <style>
+        .accordion-button:after {
+content: "\f067" !important;
+}
+.accordion-button:not(.collapsed):after {
+content: "\f068" !important;
+}
         .text-danger {
             color: #f32129;
         }
