@@ -182,6 +182,8 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
+        $user->token = $user->createToken('AppName')->accessToken;
+
         $user->email_verified_at = now();
         $user->active = true;
         $user->save();

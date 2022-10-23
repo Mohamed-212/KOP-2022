@@ -1,7 +1,7 @@
 @extends('layouts.website.app')
 
 @section('title')
-{{ $article['title_' . app()->getLocale()] }} - {{__('general.Gallery')}}
+{{__('general.Gallery')}}
 @endsection
 
 @section('styles')
