@@ -36,6 +36,14 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('neworder'.$this->cashier_id);
+        return new PrivateChannel('neworder.'.$this->cashier_id);
+    }
+    public function broadcastAs()
+    {
+        return 'orderplaced';
+    }
+    public function broadcastWith()
+    {
+        return ['neworder'=>$this->order,'id'=>$this->$cashier_id];
     }
 }
