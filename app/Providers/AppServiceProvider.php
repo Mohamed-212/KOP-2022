@@ -13,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
     }
 
     /**
@@ -27,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
             error_reporting(E_ALL & ~E_USER_DEPRECATED);
         } else {
             error_reporting(0);
+        }
+
+        if (!strpos(request()->path(), 'api/broadcasting/auth')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+            // redirect(str_replace('http', 'https', request()->url()));
         }
     }
 }
