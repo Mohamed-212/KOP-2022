@@ -30,7 +30,6 @@ class AppServiceProvider extends ServiceProvider
 
         if (!strpos(request()->path(), 'api/broadcasting/auth')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
-            // redirect(str_replace('http', 'https', request()->url()));
         }
     }
 }
