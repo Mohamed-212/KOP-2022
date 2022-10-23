@@ -29,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (!strpos(request()->path(), 'api/broadcasting/auth')) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+            if (\Illuminate\Support\Facades\App::environment('production')) {
+                \Illuminate\Support\Facades\URL::forceScheme('https');
+            }
         }
     }
 }
