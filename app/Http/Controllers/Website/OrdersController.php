@@ -213,6 +213,10 @@ class OrdersController extends Controller
 
         $user = User::find($order->customer_id);
 
+        if (!$user->first_offer_available && $user->orders()->first()->id == $order->id) {
+            $order->total = round($order->total * 2, 2);
+        }
+
         $branch = $work_hours = null;
         if (isset($order->branch_id)) {
             $branch = Branch::where('id', $order->branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
