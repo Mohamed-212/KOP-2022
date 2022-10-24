@@ -314,6 +314,10 @@
                                         <div> <button
                                                 @auth
 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
+@if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
+type="button"
+                                                    @else
+                                                    type="submit" @endif
                                                 class="purchase-btn cart"
                                                 type="submit">{{ __('home.Add to Cart') }}</button></div>
                                     </div>
