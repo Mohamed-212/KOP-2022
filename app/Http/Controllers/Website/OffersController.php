@@ -6,6 +6,7 @@ use App\Filters\OfferFilters;
 use App\Models\Offer;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OffersController extends Controller
@@ -53,11 +54,24 @@ class OffersController extends Controller
         $offer_id = DB::table("branch_offer")->where('branch_id', session()->get('branch_id'))->pluck('offer_id');
         $offers = Offer::whereIn('id',$offer_id)->with('buyGet', 'discount')->filter($filters)->get();
 
+        // check if cart has items with offers
+        $cartHasOffers = false;
+        $cart = collect();
+        if (Auth::check()) {
+            $cart = auth()->user()->carts;
+            foreach ($cart as $item) {
+                if ($item->offer_id) {
+                    $cartHasOffers = true;
+                    break;
+                }
+            } 
+        }
+
         // if ($return['success'] == 'success') {
         //      $offers = $return['data'];
         // }
 
-        return view('website.offers', compact(['offers']));
+        return view('website.offers', compact('offers', 'cartHasOffers'));
     }
     
     public function offerItems($offerID)

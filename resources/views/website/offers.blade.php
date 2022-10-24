@@ -1,7 +1,7 @@
 @extends('layouts.website.app')
 
 @section('title')
-    {{__('general.offers_title')}}
+    {{ __('general.offers_title') }}
 @endsection
 
 @section('styles')
@@ -43,7 +43,7 @@
             <div class="container">
                 <div class="page-header-content">
                     <h4>
-                        {{ __('general.Offers') }}
+                        {{ __('general.Offers') }} {{ $cartHasOffers ? 'has Offers in cart' : 'not has in cart' }}
                     </h4>
                     <h2>
                         {{ __('general.offers_title') }}
@@ -80,14 +80,20 @@
                                         @endif
                                         <div class="product-thumb">
                                             <img src="{{ asset($offer->website_image_menu) }}" alt="food">
-                                            <div><a @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
-                                                    href="{{ route('offer.item', $offer->id) }}"
+                                            <div><a @auth
+                                                @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif 
+                                                 @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
+                                                 href="#"
+                                                @else
+                                                href="{{ route('offer.item', $offer->id) }}"
+                                                 @endif @endauth
                                                     class="order-btn cart">@lang('general.Order Now')</a></div>
                                         </div>
                                         <div class="food-info">
                                             <ul class="ratting"
                                                 style="min-height: 70px !important;max-height: 70px !important;">
-                                                <li>{{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title }}</li>
+                                                <li>{{ app()->getLocale() == 'ar' ? $offer->title_ar : $offer->title }}
+                                                </li>
 
                                             </ul>
                                             <h3 class="line-clamp5"

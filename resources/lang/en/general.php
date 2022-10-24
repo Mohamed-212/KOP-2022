@@ -433,4 +433,5 @@ return [
     'insta' => 'Instagram',
     'share' => 'Share',
     'only' => 'only',
+    'no_multible_offers' => 'Sorry you can Add Only One Offer',
 ];
