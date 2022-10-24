@@ -25,8 +25,8 @@ return [
     'Add to Cart' => 'Add to Cart' ,
     'Tasty Pizza' => 'Tasty Pizza' ,
     'Eat Sleep And' => 'Eat Sleep And',
-    'slider2_descriptiopn' => 'Food is any substance consumed to provide nutritional <br>support for an organism.',
-    'slider3_descriptiopn' => 'Food is any substance consumed to provide nutritional <br>support for an organism.',
+    'slider2_descriptiopn' => 'Hungry, there is no solution but to taste <br>delicious pizza.',
+    'slider3_descriptiopn' => 'The best variety of pastries <br> we have only.',
     'Fried masala' => 'Fried masala <br>in town!',
 
     'Price' => 'Price' ,

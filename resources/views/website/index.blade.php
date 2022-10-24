@@ -151,7 +151,7 @@
                            <div class="slider-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="0.5s">{{__('home.Eat Sleep And')}}</div></div></div>
                             <div class="slider-caption big"><div class="inner-layer"><div class="char-right" data-delay="1s" data-splittin>{!!__('home.pick it up really fast, happy to SERVE you at our branches')!!}</div></div>
                             </div>
-                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s">{!!__('home.slider2_descriptiopn')!!}</div></div></div>
+                            <div class="slider-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s">{!!__('home.slider3_descriptiopn')!!}</div></div></div>
                             <div class="slider-btn-group justify-content-left">
                                 <div class="inner-layer">
                                 <a href="{{route('menu.page')}}" class="slider-btn" data-animation="fade-in-bottom" data-delay="2.5s">{{__('footer.Our Menu')}}</a>
