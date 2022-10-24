@@ -47,7 +47,7 @@ class NewsController extends Controller
         $archives = $common[0];
         $latest = $common[1];
 
-        $articles = News::where(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"), "$month-$year")->simplePaginate();
+        $articles = News::where(DB::raw("DATE_FORMAT(updated_at, '%m-%Y')"), "$month-$year")->simplePaginate();
 
         return view('website.page-blog', compact(['articles', 'archives', 'latest']));
     }
@@ -55,9 +55,9 @@ class NewsController extends Controller
     private function common()
     {
         $archives = DB::table('news')
-            ->select([DB::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),  DB::raw('YEAR(created_at) year, MONTH(created_at) month')])
+            ->select([DB::raw("DATE_FORMAT(updated_at, '%m-%Y') new_date"),  DB::raw('YEAR(updated_at) year, MONTH(updated_at) month')])
             ->groupBy('year', 'month')
-            ->orderBy('created_at')
+            ->orderBy('updated_at')
             ->get();
         $latest = News::latest()->limit(4)->get();
 
