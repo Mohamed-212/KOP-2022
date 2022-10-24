@@ -1235,7 +1235,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     position: relative;
 }
 .content-img-holder > img{
-    transform: scale(1.3) translateY(50px);
+    transform: rotate(180deg) scale(1.3) translateX(-2px) translateY(-50px) rotateX(180deg);
 }
 .content-img-holder .sale{
     background-image: url(../img/sale-shape.png);
