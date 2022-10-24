@@ -16,7 +16,9 @@ class ForceHttps
     public function handle($request, Closure $next)
     {
         if (!strpos($request->path(), 'api/broadcasting/auth') && !request()->isSecure()) {
-            return redirect()->secure($request->getRequestUri());
+            if (\Illuminate\Support\Facades\App::environment('production')) {
+                return redirect()->secure($request->getRequestUri());
+            }
         }
 
         return $next($request);
