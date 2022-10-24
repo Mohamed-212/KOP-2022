@@ -67,7 +67,7 @@
                             <div class="product-item" >
                             <!-- <div class="sale"></div> -->
                                 <div class="product-thumb">
-                                    <img src="{{asset($dealItem->website_image)}}" alt="food" style="height: 300px;width:300px;border-radius: 100%;" />
+                                    <img src="{{asset($dealItem->website_image)}}" alt="food" style="height: 270;width:270;border-radius: 100%;" />
                                     <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                     @csrf
                                         <input type="hidden" name="offer_id"
