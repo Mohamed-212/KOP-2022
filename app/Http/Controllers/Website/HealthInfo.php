@@ -42,7 +42,7 @@ class HealthInfo extends Controller
         $latest = $common[1];
         $health = true;
 
-        $articles = ModelsHealthInfo::where(DB::raw("DATE_FORMAT(created_at, '%m-%Y')"), "$month-$year")->simplePaginate();
+        $articles = ModelsHealthInfo::where(DB::raw("DATE_FORMAT(updated_at, '%m-%Y')"), "$month-$year")->simplePaginate();
 
         return view('website.page-blog', compact(['articles', 'archives', 'latest', 'health']));
     }
@@ -50,9 +50,10 @@ class HealthInfo extends Controller
     private function common()
     {
         $archives = DB::table('health_infos')
-            ->select([DB::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),  DB::raw('YEAR(created_at) year, MONTH(created_at) month')])
+            ->select([DB::raw("DATE_FORMAT(updated_at, '%m-%Y') new_date"),  DB::raw('YEAR(updated_at) year, MONTH(updated_at) month')])
             ->groupBy('year', 'month')
-            ->orderBy('created_at')
+            ->orderBy('updated_at')
+            ->whereNull('deleted_at')
             ->get();
         $latest = ModelsHealthInfo::latest()->limit(4)->get();
 

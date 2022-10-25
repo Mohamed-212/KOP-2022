@@ -113,7 +113,6 @@
                                                     href="javascript:void(0)">{{ $dealItem->calories }}</a></li>
                                         </ul>
                                         <div class="price">
-                                            {{ $dealItem->offer ? $dealItem->offer->offer_price : '' }}
                                             <h4>@lang('home.Price'): <span class="">
                                                     @if ($dealItem->offer)
                                                         <del class="text-danger">{{ $dealItem->price }}</del>

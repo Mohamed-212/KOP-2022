@@ -1,7 +1,7 @@
 @extends('layouts.website.app')
 
 @section('title')
-    {{__('general.Blog')}}
+    {{isset($health) ? __('general.Health Information') : __('general.Blog')}}
 @endsection
 
 @section('styles')

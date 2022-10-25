@@ -58,6 +58,7 @@ class NewsController extends Controller
             ->select([DB::raw("DATE_FORMAT(updated_at, '%m-%Y') new_date"),  DB::raw('YEAR(updated_at) year, MONTH(updated_at) month')])
             ->groupBy('year', 'month')
             ->orderBy('updated_at')
+            ->whereNull('deleted_at')
             ->get();
         $latest = News::latest()->limit(4)->get();
 
