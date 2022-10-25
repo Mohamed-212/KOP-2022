@@ -67,7 +67,7 @@
                 <div class="row product-items">
                     @foreach ($menu['categories'] as $index => $category)
                         @foreach ($category->items as $dealItem)
-                            <div onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';"
+                            <div
                                 style="cursor: pointer;"
                                 class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category->id }}">
                                 <div class="product-item">
@@ -87,16 +87,22 @@
                                             <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
                                             <input type='hidden' name='quantity' value="1" />
 
-                                            <div><button type="submit"
-                                                    @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
-                                                    @if (isset($cartHasOffers) && $cartHasOffers && session()->has('branch_id')) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
+                                            <div><button
+                                                    @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
+                                                    @elseif (isset($cartHasOffers) && $cartHasOffers)
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#offersMultibleInOneOrder"
                                                     type="button"
                                                     @else
-                                                    type="submit" @endif
+                                                    type="submit"
+                                                    @endif 
+                                                    @else
+                                                    type="submit"
+                                                    @endauth
                                                     class="order-btn cart">@lang('general.Order Now')</button></div>
                                         </form>
                                     </div>
-                                    <div class="food-info">
+                                    <div class="food-info" onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
                                         <ul class="ratting">
                                             <li>{{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
                                             </li>

@@ -671,7 +671,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
 .food-menu{ position: relative; }
 .product-item {
     background-color: #fff;
-    padding: 25px 20px 20px;
+    padding: 70px 20px 20px;
     position: relative;
     min-height: 455px;
     max-height: 455px;
@@ -734,7 +734,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     font-size: 18px;
     line-height: 22px;
 }
-.food-info{padding-top: 20px;}
+/* .food-info{padding-top: 20px;} */
 .product-item .ratting{}
 .product-item .ratting li{
     display: inline-flex;
@@ -1235,7 +1235,7 @@ a,a:hover, img, .form-control,  .form-control:hover, button{
     position: relative;
 }
 .content-img-holder > img{
-    transform: scale(1.3) translateY(50px);
+    transform: rotate(180deg) scale(1.3) translateX(-2px) translateY(-50px) rotateX(180deg);
 }
 .content-img-holder .sale{
     background-image: url(../img/sale-shape.png);

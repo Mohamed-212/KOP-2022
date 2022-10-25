@@ -48,7 +48,7 @@
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="offer_id" value="{{$offers['buy_get']['offer_id']}}">
                                     <div class="row">
-                                        @if($offers['details']['buy_items']->count() > 0)
+                                        @if(count($offers['details']['buy_items']) > 0)
                                             <div class="col-sm-11 m-auto">
                                                 <h3 class="mb-4 mt-3 col-md-12">{{__('general.Buy')}} <small class="h6 text-black-50">  {{$offers['buy_get']['buy_quantity']}}</small></h3>
                                                    <div class="row">
@@ -60,7 +60,7 @@
                                                                 <div class="gold-members p-3 border-bottom">
                                                                     <div class="media d-flex">
                                                                         <div class="mr-3 col-3" style="height: 150px;width: 150px;">
-                                                                            <img class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem->image)}}" alt="">
+                                                                            <img class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem['image'])}}" alt="">
                                                                         </div>
                                                                         <div class="media-body" style="margin-left: 2%;">
                                                                             <h4 class="m-0" style="font-size: 20px;line-height: 1.8;">{{(app()->getLocale() == 'ar')? $buyItem['name_ar'] : $buyItem['name_en'] }}</h4>

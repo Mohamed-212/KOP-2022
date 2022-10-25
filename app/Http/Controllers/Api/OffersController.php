@@ -76,8 +76,9 @@ class OffersController extends BaseController
 
             $get_items = $offer->buyGet->getItems;
 
+          
             // $details = $offer->buyGet;
-            $details['buy_items'] = $buy_items;
+            $details['buy_items'] =[];
             $details['get_items'] = [];
 
             $details['buy_category'] = $offer->buyGet->buyCategory;
@@ -87,6 +88,7 @@ class OffersController extends BaseController
 
             $result['details'] = $details;
             foreach ($get_items as $item) {
+            
                 $item = $item->toArray();
                 if ($offer->buyGet->offer_price) {
                     $disccountValue = $item['price'] * $offer->buyGet->offer_price / 100;
@@ -96,7 +98,15 @@ class OffersController extends BaseController
                     $item['offer_price'] = -$item['price'];
                     // dd($item);
                 }
+                $item['pivot']['quantity']=0;
                 $result['details']['get_items'][] = $item;
+            }
+            
+            foreach ($buy_items as $item) {
+            
+                $item = $item->toArray();
+                $item['pivot']['quantity']=0;
+                $result['details']['buy_items'][] = $item;
             }
 
             // dd($result);

@@ -17,7 +17,21 @@ class CartController extends Controller
 {
 
     public function addCart(Request $request)
-    { 
+    {
+
+        // check if cart has items with offers
+        $cartHasOffers = false;
+        $cart = collect();
+        if (auth()->check()) {
+            $cart = auth()->user()->carts;
+            foreach ($cart as $item) {
+                if ($item->offer_id) {
+                    $cartHasOffers = true;
+                    break;
+                }
+            }
+        }
+
         if ($request->has('add_items')) {
             //  dd(json_decode($request->add_items));
             $items =(is_array($request->add_items))? $request->add_items : json_decode($request->add_items);
@@ -63,6 +77,9 @@ class CartController extends Controller
                 //     'offer_id' =>  $request->offer_id,
                 //     'offer_price' =>  $request->offer_price,
                 // ]);
+
+                if ($request->offer_id && $cartHasOffers) continue; 
+                    
                 $cart = Cart::create([
                     'user_id' =>  Auth::user()->id,
                     'item_id' =>  $request->item_id,
@@ -89,6 +106,7 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => $request->offer_price[$index]]);
                 $newRequest->merge(['quantity' => $request->quantity]);
+                if ($newRequest->offer_id && $cartHasOffers) continue; 
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }
             foreach ($request->get_items as $get_item) {
@@ -97,6 +115,7 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => 0]);
                 $newRequest->merge(['quantity' => $request->quantity]);
+                if ($newRequest->offer_id && $cartHasOffers) continue; 
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }
             return redirect()->route('menu.page');
@@ -127,7 +146,10 @@ class CartController extends Controller
             }
         }
 
-        $return = (app(\App\Http\Controllers\Api\CartController::class)->addCart($request))->getOriginalContent();
+        if ($request->offer_id && !$cartHasOffers) {
+            $return = (app(\App\Http\Controllers\Api\CartController::class)->addCart($request))->getOriginalContent();
+        }; 
+        
         return redirect()->route('menu.page');
     }
 

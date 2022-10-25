@@ -57,17 +57,17 @@
 
         .about-section .content-img-holder {
             /* position: absolute !important;
-                    top: 0 !important;
-                    /* padding-top: 13% !important;
-                    margin-left: 5% !important; */
+                        top: 0 !important;
+                        /* padding-top: 13% !important;
+                        margin-left: 5% !important; */
 
         }
 
         .about-info {
             /* margin-left: 58% !important;
-                    position: absolute !important;
-                    top: 0 !important;
-                    padding-top: 9% !important;*/
+                        position: absolute !important;
+                        top: 0 !important;
+                        padding-top: 9% !important;*/
         }
     </style>
 @endsection
@@ -80,13 +80,13 @@
 
     @section('content')
         <!-- <div id="popup-search-box">
-                            <div class="box-inner-wrap d-flex align-items-center">
-                                <form id="form" action="#" method="get" role="search">
-                                    <input id="popup-search" type="text" name="s" placeholder="Type keywords here..." />
-                                    <button id="popup-search-button" type="submit" name="submit"><i class="las la-search"></i></button>
-                                </form>
-                            </div>
-                        </div>/#popup-search-box -->
+                                <div class="box-inner-wrap d-flex align-items-center">
+                                    <form id="form" action="#" method="get" role="search">
+                                        <input id="popup-search" type="text" name="s" placeholder="Type keywords here..." />
+                                        <button id="popup-search-button" type="submit" name="submit"><i class="las la-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>/#popup-search-box -->
 
         <div id="main-slider" class="main-slider">
             <div class="single-slide {{ app()->getLocale() === 'ar' ? 'right' : '' }}" dir="ltr">
@@ -235,6 +235,13 @@
                                     <div data-animation="fade-in-bottom" data-delay="2s">{!! __('home.slider2_descriptiopn') !!}</div>
                                 </div>
                             </div>
+
+                            <div class="slider-caption small">
+                                <div class="inner-layer">
+                                    <div data-animation="fade-in-bottom" data-delay="2s">{!! __('home.slider3_descriptiopn') !!}</div>
+                                </div>
+                            </div>
+
                             <div class="slider-btn-group justify-content-left">
                                 <div class="inner-layer">
                                     <a href="{{ route('menu.page') }}" class="slider-btn"
@@ -376,8 +383,7 @@
                 <div class="row product-items">
                     @foreach ($menu['dealItems'] as $dealItem)
                         @if ($c == $dealItem->category_id)
-                            <div onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';"
-                                style="cursor: pointer;"
+                            <div style="cursor: pointer;"
                                 class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}">
                             @else
                                 <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}"
@@ -401,19 +407,21 @@
                                     <input type='hidden' name='quantity' value="1" />
 
                                     <div><button
-                                            @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif 
-                                            @if (isset($cartHasOffers) && $cartHasOffers && session()->has('branch_id')) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
-                                                    type="button"
-                                                    @else
-                                            type="submit"
-                                            @endif
-                                            @else
-                                            type="button"
-                                            @endauth
+                                            @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
+                                        @elseif (isset($cartHasOffers) && $cartHasOffers)
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#offersMultibleInOneOrder"
+                                        type="button"
+                                        @else
+                                        type="submit"
+                                        @endif 
+                                        @else
+                                        type="submit" @endauth
                                             class="order-btn cart">@lang('general.Order Now')</button></div>
                                 </form>
                             </div>
-                            <div class="food-info">
+                            <div class="food-info"
+                                @if ($c == $dealItem->category_id) onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';" @endif>
                                 <ul class="ratting">
                                     <li>{{ $dealItem['category_name_' . app()->getLocale()] }}</li>
 
@@ -424,16 +432,18 @@
                                         <li>{{ __('general.calories') }}:<a
                                                 href="javascript:void(0)">{{ $dealItem->calories }}</a></li>
                                     </ul>
-                                    <h4>@lang('home.Price'): 
+                                    <h4>@lang('home.Price'):
                                         <span>
-                                        @if ($dealItem->offer)
-                                                        <del class="text-danger">{{ $dealItem->price }}</del>
+                                            @if ($dealItem->offer)
+                                                <del class="text-danger">{{ $dealItem->price }}</del>
                                                 {{ $dealItem->offer->offer_price }}
                                             @else
-                                                {{ $dealItem->price }} @endif
-                                            @lang('general.SR') </span>
-                                            </h4>
-                                    </div>
+                                                {{ $dealItem->price }}
+                                            @endif
+                                            @lang('general.SR')
+                                        </span>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
                 </div>

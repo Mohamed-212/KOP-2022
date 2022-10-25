@@ -59,7 +59,7 @@
                     <div class="section-heading mb-30">
                         <h4> {{ __('general.offers_title') }}</h4>
                         <h2>{!! __('general.ourPopularDishes') !!}</h2>
-                        <p>{!! __('general.offer_description') !!}</p>
+                        <!-- <p>{!! __('general.offer_description') !!}</p> -->
                     </div>
                     <div>
                         <p>{{ __('general.Eat Delicious & Tasty Fast-Foods With Real Flavours') }}</p>

@@ -678,7 +678,7 @@ max-height: 600px;
 .food-menu{ position: relative; }
 .product-item {
     background-color: #fff;
-    padding: 25px 20px 20px;
+    padding: 70px 20px 20px;
     position: relative;
     min-height: 455px;
     max-height: 455px;
@@ -745,7 +745,7 @@ max-height: 600px;
     font-size: 18px;
     line-height: 22px;
 }
-.food-info{padding-top: 20px;}
+/* .food-info{padding-top: 20px;} */
 .product-item .ratting{}
 .product-item .ratting li{
     display: inline-flex;
