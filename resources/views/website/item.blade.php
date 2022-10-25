@@ -16,11 +16,11 @@
 @section('styles')
     <style>
         .accordion-button:after {
-content: "\f067" !important;
-}
-.accordion-button:not(.collapsed):after {
-content: "\f068" !important;
-}
+            content: "\f067" !important;
+        }
+        .accordion-button:not(.collapsed):after {
+            content: "\f068" !important;
+        }
         .text-danger {
             color: #f32129;
         }
@@ -319,11 +319,7 @@ content: "\f068" !important;
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
                                         <div> <button
                                                 @auth
-                                                @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
-                                                @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
-                                                type="button"
-                                                    @else
-                                                    type="submit" @endif
+@if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
                                                 class="purchase-btn cart"
                                                 type="submit">{{ __('home.Add to Cart') }}</button></div>
                                     </div>
@@ -343,15 +339,13 @@ content: "\f068" !important;
                                             </li> --}}
                                             <li>
                                                 <a href="http://www.facebook.com/share.php?u={{ route('item.page', [$item->category_id, $item->id]) }}"
-                                                    class="fb mx-1" title="Join us on Facebook"
-                                                    style="background-color: #3B5998 !important;">
+                                                    class="fb mx-1" title="Join us on Facebook" style="background-color: #3B5998 !important;">
                                                     <i class="fab fa-facebook-f" aria-hidden="true"></i>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="https://twitter.com/intent/tweet?text={{ route('item.page', [$item->category_id, $item->id]) }}"
-                                                    class="tw mx-1" title="Join us on Twitter"
-                                                    style="background-color: #1da1f2 !important;">
+                                                    class="tw mx-1" title="Join us on Twitter" style="background-color: #1da1f2 !important;">
                                                     <i class="fab fa-twitter" aria-hidden="true"></i>
                                                 </a>
                                             </li>
