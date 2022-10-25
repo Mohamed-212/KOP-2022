@@ -151,6 +151,25 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="offersMultibleInOneOrder" tabindex="-1" aria-labelledby="offersMultibleInOneOrderLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="offersMultibleInOneOrderLabel">{{ __('general.warning') }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger text-center">
+                            {{ __('general.no_multible_offers') }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endauth
 
 @include('layouts.website.script')
