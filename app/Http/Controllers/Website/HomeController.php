@@ -82,11 +82,7 @@ class HomeController extends Controller
         // }
         $menu['offers'] = $offers;
         $menu['main_offer']=Offer::with('buyGet','discount')->filter($filters)->where('main',true)->get();
-
-        // $catData = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories($request))->getOriginalContent();
-
         $dealItems = Category::with('items')->get();
-        // $dealItems = $catData['data'];
         $menu['dealItems']=[];
         foreach($menu['categories'] as $category)
         {
@@ -97,63 +93,16 @@ class HomeController extends Controller
                 {break;}
                 $item->category_name_ar= $category->name_ar;
                 $item->category_name_en= $category->name_en;
-
-                // get items offers
-                $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
-
-                $parent_offer = null;
-                foreach ($offers as $offer) {
-                    $parent_offer = OfferDiscount::find($offer->offer_id);
-
-
-                    if ($parent_offer)  break;
-                }
-
-                if ($parent_offer) {
-
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                        $parent_offer = null;
-                    }
-                }
-
-
-                $item->offer = $parent_offer;
-
-                if ($parent_offer) {
-                    if ($parent_offer->discount_type == 1) {
-                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
-                        $item->offer->offer_price = $item->price - $disccountValue;
-                    } elseif ($parent_offer->discount_type == 2) {
-                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
-                    }
-
-                    unset($item->offer->offer);
-                }
-
                 array_push($menu['dealItems'] , $item);
                 $count++;
             }
             $count=0;
         }
-
-        // check if cart has items with offers
-        $cartHasOffers = false;
-        $cart = collect();
-        if (auth()->check()) {
-            $cart = auth()->user()->carts;
-            foreach ($cart as $item) {
-                if ($item->offer_id) {
-                    $cartHasOffers = true;
-                    break;
-                }
-            }
-        }
-
     //    return  $menu['dealItems'] ;
         $menu['recommended']=Item::where('recommended', true)->get();
         $menu['homeitem']=HomeItem::all();
          $menu['anoucement']=Anoucement::all();
-        return view('website.index',compact('menu', 'cartHasOffers'));
+        return view('website.index',compact(['menu']));
     } 
 }
 
