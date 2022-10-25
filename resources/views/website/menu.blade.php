@@ -77,18 +77,22 @@
                                             style="height: 300px;width:300px;border-radius: 100%;" />
                                         <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                             @csrf
-                                            <input type="hidden" name="offer_id" value="">
-                                            <input type="hidden" name="offer_price" value="">
+                                            @if ($dealItem->offer)
+                                                <input type="hidden" name="offer_id"
+                                                    value="{{ $dealItem->offer ? $dealItem->offer->offer_id : '' }}">
+                                                <input type="hidden" name="offer_price"
+                                                    value="{{ $dealItem->offer ? round($dealItem->offer->offer_price, 2) : '' }}">
+                                            @endif
                                             <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
                                             <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
                                             <input type='hidden' name='quantity' value="1" />
 
                                             <div><button type="submit"
                                                     @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
-                                                    @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
-                                                    href="#"
+                                                    @if (isset($cartHasOffers) && $cartHasOffers && session()->has('branch_id')) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
+                                                    type="button"
                                                     @else
-                                                    href="{{ route('add.cart') }}" @endif
+                                                    type="submit" @endif
                                                     class="order-btn cart">@lang('general.Order Now')</button></div>
                                         </form>
                                     </div>
@@ -142,7 +146,7 @@
                     },
                     success: function(data) {
                         if (data.success === true) {
-                            console.log(data.data);
+                            // console.log(data.data);
                             $('.items').html('');
                             $.each(data.data, function(index, item) {
                                 if (!item.is_hidden) {

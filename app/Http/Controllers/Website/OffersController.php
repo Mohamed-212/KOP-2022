@@ -57,7 +57,7 @@ class OffersController extends Controller
         // check if cart has items with offers
         $cartHasOffers = false;
         $cart = collect();
-        if (Auth::check()) {
+        if (auth()->check()) {
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 if ($item->offer_id) {
