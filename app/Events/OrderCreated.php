@@ -44,6 +44,6 @@ class OrderCreated implements ShouldBroadcast
     }
     public function broadcastWith()
     {
-        return ['neworder'=>$this->order,'id'=>$this->$cashier_id];
+        return ['neworder'=>$this->order,'id'=>$this->cashier_id];
     }
 }
