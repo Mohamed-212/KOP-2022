@@ -368,9 +368,7 @@
                                                 value="{{ round($order['total'] < $order['subtotal'], 2) }}" />
                                         </li>
                                     @endif
-                                    @if (!isset($reorder) && $firstOrder->id == $order->id && in_array($firstOrder->state, [
-                                        'pending', 'in-progress', 'completed',
-                                    ]))
+                                    @if ($firstOrder->id == $order->id)
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
                                             : </b> <span style="font-size: smaller;" id="total">- {{ $order['total'] }}
                                             {{ __('general.SR') }}</span>
@@ -469,7 +467,7 @@
                                 return;
                             }
 
-                            $('#checkout-form').attr('action', "{{route('checkout')}}");
+                            $('#checkout-form').attr('action', "{{route('add.cart')}}");
                             $('#checkout-form').submit();
 
                             // window.location.href = "{{ route('get.cart') }}";

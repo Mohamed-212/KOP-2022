@@ -213,12 +213,10 @@ class OrdersController extends Controller
 
         $user = User::find($order->customer_id);
 
-        $firstOrder = $user->orders()->first();
+        $firstOrder = $user->orders()->whereIn('state', ['pending', 'in-progress', 'completed'])->first();
 
         if ($reorder) {
-            if ($firstOrder->id == $order->id) {
-                $order->total = round($order->total * 2, 2);
-            }
+            // $order->total = 0;
         }
 
         $branch = $work_hours = null;
@@ -456,7 +454,8 @@ class OrdersController extends Controller
         }
 
         // apply 50% discount if this is first order
-        $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+        $firstDiscount = auth()->user()->hasNoOrders();
+        $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
 
         $orderData = [

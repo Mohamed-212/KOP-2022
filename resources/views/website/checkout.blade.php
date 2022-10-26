@@ -255,7 +255,7 @@
 
                                 @if ($firstDiscount)
                                     <li><span>{{ __('general.first_discount') }} :</span>-
-                                        {{ round($request->total / 2, 2) }}
+                                        {{ round($request->total, 2) }}
                                         {{ __('general.SR') }}</li>
                                 @endif
 
@@ -264,7 +264,7 @@
                                             {{ round($request->points_paid, 2) }} {{ __('general.SR') }}</span></li>
                                 @endif
                                 <li><span>{{ __('general.Total') }}
-                                        :</span>{{ $firstDiscount ? round($request->total / 2, 2) : round($request->total, 2) }}
+                                        :</span>{{ $firstDiscount ? round($request->total, 2) : round($request->total, 2) }}
                                     {{ __('general.SR') }}
                                 </li>
 
