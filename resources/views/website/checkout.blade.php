@@ -120,11 +120,11 @@
                                 </div>
                             @endif
                             <!-- <div class="additional-info mb-30">
-                                                        <h2>Additional Information</h2>
-                                                        <div class="form-field">
-                                                            <textarea id="message" name="message" cols="30" rows="3" class="form-control" placeholder="Order Note"></textarea>
-                                                        </div>
-                                                    </div> -->
+                                                                    <h2>Additional Information</h2>
+                                                                    <div class="form-field">
+                                                                        <textarea id="message" name="message" cols="30" rows="3" class="form-control" placeholder="Order Note"></textarea>
+                                                                    </div>
+                                                                </div> -->
                             <div class="payment-method d-flex w-100 justi align-content-center flex-row">
                                 @if (isset($payment) && $payment)
                                     <div class="row">
@@ -253,11 +253,18 @@
                                 <li><span>{{ __('general.discount') }} :</span>- {{ round($request->discount, 2) }}
                                     {{ __('general.SR') }}</li>
 
+                                @if ($firstDiscount)
+                                    <li><span>{{ __('general.first_discount') }} :</span>-
+                                        {{ round($request->total / 2, 2) }}
+                                        {{ __('general.SR') }}</li>
+                                @endif
+
                                 @if ($request->has('points_paid'))
                                     <li><span>{{ __('general.Loyality Points') }} :</span> <span>-
                                             {{ round($request->points_paid, 2) }} {{ __('general.SR') }}</span></li>
                                 @endif
-                                <li><span>{{ __('general.Total') }} :</span>{{ round($request->total, 2) }}
+                                <li><span>{{ __('general.Total') }}
+                                        :</span>{{ $firstDiscount ? round($request->total / 2, 2) : round($request->total, 2) }}
                                     {{ __('general.SR') }}
                                 </li>
 

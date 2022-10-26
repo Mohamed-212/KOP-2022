@@ -11,10 +11,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Payment;
+use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+
+    use GeneralTrait;
 
     public function addCart(Request $request)
     {
@@ -34,16 +37,16 @@ class CartController extends Controller
 
         if ($request->has('add_items')) {
             //  dd(json_decode($request->add_items));
-            $items =(is_array($request->add_items))? $request->add_items : json_decode($request->add_items);
+            $items = (is_array($request->add_items)) ? $request->add_items : json_decode($request->add_items);
             foreach ($items as $index => $item) {
-                if(is_string($item)){
-                    $item=json_decode($item,true);
+                if (is_string($item)) {
+                    $item = json_decode($item, true);
                 }
-                $newRequest = new Request(); 
+                $newRequest = new Request();
                 $newRequest->merge(['item_id' => $request->item_id]);
                 $newRequest->merge(['offer_id' => $request->offer_id ? $request->offer_id : null]);
                 $newRequest->merge(['offer_price' => $request->offer_price ? $request->offer_price : null]);
-                $newRequest->merge(['quantity' => (isset($item->quantity))?$item->quantity:1]);
+                $newRequest->merge(['quantity' => (isset($item->quantity)) ? $item->quantity : 1]);
 
                 if (isset($item->dough)) {
                     $dough = explode(',', $item->dough);
@@ -78,18 +81,18 @@ class CartController extends Controller
                 //     'offer_price' =>  $request->offer_price,
                 // ]);
 
-                if ($request->offer_id && $cartHasOffers) continue; 
-                    
+                if ($request->offer_id && $cartHasOffers) continue;
+
                 $cart = Cart::create([
                     'user_id' =>  Auth::user()->id,
                     'item_id' =>  $request->item_id,
-                    'extras' =>  (isset($item->extras))?json_encode($item->extras):null,
-                    'withouts' =>  (isset($item->withouts))?json_encode($item->withouts):null,
+                    'extras' => (isset($item->extras)) ? json_encode($item->extras) : null,
+                    'withouts' => (isset($item->withouts)) ? json_encode($item->withouts) : null,
                     'dough_type_ar' =>  $request->has('dough_type_ar') ? $request->dough_type_ar : null,
                     'dough_type_en' =>  $request->has('dough_type_en') ? $request->dough_type_en : null,
                     'dough_type_2_ar' =>  $request->has('dough_type_2_ar') ? $request->dough_type_2_ar : null,
                     'dough_type_2_en' =>  $request->has('dough_type_2_en') ? $request->dough_type_2_en : null,
-                    'quantity' =>  (isset($item->quantity))?$item->quantity:"1",
+                    'quantity' => (isset($item->quantity)) ? $item->quantity : "1",
                     'offer_id' =>  $request->offer_id,
                     'offer_price' =>  $request->offer_price,
                 ]);
@@ -106,7 +109,7 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => $request->offer_price[$index]]);
                 $newRequest->merge(['quantity' => $request->quantity]);
-                if ($newRequest->offer_id && $cartHasOffers) continue; 
+                if ($newRequest->offer_id && $cartHasOffers) continue;
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }
             foreach ($request->get_items as $get_item) {
@@ -115,7 +118,7 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => 0]);
                 $newRequest->merge(['quantity' => $request->quantity]);
-                if ($newRequest->offer_id && $cartHasOffers) continue; 
+                if ($newRequest->offer_id && $cartHasOffers) continue;
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }
             return redirect()->route('menu.page');
@@ -148,8 +151,8 @@ class CartController extends Controller
 
         if ($request->offer_id && !$cartHasOffers) {
             $return = (app(\App\Http\Controllers\Api\CartController::class)->addCart($request))->getOriginalContent();
-        }; 
-        
+        };
+
         return redirect()->route('menu.page');
     }
 
@@ -161,13 +164,14 @@ class CartController extends Controller
 
         if ($return['success'] == 'success') {
             $carts = $return['data'];
-             $arr_check = $this->get_check();
+            $arr_check = $this->get_check();
+
+            $firstDiscount = $firstDiscount = auth()->user()->hasNoOrders();
 
             if (session()->has('point_claim_value')) {
-
-                return view('website.cart', compact(['carts', 'arr_check']));
+                return view('website.cart', compact(['carts', 'arr_check', 'firstDiscount']));
             } else {
-                return view('website.cart', compact(['carts', 'arr_check']));
+                return view('website.cart', compact(['carts', 'arr_check', 'firstDiscount']));
             }
         }
     }
@@ -206,7 +210,7 @@ class CartController extends Controller
     {
         $return = (app(\App\Http\Controllers\Api\CartController::class)->getCart())->getOriginalContent();
         $arr_data = [];
-        $extras_price=0;
+        $extras_price = 0;
         if ($return['success'] == 'success') {
             $carts = $return['data'];
             $final_item_price = 0;
@@ -222,10 +226,11 @@ class CartController extends Controller
                 $final_item_price_without_offer += ($cart->item->price * $quantity);
 
                 if ($cart->ExtrasObjects) {
-                    foreach($cart->ExtrasObjects as $ExtrasObjects)
-                   { $extras_price += $ExtrasObjects->price * $quantity;
-                    $final_item_price += $extras_price;
-                    $final_item_price_without_offer += $extras_price;}
+                    foreach ($cart->ExtrasObjects as $ExtrasObjects) {
+                        $extras_price += $ExtrasObjects->price * $quantity;
+                        $final_item_price += $extras_price;
+                        $final_item_price_without_offer += $extras_price;
+                    }
                 }
             }
 
@@ -281,7 +286,7 @@ class CartController extends Controller
 
             if (null === $payment->status) {
                 Payment::where('payment_id', $payment->payment_id)->delete();
-                
+
                 session()->forget('payment');
                 // abort(404);
             } else {
@@ -292,6 +297,8 @@ class CartController extends Controller
         if ($request['total'] <= 0 && isset($request['points_paid']) && $request['points_paid'] > 0) {
             return back()->with('loyality_not_used', __('general.loyality_not_used'));
         }
+
+        $firstDiscount = auth()->user()->hasNoOrders();
 
         $service_type = session()->get('service_type');
         if ($service_type == 'delivery') {
@@ -325,10 +332,10 @@ class CartController extends Controller
 
         if (isset($address_id)) {
             $address = Address::find($address_id);
-            return view('website.checkout', compact('request', 'address', 'work_hours'));
+            return view('website.checkout', compact('request', 'address', 'work_hours', 'firstDiscount'));
         }
 
-        return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment'));
+        return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
     }
 
     public function get_delivery_fees($area_id)

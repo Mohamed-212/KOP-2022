@@ -307,10 +307,17 @@
                                     </li>
                                 @endif
 
+                                @if ($firstDiscount)
+                                <li>
+                                    <b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
+                                        : </b> <span style="font-size: smaller;">50%</span>
+                                </li>
+                                @endif
+
                                 <li><b class="inset-right-5 text-gray-light">{{ __('general.Total') }}
-                                        : </b> <span style="font-size: smaller;" id="total">{{ $arr_check['total'] }}
+                                        : </b> <span style="font-size: smaller;" id="total">{{ $firstDiscount ? round($arr_check['total'] /2, 2) : $arr_check['total'] }}
                                         {{ __('general.SR') }}</span>
-                                    <input id="totalinput" hidden name="total" value="{{ $arr_check['total'] }}" />
+                                    <input id="totalinput" hidden name="total" value="{{ $firstDiscount ? round($arr_check['total'] /2, 2) : $arr_check['total'] }}" />
                                 </li>
 
                                 <li>
@@ -452,8 +459,13 @@
                             $('#taxesinput').val(data.subtotal_without_offer - (data
                                 .subtotal_without_offer / 1.15));
 
+                            @if($firstDiscount)
+                            $('#total').text((data.total/2).toFixed(2) + ' {{ __('general.SR') }}');
+                            $('#totalinput').val(data.total/2);
+                            @else
                             $('#total').text((data.total).toFixed(2) + ' {{ __('general.SR') }}');
                             $('#totalinput').val(data.total);
+                            @endif
                             
                             $('#to-earn').text(Math.round(data.total));
 
@@ -562,8 +574,15 @@
                             $('#taxesinput').val(data.subtotal_without_offer - (data
                                 .subtotal_without_offer / 1.15));
 
+                            @if($firstDiscount)
+                            $('#total').text((data.total/2).toFixed(2) + ' {{ __('general.SR') }}');
+                            $('#totalinput').val(data.total/2);
+                            @else
                             $('#total').text((data.total).toFixed(2) + ' {{ __('general.SR') }}');
                             $('#totalinput').val(data.total);
+                            @endif
+                            // $('#total').text((data.total).toFixed(2) + ' {{ __('general.SR') }}');
+                            // $('#totalinput').val(data.total);
 
                             $('#to-earn').text(Math.round(data.total));
 

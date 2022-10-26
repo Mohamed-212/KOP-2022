@@ -368,6 +368,14 @@
                                                 value="{{ round($order['total'] < $order['subtotal'], 2) }}" />
                                         </li>
                                     @endif
+                                    @if (!isset($reorder) && $firstOrder->id == $order->id && in_array($firstOrder->state, [
+                                        'pending', 'in-progress', 'completed',
+                                    ]))
+                                        <li><b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
+                                            : </b> <span style="font-size: smaller;" id="total">- {{ $order['total'] }}
+                                            {{ __('general.SR') }}</span>
+                                    </li>
+                                    @endif
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.Total') }}
                                             : </b> <span style="font-size: smaller;" id="total">{{ $order['total'] }}
                                             {{ __('general.SR') }}</span>

@@ -454,5 +454,6 @@ return [
 'insta' => 'إنستجرام',
 'share' => 'مشاركة',
 'only' => 'فقط',
-'no_multible_offers' => 'عذراً يمكنك إستخدام عرض واحد فقط'
+'no_multible_offers' => 'عذراً يمكنك إستخدام عرض واحد فقط',
+'first_discount' => 'First Offer Discount',
 ];

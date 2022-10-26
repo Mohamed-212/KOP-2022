@@ -434,4 +434,5 @@ return [
     'share' => 'Share',
     'only' => 'only',
     'no_multible_offers' => 'Sorry you can Add Only One Offer',
+    'first_discount' => 'First Offer Discount',
 ];

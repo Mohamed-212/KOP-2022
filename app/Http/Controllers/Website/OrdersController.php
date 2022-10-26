@@ -215,10 +215,10 @@ class OrdersController extends Controller
 
         $firstOrder = $user->orders()->first();
 
-        if (!$user->first_offer_available && $firstOrder->id == $order->id && in_array($firstOrder->state, [
-            'pending', 'in-progress', 'completed',
-        ])) {
-            $order->total = round($order->total * 2, 2);
+        if ($reorder) {
+            if ($firstOrder->id == $order->id) {
+                $order->total = round($order->total * 2, 2);
+            }
         }
 
         $branch = $work_hours = null;
@@ -253,9 +253,9 @@ class OrdersController extends Controller
             }
         });
         if ($reorder != null) {
-            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'reorder', 'payment'));
+            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'reorder', 'payment', 'firstOrder'));
         } else {
-            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'payment'));
+            return view('website.order_details', compact('branch', 'work_hours', 'address', 'user', 'items', 'order', 'payment', 'firstOrder'));
         }
     }
 
