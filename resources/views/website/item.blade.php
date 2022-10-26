@@ -320,7 +320,7 @@ content: "\f068" !important;
                                         <div> <button
                                                 @auth
                                                 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
-                                                @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
+                                                @if (isset($cartHasOffers) && $cartHasOffers && $item->offer) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
                                                 type="button"
                                                     @else
                                                     type="submit" @endif

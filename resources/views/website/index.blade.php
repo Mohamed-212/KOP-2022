@@ -408,7 +408,7 @@
 
                                     <div><button
                                             @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
-                                        @elseif (isset($cartHasOffers) && $cartHasOffers)
+                                        @elseif (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
                                         data-bs-toggle="modal"
                                         data-bs-target="#offersMultibleInOneOrder"
                                         type="button"
