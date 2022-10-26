@@ -153,6 +153,10 @@ class CartController extends Controller
             $return = (app(\App\Http\Controllers\Api\CartController::class)->addCart($request))->getOriginalContent();
         };
 
+        if (isset($request->reorder_me)) {
+            return redirect()->route('get.cart');
+        }
+
         return redirect()->route('menu.page');
     }
 

@@ -242,7 +242,8 @@
                                 <div class='row my-3'>
                                     <div class="card-header">
                                         <h5 class='card-title'>
-                                            {{ __('general.payment_type') }}:&nbsp;&nbsp;<b class="uppercase">{{ $order->payment_type }}</b>
+                                            {{ __('general.payment_type') }}:&nbsp;&nbsp;<b
+                                                class="uppercase">{{ $order->payment_type }}</b>
                                         </h5>
                                     </div>
                                     <div class="card-body">
@@ -252,7 +253,7 @@
                                             </h6>
                                             <div class="row mb-3">
                                                 <label for="paymentID" class="col-sm-2 col-form-label">
-                                                    {{__('general.ID')}}
+                                                    {{ __('general.ID') }}
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="paymentID"
@@ -261,29 +262,32 @@
                                             </div>
                                             <div class="row mb-3">
                                                 <label for="paymentStatus" class="col-sm-2 col-form-label">
-                                                    {{__('general.status')}}
+                                                    {{ __('general.status') }}
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="paymentStatus"
-                                                        value="{{ __('general.' . str_replace(" (Test Environment)", "", $payment->status)) }}" readonly>
+                                                        value="{{ __('general.' . str_replace(' (Test Environment)', '', $payment->status)) }}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label for="paymentmessage" class="col-sm-2 col-form-label">
-                                                    {{__('general.message')}}
+                                                    {{ __('general.message') }}
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="paymentmessage"
-                                                        value="{{ __('general.' . str_replace(" (Test Environment)", "", $payment->message)) }}" readonly>
+                                                        value="{{ __('general.' . str_replace(' (Test Environment)', '', $payment->message)) }}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label for="paymentmessage" class="col-sm-2 col-form-label">
-                                                    {{__('general.date_time')}}
+                                                    {{ __('general.date_time') }}
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="paymentmessage"
-                                                        value="{{$payment->updated_at->translatedFormat('d M Y H:i:sa')}}" readonly>
+                                                        value="{{ $payment->updated_at->translatedFormat('d M Y H:i:sa') }}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                         @endif
@@ -329,6 +333,9 @@
                                     </div>
                                 </div>
                                 <ul class="cart-total mt-30">
+                                    @isset($reorder)
+                                        <input type="hidden" hidden name="reorder_me" value="1" />
+                                    @endisset
                                     <li>
                                         {{ __('general.Sub Total') }}: </b> <span
                                             id="subtotal"style="font-size: smaller;">{{ $order['subtotal'] }}
@@ -370,9 +377,10 @@
                                     @endif
                                     @if ($firstOrder->id == $order->id)
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
-                                            : </b> <span style="font-size: smaller;" id="total">- {{ $order['total'] }}
-                                            {{ __('general.SR') }}</span>
-                                    </li>
+                                                : </b> <span style="font-size: smaller;" id="total">-
+                                                {{ $order['total'] }}
+                                                {{ __('general.SR') }}</span>
+                                        </li>
                                     @endif
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.Total') }}
                                             : </b> <span style="font-size: smaller;" id="total">{{ $order['total'] }}
@@ -467,7 +475,7 @@
                                 return;
                             }
 
-                            $('#checkout-form').attr('action', "{{route('add.cart')}}");
+                            $('#checkout-form').attr('action', "{{ route('add.cart') }}");
                             $('#checkout-form').submit();
 
                             // window.location.href = "{{ route('get.cart') }}";
