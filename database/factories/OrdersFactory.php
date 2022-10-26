@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Order::class, function (Faker $faker) {
 
-    $statesArray = ['pending', 'rejected', 'in-progress', 'completed', 'canceld'];
+    $statesArray = ['pending', 'rejected', 'in-progress', 'completed', 'canceld']; // canceled
     $serviceTypesArray = ['takeaway', 'delivery'];
 
     return [

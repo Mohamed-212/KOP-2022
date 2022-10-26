@@ -200,7 +200,7 @@ class OrdersController extends Controller
         $pending_orders = auth()->user()->orders()->where('state', 'pending')->paginate(5, ['*'], 'pending');
         $completed_orders = auth()->user()->orders()->where('state', 'completed')->paginate(5, ['*'], 'completed');
         //$inprogress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(10);
-        $canceled_orders = auth()->user()->orders()->where('state', 'canceled')->paginate(5, ['*'], 'canceled');
+        $canceled_orders = auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->paginate(5, ['*'], 'canceled');
         //$on_way = auth()->user()->orders()->where('state', 'on-way')->paginate(10);
 
         return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders'));
@@ -213,7 +213,11 @@ class OrdersController extends Controller
 
         $user = User::find($order->customer_id);
 
-        if (!$user->first_offer_available && $user->orders()->first()->id == $order->id) {
+        $firstOrder = $user->orders()->first();
+
+        if (!$user->first_offer_available && $firstOrder->id == $order->id && in_array($firstOrder->state, [
+            'pending', 'in-progress', 'completed',
+        ])) {
             $order->total = round($order->total * 2, 2);
         }
 
