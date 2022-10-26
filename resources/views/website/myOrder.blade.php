@@ -203,7 +203,7 @@
                                                                 <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
                                                                     {{ $index + 1 }}</p>
                                                                 <p class="mb-0">{{ $co->items->count() }}
-                                                                    {{ __('general.Orders') }}</p>
+                                                                    {{ __('general.items') }}</p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -281,7 +281,7 @@
                                                                 <p class="mb-0 font-weight-bold">
                                                                     {{ __('general.ORDER') }} {{ $index + 1 }}</p>
                                                                 <p class="mb-0">{{ $pe->items->count() }}
-                                                                    {{ __('general.Orders') }}</p>
+                                                                    {{ __('general.items') }}</p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -361,7 +361,7 @@
                                                                 <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
                                                                     {{ $index + 1 }}</p>
                                                                 <p class="mb-0">{{ $ca->items->count() }}
-                                                                    {{ __('general.Orders') }}</p>
+                                                                    {{ __('general.items') }}</p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">

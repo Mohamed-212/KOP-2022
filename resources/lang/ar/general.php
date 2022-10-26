@@ -455,5 +455,5 @@ return [
 'share' => 'مشاركة',
 'only' => 'فقط',
 'no_multible_offers' => 'عذراً يمكنك إستخدام عرض واحد فقط',
-'first_discount' => 'First Offer Discount',
+'first_discount' => 'خصم  اول عرض',
 ];
