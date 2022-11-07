@@ -245,6 +245,8 @@ Route::group([
         });
     });
 
+    Route::get('/privacy-policy', 'Website\PrivacyPolicyController@index')->name('privacy-policy');
+
 
     Route::get('/forget-password', [\App\Http\Controllers\Website\PasswordResetController::class, 'index'])->name('forget.password');
     Route::post('/get-reset-password', [\App\Http\Controllers\Website\PasswordResetController::class, 'create'])->name('password.reset');
