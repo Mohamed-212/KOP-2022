@@ -78,6 +78,7 @@ class OrdersController extends BaseController
             foreach ($order->items as $item) {
                 $item->extras = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
                 $item->withouts = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
+                $item->offer_price = $item->pivot->offer_price;
                 // $extras = $item->pivot->item_extras;
                 // $extras = $extras ? explode(", ", $extras) : [];
 
