@@ -105,9 +105,11 @@ class MenuController extends BaseController
                     if ($parent_offer->discount_type == 1) {
                         $disccountValue = $item->price * $parent_offer->discount_value / 100;
                         $item->offer->offer_price = $item->price - $disccountValue;
+                        $item->offer_price = round($item->price - $disccountValue, 2);
                         // dump($item);
                     } elseif ($parent_offer->discount_type == 2) {
                         $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                        $item->offer_price = round($item->price - $parent_offer->discount_value, 2);
                     }
 
                     // dump($item);
