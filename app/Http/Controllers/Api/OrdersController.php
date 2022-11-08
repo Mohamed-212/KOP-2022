@@ -78,7 +78,12 @@ class OrdersController extends BaseController
             foreach ($order->items as $item) {
                 $item->extras = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
                 $item->withouts = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
-                $item->offer_price = $item->pivot->offer_price > 0 ? $item->pivot->offer_price : null;
+                // $offerId = $item->pivot->offer_id;
+                // $offer = Offer::find($offerId);
+                $item->offer_price = $item->pivot->offer_price;
+                // if ($item->offer->offer_type == 'discount') {
+                //     $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                // }
                 // $extras = $item->pivot->item_extras;
                 // $extras = $extras ? explode(", ", $extras) : [];
 
@@ -346,7 +351,7 @@ class OrdersController extends BaseController
                 'dough_type_2_en' => array_key_exists('dough_type_2_en', $item) && isset($item['dough_type_2_en'][0]) ? $item['dough_type_2_en'][0] : null,
                 'price' => $itemPrice,
                 'pure_price' => $orderItem->price,
-                'offer_price' => array_key_exists('offer_price', $item) ? $itemOfferPrice : null, // TODO: Remove price
+                'offer_price' => array_key_exists('offer_price', $item) ? ($itemOfferPrice > 0 ? $itemOfferPrice : null) : null, // TODO: Remove price
                 'offer_id' => optional($offer)->id,
                 'offer_last_updated_at' => optional($offer)->updated_at,
                 'quantity' => array_key_exists('quantity', $item) ? $item['quantity'] : 1,

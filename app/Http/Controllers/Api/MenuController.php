@@ -113,7 +113,9 @@ class MenuController extends BaseController
                     }
 
                     // dump($item);
-                    $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                    // if ($item->offer->offer_type == 'discount') {
+                        $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                    // }
 
                     unset($item->offer->offer);
                 }
