@@ -321,7 +321,7 @@ class OrdersController extends BaseController
             $itemPrice = 0;
             // check if there is offer price
             // count sum of extras price and item price
-            if (array_key_exists('offer_price', $item)) {
+            if (array_key_exists('offer_price', $item) && (int)$item['offer_price'] > 0) {
                 $extras = $orderItemExtras ? $orderItemExtras->sum('price') : 0;
                 $itemOfferPrice = $item['offer_price'] + $extras;
             }
