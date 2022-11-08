@@ -93,10 +93,12 @@ class OffersController extends BaseController
                 if ($offer->buyGet->offer_price) {
                     $disccountValue = $item['price'] * $offer->buyGet->offer_price / 100;
                     // $item['offer_price'] = $item['price'] - $disccountValue;
-                    $item['offer_price'] = -$item['price'];
+                    // $item['offer_price'] = -$item['price'];
+                    $item['offer_price'] = $offer->buyGet->offer_price;
                 } else {
-                    $item['offer_price'] = -$item['price'];
+                    // $item['offer_price'] = -$item['price'];
                     // dd($item);
+                    $item['offer_price'] = 0;
                 }
                 $item['pivot']['quantity']=0;
                 $result['details']['get_items'][] = $item;

@@ -324,7 +324,7 @@
                                         <label for="exampleInputOfferPrice">Offer Price</label>
                                         <select class="form-control {!! $errors->first('offer_price', 'is-invalid') !!}" required
                                             id="exampleInputOfferPrice" name="offer_price">
-                                            <option value="100">Free</option>
+                                            <option value="0">Free</option>
                                         </select>
                                         @error('offer_price')
                                         <div class="help-block">{{ $message }}</div>
