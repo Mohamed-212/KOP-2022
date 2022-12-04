@@ -254,6 +254,16 @@ class OrdersController extends BaseController
             }
         }
 
+        $pointsValue = $request->has('points') ? $request->points : $request->points_value;
+        if ($pointsValue) {
+            PointsTransaction::create([
+                'points' => $pointsValue,
+                'order_id' => $order->id,
+                'user_id' => Auth::id(),
+                'status' => 2,
+            ]);
+        }
+
         // try{
 
         // }catch(\Exception $ex){
@@ -263,7 +273,7 @@ class OrdersController extends BaseController
             $address->with(['city', 'area']);
         }])->where('id', $savedOrder->id)->first();
 
-         $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+        $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
@@ -317,11 +327,11 @@ class OrdersController extends BaseController
                 $orderItemWithouts = Without::whereIn('id', $item['withouts'])->get();
             }
 
-            $itemOfferPrice = 0;
+            $itemOfferPrice = null;
             $itemPrice = 0;
             // check if there is offer price
             // count sum of extras price and item price
-            if (array_key_exists('offer_price', $item) && (int)$item['offer_price'] > 0) {
+            if (array_key_exists('offer_price', $item) && $item['offer_price'] !== null) {
                 $extras = $orderItemExtras ? $orderItemExtras->sum('price') : 0;
                 $itemOfferPrice = $item['offer_price'] + $extras;
             }
@@ -351,7 +361,7 @@ class OrdersController extends BaseController
                 'dough_type_2_en' => array_key_exists('dough_type_2_en', $item) && isset($item['dough_type_2_en'][0]) ? $item['dough_type_2_en'][0] : null,
                 'price' => $itemPrice,
                 'pure_price' => $orderItem->price,
-                'offer_price' => array_key_exists('offer_price', $item) ? ($itemOfferPrice > 0 ? $itemOfferPrice : null) : null, // TODO: Remove price
+                'offer_price' => array_key_exists('offer_price', $item) ? $itemOfferPrice : null, // TODO: Remove price
                 'offer_id' => optional($offer)->id,
                 'offer_last_updated_at' => optional($offer)->updated_at,
                 'quantity' => array_key_exists('quantity', $item) ? $item['quantity'] : 1,
@@ -985,8 +995,12 @@ class OrdersController extends BaseController
     public function getPointsScreen(Request $request)
     {
         // user points
-        $validRefundedPoints = Auth::user()->points_transactions()->whereIn('status', [0, 3, 4])->get()->sum('points');
+        // $validRefundedPoints = Auth::user()->points_transactions()->whereIn('status', [0, 3, 4])->get()->sum('points');
+        // $consumedCanceledPoints = Auth::user()->points_transactions()->whereIn('status', [2])->get()->sum('points');
+        $validRefundedPoints = Auth::user()->points_transactions()->whereIn('status', [0])->get()->sum('points');
         $consumedCanceledPoints = Auth::user()->points_transactions()->whereIn('status', [2])->get()->sum('points');
+        $completed = Order::where('state', 'completed')->where('customer_id', Auth::id())->sum('points');
+        $consumedCanceledPoints += (double) $completed;
         $user_points = $validRefundedPoints - $consumedCanceledPoints;
 
         // points table
