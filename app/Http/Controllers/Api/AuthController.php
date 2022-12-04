@@ -32,7 +32,7 @@ class AuthController extends BaseController
         ];
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->hasRole('customer')) {
+            if ($user->hasRole('customer') && $user->status) {
                 if ($user->email_verified_at == null) {
                     $data = [
                         'userData' => $user,
@@ -66,6 +66,8 @@ class AuthController extends BaseController
                 $request->request->add(['user_id' => $user->id]);
                 $setPushToken->setPushToken($request);
                 return $this->sendResponse($data, __('auth.logged'));
+            } else {
+                auth()->logout();
             }
         }
 

@@ -147,6 +147,8 @@ Route::middleware('api')->group(function () {
         Route::post('/addressmaps', 'Api\AddressesController@sotreWithMaps');
         Route::post('/add-address', 'Api\AddressesController@sotre');
         Route::post('/check-location', 'Api\AddressesController@checkLocation');
+
+        Route::put('/deactivate', 'Api\FrontController@deactivate');
     });
 });
 

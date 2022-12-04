@@ -155,4 +155,16 @@ class FrontController extends BaseController
 
         return $this->sendResponse(compact('banner', 'recommended', 'categories', 'offers'), 'Get all menu items');
     }
+
+    public function deactivate()
+    {
+        $user = auth()->user();
+
+        $user->update(['status' => 0]);
+
+        // auth()->logout();
+        session()->flush();
+
+        return $this->sendResponse(compact('user'), __('auth.use account deactivated'));
+    }
 } 

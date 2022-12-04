@@ -43,4 +43,5 @@ return [
     'unauthorised' => 'User is not Authorised',
     'no_id' => 'invalid user id',
     'already_verified' => 'User Account is Already Verified',
+    'use account deactivated' => 'use account deactivated'
 ];

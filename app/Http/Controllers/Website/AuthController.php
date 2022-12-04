@@ -126,7 +126,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            // if ($user->hasRole('customer')) {
+            if ($user->status) {
                 if ($user->email_verified_at == null) {
                     // return $user->id;
                     $phone = $user->first_phone;
@@ -153,7 +153,10 @@ class AuthController extends Controller
 
                 $user->branches; //??                    
                 return redirect()->route('home.page');
-            // }
+            } else {
+                auth()->logout();
+                session()->flush();
+            }
         }
         return redirect()->back()->with(['error' => __('session_messages.Unauthorized! Please Check Your Credentials')]);
     }

@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_offer_available',
         'image',
         'token',
+        'status'
     ];
 
     protected $hidden = [
@@ -42,7 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at' => 'datetime'
+        'created_at' => 'datetime',
+        'status' => 'boolean'
     ];
 
     public function createdBy()
