@@ -127,6 +127,10 @@ Route::group([
         Route::resource('role', 'RoleController')->middleware('role:admin');
         Route::get('/permission/{id}', 'RoleController@permission')->middleware('role:admin')->name('get.permission');
         Route::patch('/permissions/{id}', 'RoleController@asignPermission')->middleware('role:admin')->name('asign.permission');
+
+        Route::resource('reasons', 'ReasonController')->middleware('role:admin');
+        
+        Route::resource('reasons-report', 'ReasonReport')->middleware('role:admin');
     });
 
 
