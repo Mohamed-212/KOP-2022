@@ -34,7 +34,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_offer_available',
         'image',
         'token',
-        'status'
+        'status',
+        'cancellation_reason',
+        'reason_id'
     ];
 
     protected $hidden = [

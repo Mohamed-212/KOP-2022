@@ -152,6 +152,8 @@ Route::middleware('api')->group(function () {
     });
 });
 
+Route::get('/deactivation_reasons', 'Api\FrontController@deactivation_reasons');
+
 // Menu routes
 Route::group(['prefix' => 'menu', 'middleware' => ['authIfTokenFound']], function () {
 

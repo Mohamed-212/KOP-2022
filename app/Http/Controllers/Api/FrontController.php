@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DeactivationReason;
 use App\Models\Careers;
 use App\Models\JobRequest;
 use Illuminate\Http\Request;
@@ -156,15 +157,31 @@ class FrontController extends BaseController
         return $this->sendResponse(compact('banner', 'recommended', 'categories', 'offers'), 'Get all menu items');
     }
 
-    public function deactivate()
+    public function deactivate(Request $request)
     {
+        $request->validate([
+            'cancellation_reason' => 'nullable|string|max:255',
+            'reason_id' => 'required|integer|exists:deactivation_reasons,id',
+        ]);
+
         $user = auth()->user();
 
-        $user->update(['status' => 0]);
+        $user->update([
+            'status' => 0,
+            'cancellation_reason' => $request->cancellation_reason,
+            'reason_id' => $request->reason_id
+        ]);
 
         // auth()->logout();
         session()->flush();
 
         return $this->sendResponse(compact('user'), __('auth.use account deactivated'));
+    }
+
+    public function deactivation_reasons()
+    {
+        $reasons = DeactivationReason::all();
+
+        return $this->sendResponse(compact('reasons'), 'get all reasons');
     }
 } 
