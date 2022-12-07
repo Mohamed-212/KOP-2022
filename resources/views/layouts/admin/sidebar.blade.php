@@ -11,7 +11,7 @@
         <div class="os-padding">
             <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
                 <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="pb-3 mt-3 mb-3 user-panel d-flex">
                         <div class="image">
                             <img src="{{ url('/admin-assets/image/user2-160x160.jpg') }}" class="img-circle elevation-2"
                                 alt="User Image">
@@ -259,13 +259,13 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reasons.index') }}" class="nav-link">
                                         <i class="fas fa-bars nav-icon"></i>
-                                        <p>Reasons</p>
+                                        <p>Deactivation Reasons</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reasons-report.index') }}" class="nav-link">
                                         <i class="fas fa-code-branch nav-icon"></i>
-                                        <p>Reason Report</p>
+                                        <p>Deactivated users Report</p>
                                     </a>
                                 </li>
                                 <li

@@ -189,12 +189,19 @@ class AuthController extends BaseController
             "KOP\nThanks for signup!\n Please before you begin, you must confirm your account. Your Code is:" . $user->activation_token . "\n\n شكرا على تسجيلك! من فضلك قبل أن تبدأ ، يجب عليك تأكيد حسابك. رمزك هو:" . $user->activation_token
         );
 
+        $user->token = $user->createToken('AppName')->accessToken;
+        $user->active = true;
+        $user->email_verified_at = now();
+        $user->save();
+
+        // Auth::guard('api')->login($user);
+
         return response()->json([
             "success" => true,
             'user_created' => true,
             'user' => $user->fresh(),
             // 'data' => $user,
-            'token' => null,
+            'token' => $user->token,
             'message_sent' => true,
             "message" => __('general.created', ['key' => __('auth.user_account')]),
         ], 200);

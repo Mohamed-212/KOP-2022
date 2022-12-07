@@ -393,7 +393,7 @@
 
                             <div class="product-thumb">
                                 <img src="{{ asset($dealItem->website_image) }}" alt="food"
-                                    style="height: 300px;width:300px;border-radius: 100%;">
+                                    style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;">
                                 <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                     @csrf
                                     @if ($dealItem->offer)
@@ -420,7 +420,7 @@
                                             class="order-btn cart">@lang('general.Order Now')</button></div>
                                 </form>
                             </div>
-                            <div class="food-info"
+                            <div class="food-info" style="display: block;text-align:center;margin-top: -1.5rem;" 
                                 @if ($c == $dealItem->category_id) onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';" @endif>
                                 <ul class="ratting">
                                     <li>{{ $dealItem['category_name_' . app()->getLocale()] }}</li>

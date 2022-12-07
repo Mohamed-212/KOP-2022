@@ -274,6 +274,7 @@ trait GeneralTrait
 
     public function sendMessage($phoneNumber, string $message): void
     {
+        return;
         // ahmed.adel@212sol
         $accountSid = config('app.twilio.account_sid');
         $authToken  = config('app.twilio.auth_token');

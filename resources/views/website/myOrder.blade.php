@@ -223,7 +223,7 @@
                                                             </div>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
-                                                                    <a href="{{ route('order.details', [$co->id, 'reorder']) }}"
+                                                                    <a {{$co->status != 'completed' ? 'style="display:none;"' : 'wwww'}} href="{{ route('order.details', [$co->id, 'reorder']) }}"
                                                                         class="btn bg-danger px-3 default-btn rounded">{{ __('general.Reorder') }}<span></span></a>
                                                                     <a href="{{ route('order.details', $co->id) }}"
                                                                         class="btn px-3 default-btn rounded">{{ __('general.Details') }}
@@ -233,7 +233,7 @@
                                                                     <a href="{{ route('order.details', $co->id) }}"
                                                                         class="btn px-3 default-btn">{{ __('general.Details') }}</a>
                                                                     <a href="{{ route('order.details', [$co->id, 'reorder']) }}"
-                                                                        class="btn btn-outline-primary text-white px-3 default-btn">{{ __('general.Reorder') }}</a>
+                                                                        class="btn btn-outline-primary text-white px-3 default-btn" {{$co->status != 'completed' ? 'style="display:none;"' : ''}} >{{ __('general.Reorder') }}</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -303,8 +303,6 @@
                                                             </div>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
-                                                                    <a href="{{ route('order.details', [$pe->id, 'reorder']) }}"
-                                                                        class="btn bg-danger px-3 default-btn rounded">{{ __('general.Reorder') }}<span></span></a>
                                                                     <a href="{{ route('order.details', $pe->id) }}"
                                                                         class="btn px-3 default-btn rounded">{{ __('general.Details') }}
                                                                         <span></span>
@@ -312,8 +310,6 @@
                                                                 @else
                                                                     <a href="{{ route('order.details', $pe->id) }}"
                                                                         class="btn px-3 default-btn">{{ __('general.Details') }}</a>
-                                                                    <a href="{{ route('order.details', [$pe->id, 'reorder']) }}"
-                                                                        class="btn btn-outline-primary text-white px-3 default-btn">{{ __('general.Reorder') }}</a>
                                                                 @endif
                                                             </div>
                                                         </div>

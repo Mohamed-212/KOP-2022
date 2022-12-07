@@ -186,14 +186,14 @@
                                         </h2>
                                     </div>
                                     <div class="mb-20">
-                                        <button class="btn default-btn bg-primary rounded shadow selectType"
-                                            type="button" data-formaction="{{ route('make_order') }}">
+                                        <button class="btn default-btn bg-primary rounded shadow selectTypeCash"
+                                            type="button"  data-bs-toggle="modal" data-bs-target="#confirm_cash">
                                             {{ __('general.Confirm Order Cash') }}
 
                                             <span></span>
                                         </button>
-                                        <button class="btn default-btn bg-primary rounded shadow selectType"
-                                            type="button" data-formaction="{{ route('payment') }}">
+                                        <button class="btn default-btn bg-primary rounded shadow selectTypeOnline"
+                                            type="button"  data-bs-toggle="modal" data-bs-target="#confirm_online">
                                             {{ __('general.Confirm Order OnlinePay') }}
 
                                             <span></span>
@@ -294,7 +294,42 @@
                         </div>
                 </form>
             </div>
+            <div class="modal fade" id="confirm_cash" tabindex="-1" aria-labelledby="confirm_cashLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="confirm_cashLabel">{{__('general.confirm')}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {{__('general.confirm_cash_mess')}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('general.Cancel')}}</button>
+                      <button type="button" class="btn btn-primary confirm_cash_btn" data-formaction="{{ route('make_order') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="confirm_online" tabindex="-1" aria-labelledby="confirm_onlineLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="confirm_onlineLabel">{{__('general.confirm')}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {{__('general.confirm_online_mess')}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('general.Cancel')}}</button>
+                      <button type="button" class="btn btn-primary confirm_online_btn" data-formaction="{{ route('payment') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </section>
+        
         <!--/.checkout-section-->
 
     @endsection
@@ -302,10 +337,23 @@
     @section('scripts')
         <script>
             $(document).ready(function() {
-                $('.selectType').click(function() {
-                    $('.selectType').removeClass('bg-success');
-                    $(this).addClass('bg-success');
+                $('.confirm_cash_btn').click(function(e) {
                     $('.checkout-form-wrap').attr('action', $(this).attr('data-formaction'));
+                    $('.selectTypeOnline').removeClass('bg-success');
+                    $('.selectTypeCash').addClass('bg-success');
+                });
+
+                $('.confirm_online_btn').click(function(e) {
+                    $('.checkout-form-wrap').attr('action', $(this).attr('data-formaction'));
+                    $('.selectTypeCash').removeClass('bg-success');
+                    $('.selectTypeOnline').addClass('bg-success');
+                });
+
+                $('.checkout-form-wrap').submit(function(e) {
+                    if (!$('.selectTypeCash').hasClass('bg-success') && !$('.selectTypeOnline').hasClass('bg-success')) {
+                        e.preventDefault();
+                        return false;
+                    }
                 });
             });
         </script>

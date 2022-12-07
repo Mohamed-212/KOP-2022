@@ -435,4 +435,7 @@ return [
     'only' => 'only',
     'no_multible_offers' => 'Sorry you can Add Only One Offer',
     'first_discount' => 'First Offer Discount',
+    'confirm_btn' => 'Confirm',
+    'confirm_online_mess' => 'Do you want to use online payment option',
+    'confirm_cash_mess' => 'Do you want to use cash payment option'
 ];
