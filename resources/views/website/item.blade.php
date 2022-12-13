@@ -266,6 +266,11 @@ content: "\f068" !important;
                     <input type='hidden' name='quantity' x-bind:value="items.length" />
                     <div class="row">
                         <div class="col-md-6 sm-padding product-details-wrap">
+                            @if ($item->website_is_out_of_stock)
+                                    <span class="badge text-white bg-danger text-uppercase" style="position: absolute;top: 15%;{{app()->getLocale() == 'ar' ? 'right' : 'left'}}: 5%;z-index: 1;font-size: 1.5rem;">
+                                        {{__('general.out of stock')}}
+                                    </span>
+                                @endif
                             <div class="food-details-thumb">
                                 <img src="{{ asset($item->image) }}" alt="food">
                                 <a class="img-popup" data-gall="gallery01" href="{{ asset($item->image) }}"><i
@@ -317,6 +322,13 @@ content: "\f068" !important;
                                                 style="width: 20%;margin-left: 5px; margin-right: 5px;text-align: center;"><span
                                                 class="plus" x-data x-on:click="$dispatch('add-item')"
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
+
+                                                @if ($item->website_is_out_of_stock)
+                                                <div> <button
+                                                    type="button"
+                                                    onclick="javascript:void(0)"
+                                                    class="purchase-btn cart">{{ __('home.Add to Cart') }}</button></div>
+                                                @else
                                         <div> <button
                                                 @auth
                                                 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
@@ -326,6 +338,7 @@ content: "\f068" !important;
                                                     type="submit" @endif
                                                 class="purchase-btn cart"
                                                 type="submit">{{ __('home.Add to Cart') }}</button></div>
+                                                @endif
                                     </div>
                                     <ul class="product-meta">
                                         <li>{{ __('general.calories') }}:<a

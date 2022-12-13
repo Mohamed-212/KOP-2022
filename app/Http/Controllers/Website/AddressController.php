@@ -74,6 +74,10 @@ class AddressController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'customer_id' => auth()->id(),
+        ]);
+
         $return = (app(\App\Http\Controllers\Api\AddressesController::class)->store($request))->getOriginalContent();
         if ($return['success'] == true) {
             return back()->with(['success' => __('general.address.created')]);
@@ -87,6 +91,10 @@ class AddressController extends Controller
     public function update(Address $address, Request $request)
     {
         $success = 'Your Address Been Updated.';
+
+        $request->merge([
+            'customer_id' => auth()->id(),
+        ]);
 
         $return = (app(\App\Http\Controllers\Api\AddressesController::class)->update($request, $address))->getOriginalContent();
         if ($return['success'] == true) {

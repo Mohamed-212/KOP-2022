@@ -382,6 +382,9 @@
                 </ul>
                 <div class="row product-items">
                     @foreach ($menu['dealItems'] as $dealItem)
+                    @if ($dealItem->website_is_hidden)
+                    @continue
+                @endif
                         @if ($c == $dealItem->category_id)
                             <div style="cursor: pointer;"
                                 class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}">
@@ -390,7 +393,11 @@
                                     style="display:none;">
                         @endif
                         <div class="product-item ">
-
+                            @if ($dealItem->website_is_out_of_stock)
+                                    <span class="badge text-white bg-danger text-uppercase" style="position: absolute;top: 1.5rem;{{app()->getLocale() == 'ar' ? 'right' : 'left'}}: 1rem;z-index: 1;font-size: 1.5rem;">
+                                        {{__('general.out of stock')}}
+                                    </span>
+                                    @endif
                             <div class="product-thumb">
                                 <img src="{{ asset($dealItem->website_image) }}" alt="food"
                                     style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;">
@@ -406,6 +413,12 @@
                                     <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
                                     <input type='hidden' name='quantity' value="1" />
 
+                                    @if ($dealItem->website_is_out_of_stock)
+                                            <div><button
+                                                onclick="javascript:void(0)"
+                                                type="button"
+                                                class="order-btn cart">@lang('general.Order Now')</button></div>
+                                            @else
                                     <div><button
                                             @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
                                         @elseif (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
@@ -418,6 +431,7 @@
                                         @else
                                         type="submit" @endauth
                                             class="order-btn cart">@lang('general.Order Now')</button></div>
+                                            @endif
                                 </form>
                             </div>
                             <div class="food-info" style="display: block;text-align:center;margin-top: -1.5rem;" 

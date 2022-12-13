@@ -67,12 +67,21 @@
                 <div class="row product-items">
                     @foreach ($menu['categories'] as $index => $category)
                         @foreach ($category->items as $dealItem)
+                            @if ($dealItem->website_is_hidden)
+                                @continue
+                            @endif
                             <div
-                                style="cursor: pointer;"
+                                style="cursor: pointer;" 
                                 class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category->id }}">
                                 <div class="product-item">
                                     <!-- <div class="sale"></div> -->
+                                    @if ($dealItem->website_is_out_of_stock)
+                                    <span class="badge text-white bg-danger text-uppercase" style="position: absolute;top: 1.5rem;{{app()->getLocale() == 'ar' ? 'right' : 'left'}}: 1rem;z-index: 1;font-size: 1.5rem;">
+                                        {{__('general.out of stock')}}
+                                    </span>
+                                    @endif
                                     <div class="product-thumb">
+                                       
                                         <img src="{{ asset($dealItem->website_image) }}" alt="food"
                                             style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;" />
                                         <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
@@ -87,6 +96,12 @@
                                             <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
                                             <input type='hidden' name='quantity' value="1" />
 
+                                            @if ($dealItem->website_is_out_of_stock)
+                                            <div><button
+                                                onclick="javascript:void(0)"
+                                                type="button"
+                                                class="order-btn cart">@lang('general.Order Now')</button></div>
+                                            @else
                                             <div><button
                                                     @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
                                                     @elseif (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
@@ -100,6 +115,7 @@
                                                     type="submit"
                                                     @endauth
                                                     class="order-btn cart">@lang('general.Order Now')</button></div>
+                                            @endif
                                         </form>
                                     </div>
                                     <div class="food-info" style="display: block;text-align:center;margin-top: -1.5rem;" onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
@@ -154,6 +170,7 @@
                             // console.log(data.data);
                             $('.items').html('');
                             $.each(data.data, function(index, item) {
+                                console.log('wwewewe');
                                 if (!item.is_hidden) {
                                     styleOffer = '';
                                     offerPrice = '';

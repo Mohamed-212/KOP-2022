@@ -7,6 +7,7 @@ use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class ServiceController extends Controller
@@ -45,6 +46,14 @@ class ServiceController extends Controller
                 session()->put(['address_id' => $id]);
                 $address = Address::findOrFail($id);
                 session()->put(['address_area_id' => $address->area_id]);
+
+                if ($address->area) {
+                    $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                    if ($branch) {
+                        session()->put(['address_branch_id' => $branch->branch_id]);
+                    }
+                }
+                
             }
             session()->forget('status');
             return redirect()->route('menu.page');

@@ -43,7 +43,7 @@ class ItemController extends Controller
 
         $branches = Branch::all();
 
-        return view('admin.items.create', compact('categories'));
+        return view('admin.items.create', compact('categories', 'branches'));
     }
 
     /**
@@ -82,8 +82,8 @@ class ItemController extends Controller
         $item = Item::create($validatedData);
         // $item->branches = $request->branches;
         // $item->out_of_stock = $request->out_of_stock;
-        $item->branches = implode(',', $request->branches);
-        $item->out_of_stock = implode(',', $request->out_of_stock);
+        $item->branches = implode(',', $request->branches ?? []);
+        $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
         $item->save();
 
         $this->Make_Log('App\Models\Item','create',$item->id);
@@ -230,8 +230,8 @@ class ItemController extends Controller
             }
         }
 
-        $item->branches = implode(',', $request->branches);
-        $item->out_of_stock = implode(',', $request->out_of_stock);
+        $item->branches = implode(',', $request->branches ?? []);
+        $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
         $item->save();
 
         // dd($item->branches);

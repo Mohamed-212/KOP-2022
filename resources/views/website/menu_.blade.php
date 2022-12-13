@@ -89,7 +89,8 @@
                         console.log(data.data);
                         $('.items').html('');
                         $.each(data.data, function(index, item) {
-                            if(! item.is_hidden)
+                            console.log(item);
+                            if(! item.website_is_hidden)
                             {
                                 styleOffer = '';
                                 offerPrice = '';

@@ -65,7 +65,7 @@ class Item extends Model
 
         $out_of_stock = explode(',', $this->out_of_stock);
         
-        if (in_array((int)request('branch_id'), $out_of_stock)) {
+        if (in_array(request('branch_id', 0), $out_of_stock)) {
             return true;
         }
 
@@ -80,7 +80,45 @@ class Item extends Model
 
         $branches = explode(',', $this->branches);
         
-        if (in_array((int)request('branch_id'), $branches)) {
+        if (in_array(request('branch_id', 0), $branches)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getWebsiteIsHiddenAttribute()
+    {
+        if (!session()->has('branch_id') && !session()->has('address_branch_id')) return false;
+
+        if (empty($this->branches)) {
+            return false;
+        }
+
+        $branchID = session('address_branch_id') ?? session('branch_id') ?? 0;
+
+        $branches = explode(',', $this->branches);
+        
+        if (in_array($branchID, $branches)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getWebsiteIsOutOfStockAttribute()
+    {
+        if (!session()->has('branch_id') && !session()->has('address_branch_id')) return false;
+
+        if (empty($this->out_of_stock)) {
+            return false;
+        }
+
+        $branchID = session('address_branch_id') ?? session('branch_id') ?? 0;
+
+        $out_of_stock = explode(',', $this->out_of_stock);
+        
+        if (in_array($branchID, $out_of_stock)) {
             return true;
         }
 

@@ -458,5 +458,6 @@ return [
 'first_discount' => 'خصم  اول عرض',
 'We can\'t find a user with that e-mail address.' => 'لا يمكننا العثور على مستخدم بعنوان البريد الإلكتروني هذا.',
 'invalid email address' => 'عنوان البريد الإلكتروني غير صحيح',
-'We have e-mailed your password reset link!' => 'لقد أرسلنا رابط إعادة تعيين كلمة المرور بالبريد الإلكتروني'
+'We have e-mailed your password reset link!' => 'لقد أرسلنا رابط إعادة تعيين كلمة المرور بالبريد الإلكتروني',
+'out of stock' => 'إنتهى من المخزن'
 ];

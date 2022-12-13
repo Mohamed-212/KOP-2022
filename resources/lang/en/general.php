@@ -440,5 +440,6 @@ return [
     'confirm_cash_mess' => 'Do you want to use cash payment option',
     'We can\'t find a user with that e-mail address.' => "We can't find a user with that email address.",
     'invalid email address' => 'Invalid Email Address',
-    'We have e-mailed your password reset link' => 'We have e-mailed your password reset link!'
+    'We have e-mailed your password reset link' => 'We have e-mailed your password reset link!',
+    'out of stock' => 'out of stock'
 ];
