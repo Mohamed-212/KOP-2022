@@ -43,6 +43,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                @if (auth()->user()->hasRole('admin'))
                                 <div class="form-group">
                                     <label for="exampleInputRole">Hide In</label>
                                     <select class="select2" multiple="multiple" data-placeholder="Select a Branch" style="width: 100%;" name="branches[]">
@@ -55,10 +56,12 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @endif
                             </div>
                         </div>
 
                         <div class="row">
+                            @if (auth()->user()->hasRole('admin'))
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputRole">Out Of Stock In</label>
@@ -73,6 +76,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @endif
                         </div>
 
                         <div class="row">

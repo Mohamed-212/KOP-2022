@@ -54,7 +54,14 @@ Route::group([
         //=======================================================================
 
         // item
-        Route::resource('item', 'ItemController')->middleware('role:admin');
+        Route::resource('item', 'ItemController')->middleware('role:admin|branch_manager');
+
+        Route::post('item/{item}/hide', 'ItemController@hide')->name('item.hide')->middleware('role:branch_manager');
+        Route::post('item/{item}/unhide', 'ItemController@unhide')->name('item.unhide')->middleware('role:branch_manager');
+
+        Route::post('item/{item}/stock_out', 'ItemController@stock_out')->name('item.stock_out')->middleware('role:branch_manager');
+        Route::post('item/{item}/stock_in', 'ItemController@stock_in')->name('item.stock_in')->middleware('role:branch_manager');
+
         Route::put('item/{item}/recommended', 'ItemController@recommend')->name('item.recommend')->middleware('role:admin');
         Route::delete('item/{item}/recommended', 'ItemController@unRecommend')->name('item.unrecommend')->middleware('role:admin');
         Route::resource('extra', 'ExtraController')->middleware('role:admin');

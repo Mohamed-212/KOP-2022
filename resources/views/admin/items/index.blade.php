@@ -63,8 +63,12 @@
                             @foreach ($items as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                   
-                                    <td> @if ($item->category){{ $item->category['name_' . app()->getLocale()] }} @endif</td>
+
+                                    <td>
+                                        @if ($item->category)
+                                            {{ $item->category['name_' . app()->getLocale()] }}
+                                        @endif
+                                    </td>
                                     <td>{{ $item->name_ar }}</td>
                                     <td>{{ $item->name_en }}</td>
                                     <td>{{ $item->price }}</td>
@@ -72,39 +76,94 @@
                                     <td><img src="{{ asset($item->image) }}" style="max-width: 75px" /></td>
                                     <td><img src="{{ asset($item->website_image) }}" style="max-width: 75px" /></td>
                                     <td>
-                                        @if ($item->recommended)
-                                        <form action="{{ route('admin.item.unrecommend', $item->id) }}" method="POST">
-                                            <button type="submit"
-                                                class="btn btn-danger btn-circle btn-sm" title="UnRecommend"><i
-                                                    class="fa fa-heart"></i></button>
-                                            @csrf
-                                            @method('delete')
-                                        </form>
-                                        @else
-                                        <form action="{{ route('admin.item.recommend', $item->id) }}" method="POST">
-                                            <button type="submit"
-                                                class="btn btn-primary btn-circle btn-sm" title="Recommend"><i
-                                                    class="fa fa-heart"></i></button>
-                                            @csrf
-                                            @method('put')
-                                        </form>
+                                        @if (auth()->user()->hasRole('admin'))
+                                            @if ($item->recommended)
+                                                <form action="{{ route('admin.item.unrecommend', $item->id) }}"
+                                                    method="POST">
+                                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"
+                                                        title="UnRecommend"><i class="fa fa-heart"></i></button>
+                                                    @csrf
+                                                    @method('delete')
+                                                </form>
+                                            @else
+                                                <form action="{{ route('admin.item.recommend', $item->id) }}"
+                                                    method="POST">
+                                                    <button type="submit" class="btn btn-primary btn-circle btn-sm"
+                                                        title="Recommend"><i class="fa fa-heart"></i></button>
+                                                    @csrf
+                                                    @method('put')
+                                                </form>
+                                            @endif
+                                        @endif
+                                        @if (auth()->user()->hasRole('branch_manager'))
+                                            @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0)
+                                            <button type="button" onclick="confirmActon('{{ 'hide-th-item-' . $item->id }}', 'hide this item')" class="btn btn-info btn-circle btn-sm"
+                                                        title="Hide"><i class="fa fa-eye-slash"></i></button>
+                                                <form id="{{ 'hide-th-item-' . $item->id }}" action="{{ route('admin.item.hide', $item->id) }}" method="POST" style="display: inline">
+                                                    
+                                                    @csrf
+                                                </form>
+                                            @else
+                                            <button type="button" onclick="confirmActon('{{ 'unhide-th-item-' . $item->id }}', 'un hide this item')" class="btn btn-success btn-circle btn-sm"
+                                                        title="Un Hide"><i class="fa fa-eye"></i></button>
+                                                <form id="{{ 'unhide-th-item-' . $item->id }}" action="{{ route('admin.item.unhide', $item->id) }}" method="POST" style="display: inline">
+                                                    
+                                                    @csrf
+                                                </form>
+                                            @endunless
+                                        @endif
+                                        @if (auth()->user()->hasRole('branch_manager'))
+                                            @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock)))) > 0)
+                                            <button type="button" onclick="confirmActon('{{ 'stock_out-item-' . $item->id }}', 'set this item to out of stock')" class="btn btn-warning btn-circle btn-sm"
+                                            title="Out Of Stock"><i class="fa fa-backspace"></i></button>
+                                                <form id="{{ 'stock_out-item-' . $item->id }}" action="{{ route('admin.item.stock_out', $item->id) }}" method="POST" style="display: inline">
+                                                    @csrf
+                                                </form>
+                                            @else
+                                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="confirmActon('{{ 'stock_in-item-' . $item->id }}', 'set this item back to in stock')"
+                                                        title="In Stock"><i class="fa fa-check-double"></i></button>
+                                                <form id="{{ 'stock_in-item-' . $item->id }}" action="{{ route('admin.item.stock_in', $item->id) }}" method="POST" style="display: inline">
+                                                    
+                                                    @csrf
+                                                </form>
+                                            @endunless
                                         @endif
                                         <a href="{{ route('admin.item.show', $item->id) }}"
                                             class="btn btn-primary btn-circle btn-sm" title="Show"><i
                                                 class="fa fa-globe"></i></a>
-                                        <a href="{{ route('admin.item.edit', $item->id) }}"
-                                            class="btn btn-primary btn-circle btn-sm" title="edit"><i
-                                                class="fa fa-edit"></i></a>
-                                        <a onclick="deleteCategory('{{ 'delete-item-' . $item->id }}')" href="#"
-                                            class="btn btn-danger btn-circle btn-sm" title="delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        <!-- Form Delete item -->
-                                        <form action="{{ route('admin.item.destroy', $item->id) }}" method="POST"
-                                            id="{{ 'delete-item-' . $item->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+
+                                        @if (auth()->user()->hasRole('branch_manager'))
+                                            @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0)
+                                                <a href="{{ route('admin.item.edit', $item->id) }}"
+                                                    class="btn btn-primary btn-circle btn-sm" title="edit"><i
+                                                        class="fa fa-edit"></i></a>
+                                                <a onclick="deleteCategory('{{ 'delete-item-' . $item->id }}')" href="#"
+                                                    class="btn btn-danger btn-circle btn-sm" title="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                                <!-- Form Delete item -->
+                                                <form action="{{ route('admin.item.destroy', $item->id) }}" method="POST"
+                                                    id="{{ 'delete-item-' . $item->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endunless
+                                        @else
+                                            <a href="{{ route('admin.item.edit', $item->id) }}"
+                                                class="btn btn-primary btn-circle btn-sm" title="edit"><i
+                                                    class="fa fa-edit"></i></a>
+                                            <a onclick="deleteCategory('{{ 'delete-item-' . $item->id }}')" href="#"
+                                                class="btn btn-danger btn-circle btn-sm" title="delete">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <!-- Form Delete item -->
+                                            <form action="{{ route('admin.item.destroy', $item->id) }}" method="POST"
+                                                id="{{ 'delete-item-' . $item->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -134,6 +193,27 @@
                         });
                     } else {
                         swal('Category undeleted');
+                    }
+                });
+        }
+
+        function confirmActon(id, m) {
+            event.preventDefault();
+            swal({
+                    title: 'Please Confirm',
+                    text: 'Are you sure to ' + m,
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $('#' + id).submit();
+                        // swal('item updated', {
+                        //     icon: 'success',
+                        // });
+                    } else {
+                        // swal('Category undeleted');
                     }
                 });
         }
