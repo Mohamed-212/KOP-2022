@@ -47,6 +47,7 @@
                                     <td style="max-width:50px" class="text-center"><img class="img-fluid"
                                             src="{{ asset($offer->website_image_menu) }}" /></td>
                                     <td>
+                                        @if (auth()->user()->hasRole('admin'))
                                         @if ($offer->main)
                                             <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST">
                                                 @csrf
@@ -65,6 +66,7 @@
                                                     <i class="fas fa-home"></i>
                                                 </button>
                                             </form>
+                                        @endif
                                         @endif
 
                                         <a href="{{ route('admin.offer.edit', $offer->id) }}"

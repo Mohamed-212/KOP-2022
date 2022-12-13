@@ -36,7 +36,7 @@ Route::group([
         // Route::post('/points-value-post', 'PointController@pointsValuePost')->name('pointsValuePost')->middleware('role:admin,cashier');
         // Route::resource('/points', 'PointController')->middleware('role:admin,cashier');
         // Admin Dashboard
-        Route::get('/home', 'HomeController@index')->name('home')->middleware('role:admin,cashier');
+        Route::get('/home', 'HomeController@index')->name('home')->middleware('role:admin|branch_manager');
         Route::get('/', 'HomeController@index')->name('dashboard')->middleware('role:admin|branch_manager');
 
         Route::resource('hero', 'HeroController');
@@ -59,8 +59,8 @@ Route::group([
         Route::delete('item/{item}/recommended', 'ItemController@unRecommend')->name('item.unrecommend')->middleware('role:admin');
         Route::resource('extra', 'ExtraController')->middleware('role:admin');
         Route::resource('without', 'WithoutController')->middleware('role:admin');
-        Route::resource('order', 'OrderController')->middleware('role:admin');
-        Route::resource('offer', 'OfferController')->middleware('role:admin');
+        Route::resource('order', 'OrderController')->middleware('role:admin|branch_manager');
+        Route::resource('offer', 'OfferController')->middleware('role:admin|branch_manager');
         Route::put('offer/main/{offer}', 'OfferController@setAsMain')->name('offer.main')->middleware('role:admin');
         Route::delete('offer/main/{offer}', 'OfferController@removeFromMain')->name('offer.unmain')->middleware('role:admin');
         Route::resource('banner', 'BannerController')->middleware('role:admin');

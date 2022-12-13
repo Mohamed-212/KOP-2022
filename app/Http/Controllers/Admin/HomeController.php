@@ -36,10 +36,8 @@ class HomeController extends Controller
         $this->Make_Log('App\Models\dashboard','view',0);
 
         if (auth()->user()->hasRole('branch_manager')) {
-
-            $ordersCount = Order::where('state', 'pending')->where(function($q) {
-                return $q->whereIn('branch_id', auth()->user()->branches);
-            })->count();
+            $branches = auth()->user()->branches->pluck('id')->toArray();
+            $ordersCount = Order::where('state', 'pending')->whereIn('branch_id', $branches)->count();
             return view('admin.dashboard_branch_manager', compact('ordersCount'));
         }
 

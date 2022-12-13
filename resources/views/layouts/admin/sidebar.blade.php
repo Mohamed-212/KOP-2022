@@ -30,6 +30,7 @@
                                     <p>Home</p>
                                 </a>
                             </li>
+                            @if (auth()->user()->hasRole('admin'))
                             <li class="nav-item">
                                 <a href="{{ route('admin.notification.index') }}" class="nav-link"><i
                                         class="nav-icon fas fa-tachometer-alt"></i>
@@ -42,6 +43,7 @@
                                     <p>Customers</p>
                                 </a>
                             </li>
+                            @endif
 
                             <li
                                 class="nav-item has-treeview
@@ -57,18 +59,21 @@
                                     <p>Menu<i class="fas fa-angle-left right"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
+                                    @if (auth()->user()->hasRole('admin'))
                                     <li class="nav-item">
                                         <a href="{{ route('admin.category.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>
                                             <p>Categories</p>
                                         </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item">
                                         <a href="{{ route('admin.item.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>
                                             <p>Items</p>
                                         </a>
                                     </li>
+                                    @if (auth()->user()->hasRole('admin'))
                                     <li class="nav-item">
                                         <a href="{{ route('admin.extra.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>
@@ -87,8 +92,10 @@
                                             <p>Dough Types</p>
                                         </a>
                                     </li>
+                                    @endif
                                 </ul>
                             </li>
+                            @if (auth()->user()->hasRole('admin'))
                             <li
                                 class="nav-item has-treeview
                                  {{ request()->segment(3) == 'points' ||
@@ -133,12 +140,40 @@
                                     @endif --}}
                                 </ul>
                             </li>
+                            @endif
                             <li class="nav-item">
                                 <a href="{{ route('admin.order.index') }}" class="nav-link"><i
                                         class="fab fa-first-order nav-icon"></i>
                                     <p>Orders</p>
                                 </a>
                             </li>
+                            @if (auth()->user()->hasRole('branch_manager'))
+                                <li
+                                    class="nav-item has-treeview
+                                 {{ request()->segment(3) == 'offers' ||
+                                 request()->segment(3) == 'gallery' ||
+                                 request()->segment(3) == 'media' ||
+                                 //    request()->segment(3) == 'deal-of-week'||
+                                 request()->segment(3) == 'contact' ||
+                                 request()->segment(3) == 'careers' ||
+                                 request()->segment(3) == 'news' ||
+                                 request()->segment(3) == 'healthinfo'
+                                     ? 'menu-open'
+                                     : '' }}
+                                ">
+                                    <a href="#" class="nav-link"><i class="nav-icon fas fa-bars"></i>
+                                        <p>Website<i class="fas fa-angle-left right"></i></p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.offer.index') }}" class="nav-link"><i
+                                                    class="fas fa-dice-three nav-icon"></i>
+                                                <p>Offers</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @endif
                             @if (auth()->user()->hasRole('admin'))
                                 <li
                                     class="nav-item has-treeview

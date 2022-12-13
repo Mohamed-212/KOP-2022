@@ -19,6 +19,8 @@ use DateTime;
 use Illuminate\Support\Facades\Storage;
 
 use App\Traits\LogfileTrait;
+use Illuminate\Support\Facades\DB;
+
 class OfferController extends Controller
 {
     /**
@@ -31,8 +33,19 @@ class OfferController extends Controller
 
     public function index()
     {
-        $offers = Offer::with('buyGet')->with('discount')->orderBy('created_at', 'DESC')->get();
+        $offers = Offer::with('buyGet')->with('discount')->where('description', 'descriptiondescriptiondescriptiondescription')->orderBy('created_at', 'DESC')->get();
         $this->Make_Log('App\Models\Offer','view',0);
+
+        if (auth()->user()->hasRole('branch_manager')) {
+            $user_branches = auth()->user()->branches;
+            if (!empty($user_branches)) {
+                $offer_id = DB::table("branch_offer")->whereIn('branch_id', $user_branches)->pluck('offer_id');
+                $offers = Offer::whereIn('id', $offer_id)->with('buyGet')->with('discount')->orderBy('created_at', 'desc')->get();
+            }
+        } else {
+            $offers = Offer::with('buyGet')->with('discount')->orderBy('created_at', 'DESC')->get();
+        }
+
         return view('admin.offer.index', compact('offers'));
     }
 
