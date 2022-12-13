@@ -218,6 +218,8 @@ class ItemController extends Controller
         $item->branches = implode(',', $r);
         $item->save();
 
+        // dd($item->branches);
+
         $this->Make_Log('App\Models\Item','update',$item->id);
         return redirect()->route('admin.item.index')->with([
             'type' => 'success',

@@ -223,7 +223,7 @@ class OrdersController extends BaseController
 
 
         // apply 50% discount if this is first order
-        $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+        // $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
 
         $orderData = [
             "address_id" => $request->address_id,
@@ -451,7 +451,7 @@ class OrdersController extends BaseController
             // ];
 
             // apply 50% discount if this is first order
-            $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+            // $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
 
             $orderData = [
                 "address_id" => $request->address_id,
