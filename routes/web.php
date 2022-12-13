@@ -37,7 +37,7 @@ Route::group([
         // Route::resource('/points', 'PointController')->middleware('role:admin,cashier');
         // Admin Dashboard
         Route::get('/home', 'HomeController@index')->name('home')->middleware('role:admin,cashier');
-        Route::get('/', 'HomeController@index')->name('dashboard')->middleware('role:admin,cashier');
+        Route::get('/', 'HomeController@index')->name('dashboard')->middleware('role:admin|branch_manager');
 
         Route::resource('hero', 'HeroController');
 

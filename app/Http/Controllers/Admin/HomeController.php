@@ -17,6 +17,8 @@ class HomeController extends Controller
     use LogfileTrait;
     public function index()
     {
+
+        // dd(auth()->user()->id);
         // orders
         $ordersCount = Order::where('state', 'pending')->count();
 
@@ -32,6 +34,15 @@ class HomeController extends Controller
         })->count();
 
         $this->Make_Log('App\Models\dashboard','view',0);
+
+        if (auth()->user()->hasRole('branch_manager')) {
+
+            $ordersCount = Order::where('state', 'pending')->where(function($q) {
+                return $q->whereIn('branch_id', auth()->user()->branches);
+            })->count();
+            return view('admin.dashboard_branch_manager', compact('ordersCount'));
+        }
+
         return view('admin.dashboard', compact('ordersCount', 'branchesCount', 'categoriesCount', 'customersCount'));
     }
 }
