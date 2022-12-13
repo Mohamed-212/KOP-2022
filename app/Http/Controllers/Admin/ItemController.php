@@ -40,6 +40,9 @@ class ItemController extends Controller
     public function create()
     {
         $categories = Category::all();
+
+        $branches = Branch::all();
+
         return view('admin.items.create', compact('categories'));
     }
 
@@ -77,6 +80,12 @@ class ItemController extends Controller
             $validatedData['website_image'] = '/items/' . $image_new_name;
         }
         $item = Item::create($validatedData);
+        // $item->branches = $request->branches;
+        // $item->out_of_stock = $request->out_of_stock;
+        $item->branches = implode(',', $request->branches);
+        $item->out_of_stock = implode(',', $request->out_of_stock);
+        $item->save();
+
         $this->Make_Log('App\Models\Item','create',$item->id);
         if (!$item)
             return redirect()->route('admin.item.index')->with([
@@ -155,7 +164,12 @@ class ItemController extends Controller
         $userBranches = auth()->user()->branches;
 
         $itemBranches = explode(',', $item->branches);
-        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches'));
+
+        $outOfStockBr = explode(',', $item->out_of_stock);
+
+        $userBranches = Branch::all();
+
+        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr'));
     }
 
     /**
@@ -215,7 +229,9 @@ class ItemController extends Controller
                 $r[] = $branch;
             }
         }
-        $item->branches = implode(',', $r);
+
+        $item->branches = implode(',', $request->branches);
+        $item->out_of_stock = implode(',', $request->out_of_stock);
         $item->save();
 
         // dd($item->branches);

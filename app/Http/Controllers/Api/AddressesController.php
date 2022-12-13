@@ -88,6 +88,13 @@ class AddressesController extends BaseController
             return $this->sendError(__('general.error'), 400);
         }
 
+        if ($address->area) {
+            $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+            if ($branch) {
+                $address->branch = Branch::find($branch->branch_id);
+            }
+        }
+
 
         return $this->sendResponse($address, __('general.address.created'));
     }
@@ -145,6 +152,13 @@ class AddressesController extends BaseController
         if (!$address)
             return $this->sendError(__('general.error'), 400);
 
+            if ($address->area) {
+                $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                if ($branch) {
+                    $address->branch = Branch::find($branch->branch_id);
+                }
+            }
+
         return $this->sendResponse($address, __('general.address.created'));
     }
 
@@ -201,6 +215,13 @@ class AddressesController extends BaseController
         if (!$address)
             return $this->sendError(__('general.error'), 400);
 
+            if ($address->area) {
+                $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                if ($branch) {
+                    $address->branch = Branch::find($branch->branch_id);
+                }
+            }
+
         return $this->sendResponse($address, __('general.address.created'));
     }
 
@@ -212,6 +233,13 @@ class AddressesController extends BaseController
      */
     public function show(Request $request, Address $address)
     {
+        if ($address->area) {
+            $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+            if ($branch) {
+                $address->branch = Branch::find($branch->branch_id);
+            }
+        }
+
         return $this->sendResponse($address, 'Address returned successfuly');
     }
 
@@ -233,6 +261,13 @@ class AddressesController extends BaseController
 
         if (!$address->update($request->all())) {
             return $this->sendError('Error!', 500);
+        }
+
+        if ($address->area) {
+            $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+            if ($branch) {
+                $address->branch = Branch::find($branch->branch_id);
+            }
         }
 
         return $this->sendResponse($address, __('general.address.updated'));
