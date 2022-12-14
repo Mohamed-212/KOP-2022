@@ -789,7 +789,8 @@ class OrdersController extends BaseController
         $delivery_fees = $order->service_type == 'delivery' ? 10 : 0;
 
         // remove 50% discount if user trying to reorder an order that has this offer
-        $total = $this->removeDiscountIfNotFirstOrder(request()->user(), $requestt->total);
+        // $total = $this->removeDiscountIfNotFirstOrder(request()->user(), $requestt->total);
+        $total = $requestt->total;
 
         $subtotal = $requestt->subtotal;
         $taxes = $requestt->taxes;

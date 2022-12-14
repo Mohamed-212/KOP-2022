@@ -58,6 +58,9 @@
                 <ul class="food-menu-filter">
                     <li class="active" data-filter="*">@lang('general.All')</li>
                     @foreach ($menu['categories'] as $index => $category)
+                        @if($category->website_is_hidden)
+                            @continue
+                        @endif
                         @if ($category->items != [])
                             <li data-filter=".{{ $category->id }}">
                                 {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}</li>

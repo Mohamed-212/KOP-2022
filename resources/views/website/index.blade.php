@@ -370,6 +370,9 @@
                     <!-- <li class="active" data-filter="*">All</li> -->
                     <?php $c = 0; ?>
                     @foreach ($menu['categories'] as $index => $category)
+                        @if($category->website_is_hidden)
+                            @continue
+                        @endif
                         @if ($c == 0)
                             <?php $c = $category->id; ?>
                             <li class="active" data-filter=".{{ $category->id }}">
