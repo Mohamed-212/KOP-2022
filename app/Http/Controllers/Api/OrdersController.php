@@ -225,6 +225,9 @@ class OrdersController extends BaseController
         // apply 50% discount if this is first order
         // $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
 
+
+        $count = $customer->orders()->count();
+
         $orderData = [
             "address_id" => $request->address_id,
             "customer_id" => $request->customer_id, //$request->user()->id,
@@ -240,10 +243,15 @@ class OrdersController extends BaseController
             'offer_value' => $request->offer_value,
             'order_from' => 'mobile',
             'description_box' => $request->description,
-            'payment_type' => $request->payment_type
+            'payment_type' => $request->payment_type,
+            'is_first_order' => $count == 0,
         ];
 
         $order = Order::create($orderData);
+
+        $customer->first_offer_available = false;
+        $customer->save();
+
         $savedOrder = $order;
 
         if (!empty($request->payment_id)) {            

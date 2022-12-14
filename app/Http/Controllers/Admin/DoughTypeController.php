@@ -16,7 +16,7 @@ class DoughTypeController extends Controller
      */
     public function index()
     {
-        $data = DoughType::all();
+        $data = DoughType::where('id', '!=', 9)->get();
 
         return view('admin.dough.index', ['data' => $data]);
     }

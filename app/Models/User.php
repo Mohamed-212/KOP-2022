@@ -183,8 +183,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasNoOrders(): bool
     {
-        return $this->orders()->where(function ($q) {
-            return $q->where('state', '!=', 'rejected')->where('state', '!=', 'canceld')->where('state', '!=', 'canceled');
-        })->count() === 0;
+        return $this->orders()->count() == 0;
     }
 }

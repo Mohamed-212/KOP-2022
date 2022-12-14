@@ -41,7 +41,7 @@
                                         {!! $errors->first('category_id', '<p class="help-block">:message</p>') !!}
                                     </div>
                                 </div>
-                                {{-- @if (auth()->user()->hasRole('admin')) --}}
+                                @if (auth()->user()->hasRole('admin'))
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputRole">Hide In</label>
@@ -54,11 +54,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- @endif --}}
+                                @endif
                             </div>
 
                             <div class="row">
-                                {{-- @if (auth()->user()->hasRole('admin')) --}}
+                                @if (auth()->user()->hasRole('admin'))
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputRole">Out Of Stock In</label>
@@ -70,7 +70,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- @endif --}}
+                                @endif
                             </div>
 
                             <div class="row">

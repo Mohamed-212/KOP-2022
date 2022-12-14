@@ -74,6 +74,25 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (auth()->user()->hasRole('admin'))
+                                <div class="form-group">
+                                    <label for="exampleInputRole">Hide In</label>
+                                    <select class="select2" multiple="multiple" data-placeholder="Select a Branch" style="width: 100%;" name="branches[]">
+                                        @foreach($userBranches as $userBranch)
+                                        @if(in_array($userBranch->id, $itemBranches))
+                                        <option value="{{ $userBranch->id }}" selected>{{ $userBranch->name_en }}</option>
+                                        @else
+                                        <option value="{{ $userBranch->id }}">{{ $userBranch->name_en }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-xs-12">

@@ -435,7 +435,7 @@
                                 </form>
                             </div>
                             <div class="food-info" style="display: block;text-align:center;margin-top: -1.5rem;" 
-                                @if ($c == $dealItem->category_id) onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';" @endif>
+                            onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
                                 <ul class="ratting">
                                     <li>{{ $dealItem['category_name_' . app()->getLocale()] }}</li>
 

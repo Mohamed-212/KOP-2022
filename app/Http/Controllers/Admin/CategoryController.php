@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Extra;
@@ -35,8 +36,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $doughTypes = DoughType::all();
-        return view('admin.category.create', compact('doughTypes'));
+        $doughTypes = DoughType::where('id', '!=', 9)->get();
+        $branches = Branch::all();
+        return view('admin.category.create', compact('doughTypes', 'branches'));
     }
 
     /**
@@ -102,6 +104,9 @@ class CategoryController extends Controller
             $category->image = '/categories/' . $image_new_name;
             $category->save();
         }
+
+        $category->cat_branches = implode(',', $request->branches ?? []);
+        $category->save();
 
 //        if ($request->has('Item')) {
 //            $items = $request->get('Item');
@@ -187,9 +192,13 @@ class CategoryController extends Controller
         $items = $category->items;
         $extras = $category->extras;
 
-        $doughTypes = DoughType::all();
+        $itemBranches = explode(',', $category->cat_branches);
 
-        return view('admin.category.edit', compact('category', 'items', 'extras', 'doughTypes'));
+        $userBranches = Branch::all();
+
+        $doughTypes = DoughType::where('id', '!=', 9)->get();
+
+        return view('admin.category.edit', compact('category', 'items', 'extras', 'doughTypes', 'userBranches', 'itemBranches'));
     }
 
     /**
@@ -235,7 +244,20 @@ class CategoryController extends Controller
         $category->dough_type_id =  $request->has('dough_type_id') ? $request->dough_type_id : null;
         $category->dough_type_2_id = $request->has('dough_type_2_id') ? $request->dough_type_2_id : null;
 
+        $category->cat_branches = implode(',', $request->branches ?? []);
+
         $category->save();
+
+        if (!empty($request->branches) && auth()->user()->hasRole('admin')) {
+            $items = $category->items;
+            $u = $request->branches;
+            foreach ($items as $item) {
+                $i = explode(',', $item->branches);
+                $i = array_map(fn($a) => (int)$a, $i);
+                $item->branches = implode(',', array_unique(array_merge($i, $u)));
+                $item->save();
+            }
+        };
 
         // if ($request->dough_type_id) {
         //     $category->dough_type_id = (int)$request->dough_type_id;

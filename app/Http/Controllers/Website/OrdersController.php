@@ -458,6 +458,8 @@ class OrdersController extends Controller
         $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
 
+        $count = $customer->orders()->count();
+
         $orderData = [
             "address_id" => $request->address_id,
             "customer_id" => $request->customer_id, //$request->user()->id,
@@ -472,7 +474,8 @@ class OrdersController extends Controller
             'points' => $pointsValue,
             'order_from' => 'website',
             'description_box' => $request->description,
-            'offer_value' => abs($request->has('offer_value') ? $request->offer_value : round($request->total - ($request->subtotal + $request->taxes), 2))
+            'offer_value' => abs($request->has('offer_value') ? $request->offer_value : round($request->total - ($request->subtotal + $request->taxes), 2)),
+            'is_first_order' => $count == 0,
         ];
 
         $order = Order::create($orderData);

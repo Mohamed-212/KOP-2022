@@ -87,7 +87,10 @@ class ItemController extends Controller
         $item = Item::create($validatedData);
         // $item->branches = $request->branches;
         // $item->out_of_stock = $request->out_of_stock;
-        $item->branches = implode(',', $request->branches ?? []);
+        $c = Category::findOrFail($request->category_id);
+        $i_bran = $request->branches ?? [];
+        $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+        $item->branches = implode(',', $i_bran);
         $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
         $item->save();
 
@@ -236,9 +239,13 @@ class ItemController extends Controller
         }
 
         if (auth()->user()->hasRole('admin')) {
-        $item->branches = implode(',', $request->branches ?? []);
-        $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
-        $item->save();
+            $c = Category::findOrFail($request->category_id);
+            $i_bran = $request->branches ?? [];
+            $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+            $item->branches = implode(',', $i_bran);
+            // $item->branches = implode(',', $request->branches ?? []);
+            $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
+            $item->save();
         }
 
         // dd($item->branches);
