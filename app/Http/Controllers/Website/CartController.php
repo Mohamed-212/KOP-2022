@@ -172,6 +172,8 @@ class CartController extends Controller
 
             $firstDiscount = $firstDiscount = auth()->user()->hasNoOrders();
 
+            // dd(auth()->user()->orders()->count());
+
             if (session()->has('point_claim_value')) {
                 return view('website.cart', compact(['carts', 'arr_check', 'firstDiscount']));
             } else {

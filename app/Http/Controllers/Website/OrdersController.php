@@ -198,9 +198,11 @@ class OrdersController extends Controller
     public function my_orders()
     {
         $pending_orders = auth()->user()->orders()->where('state', 'pending')->paginate(5, ['*'], 'pending');
+
         $completed_orders = auth()->user()->orders()->where('state', 'completed')->paginate(5, ['*'], 'completed');
         //$inprogress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(10);
-        $canceled_orders = auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->paginate(5, ['*'], 'canceled');
+        // dd(auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->toSql());
+        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled')->orWhere('state', 'rejected'))->paginate(5, ['*'], 'canceled');
         //$on_way = auth()->user()->orders()->where('state', 'on-way')->paginate(10);
 
         return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders'));

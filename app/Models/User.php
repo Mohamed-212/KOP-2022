@@ -183,6 +183,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasNoOrders(): bool
     {
-        return $this->orders()->count() == 0;
+        return $this->orders()->count() == 0 && $this->first_offer_available;
     }
 }
