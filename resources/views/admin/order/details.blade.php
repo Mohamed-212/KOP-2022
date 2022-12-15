@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('website2-assets/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/fontawesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/line-awesome.min.css') }}">
-<link rel="stylesheet" href="{{ asset('website2-assets/css/food-icon.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('website2-assets/css/food-icon.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/slider.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/venobox.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/slick.min.css') }}">
@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="{{ asset('website2-assets/css/splitting-cells.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/splitting.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/keyframe-animation.css') }}">
-<link rel="stylesheet" href="{{ asset('website2-assets/css/header.css') }}">
+<link rel="stylesheet" href="{{ asset('website2-assets/css/header.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('website2-assets/css/blog.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/responsive.css') }}">
