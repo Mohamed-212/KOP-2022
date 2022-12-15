@@ -562,6 +562,20 @@ class OrdersController extends BaseController
             return $this->sendError(__('general.Order not found'));
         }
 
+        $bid = $order->branch_id;
+        $branch = Branch::find($bid);
+
+        $return = (app(\App\Http\Controllers\Api\BranchesController::class)->check($request, $bid))->getOriginalContent();
+
+        if ($return['success'] && $return['data']['available'] == true) {
+        } else {
+            $validation = false;
+            
+            if ($branch) {
+                $message = __('general.branch_is_closed', ['branch' => $branch['name_' . app()->getLocale()]]);
+            }
+        }
+
         $items = [];
         $deletedOfferPrice = 0;
         $final_item_price = 0;
@@ -581,13 +595,18 @@ class OrdersController extends BaseController
             $is_valid = false;
             $hasOffer = 0;
 
-
+            if (in_array($bid, explode(',', $item->branches))) {
+                $message = __('general.item is hidden in this branch', ['item' => $item['name_' . app()->getLocale()]]);
+                $validation = false;
+                return $this->sendResponse(['message' => $message, 'validation' => $validation, 'items' => (object)[]], '');
+            }
 
             if ($item->price != OrderItem::where('order_id', $request->order_id)->where('item_id', $item->id)->pluck('pure_price')->first()) {
                 $message = __('general.item price changed');
                 $validation = false;
                 return $this->sendResponse(['message' => $message, 'validation' => $validation, 'items' => (object)[]], '');
             }
+            
             if ($item->pivot->offer_id && (Offer::find($item->pivot->offer_id))['date_to'] < now()) {
                 $message = __('general.offer expired');
                 $validation = false;

@@ -460,5 +460,6 @@ return [
 'invalid email address' => 'عنوان البريد الإلكتروني غير صحيح',
 'We have e-mailed your password reset link!' => 'لقد أرسلنا رابط إعادة تعيين كلمة المرور بالبريد الإلكتروني',
 'out of stock' => 'إنتهى من المخزن',
-"New Order has been placed" => "تم تقديم طلب جديد"
+"New Order has been placed" => "تم تقديم طلب جديد",
+'item is hidden in this branch' => ':item is hidden in this branch'
 ];

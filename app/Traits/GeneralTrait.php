@@ -246,6 +246,8 @@ trait GeneralTrait
      */
     public function applyDiscountIfFirstOrder(User $user, float $total): float
     {
+        return $total;
+
         if ($user->hasNoOrders()) {
             $total *= .50;
             $user->first_offer_available = false;
@@ -265,6 +267,8 @@ trait GeneralTrait
      */
     public function removeDiscountIfNotFirstOrder(User $user, float $total): float
     {
+        return $total;
+        
         if ($user->hasNoOrders()) {
             return round($total, 2);
         }
