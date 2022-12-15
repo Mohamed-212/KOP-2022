@@ -242,7 +242,10 @@ class CartController extends Controller
                         $final_item_price_without_offer += $extras_price;
                     }
                 }
+                // dd($final_item_price, $final_item_price_without_offer);
             }
+
+            // dd($final_item_price, $final_item_price_without_offer);
 
 
             // if (session()->has('loyality-points')) {
