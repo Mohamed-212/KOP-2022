@@ -37,11 +37,7 @@
         <section class="checkout-section bg-grey padding">
             <div class="container">
                 <form class="checkout-form-wrap" method="post"
-                @if (!empty($request->order_id) && session()->has('direct_check'))
                 action="{{route('make_order_reorder')}}"
-                @else
-                action="{{(isset($payment) && $payment) ? route('make_order') : ''}}"
-                @endif
                     >
                     <div class="row">
 
@@ -319,7 +315,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('general.Cancel')}}</button>
-                      <button type="button" class="btn btn-primary confirm_cash_btn" data-formaction="{{ route('make_order') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
+                      <button type="button" class="btn btn-primary confirm_cash_btn" data-formaction="{{ route('make_order_reorder') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
                     </div>
                   </div>
                 </div>
