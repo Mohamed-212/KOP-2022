@@ -379,8 +379,8 @@
                                                             </div>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
-                                                                    <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
-                                                                        class="btn bg-danger px-3 default-btn rounded">{{ __('general.Reorder') }}<span></span></a>
+                                                                    {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
+                                                                        class="btn bg-danger px-3 default-btn rounded">{{ __('general.Reorder') }}<span></span></a> --}}
                                                                     <a href="{{ route('order.details', $ca->id) }}"
                                                                         class="btn px-3 default-btn rounded">{{ __('general.Details') }}
                                                                         <span></span>
@@ -388,8 +388,8 @@
                                                                 @else
                                                                     <a href="{{ route('order.details', $ca->id) }}"
                                                                         class="btn px-3 default-btn">{{ __('general.Details') }}</a>
-                                                                    <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
-                                                                        class="btn btn-outline-primary text-white px-3 default-btn">{{ __('general.Reorder') }}</a>
+                                                                    {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
+                                                                        class="btn btn-outline-primary text-white px-3 default-btn">{{ __('general.Reorder') }}</a> --}}
                                                                 @endif
                                                             </div>
                                                         </div>

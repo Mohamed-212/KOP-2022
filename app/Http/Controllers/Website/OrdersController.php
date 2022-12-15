@@ -454,8 +454,8 @@ class OrdersController extends Controller
         }
 
         // apply 50% discount if this is first order
-        $firstDiscount = auth()->user()->hasNoOrders();
-        $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
+        $firstDiscount = $customer->hasNoOrders();
+        // $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
 
         $count = $customer->orders()->count();
@@ -493,6 +493,9 @@ class OrdersController extends Controller
             ]);
         }
 
+        $customer->first_offer_available = 0;
+        $customer->save();
+
         // send notification to all user_branches
         // $cashiers = Branch::find($branch_id);
         // if ($cashiers) {
@@ -511,7 +514,7 @@ class OrdersController extends Controller
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
-              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
               broadcast(new OrderCreated($new_order,$cashier->user_id));
             }
         }

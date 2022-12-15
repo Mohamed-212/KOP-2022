@@ -375,7 +375,7 @@
                                                 value="{{ round($order['total'] < $order['subtotal'], 2) }}" />
                                         </li>
                                     @endif
-                                    @if ($firstOrder->id == $order->id)
+                                    @if ($order->is_first_order)
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
                                                 : </b> <span style="font-size: smaller;" id="total">-
                                                 {{ $order['total'] }}
