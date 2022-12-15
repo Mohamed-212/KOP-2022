@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Website;
 
 use App\Events\OrderCreated;
+use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrdersController as ApiOrdersController;
 use App\Models\Branch;
@@ -71,6 +72,74 @@ class OrdersController extends Controller
 
                 session()->forget('payment');
             }
+
+            session()->forget('checkOut_details');
+
+            // return redirect()->route('get.cart')->with(['success' => __('general.Your order been submitted successfully')]);
+            return redirect()->route('get.orders');
+        }
+    }
+
+    public function make_order_reorder(Request $request)
+    {
+        // return $request;
+
+        if (!session()->has('direct_check')) {
+            return redirect()->route('menu.page');
+        }
+       
+        $ord = Order::findOrFail($request->order_id);
+        $items = $ord->items;
+        
+        foreach ($items as $item) {
+            $item->extras = json_decode($item->pivot->item_extras);
+            $item->withouts = json_decode($item->pivot->item_withouts);
+            $item->offerId = $item->pivot->offer_id;
+            $item->offer_price = round($item->pivot->offer_price, 2);
+            $item->price = Item::find($item->pivot->item_id)->price;
+            $item->item_id = $item->pivot->item_id;
+        }
+
+        // dd($items);
+
+        if (!$request->has('points_paid')) {
+            $request = $request->merge([
+                'items' => $items,
+                'points_paid' => 0,
+            ]);
+        } else {
+            $request = $request->merge([
+                'items' => $items,
+                'points_paid' => $request->points_paid,
+            ]);
+        }
+
+        $return = $this->store_order($request);
+
+        // dd($return);
+
+        session()->forget('direct_check');
+
+
+        if ($return['success'] == true) {
+            // foreach ($items as $item) {
+            //     // $item->delete();
+            // }
+            if (session()->has('point_claim_value')) {
+                session()->forget('point_claim_value');
+                session()->forget('points_value');
+            }
+
+            if (session()->has('payment')) {
+                $payment = Payment::where('payment_id', session('payment')['payment_id'])->where('customer_id', Auth::id())->first();
+
+                $payment->order_id = $return['data']['id'];
+                $payment->save();
+
+                session()->forget('payment');
+            }
+
+            session()->forget('checkOut_details');
 
             // return redirect()->route('get.cart')->with(['success' => __('general.Your order been submitted successfully')]);
             return redirect()->route('get.orders');
@@ -167,6 +236,10 @@ class OrdersController extends Controller
             if (session()->has('payment_hash')) {
                 return view('api.payment_response');
                 session()->forget('payment_hash');
+            }
+
+            if (session()->has('direct_check')) {
+                return redirect()->route('payment.get_checkout_reorder');
             }
 
             return redirect()->route('payment.checkout');
@@ -462,6 +535,8 @@ class OrdersController extends Controller
 
         $count = $customer->orders()->count();
 
+        // dd($request->all());
+
         $orderData = [
             "address_id" => $request->address_id,
             "customer_id" => $request->customer_id, //$request->user()->id,
@@ -476,8 +551,8 @@ class OrdersController extends Controller
             'points' => $pointsValue,
             'order_from' => 'website',
             'description_box' => $request->description,
-            'offer_value' => abs($request->has('offer_value') ? $request->offer_value : round($request->total - ($request->subtotal + $request->taxes), 2)),
-            'is_first_order' => $count == 0,
+            'offer_value' => (float)$request->discount,
+            'is_first_order' => $firstDiscount,
         ];
 
         $order = Order::create($orderData);
@@ -603,14 +678,77 @@ class OrdersController extends Controller
                     'offer_price' =>  $item->pivot->offer_price,
                     'price' => $item->pivot->price,
                 ]);
-                $cart = (app(CartController::class)->addCart($request))->getOriginalContent();
-                if ($cart['success'] !== true) {
-                    break;
-                    return redirect()->route('menu.page');
-                }
+                // return $this->get_checkout($request);
+                // $cart = (app(CartController::class)->addCart($request))->getOriginalContent();
+                // if ($cart['success'] !== true) {
+                //     break;
+                //     return redirect()->route('menu.page');
+                // }
             }
+
+            session()->put('direct_check', 1);
         }
 
         return response()->json($res);
+    }
+
+    public function get_checkout(Request $request)
+    {
+        $payment = null;
+        if (session()->has('payment')) {
+            $payment = (object) session('payment');
+
+            if (null === $payment->status) {
+                Payment::where('payment_id', $payment->payment_id)->delete();
+
+                session()->forget('payment');
+                // abort(404);
+            } else {
+                $request->merge(session('checkOut_details'));
+            }
+        }
+
+        if ($request['total'] <= 0 && isset($request['points_paid']) && $request['points_paid'] > 0) {
+            return back()->with('loyality_not_used', __('general.loyality_not_used'));
+        }
+
+        $firstDiscount = auth()->user()->hasNoOrders();
+
+        $service_type = session()->get('service_type');
+        if ($service_type == 'delivery') {
+            $address_id = session()->get('address_id');
+            $request->merge(['address_id' => $address_id]);
+        }
+        $branch_id = session()->get('branch_id');
+        $area_id = session()->get('address_area_id');
+        $request->merge([
+            'branch_id' => $branch_id,
+            'service_type' => $service_type,
+            'address_area_id' => $area_id,
+        ]);
+
+        $branch = Branch::where('id', $branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
+            $day->where('day', strtolower(now()->englishDayOfWeek))->first();
+        }])->first();
+
+        $work_hours = $branch->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->get();
+
+        $isOpen = (app(BranchesController::class)->check($request, $branch_id))->getOriginalContent();
+
+        if ($isOpen['data']['available'] === false) {
+            session()->flash('branch_closed', true);
+            session()->flash('branch_name', $branch['name_' . app()->getLocale()]);
+            return back();
+        }
+
+        unset($request['_token']);
+        session()->put(['checkOut_details' => $request->all()]);
+
+        if (isset($address_id)) {
+            $address = Address::find($address_id);
+            return view('website.checkout', compact('request', 'address', 'work_hours', 'firstDiscount'));
+        }
+
+        return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
     }
 }

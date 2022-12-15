@@ -216,8 +216,11 @@ Route::group([
 
                 /*****************Begin Checkout And Orders Routes ****************/
                 Route::post('get-checkout/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('checkout');
+                Route::post('get-checkout-reorder/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout_reorder'])->name('get_checkout_reorder');
                 Route::get('get-checkout-payment/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('payment.checkout');
+                Route::get('get-checkout-payment-reorder/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout_reorder'])->name('payment.get_checkout_reorder');
                 Route::post('make-order/', [\App\Http\Controllers\Website\OrdersController::class, 'make_order'])->name('make_order');
+                Route::post('make-order-reorder/', [\App\Http\Controllers\Website\OrdersController::class, 'make_order_reorder'])->name('make_order_reorder');
                 /*****************End Checkout And Orders Routes ****************/
             });
 

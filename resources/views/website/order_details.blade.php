@@ -178,6 +178,7 @@
                                     </div>
                                 </div> --}}
                                 @isset($address)
+                                    <input type="hidden" hidden name="address_id" value="{{$address['id']}}" />
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-header mt-30">
@@ -335,6 +336,7 @@
                                 <ul class="cart-total mt-30">
                                     @isset($reorder)
                                         <input type="hidden" hidden name="reorder_me" value="1" />
+                                        <input type="hidden" hidden name="order_id" value="{{$order['id']}}" />
                                     @endisset
                                     <li>
                                         {{ __('general.Sub Total') }}: </b> <span
@@ -369,10 +371,10 @@
                                     @if ($order['subtotal'] < $order['total'])
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
                                                 : </b> <span id="points" style="font-size: smaller;">
-                                                {{ round($order['total'] - ($order['subtotal'] + $order['taxes']), 2) }}
+                                                {{ round($order['offer_value'], 2) }}
                                                 {{ __('general.SR') }}</span>
                                             <input id="discount-offers" hidden name="discount"
-                                                value="{{ round($order['total'] < $order['subtotal'], 2) }}" />
+                                                value="{{ round($order['offer_value'], 2) }}" />
                                         </li>
                                     @endif
                                     @if ($order->is_first_order)
@@ -475,7 +477,7 @@
                                 return;
                             }
 
-                            $('#checkout-form').attr('action', "{{ route('add.cart') }}");
+                            $('#checkout-form').attr('action', "{{ route('get_checkout_reorder') }}");
                             $('#checkout-form').submit();
 
                             // window.location.href = "{{ route('get.cart') }}";
@@ -491,4 +493,7 @@
                 })
             });
         </script>
+        @php
+
+        @endphp
     @endsection

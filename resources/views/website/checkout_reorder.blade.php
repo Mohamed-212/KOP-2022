@@ -37,7 +37,12 @@
         <section class="checkout-section bg-grey padding">
             <div class="container">
                 <form class="checkout-form-wrap" method="post"
-                @if (isset($payment) && $payment) action="{{ route('make_order') }}" @endif>
+                @if (!empty($request->order_id) && session()->has('direct_check'))
+                action="{{route('make_order_reorder')}}"
+                @else
+                action="{{(isset($payment) && $payment) ? route('make_order') : ''}}"
+                @endif
+                    >
                     <div class="row">
 
                         <div class="col-lg-8 sm-padding">
@@ -198,7 +203,7 @@
 
                                             <span></span>
                                         </button>
-                                        <button class="btn default-btn bg-primary rounded shadow selectTypeOnline"
+                                        <button class="btn default-btn bg-primary rounded shadow selectTypeOnline @if (isset($payment) && $payment) bg-success @endif"
                                             type="button"  data-bs-toggle="modal" data-bs-target="#confirm_online">
                                             {{ __('general.Confirm Order OnlinePay') }}
 
@@ -239,9 +244,10 @@
                                 @endauth
                                 <input id="delivery_feesnput" hidden name="total" value="{{ $request->total }}" />
 
+                                <input hidden name="order_id" value="{{ $request->order_id }}" />
 
                             </ul>
-                            <button type="submit" class="default-btn">{{ __('general.confirm_order') }}
+                            <button type="submit" class="default-btn confirmOrder">{{ __('general.confirm_order') }}
                                 <span></span></button>
                         </div>
                         <input type="hidden" hidden name="discount" value="{{ round($request->discount, 2) }}" />

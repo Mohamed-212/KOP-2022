@@ -10,6 +10,7 @@ use App\Models\Offer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
@@ -282,6 +283,8 @@ class CartController extends Controller
 
     public function get_checkout(Request $request)
     {
+        session()->forget('direct_check');
+        
         if (auth()->user()->carts()->get()->count() <= 0) {
             return redirect()->route('menu.page');
         }
@@ -306,17 +309,39 @@ class CartController extends Controller
 
         $firstDiscount = auth()->user()->hasNoOrders();
 
+        if (session()->has('direct_check')) {
+
+            // dd($request);
+            $ord = Order::find($request->order_id);
+            if ($ord) {
+                session(['service_type' => $ord->service_type]);
+                session(['address_type' => $request->address_id]);
+                session(['branch_id' => $ord->branch_id]);
+
+                $add = Address::find($request->address_id);
+                if ($add) {
+                    if ($add->area) {
+                        session(['address_area_id' => $add->area_id]);
+                    }
+                }
+            } else {
+                return redirect()->route('menu.page');
+            }
+        }
+
+        // dd(session()->all());
         $service_type = session()->get('service_type');
         if ($service_type == 'delivery') {
             $address_id = session()->get('address_id');
-            $request->merge(['address_id' => $address_id]);
+            $area_id = session()->get('address_area_id');
+            $request->merge(['address_id' => $address_id, 'address_area_id' => $area_id]);
         }
         $branch_id = session()->get('branch_id');
-        $area_id = session()->get('address_area_id');
+        
         $request->merge([
             'branch_id' => $branch_id,
             'service_type' => $service_type,
-            'address_area_id' => $area_id,
+            
         ]);
 
         $branch = Branch::where('id', $branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
@@ -342,6 +367,103 @@ class CartController extends Controller
         }
 
         return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
+    }
+
+    public function get_checkout_reorder(Request $request)
+    {
+        if (!session()->has('direct_check')) {
+            return redirect()->route('menu.page');
+        }
+
+        $payment = null;
+        if (session()->has('payment')) {
+            $payment = (object) session('payment');
+            // session()->forget('payment');
+            if (null === $payment->status) {
+                Payment::where('payment_id', $payment->payment_id)->delete();
+
+                session()->forget('payment');
+                // abort(404);
+            } else {
+                $request->merge(session('checkOut_details'));
+            }
+        }
+
+        if ($request['total'] <= 0 && isset($request['points_paid']) && $request['points_paid'] > 0) {
+            return back()->with('loyality_not_used', __('general.loyality_not_used'));
+        }
+
+        $firstDiscount = false;
+
+        // dd($request->all());
+
+        if (session()->has('direct_check')) {
+
+            // dd($request);
+            $ord = Order::find($request->order_id);
+            if ($ord) {
+                if ($ord->is_first_order) {
+                    $request->merge([
+                        'total' => round($ord->total *2, 2)
+                    ]);
+                }
+                session(['service_type' => $ord->service_type]);
+                session(['address_type' => $request->address_id]);
+                session(['branch_id' => $ord->branch_id]);
+
+                $add = Address::find($request->address_id);
+                if ($add) {
+                    if ($add->area) {
+                        session(['address_area_id' => $add->area_id]);
+                    }
+                }
+            } else {
+                return redirect()->route('menu.page');
+            }
+        }
+
+        // dd(session()->all());
+        $service_type = session()->get('service_type');
+        if ($service_type == 'delivery') {
+            $address_id = session()->get('address_id');
+            $area_id = session()->get('address_area_id');
+            $request->merge(['address_id' => $address_id, 'address_area_id' => $area_id]);
+        }
+        $branch_id = session()->get('branch_id');
+        
+        $request->merge([
+            'branch_id' => $branch_id,
+            'service_type' => $service_type,
+            
+        ]);
+
+        $branch = Branch::where('id', $branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
+            $day->where('day', strtolower(now()->englishDayOfWeek))->first();
+        }])->first();
+
+        $work_hours = $branch->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->get();
+
+        $isOpen = (app(BranchesController::class)->check($request, $branch_id))->getOriginalContent();
+
+        if ($isOpen['data']['available'] === false) {
+            session()->flash('branch_closed', true);
+            session()->flash('branch_name', $branch['name_' . app()->getLocale()]);
+            return back();
+        }
+
+        unset($request['_token']);
+        session()->put(['checkOut_details' => $request->all()]);
+
+        if (isset($address_id)) {
+            $address = Address::find($address_id);
+            return view('website.checkout_reorder', compact('request', 'address', 'work_hours', 'firstDiscount'));
+        }
+
+        if (session()->has('payment')) {
+            // session()->forget('direct_check');
+        }
+
+        return view('website.checkout_reorder', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
     }
 
     public function get_delivery_fees($area_id)
