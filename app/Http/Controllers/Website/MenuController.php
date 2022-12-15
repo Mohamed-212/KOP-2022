@@ -83,16 +83,18 @@ class MenuController extends Controller
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
+                    if ($parent_offer && $parent_offer->offer) {
+
+                        if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
                     // Just edit
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer && $parent_offer->offer) {
-
-                    if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+                
 
 
                 $item->offer = $parent_offer;
