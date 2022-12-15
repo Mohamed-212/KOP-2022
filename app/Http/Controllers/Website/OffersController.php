@@ -61,8 +61,11 @@ class OffersController extends Controller
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 if ($item->offer_id) {
-                    $cartHasOffers = true;
-                    break;
+                    $offer = Offer::find($item->offer_id);
+                    if ($offer->offer_type == 'buy-get') {
+                        $cartHasOffers = true;
+                        break;
+                    }
                 }
             } 
         }
@@ -94,6 +97,23 @@ class OffersController extends Controller
             }
             return view('website.offerDiscount', compact(['offers']));
         }
-        return view('website.offerBuyGet', compact(['offers']));
+
+        // check if cart has items with offers
+        $cartHasOffers = false;
+        $cart = collect();
+        if (auth()->check()) {
+            $cart = auth()->user()->carts;
+            foreach ($cart as $item) {
+                if ($item->offer_id) {
+                    $offer = Offer::find($item->offer_id);
+                    if ($offer->offer_type == 'discount') {
+                        $cartHasOffers = true;
+                        break;
+                    }
+                }
+            } 
+        }
+
+        return view('website.offerBuyGet', compact(['offers', 'cartHasOffers']));
     }
 }

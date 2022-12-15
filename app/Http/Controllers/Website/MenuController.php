@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\OfferDiscount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -26,8 +27,11 @@ class MenuController extends Controller
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 if ($item->offer_id) {
-                    $cartHasOffers = true;
-                    break;
+                    $offer = Offer::find($item->offer_id);
+                    if ($offer->offer_type == 'buy-get') {
+                        $cartHasOffers = true;
+                        break;
+                    }
                 }
             }
         }

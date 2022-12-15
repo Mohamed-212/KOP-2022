@@ -132,6 +132,7 @@ Route::middleware('api')->group(function () {
 
     Route::group(['prefix' => 'offers', 'middleware' => 'auth:api'], function () {
         Route::get('/', 'Api\OffersController@index')->name("offers.index");
+        Route::get('/discount/{offer}', 'Api\OffersController@get_discount');
         Route::get('/{offer}', 'Api\OffersController@get');
     });
     // offers routes

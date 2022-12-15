@@ -47,6 +47,7 @@
                                     @csrf
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="offer_id" value="{{$offers['buy_get']['offer_id']}}">
+                                    <input type="hidden" hidden name="from_buy_gey" value="1" />
                                     <div class="row">
                                         @if(count($offers['details']['buy_items']) > 0)
                                             <div class="col-sm-11 m-auto">
@@ -215,7 +216,12 @@
             $('.submitOffer').click(function (e){
                 e.preventDefault();
                 if(get_quantity == get_quantity_counter && buy_quantity == buy_quantity_counter){
-                    $('#addToCard').submit();
+                    @if($cartHasOffers)
+                    const myModalAlternative = new bootstrap.Modal('#offersMultibleInOneOrder');
+                    myModalAlternative.show();
+                    @else
+                        $('#addToCard').submit();
+                    @endif
                 }
                 else if (buy_quantity > buy_quantity_counter){
                     alert('{{__('general.Please buy')}} {{$offers['buy_get']['buy_quantity']}} {{__('general.at least')}} {{__('general.to get')}} {{$offers['buy_get']['get_quantity']}}')
