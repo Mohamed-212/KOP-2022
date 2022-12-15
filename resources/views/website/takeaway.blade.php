@@ -210,10 +210,10 @@
                 @endif
 
                 @if ($countItems > 0)
-                    const branchModal = new bootstrap.Modal('#cartempty', {
-                        keyboard: false,
-                    });
-                    branchModal.show();
+                    // const branchModal = new bootstrap.Modal('#cartempty', {
+                    //     keyboard: false,
+                    // });
+                    // branchModal.show();
                 @endif
             });
         </script>
