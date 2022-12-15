@@ -443,5 +443,6 @@ return [
     'We have e-mailed your password reset link' => 'We have e-mailed your password reset link!',
     'out of stock' => 'out of stock',
     "New Order has been placed" => "New Order has been placed",
-    'item is hidden in this branch' => ':item is hidden in this branch'
+    'item is hidden in this branch' => ':item is hidden in this branch',
+    'items cart will be empty' => 'items cart will be empty'
 ];

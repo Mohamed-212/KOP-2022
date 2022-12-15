@@ -23,9 +23,9 @@ class ServiceController extends Controller
             $branch->working_hours = $currentDay;
         }
 
-        
+        $countItems = auth()->user()->carts()->count();
 
-        return view('website.takeaway', compact(['branches']));
+        return view('website.takeaway', compact(['branches', 'countItems']));
     }
 
     /* choose delivery(takeaway) branch or delivery address  */

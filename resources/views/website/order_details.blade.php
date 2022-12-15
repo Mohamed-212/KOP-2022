@@ -85,60 +85,61 @@
                                         </h3>
                                         <p> {{ app()->getLocale() == 'ar' ? $item->description_ar : $item->description_en }}
                                         </p>
-                                    </div>
-                                </div>
-                                <div >
-                                    <div style="font-size: 10px" class="small">
-                                        @if (isset($item['dough_type_' . app()->getLocale()]))
-                                            <p>
-                                                {{ __('general.Dough Type') }}:
-                                                <b>{{ $item['dough_type_' . app()->getLocale()] }}</b>
-                                            </p>
-                                        @endif
-                                        @if (isset($item['dough_type_2_' . app()->getLocale()]))
-                                            <p>
-                                                {{ __('general.Dough Type2') }}:
-                                                <b>{{ $item['dough_type_2_' . app()->getLocale()] }}</b>
-                                            </p>
-                                        @endif
-                                        {{-- @php
-                                            $item->extras_objects = 
-                                        @endphp --}}
-                                        @if (count($item->extras_objects))
-                                            <p>
-                                                <b class="text-primary">{{ __('general.Extra') }}:</b>
-                                                <ol class="list-group list-group-horizontal list-group-numbered">
-                                                    @foreach ($item->extras_objects as $extra)
-                                                        <li class='list-group-item px-1'>
-                                                            {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
-                                                        </li>
-                                                    @endforeach
-    
-                                                </ol>
-                                            {{-- <div class="row">
-                                                @foreach ($item->extras_objects as $extra)
-                                                    <div class="col-4 text-center border p-1">
-                                                        {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
+                                        <div >
+                                            <div style="font-size: " class="small">
+                                                @if (isset($item['dough_type_' . app()->getLocale()]))
+                                                    <p>
+                                                        {{ __('general.Dough Type') }}:
+                                                        <b>{{ $item['dough_type_' . app()->getLocale()] }}</b>
+                                                    </p>
+                                                @endif
+                                                @if (isset($item['dough_type_2_' . app()->getLocale()]))
+                                                    <p>
+                                                        {{ __('general.Dough Type2') }}:
+                                                        <b>{{ $item['dough_type_2_' . app()->getLocale()] }}</b>
+                                                    </p>
+                                                @endif
+                                                {{-- @php
+                                                    $item->extras_objects = 
+                                                @endphp --}}
+                                                @if (count($item->extras_objects))
+                                                    <p>
+                                                        <b class="text-primary">{{ __('general.Extra') }}:</b>
+                                                        {{-- <ol class="list-group list-group-horizontal list-group-numbered">
+                                                            @foreach ($item->extras_objects as $extra)
+                                                                <li class='list-group-item px-1'>
+                                                                    {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
+                                                                </li>
+                                                            @endforeach
+            
+                                                        </ol> --}}
+                                                    <div class="row">
+                                                        @foreach ($item->extras_objects as $extra)
+                                                            <div class="col-4 text-center border p-1">
+                                                                {{ $extra['name_' . app()->getLocale()] }}<br>({{$extra->price}} {{__('general.SR')}})
+                                                            </div>
+                                                        @endforeach
                                                     </div>
-                                                @endforeach
-                                            </div> --}}
-                                            </p>
-                                        @endif
-                                        @if (count($item->withouts_objects))
-                                            <p>
-                                                <b class="text-danger">{{ __('general.Without') }}:</b>
-                                            <ol class="list-group list-group-horizontal list-group-numbered">
-                                                @foreach ($item->withouts_objects as $without)
-                                                    <li class='list-group-item px-1'>
-                                                        {{ $without['name_' . app()->getLocale()] }}
-                                                    </li>
-                                                @endforeach
-
-                                            </ol>
-                                            </p>
-                                        @endif
+                                                    </p>
+                                                @endif
+                                                @if (count($item->withouts_objects))
+                                                    <p>
+                                                        <b class="text-danger">{{ __('general.Without') }}:</b>
+                                                    <ol class="list-group list-group-horizontal list-group-numbered">
+                                                        @foreach ($item->withouts_objects as $without)
+                                                            <li class='list-group-item px-1'>
+                                                                {{ $without['name_' . app()->getLocale()] }}
+                                                            </li>
+                                                        @endforeach
+        
+                                                    </ol>
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                               
 
                             </div>
                             <div class="col-4 col-lg-3">
