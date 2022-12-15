@@ -8,10 +8,12 @@ use App\Models\Order;
 use App\Filters\OrderFilters;
 use App\Models\Address;
 use App\Models\Branch;
+use App\Models\Extra;
 use App\Models\Offer;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\User;
+use App\Models\Without;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +77,8 @@ class OrderController extends Controller
         }
 
         $items->map(function (&$item, $key) {
+            $item->extras_objects = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
+            $item->withouts_objects = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
             if ($item->pivot->offer_id) {
                 $offer = Offer::find($item->pivot->offer_id);
                 if ($offer->date_to > now()) {

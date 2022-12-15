@@ -28,7 +28,7 @@ class MenuController extends Controller
             foreach ($cart as $item) {
                 if ($item->offer_id) {
                     $offer = Offer::find($item->offer_id);
-                    if ($offer->offer_type == 'buy-get') {
+                    if ($offer && $offer->offer_type == 'buy-get') {
                         $cartHasOffers = true;
                         break;
                     }
@@ -57,7 +57,7 @@ class MenuController extends Controller
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 $offer = Offer::find($item->offer_id);
-                if ($offer->offer_type == 'buy-get') {
+                if ($offer && $offer->offer_type == 'buy-get') {
                     $cartHasOffers = true;
                     break;
                 }

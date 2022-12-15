@@ -5,18 +5,45 @@
 <link rel="stylesheet" href="{{ asset('website2-assets/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/fontawesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/line-awesome.min.css') }}">
-{{-- <link rel="stylesheet" href="{{ asset('website2-assets/css/food-icon.css') }}">
+<link rel="stylesheet" href="{{ asset('website2-assets/css/food-icon.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/slider.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/venobox.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/slick.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/swiper.min.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/splitting-cells.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/splitting.css') }}">
-<link rel="stylesheet" href="{{ asset('website2-assets/css/keyframe-animation.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('website2-assets/css/header.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('website2-assets/css/blog.css') }}"> --}}
+<link rel="stylesheet" href="{{ asset('website2-assets/css/keyframe-animation.css') }}">
+<link rel="stylesheet" href="{{ asset('website2-assets/css/header.css') }}">
+<link rel="stylesheet" href="{{ asset('website2-assets/css/blog.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('website2-assets/css/responsive.css') }}">
+<link rel="stylesheet" href="{{ asset('website2-assets/css/style2.css') }}">
+<style>
+    .page-header__top {
+        margin: 20px 0px 30px !important;
+    }
+
+    a:hover,
+    a:focus {
+        color: #ff0000;
+        text-decoration: none;
+    }
+
+    .stepper-type-2 .stepper-arrow.up {
+        top: 0;
+        margin-top: -5px;
+    }
+
+    .stepper-type-2 .stepper-arrow.down {
+        top: 100%;
+        margin-top: -20px;
+        font-size: 20px;
+    }
+
+    td {
+        border: 0 !important;
+    }
+</style>
 
 <div class="content-wrapper">
   <section class="content-header">
@@ -94,6 +121,60 @@
                             </p>
                         </div>
                     </div>
+
+                    <div >
+                        <div style="font-size: 10px" class="small">
+                            @if (isset($item['dough_type_' . app()->getLocale()]))
+                                <p>
+                                    {{ __('general.Dough Type') }}:
+                                    <b>{{ $item['dough_type_' . app()->getLocale()] }}</b>
+                                </p>
+                            @endif
+                            @if (isset($item['dough_type_2_' . app()->getLocale()]))
+                                <p>
+                                    {{ __('general.Dough Type2') }}:
+                                    <b>{{ $item['dough_type_2_' . app()->getLocale()] }}</b>
+                                </p>
+                            @endif
+                            {{-- @php
+                                $item->extras_objects = 
+                            @endphp --}}
+                            @if (count($item->extras_objects))
+                                <p>
+                                    <b class="text-primary">{{ __('general.Extra') }}:</b>
+                                    <ol class="list-group list-group-horizontal list-group-numbered">
+                                        @foreach ($item->extras_objects as $extra)
+                                            <li class='list-group-item px-1' style="border-right: 2px solid #9f9f9f;">
+                                                {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
+                                            </li>
+                                        @endforeach
+
+                                    </ol>
+                                {{-- <div class="row">
+                                    @foreach ($item->extras_objects as $extra)
+                                        <div class="col-4 text-center border p-1">
+                                            {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
+                                        </div>
+                                    @endforeach
+                                </div> --}}
+                                </p>
+                            @endif
+                            @if (count($item->withouts_objects))
+                                <p>
+                                    <b class="text-danger">{{ __('general.Without') }}:</b>
+                                <ol class="list-group list-group-horizontal list-group-numbered">
+                                    @foreach ($item->withouts_objects as $without)
+                                        <li class='list-group-item px-1' style="border-right: 2px solid #9f9f9f;">
+                                            {{ $without['name_' . app()->getLocale()] }}
+                                        </li>
+                                    @endforeach
+
+                                </ol>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-4 col-lg-3">
                     <div class="form-group stepper-type-2 quantity-up-{{ $item->id }}">

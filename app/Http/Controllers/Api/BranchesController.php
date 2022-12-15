@@ -69,7 +69,7 @@ class BranchesController extends BaseController
             $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
             $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
 
-            if ($workingDay->time_to == '01:00 AM') {
+            if ($workingDay->time_to == '1:00 AM') {
                 $timeTo->addDay();
             }
 

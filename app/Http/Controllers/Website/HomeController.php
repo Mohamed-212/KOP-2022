@@ -146,7 +146,7 @@ class HomeController extends Controller
             foreach ($cart as $item) {
                 if ($item->offer_id) {
                     $offer = Offer::find($item->offer_id);
-                    if ($offer->offer_type == 'buy-get') {
+                    if ($offer && $offer->offer_type == 'buy-get') {
                         $cartHasOffers = true;
                         break;
                     }

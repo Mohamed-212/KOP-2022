@@ -23,6 +23,8 @@ class ServiceController extends Controller
             $branch->working_hours = $currentDay;
         }
 
+        
+
         return view('website.takeaway', compact(['branches']));
     }
 
@@ -33,11 +35,34 @@ class ServiceController extends Controller
         $request = new Request();
         if ($service_type == 'takeaway') {
             $request->merge(['branch_id' => $id]);
+            $branchId = $id;
+            $branch = Branch::find($branchId);
         } else {
             $request->merge(['address_id' => $id]);
-            //            session()->put(['address_id'=>$id]);
+            $add = Address::findOrFail($id);
+            $area = $add->area;
+            if ($area) {
+                $branch = DB::table('branch_delivery_areas')->where('area_id', $area->id . "")->first();
+                $branch = Branch::find($branch->branch_id);
+                if ($branch) {
+                    $branchId = $branch->id;
+                }
+            }
+            // session()->put(['address_id'=>$id]);
         }
+
+        $isOpen = (app(\App\Http\Controllers\Api\BranchesController::class)->check($request, $branchId))->getOriginalContent();
+
+        if ($isOpen['data']['available'] === false) {
+            session()->flash('branch_closed', true);
+            session()->flash('branch_name', $branch['name_' . app()->getLocale()]);
+            // dd($isOpen);
+            return back();
+        }
+
         $return = (app(\App\Http\Controllers\Api\BranchesController::class)->getBranchWorkingHours($request))->getOriginalContent();
+
+        // dd($return);
 
         if ($return['success'] == true) {
             session()->put(['branch_id' => $return['data']['id']]);

@@ -315,7 +315,11 @@ class OrdersController extends Controller
             $payment = Payment::where('order_id', $order->id)->where('customer_id', $order->customer_id)->first();
         }
 
+        // dd($items);
+
         $items->map(function (&$item, $key) {
+            $item->extras_objects = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
+            $item->withouts_objects = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
             if ($item->pivot->offer_id) {
                 $offer = Offer::find($item->pivot->offer_id);
                 if ($offer->date_to > now()) {
