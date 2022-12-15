@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\Order;
 use App\Filters\OrderFilters;
+use App\Models\Address;
+use App\Models\Branch;
+use App\Models\Offer;
 use App\Models\OrderItem;
+use App\Models\Payment;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,8 +47,48 @@ class OrderController extends Controller
 
     public function show(Request $request, $order_id)
     {
+        $order = Order::find($order_id);
+
+        $user = User::find($order->customer_id);
+
+        $firstOrder = $order->is_first_order;
+
+        $branch = $work_hours = null;
+        if (isset($order->branch_id)) {
+            $branch = Branch::where('id', $order->branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
+                $day->where('day', strtolower(now()->englishDayOfWeek))->first();
+            }])->first();
+
+            $work_hours = $branch->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->get();
+        }
+
+        $address = null;
+        if ($order->address_id) {
+            $address = Address::find($order->address_id);
+        }
+
+        $items = $order->items;
+
+        $payment = null;
+        if ($order->payment_type === 'online') {
+            $payment = Payment::where('order_id', $order->id)->where('customer_id', $order->customer_id)->first();
+        }
+
+        $items->map(function (&$item, $key) {
+            if ($item->pivot->offer_id) {
+                $offer = Offer::find($item->pivot->offer_id);
+                if ($offer->date_to > now()) {
+                    $item['valid'] = 1;
+                } else {
+                    $item['valid'] = 0;
+                }
+            }
+        });
+
         $orderDetails = OrderItem::where('order_id', $order_id)->get();
+        
         $this->Make_Log('App\Models\Order','view details',$order_id);
-        return view('admin.order.details' , compact('orderDetails'));
+
+        return view('admin.order.details' , compact('orderDetails', 'branch', 'work_hours', 'address', 'user', 'items', 'order', 'payment', 'firstOrder'));
     }
 }

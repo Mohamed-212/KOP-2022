@@ -288,7 +288,7 @@ class OrdersController extends Controller
 
         $user = User::find($order->customer_id);
 
-        $firstOrder = $user->orders()->whereIn('state', ['pending', 'in-progress', 'completed'])->first();
+        $firstOrder = $order->is_first_order;
 
         if ($reorder) {
             // $order->total = 0;
