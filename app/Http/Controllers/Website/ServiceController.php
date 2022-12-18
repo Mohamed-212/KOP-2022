@@ -65,17 +65,18 @@ class ServiceController extends Controller
         // dd($return);
 
         if ($return['success'] == true) {
-            session()->put(['branch_id' => $return['data']['id']]);
-            session()->put(['service_type' => $service_type]);
+            
+            session(['branch_id' => $return['data']['id']]);
+            session(['service_type' => $service_type]);
             if ($service_type == 'delivery') {
-                session()->put(['address_id' => $id]);
+                session(['address_id' => $id]);
                 $address = Address::findOrFail($id);
-                session()->put(['address_area_id' => $address->area_id]);
+                session(['address_area_id' => $address->area_id]);
 
                 if ($address->area) {
                     $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
                     if ($branch) {
-                        session()->put(['address_branch_id' => $branch->branch_id]);
+                        session(['address_branch_id' => $branch->branch_id]);
                     }
                 }
                 
@@ -88,7 +89,9 @@ class ServiceController extends Controller
             // }
             // return redirect()->intended();
         }
-        session()->put(['err' => $return['message']]);
+                    // dd(session('branch_id'), $return);
+
+        session(['err' => $return['message']]);
         return redirect()->route('menu.page');
         // if (auth()->user()->carts()->get()->count() > 0) {
 

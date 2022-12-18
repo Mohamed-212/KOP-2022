@@ -196,6 +196,15 @@
         <script>
             $(document).ready(function() {
                 $('.branch').click(function() {
+                    @if ($countItems > 0)
+                    // const branchModal = new bootstrap.Modal('#cartempty', {
+                    //     keyboard: false,
+                    // });
+                    // branchModal.show();
+               
+                    @else
+                    
+                    @endif
                     const href = $(this).data('href');
 
                     window.location.href = href;
@@ -209,12 +218,7 @@
                     {{session()->forget('branch_closed')}}
                 @endif
 
-                @if ($countItems > 0)
-                    // const branchModal = new bootstrap.Modal('#cartempty', {
-                    //     keyboard: false,
-                    // });
-                    // branchModal.show();
-                @endif
+                
             });
         </script>
     @endsection
