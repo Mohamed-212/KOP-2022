@@ -30,6 +30,7 @@ Route::group([
         Route::resource('notification', 'MessageController')->middleware('role:admin');
         Route::get('/show-gifts-orders', 'GiftController@showGiftsOrders')->name('showGiftsOrders')->middleware('role:admin');
         Route::get('/show-points-transactions', 'GiftController@showPointsTransactions')->name('showPointsTransactions')->middleware('role:admin');
+        Route::get('/show-points-transactions/{user_id}', 'GiftController@showPointsTransactionsForUser')->name('showPointsTransactionsForUser')->middleware('role:admin');
         Route::resource('gift', 'GiftController')->middleware('role:admin');
 
         Route::resource('points', 'PointController')->middleware('role:admin,cashier');

@@ -18,26 +18,26 @@
                 <table class="table table-bordered table-striped dataTable">
                     <thead>
                         <tr>
-                            {{-- <th>ID</th> --}}
-                            {{-- <th>Points</th> --}}
-                            <th align="center">Users</th>
-                            {{-- <th>Status</th> --}}
-                            <th align="center">Action</th>
+                            <th>order ID</th>
+                            <th>Points</th>
+                            <th>Order</th>
+                            <th>Status</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($transactions as  $transaction)
+                        @foreach ($history as  $h)
                         <tr>
-                            <!--
-                            <td>{{$transaction->id}}</td>
-                            <td><span style="color:<?php if ($transaction->points < 0) echo "red"; else echo "green"; ?>">{{$transaction->points > 0 ? "+" : ""}}{{$transaction->points}}</span></td> -->
-                            <td align="center">{{$transaction->user->name}}</td>
-                            <td align="center">
-                                <a class="btn btn-primary" href="{{  route('admin.showPointsTransactionsForUser', $transaction->user->id) }}"><i class="fas fa fa-eye"></i></a>
+                            
+                            <td>{{ $h->order_id }}</td>
+                            <td><span style="color:<?php if ($h->points < 0) echo "red"; else echo "green"; ?>">{{$h->points > 0 ? "+" : ""}}{{$h->points}}</span></td>
+                            <td>
+                                <a href="{{route('admin.order.show', [$h->order_id])}}">{{ __('general.ORDER') }}:&nbsp;
+                                    {{ $h->order_id }}</a>
                             </td>
-                            <!-- <td>
+                            <td>
                                 <?php 
-                                    if ($transaction->status == 0) {
+                                    /*if ($transaction->status == 0) {
                                         echo "<span class='badge badge-success'>Valid<span>";
                                     } else if ($transaction->status == 1) {
                                         echo "<span class='badge badge-danger'>Expired<span>"; 
@@ -47,10 +47,14 @@
                                         echo "<span class='badge badge-success'>Refunded<span>"; 
                                     } else if ($transaction->status == 4) {
                                         echo "<span class='badge badge-danger'>Order Cancelled<span>"; 
-                                    }
+                                    }*/
                                 ?>
-                            </td> --->
-                            {{-- <td>{{$transaction->created_at->format('d-m-Y g:i A')}}</td> --}}
+                                <h5
+                                class="badge badge- @if ($h->points < 0) badge-danger @else badge-success @endif">
+                {{ $h->points < 0 ? 'Consumed' : 'Valid' }}
+                </h5>
+                            </td>
+                            <td>{{$h->created_at->format('d-m-Y g:i A')}}</td>
                         </tr>
                         @endforeach
                     </tbody>
