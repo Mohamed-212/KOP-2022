@@ -252,6 +252,7 @@ Route::group([
             //choose service delivery or take away
             Route::get('/takeaway', 'ServiceController@takeawayPage')->name('takeaway.page');
             Route::get('/takeaway/{branch_id}/{service_type}', 'ServiceController@takeawayBranch')->name('takeaway.branch');
+            Route::get('/takeaway/{branch_id}/{service_type}/confirm', 'ServiceController@takeawayBranchConfirm')->name('takeaway.branch-confirm');
 
             // contactUS
             Route::get('/contact-us', 'ContactUSController@contactPage')->name('contact.page');

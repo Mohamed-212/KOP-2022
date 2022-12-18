@@ -461,5 +461,7 @@ return [
 'We have e-mailed your password reset link!' => 'لقد أرسلنا رابط إعادة تعيين كلمة المرور بالبريد الإلكتروني',
 'out of stock' => 'إنتهى من المخزن',
 "New Order has been placed" => "تم تقديم طلب جديد",
-'item is hidden in this branch' => ':item is hidden in this branch'
+'item is hidden in this branch' => ':item is hidden in this branch',
+'items cart will be empty' => 'يرجى ملاحظة أنه ستتم إزالة جميع العناصر الموجودة في عربة التسوق الخاصة بك',
+'Remove Cart' => 'إزالة عربة التسوق؟',
 ];

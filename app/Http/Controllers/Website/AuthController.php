@@ -159,6 +159,8 @@ class AuthController extends Controller
                     return redirect()->route('verifyCode.page');
                 }
 
+                auth()->user()->carts()->delete();
+
 
                 $user->branches; //??                    
                 return redirect()->route('home.page');
@@ -172,6 +174,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        auth()->user()->carts()->delete();
         auth()->logout();
         session()->flush();
         return redirect()->route('home.page');

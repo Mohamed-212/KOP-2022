@@ -25,7 +25,83 @@ class ServiceController extends Controller
 
         $countItems = auth()->user()->carts()->count();
 
+        // dd(auth()->user()->carts);
+
         return view('website.takeaway', compact(['branches', 'countItems']));
+    }
+
+    public function takeawayBranchConfirm($id, $service_type)
+    {
+
+        $request = new Request();
+        if ($service_type == 'takeaway') {
+            $request->merge(['branch_id' => $id]);
+            $branchId = $id;
+            $branch = Branch::findOrFail($branchId);
+        } else {
+            $request->merge(['address_id' => $id]);
+            $add = Address::findOrFail($id);
+            $area = $add->area;
+            if ($area) {
+                $branch = DB::table('branch_delivery_areas')->where('area_id', $area->id . "")->first();
+                $branch = Branch::findOrFail($branch->branch_id);
+                if ($branch) {
+                    $branchId = $branch->id;
+                }
+            }
+            // session()->put(['address_id'=>$id]);
+        }
+
+        $isOpen = (app(\App\Http\Controllers\Api\BranchesController::class)->check($request, $branchId))->getOriginalContent();
+
+        if ($isOpen['data']['available'] === false) {
+            session()->flash('branch_closed', true);
+            session()->flash('branch_name', $branch['name_' . app()->getLocale()]);
+            // dd($isOpen);
+            return back();
+        }
+
+        $return = (app(\App\Http\Controllers\Api\BranchesController::class)->getBranchWorkingHours($request))->getOriginalContent();
+
+        // dd($return);
+
+        if ($return['success'] == true) {
+            
+            session(['branch_id' => $return['data']['id']]);
+            session(['service_type' => $service_type]);
+            if ($service_type == 'delivery') {
+                session(['address_id' => $id]);
+                $address = Address::findOrFail($id);
+                session(['address_area_id' => $address->area_id]);
+
+                if ($address->area) {
+                    $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                    if ($branch) {
+                        session(['address_branch_id' => $branch->branch_id]);
+                    }
+                }
+                
+            }
+            session()->forget('status');
+
+            auth()->user()->carts()->delete();
+
+            return redirect()->route('menu.page');
+            // if (auth()->user()->carts()->get()->count() > 0) {
+            //     return redirect()->route('menu.page');
+            //     // return back();
+            // }
+            // return redirect()->intended();
+        }
+                    // dd(session('branch_id'), $return);
+
+        session(['err' => $return['message']]);
+        return redirect()->route('menu.page');
+        // if (auth()->user()->carts()->get()->count() > 0) {
+
+        //     // return back();
+        // }
+        // return redirect()->intended();
     }
 
     /* choose delivery(takeaway) branch or delivery address  */

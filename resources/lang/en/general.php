@@ -444,5 +444,6 @@ return [
     'out of stock' => 'out of stock',
     "New Order has been placed" => "New Order has been placed",
     'item is hidden in this branch' => ':item is hidden in this branch',
-    'items cart will be empty' => 'items cart will be empty'
+    'items cart will be empty' => 'Please Note that all items in your shopping cart will be removed',
+    'Remove Cart' => 'Remove Cart?',
 ];

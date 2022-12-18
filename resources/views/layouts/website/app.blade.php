@@ -86,11 +86,32 @@
                             $addresses = $return['data'];
                         @endphp
                         @if (isset($addresses))
+                        @php
+                            if ($addresses->count() > 0) {
+                                $countItems = auth()->user()->carts()->count();
+                                $branchId = session('address_branch_id', session('branch_id'));
+                            } else {
+                                $countItems = 0;
+                            }
+                        @endphp
                             @foreach ($addresses as $address)
+                                @php
+                                if ($address->area) {
+                                    $addbranch = \DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                                    if ($addbranch) {
+                                        $addbranch = \App\Models\Branch::findOrFail($addbranch->branch_id);
+                                        $addbranch = $addbranch->id;
+                                    }
+                                } else {
+                                    $addbranch = 0;
+                                }
+                                @endphp
                                 <div class="col-md-12 ">
                                     <div class="bg-white card addresses-item mb-4 shadow">
                                         <a href="{{ route('takeaway.branch', [$address->id, 'delivery']) }}"
-                                            style="color:#222222">
+                                            style="color:#222222" class="selectadd @if($branchId && $countItems)
+                                                @if ($addbranch != $branchId) showmodal @endif
+                                            @endif">
                                             <div class="gold-members p-4">
                                                 <div class="media">
                                                     <div class="mr-3"><i class="icofont-ui-home icofont-3x"></i>
@@ -172,6 +193,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="cartempty" tabindex="-1" aria-labelledby="cartemptyLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-white" id="cartemptyLabel">
+                            {{ __('general.Remove Cart') }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-capitalize">
+                        {{__('general.items cart will be empty')}}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{route('takeaway.page')}}" class="btn default-btn rounded shadow-sm bg-primary confirm">
+                            {{ __('general.confirm_btn') }}
+                            <span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endauth
 
 @include('layouts.website.script')
@@ -188,6 +232,7 @@
     $('.cart').click(function (e) {
         @if (session('status') || !session()->has('branch_id'))
         $('#service-modal').modal('toggle');
+        {{session()->forget('status')}}
         return false;
         @endif
         $(this).removeAttr('data-target');
@@ -231,6 +276,19 @@
 
     $(document).ready(function() {
         // $('.site-preloader-wrap').css('display', 'none');
+        $('.selectadd').click(function(ev) {
+            ev.preventDefault();
+
+            if ($(this).hasClass('showmodal')) {
+                const branchModal = new bootstrap.Modal('#cartempty', {
+                        keyboard: false,
+                    });
+                branchModal.show();
+                $('#cartempty .confirm').attr('href', $(this).attr('href'));
+            } else {
+                window.location = $(this).attr('href');
+            }
+        })
     });
 </script>
 

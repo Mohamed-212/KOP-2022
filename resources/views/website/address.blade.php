@@ -468,9 +468,11 @@
                     processResults: function(data) {
                         return {
                             results: $.map(data, function(city) {
+                                if (city.name_en != 'Riyadh') {                                
                                 return {
                                     id: city.id,
                                     text: city["name_" + "{{ app()->getLocale() }}"]
+                                };
                                 }
                             })
                         };

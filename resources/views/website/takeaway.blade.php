@@ -155,32 +155,7 @@
                         {{ __('general.branch_is_closed', ['branch' => session('branch_name')]) }}
                     </div>
                     <div class="modal-footer">
-                        <a href="{{route('takeaway.page')}}" class="btn default-btn rounded shadow-sm bg-primary confirm">
-                            {{ __('general.go_branches') }}
-                            <span></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if ($countItems > 0)
-        <div class="modal fade" id="cartempty" tabindex="-1" aria-labelledby="cartemptyLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h5 class="modal-title text-white" id="cartemptyLabel">
-                            {{ __('general.warning') }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-capitalize">
-                        {{__('general.items cart will be empty')}}
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{route('takeaway.page')}}" class="btn default-btn rounded shadow-sm bg-primary confirm">
+                        <a href="#" data-bs-dismiss="modal" class="btn default-btn rounded shadow-sm bg-primary confirm">
                             {{ __('general.go_branches') }}
                             <span></span>
                         </a>
@@ -196,18 +171,24 @@
         <script>
             $(document).ready(function() {
                 $('.branch').click(function() {
-                    @if ($countItems > 0)
-                    // const branchModal = new bootstrap.Modal('#cartempty', {
-                    //     keyboard: false,
-                    // });
-                    // branchModal.show();
-               
-                    @else
-                    
-                    @endif
+                    if ($(this).hasClass('active')) {
+                        return;
+                    }
+
                     const href = $(this).data('href');
 
+                    @if ($countItems > 0)
+                    const branchModal = new bootstrap.Modal('#cartempty', {
+                        keyboard: false,
+                    });
+                    branchModal.show();
+
+                    $('#cartempty .confirm').attr('href', href + '/confirm');
+                    @else
+                    
+
                     window.location.href = href;
+                    @endif
                 });
 
                 @if (session()->has('branch_closed'))
