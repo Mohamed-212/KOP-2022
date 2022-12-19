@@ -157,7 +157,18 @@ class ItemController extends Controller
      */
     public function show(Request $request, Item $item)
     {
-        return view('admin.items.show', compact('item'));
+        $categories = Category::all();
+        $userBranches = auth()->user()->branches;
+
+        $itemBranches = explode(',', $item->branches);
+
+        $outOfStockBr = explode(',', $item->out_of_stock);
+
+        $userBranches = Branch::all();
+
+        $userBranchesArr = auth()->user()->branches->pluck('id')->toArray();
+
+        return view('admin.items.show', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr', 'userBranchesArr'));
     }
 
     /**
@@ -177,7 +188,12 @@ class ItemController extends Controller
 
         $userBranches = Branch::all();
 
-        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr'));
+        $userBranchesArr = auth()->user()->branches->pluck('id')->toArray();
+
+        // dd($userBranchesArr, $outOfStockBr);;
+        // dd(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock))));
+
+        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr', 'userBranchesArr'));
     }
 
     /**
@@ -246,6 +262,19 @@ class ItemController extends Controller
             // $item->branches = implode(',', $request->branches ?? []);
             $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
             $item->save();
+        }
+
+        if (auth()->user()->hasRole('branch_manager')) {
+            // $c = Category::findOrFail($request->category_id);
+            // $i_bran = auth()->user()->branches ?? [];
+            // if (!$request->is_hidden) {
+
+            // }
+            // $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+            // $item->branches = implode(',', $i_bran);
+            // // $item->branches = implode(',', auth()->user()->branches ?? []);
+            // $item->out_of_stock = implode(',', auth()->user()->out_of_stock ?? []);
+            // $item->save();
         }
 
         // dd($item->branches);

@@ -52,7 +52,7 @@
                                             <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                <button type="submit" class="btn btn-success btn-sm"
                                                     title="show on home screen">
                                                     <i class="fas fa-home"></i>
                                                 </button>
@@ -61,7 +61,7 @@
                                             <form action="{{ route('admin.offer.main', $offer->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-success btn-sm"
+                                                <button type="submit" class="btn btn-primary btn-sm"
                                                     title="show on home screen">
                                                     <i class="fas fa-home"></i>
                                                 </button>

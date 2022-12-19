@@ -56,7 +56,8 @@ Route::group([
         //=======================================================================
 
         // item
-        Route::resource('item', 'ItemController')->middleware('role:admin|branch_manager');
+        Route::resource('item', 'ItemController')->middleware('role:admin');
+        Route::resource('item', 'ItemController')->middleware('role:branch_manager')->only(['index', 'show', 'stock_out', 'stock_in']);
 
         Route::post('item/{item}/hide', 'ItemController@hide')->name('item.hide')->middleware('role:branch_manager');
         Route::post('item/{item}/unhide', 'ItemController@unhide')->name('item.unhide')->middleware('role:branch_manager');

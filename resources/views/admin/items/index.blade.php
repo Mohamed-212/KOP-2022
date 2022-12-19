@@ -75,19 +75,19 @@
                                     <td>{{ $item->calories }}</td>
                                     <td><img src="{{ asset($item->image) }}" style="max-width: 75px" /></td>
                                     <td><img src="{{ asset($item->website_image) }}" style="max-width: 75px" /></td>
-                                    <td>
+                                    <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))
                                             @if ($item->recommended)
                                                 <form action="{{ route('admin.item.unrecommend', $item->id) }}"
-                                                    method="POST">
-                                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"
+                                                    method="POST" style="display: inline">
+                                                    <button type="submit" class="btn btn-success btn-circle btn-sm"
                                                         title="UnRecommend"><i class="fa fa-heart"></i></button>
                                                     @csrf
                                                     @method('delete')
                                                 </form>
                                             @else
                                                 <form action="{{ route('admin.item.recommend', $item->id) }}"
-                                                    method="POST">
+                                                    method="POST" style="display: inline">
                                                     <button type="submit" class="btn btn-primary btn-circle btn-sm"
                                                         title="Recommend"><i class="fa fa-heart"></i></button>
                                                     @csrf
@@ -95,7 +95,7 @@
                                                 </form>
                                             @endif
                                         @endif
-                                        @if (auth()->user()->hasRole('branch_manager'))
+                                        @if (auth()->user()->hasRole('branch_manager') && 0)
                                             @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0)
                                             <button type="button" onclick="confirmActon('{{ 'hide-th-item-' . $item->id }}', 'hide this item')" class="btn btn-info btn-circle btn-sm"
                                                         title="Hide"><i class="fa fa-eye-slash"></i></button>
@@ -105,7 +105,7 @@
                                                 </form>
                                             @else
                                             <button type="button" onclick="confirmActon('{{ 'unhide-th-item-' . $item->id }}', 'un hide this item')" class="btn btn-success btn-circle btn-sm"
-                                                        title="Un Hide"><i class="fa fa-eye"></i></button>
+                                                        title="Un Hide"><i class="fa fa-eye-slash"></i></button>
                                                 <form id="{{ 'unhide-th-item-' . $item->id }}" action="{{ route('admin.item.unhide', $item->id) }}" method="POST" style="display: inline">
                                                     
                                                     @csrf
@@ -114,14 +114,14 @@
                                         @endif
                                         @if (auth()->user()->hasRole('branch_manager'))
                                             @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock)))) > 0)
-                                            <button type="button" onclick="confirmActon('{{ 'stock_out-item-' . $item->id }}', 'set this item to out of stock')" class="btn btn-warning btn-circle btn-sm"
+                                            <button type="button" onclick="confirmActon('{{ 'stock_out-item-' . $item->id }}', 'set this item to out of stock')" class="btn btn-primary btn-circle btn-sm"
                                             title="Out Of Stock"><i class="fa fa-backspace"></i></button>
                                                 <form id="{{ 'stock_out-item-' . $item->id }}" action="{{ route('admin.item.stock_out', $item->id) }}" method="POST" style="display: inline">
                                                     @csrf
                                                 </form>
                                             @else
                                             <button type="button" class="btn btn-success btn-circle btn-sm" onclick="confirmActon('{{ 'stock_in-item-' . $item->id }}', 'set this item back to in stock')"
-                                                        title="In Stock"><i class="fa fa-check-double"></i></button>
+                                                        title="In Stock"><i class="fa fa-backspace"></i></button>
                                                 <form id="{{ 'stock_in-item-' . $item->id }}" action="{{ route('admin.item.stock_in', $item->id) }}" method="POST" style="display: inline">
                                                     
                                                     @csrf
@@ -133,7 +133,7 @@
                                                 class="fa fa-globe"></i></a>
 
                                         @if (auth()->user()->hasRole('branch_manager'))
-                                            @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0)
+                                            {{-- @unless(count(array_intersect($userBranches, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0)
                                                 <a href="{{ route('admin.item.edit', $item->id) }}"
                                                     class="btn btn-primary btn-circle btn-sm" title="edit"><i
                                                         class="fa fa-edit"></i></a>
@@ -147,8 +147,9 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                            @endunless
+                                            @endunless --}}
                                         @else
+                                        @if (auth()->user()->hasRole('admin'))
                                             <a href="{{ route('admin.item.edit', $item->id) }}"
                                                 class="btn btn-primary btn-circle btn-sm" title="edit"><i
                                                     class="fa fa-edit"></i></a>
@@ -162,6 +163,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+                                        @endif
                                         @endif
 
                                     </td>

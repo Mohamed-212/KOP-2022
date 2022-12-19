@@ -57,6 +57,29 @@
                                     </select>
                                 </div>
                                 @endif
+
+                                {{-- @if (auth()->user()->hasRole('branch_manager'))
+                                    <div style="margin-top: 2.5rem;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="is_hidden" @if(count(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0) checked  @endif>
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                      Is Hidden
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault2"  @if(count(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock)))) > 0) checked @endif >
+                                                    <label class="form-check-label" for="flexCheckDefault2" name="is_stock_out">
+                                                      Is out of stock
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif --}}
                             </div>
                         </div>
 

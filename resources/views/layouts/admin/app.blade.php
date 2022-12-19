@@ -3,6 +3,13 @@
 
 <head>
     @include('layouts.admin.head')
+
+    <style>
+      .btn {
+        margin-top: .5rem;
+        /* margin-bottom: .3rem; */
+      }
+    </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
