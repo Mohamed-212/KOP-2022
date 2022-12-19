@@ -93,10 +93,10 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="javascript:void(0)" onclick="document.getElementById('log112255').click()">
                                             <form action="{{ route('signout') }}" method='post'>
                                                 @csrf
-                                                <button class="" type="submit">
+                                                <button id="log112255" class="" type="submit">
                                                     {{ __('general.logout') }}
                                                 </button>
                                             </form>

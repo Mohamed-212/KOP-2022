@@ -73,7 +73,7 @@
                                             <p>Items</p>
                                         </a>
                                     </li>
-                                    @if (auth()->user()->hasRole('admin'))
+                                    {{-- @if (auth()->user()->hasRole('admin')) --}}
                                     <li class="nav-item">
                                         <a href="{{ route('admin.extra.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>
@@ -92,7 +92,7 @@
                                             <p>Dough Types</p>
                                         </a>
                                     </li>
-                                    @endif
+                                    {{-- @endif --}}
                                 </ul>
                             </li>
                             @if (auth()->user()->hasRole('admin'))
