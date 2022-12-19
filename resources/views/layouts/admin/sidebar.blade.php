@@ -59,14 +59,14 @@
                                     <p>Menu<i class="fas fa-angle-left right"></i></p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    @if (auth()->user()->hasRole('admin'))
+                                    {{-- @if (auth()->user()->hasRole('admin')) --}}
                                     <li class="nav-item">
                                         <a href="{{ route('admin.category.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>
                                             <p>Categories</p>
                                         </a>
                                     </li>
-                                    @endif
+                                    {{-- @endif --}}
                                     <li class="nav-item">
                                         <a href="{{ route('admin.item.index') }}" class="nav-link"><i
                                                 class="fas fa-certificate nav-icon"></i>

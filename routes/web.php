@@ -43,7 +43,8 @@ Route::group([
         Route::resource('hero', 'HeroController');
 
         Route::resource('customer', 'CustomerController')->middleware('role:admin,cashier');
-        Route::resource('category', 'CategoryController')->middleware('role:admin,cashier');
+        Route::resource('category', 'CategoryController')->middleware('role:admin|branch_manager')->only(['index', 'show']);
+        Route::resource('category', 'CategoryController')->middleware('role:admin')->except(['index', 'show']);
 
         //homeitem
         Route::get('homeitem', 'ItemController@Homeitem')->name('homeitem.index')->middleware('role:admin');
@@ -65,8 +66,10 @@ Route::group([
 
         Route::put('item/{item}/recommended', 'ItemController@recommend')->name('item.recommend')->middleware('role:admin');
         Route::delete('item/{item}/recommended', 'ItemController@unRecommend')->name('item.unrecommend')->middleware('role:admin');
-        Route::resource('extra', 'ExtraController')->middleware('role:admin');
-        Route::resource('without', 'WithoutController')->middleware('role:admin');
+        Route::resource('extra', 'ExtraController')->middleware('role:admin|branch_manager')->only(['index', 'show']);
+        Route::resource('extra', 'ExtraController')->middleware('role:admin')->except(['index', 'show']);
+        Route::resource('without', 'WithoutController')->middleware('role:admin|branch_manager')->only(['index', 'show']);
+        Route::resource('without', 'WithoutController')->middleware('role:admin')->except(['index', 'show']);
         Route::resource('order', 'OrderController')->middleware('role:admin|branch_manager');
         Route::resource('offer', 'OfferController')->middleware('role:admin|branch_manager');
         Route::put('offer/main/{offer}', 'OfferController@setAsMain')->name('offer.main')->middleware('role:admin');
@@ -74,7 +77,8 @@ Route::group([
         Route::resource('banner', 'BannerController')->middleware('role:admin');
         Route::resource('contact', 'ContactController')->middleware('role:admin');
 
-        Route::resource('dough', 'DoughTypeController')->middleware('role:admin');
+        Route::resource('dough', 'DoughTypeController')->middleware('role:admin|branch_manager')->only(['index', 'show']);
+        Route::resource('dough', 'DoughTypeController')->middleware('role:admin')->except(['index', 'show']);
 
         // reports
         Route::group(['prefix' => 'reports', 'as' => 'report.', 'middleware' => 'role:admin'], function () {

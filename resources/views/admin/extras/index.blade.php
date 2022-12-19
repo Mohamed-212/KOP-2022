@@ -8,9 +8,11 @@
                     <h1>Extra </h1>
                 </div>
                 <div class="col-sm-6">
+                    @if (auth()->user()->hasRole('admin'))
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.extra.create')}}">Add New Extra</a></li>
                     </ol>
+                    @endif
                 </div>
             </div>
         </div>
@@ -69,13 +71,16 @@
                                 <td>{{ $extra->calories }}</td>
                                 {{-- <td><img src="{{ $extra->image }}" style="max-width: 75px" ></td> --}}
                                 <td>
+                                    
                                     <a href="{{ route('admin.extra.show', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
+                                    @if (auth()->user()->hasRole('admin'))
                                     <a href="{{ route('admin.extra.edit', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                     <a onclick="deleteCategory('{{ 'delete-extra-' . $extra->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"> <i class="fas fa-trash"></i></a>
                                     <form action="{{ route('admin.extra.destroy', $extra->id) }}" method="POST" id="{{ 'delete-extra-' . $extra->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
