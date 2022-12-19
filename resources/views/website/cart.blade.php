@@ -167,8 +167,18 @@
                             <div class="col-4 col-lg-3">
                                 <div class="form-group stepper-type-2 quantity-up-{{ $cart->id }}">
                                     <i class="fas fa-spinner fa-spin d-none"></i>
+                                    @php
+                                        $disalbleQty = false;
+                                        if ($cart->offer_id && !$cart->dough_type_ar) {
+                                            $offer = \App\Models\Offer::find($cart->offer_id);
+                                            // dd($offer);
+                                            if ($offer->offer_type == 'buy-get') {
+                                                $disalbleQty = true;
+                                            }
+                                        }
+                                    @endphp
                                     <input style="width: 30%;display: inline;" type="number"
-                                        @if ($cart->offer_id && !$cart->dough_type_ar) disabled @endif data-zeros="true"
+                                        @if ($disalbleQty) disabled @endif data-zeros="true"
                                         value="{{ $cart->quantity }}" min="1" max="20" readonl
                                         data-id="{{ $cart->id }}" data-price="{{ $cart->price }}"
                                         data-prev="{{ $cart->quantity }}" data-price-without-offer="{{$cart->offer_id ? isset($cart->extras_objects) ? $cart->item->price + collect($cart->extras_objects)->sum('price') : $cart->item->price : $cart->price }}"

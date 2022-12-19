@@ -108,7 +108,7 @@
                                 @endphp
                                 <div class="col-md-12 ">
                                     <div class="bg-white card addresses-item mb-4 shadow">
-                                        <a href="{{ route('takeaway.branch', [$address->id, 'delivery']) }}"
+                                        <a href="{{ route('takeaway.branch-confirm', [$address->id, 'delivery']) }}"
                                             style="color:#222222" class="selectadd @if($branchId && $countItems)
                                                 @if ($addbranch != $branchId) showmodal @endif
                                             @endif">
@@ -208,7 +208,7 @@
                         {{__('general.items cart will be empty')}}
                     </div>
                     <div class="modal-footer">
-                        <a href="{{route('takeaway.page')}}" class="btn default-btn rounded shadow-sm bg-primary confirm">
+                        <a href="{{route('takeaway.branch-confirm', ['', ''])}}" class="btn default-btn rounded shadow-sm bg-primary confirm">
                             {{ __('general.confirm_btn') }}
                             <span></span>
                         </a>
@@ -224,13 +224,13 @@
 
 <script>
 
-    @if (session('status') )
+    @if (session('status') && (request()->routeIs('menu.page') || request()->routeIs('home.page')))
     $('#service-modal').modal('toggle');
     {{session()->forget('status')}}
     @endif
     @auth
     $('.cart').click(function (e) {
-        @if (session('status') || !session()->has('branch_id'))
+        @if (session('status') || (!session()->has('branch_id') && !session()->has('address_branch_id')))
         $('#service-modal').modal('toggle');
         {{session()->forget('status')}}
         return false;

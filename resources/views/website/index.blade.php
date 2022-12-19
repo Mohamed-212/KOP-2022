@@ -412,8 +412,10 @@
                                         <input type="hidden" name="offer_price"
                                             value="{{ $dealItem->offer ? round($dealItem->offer->offer_price, 2) : '' }}">
                                     @endif
-                                    <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
-                                    <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
+                                    {{-- <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}"> --}}
+                                    @unless ($dealItem->offer && $dealItem->offer->offer_id)
+                                            <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />                                                
+                                        @endunless
                                     <input type='hidden' name='quantity' value="1" />
 
                                     @if ($dealItem->website_is_out_of_stock)
@@ -422,7 +424,27 @@
                                                 type="button"
                                                 class="order-btn cart">@lang('general.Order Now')</button></div>
                                             @else
-                                    <div><button
+                                    <div>
+                                        @auth
+                                            @if (session()->has('branch_id') || session()->has('address_branch_id'))
+                                                @if (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#offersMultibleInOneOrder" type="button"
+                                                        class="order-btn">@lang('general.Order Now')</button>
+                                                @else
+                                                <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
+                                                <button type="submit"
+                                                        class="order-btn cart">@lang('general.Order Now')</button>
+                                                @endif
+                                            @else
+                                                <button data-target="#service-modal" data-bs-toggle="modal"
+                                                    data-bs-target="#service-modal" type="button"
+                                                    class="order-btn">@lang('general.Order Now')</button>
+                                            @endif
+                                        @else
+                                            <button type="submit" class="order-btn">@lang('general.Order Now')</button>
+                                        @endauth
+                                        {{-- <button
                                             @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
                                         @elseif (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
                                         data-bs-toggle="modal"
@@ -433,7 +455,9 @@
                                         @endif 
                                         @else
                                         type="submit" @endauth
-                                            class="order-btn cart">@lang('general.Order Now')</button></div>
+                                            class="order-btn cart">@lang('general.Order Now')</button> --}}
+                                        
+                                        </div>
                                             @endif
                                 </form>
                             </div>

@@ -74,6 +74,8 @@ class ServiceController extends Controller
                 $address = Address::findOrFail($id);
                 session(['address_area_id' => $address->area_id]);
 
+                // dd($address);
+
                 if ($address->area) {
                     $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
                     if ($branch) {

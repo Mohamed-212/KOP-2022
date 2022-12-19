@@ -13,6 +13,7 @@ use App\Models\Area;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Traits\GeneralTrait;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -22,7 +23,6 @@ class CartController extends Controller
 
     public function addCart(Request $request)
     {
-
         // check if cart has items with offers
         $cartHasOffers = false;
         $cart = collect();
@@ -140,15 +140,33 @@ class CartController extends Controller
 
         $return = (app(\App\Http\Controllers\Api\CartController::class)->getCart())->getOriginalContent();
 
+        
         if ($return['data']->count() > 0) {
             foreach ($return['data'] as $item) {
                 if ($item->item_id == $request->item_id) {
-                    if (($item->extras == $request->extras) && ($item->withouts == $request->withouts) && ($item->dough_type_en == $request->dough_type_en)) {
-                        $cart = Cart::find($item->id);
-                        $cart->quantity = $cart->quantity + $request->quantity;
-                        $cart->save();
-                        return redirect()->route('menu.page');
+                    if ($request->offer_id) {
+                        $offer = Offer::findOrFail($request->offer_id);
+
+                        if ($offer && $offer->offer_type == 'discount') {
+                            $st = Carbon::createFromFormat("Y-m-d H:i:s", $offer->date_from);
+                            $en = Carbon::createFromFormat("Y-m-d H:i:s", $offer->date_to);
+    
+                            if (now('Asia/Riyadh')->isBetween($st, $en)) {
+                                $carti = Cart::find($item->id);
+                                
+                                if ($carti) {
+                                    $carti->quantity += $request->quantity;
+                                    $carti->save();
+
+                                    return redirect()->route('menu.page');
+                                }
+                            }
+                        }
                     }
+                    // if (($item->extras == $request->extras) && ($item->withouts == $request->withouts) && ($item->dough_type_en == $request->dough_type_en)) {
+                       
+                    //     return redirect()->route('menu.page');
+                    // }
                 }
             }
         }
