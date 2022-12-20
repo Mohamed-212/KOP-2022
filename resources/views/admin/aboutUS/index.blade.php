@@ -40,7 +40,7 @@
               </td>
               <td>{{$about->title_en}}</td>
               <td>{{$about->title_ar}}</td>
-              <td>
+              <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.aboutUS.edit', $about->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $about->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"

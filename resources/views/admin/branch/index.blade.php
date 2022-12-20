@@ -35,7 +35,7 @@
                             <td>{{$branch->name_ar}}</td>
                             <td>{{$branch->service_type}}</td>
                             <td>{{$branch->address_description}}</td>
-                            <td>
+                            <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.branch.edit', $branch->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deleteBranch('{{ 'delete-branch-' . $branch->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">
                                     <i class="fas fa-trash"></i>

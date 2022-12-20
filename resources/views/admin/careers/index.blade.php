@@ -36,7 +36,7 @@
                                 <td>{{ $job->title_en}}</td>
                                 <td><a href="{{route('admin.careers.getapp',$job->id)}}">{{ $job->job_requests->count() }}</a></td>
                                 <td>{{ $job->getStatus() }}</td>
-                                <td>
+                                <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.careers.show', $job->id) }}"
                                        class="btn btn-primary btn-circle btn-sm" title="Show"><i
                                             class="fa fa-globe"></i></a>

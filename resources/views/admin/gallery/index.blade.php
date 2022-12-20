@@ -35,7 +35,7 @@
               <td>{{$gallery->title_en}}</td>
               <td>{{$gallery->title_ar}}</td>
               <td><img src="{{ asset($gallery->url) }}" style="max-width: 75px" ></td>
-              <td>
+              <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.gallery.edit', $gallery->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $gallery->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"

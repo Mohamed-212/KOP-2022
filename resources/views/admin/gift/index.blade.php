@@ -35,7 +35,7 @@
                             <td>{{$gift->name}}</td>
                             <td>{{$gift->points}}</td>
                             <td><img style="width:200px;" src="{{$gift->image}}"></td>
-                            <td>
+                            <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.gift.edit', $gift->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deleteGift('{{ 'delete-gift-' . $gift->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">
                                     <i class="fas fa-trash"></i>

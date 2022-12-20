@@ -34,7 +34,7 @@
                             {{-- <td>#{{$re->id}}</td> --}}
                             <td>{{$re['reason_ar']}}</td>
                             <td>{{$re['reason_en']}}</td>
-                            <td>
+                            <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.reasons.edit', $re->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deletepoint('{{ 'delete-reason-' . $re->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">
                                     <i class="fas fa-trash"></i>

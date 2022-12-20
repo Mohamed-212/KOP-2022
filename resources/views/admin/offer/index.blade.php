@@ -46,10 +46,10 @@
                                             src="{{ asset($offer->website_image) }}" /></td>
                                     <td style="max-width:50px" class="text-center"><img class="img-fluid"
                                             src="{{ asset($offer->website_image_menu) }}" /></td>
-                                    <td>
+                                    <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))
                                         @if ($offer->main)
-                                            <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST">
+                                            <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-success btn-sm"
@@ -58,7 +58,7 @@
                                                 </button>
                                             </form>
                                         @else
-                                            <form action="{{ route('admin.offer.main', $offer->id) }}" method="POST">
+                                            <form action="{{ route('admin.offer.main', $offer->id) }}" method="POST" style="display: inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-primary btn-sm"

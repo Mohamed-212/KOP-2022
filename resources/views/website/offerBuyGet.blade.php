@@ -149,7 +149,7 @@
                     else {
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
+                        // selectele.addClass("btn-primary");
                         selectele.next().removeAttr('checked');
                         buy_quantity_counter--;
                     }
@@ -158,7 +158,7 @@
                     if(selectele.text() == "{{__('general.Cancel')}}"){
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
+                        // selectele.addClass("btn-primary");
                         // selectele.next().attr('checked','');
                         selectele.next().removeAttr('checked');
                         buy_quantity_counter--;
@@ -189,7 +189,7 @@
                     else {
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
+                        // selectele.addClass("btn-primary");
                         // selectele.next().attr('checked','');
                         selectele.next().removeAttr('checked');
                         get_quantity_counter--;
@@ -199,7 +199,7 @@
                     if(selectele.text() == "{{__('general.Cancel')}}"){
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
+                        // selectele.addClass("btn-primary");
                         // selectele.next().attr('checked','');
                         selectele.next().removeAttr('checked');
                         get_quantity_counter--;

@@ -38,7 +38,7 @@
               <td>{{$dough->name_en}}</td>
               <td>{{$dough->name_ar}}</td>
               @if (auth()->user()->hasRole('admin'))
-              <td>
+              <td  style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.dough.edit', $dough->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $dough->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"

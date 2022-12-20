@@ -70,7 +70,7 @@
                                 <td>{{ $extra->price }}</td>
                                 <td>{{ $extra->calories }}</td>
                                 {{-- <td><img src="{{ $extra->image }}" style="max-width: 75px" ></td> --}}
-                                <td>
+                                <td style="padding: 0;text-align: center;">
                                     
                                     <a href="{{ route('admin.extra.show', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     @if (auth()->user()->hasRole('admin'))

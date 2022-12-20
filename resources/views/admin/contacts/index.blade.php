@@ -45,8 +45,8 @@
         function deleteCategory(id) {
             event.preventDefault();
             swal({
-                title: 'Are you sure to delete this banner ?',
-                text: 'Once the banner has been deleted you cannot retrieve its data',
+                title: 'Are you sure to delete this message ?',
+                text: 'Once the message has been deleted you cannot retrieve its data',
                 icon: 'warning',
                 buttons: true,
                 dangerMode: true,

@@ -18,6 +18,11 @@
   <section class="content">
     <div class="container-fluid">
       <div class="card-body">
+        <style>
+          tr th, tr td {
+            text-align: center;
+          }
+        </style>
         <table class="table table-bordered table-striped dataTable">
           <thead>
             <tr>
