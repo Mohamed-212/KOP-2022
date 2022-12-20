@@ -464,4 +464,6 @@ return [
 'item is hidden in this branch' => ':item is hidden in this branch',
 'items cart will be empty' => 'يرجى ملاحظة أنه ستتم إزالة جميع العناصر الموجودة في عربة التسوق الخاصة بك',
 'Remove Cart' => 'إزالة عربة التسوق؟',
+'ray_city_mess' => 'برجاء العلم ان خدمة التوصيل غير متوفره في فرع التوصيل في الوقت الحالي',
+'close' => 'إغلاق',
 ];

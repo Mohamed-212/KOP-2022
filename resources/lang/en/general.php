@@ -446,4 +446,6 @@ return [
     'item is hidden in this branch' => ':item is hidden in this branch',
     'items cart will be empty' => 'Please Note that all items in your shopping cart will be removed',
     'Remove Cart' => 'Remove Cart?',
+    'ray_city_mess' => 'Kindly note that Delivery Service is not available in Riyadh at the moment',
+    'close' => 'Close',
 ];
