@@ -49,20 +49,7 @@
                 <div class="bg-shape white"></div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 d-flex align-items-center justify-content-center">
-                            @if (Session::has('success'))
-                                <div class="row mr-2 ml-2">
-                                    <div class="alert alert-success mb-2">{{ Session::get('success') }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if (Session::has('error'))
-                                <div class="row mr-2 ml-2">
-                                    <div class="alert alert-danger mb-2">{{ Session::get('error') }}
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
+                        
 
                         <div class="col-md-8">
                             <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
@@ -145,102 +132,130 @@
                             </div>
                         </div>
                         <div class="col-md-4 position-relative">
-                            <div class="card card-primary position-sticky" style="top:25%">
-                                <div class="card-header bg-primary">
-                                    <h3 class="card-title text-white">{{ __('general.Apply') }}</h3>
-                                </div>
-                                <form method="post" action="{{ route('career.request') }}" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="card-body">
-                                        <div class="row mb-2">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{-- <label class="form-label" for="job_id"></label> --}}
-                                                    <select class="select form-control"
-                                                        data-placeholder="{{ __('general.Careers') }}" style="width: 100%;"
-                                                        name="job_id">
-                                                        @foreach ($jobs as $job)
-                                                            <option value="{{ $job->id }}">
-                                                                {{ $job['title_' . app()->getLocale()] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    {!! $errors->first('roles', '<p class="help-block">:message</p>') !!}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    {{-- <label class="form-label" for="name"></label> --}}
-                                                    <input type="text" class="form-control " id="name"
-                                                        placeholder="{{ __('general.Name') }}" name="name" required>
-                                                    {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    {{-- <label class="form-label" for="phone"> </label> --}}
-                                                    <input type="text" class="form-control {!! $errors->first('phone', 'is-invalid') !!}"
-                                                        id="phone" placeholder="{{ __('general.Mobile') }}"
-                                                        name="phone" pattern="[0-9]+" required>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{-- <label class="form-label" for="email"></label> --}}
-                                                    <input type="email" class="form-control" id="email"
-                                                        placeholder="{{ __('general.Email') }}" name="email" required>
-                                                    {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{-- <label class="form-label" for="description"> </label> --}}
-                                                    <textarea name="description" class="form-control" rows="3" cols="20"
-                                                        placeholder="{{ __('general.Details') }}">{{ old('description') }}</textarea>
-                                                    @error('description')
-                                                        <div class="help-block">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row my-2">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <div class="mb-3 d-flex align-items-center">
-                                                        <label for="cv_file" class="form-label px-1">C.V</label>
-                                                        <input class="form-control" type="file" name="cv_file"
-                                                            id="cv_file">
+                            <div>
+                                <div class="card card-primary position-sticky" style="top:25%">
+                                    <div class="card-header bg-primary">
+                                        <h3 class="card-title text-white">{{ __('general.Apply') }}</h3>
+                                    </div>
+                                    <form method="post" action="{{ route('career.request') }}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{-- <label class="form-label" for="job_id"></label> --}}
+                                                        <select class="select form-control"
+                                                            data-placeholder="{{ __('general.Careers') }}" style="width: 100%;"
+                                                            name="job_id">
+                                                            @foreach ($jobs as $job)
+                                                                <option value="{{ $job->id }}">
+                                                                    {{ $job['title_' . app()->getLocale()] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        {!! $errors->first('roles', '<p class="help-block">:message</p>') !!}
+    
                                                     </div>
-                                                    @error('cv_file')
-                                                        <div class="help-block">{{ $message }}</div>
-                                                    @enderror
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <button type="submit" class="btn btn-default btn-sm default-btn rounded">
-                                                    {{ __('general.SUBMIT') }}
-                                                    <span></span>
-                                                </button>
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        {{-- <label class="form-label" for="name"></label> --}}
+                                                        <input type="text" class="form-control " id="name"
+                                                            placeholder="{{ __('general.Name') }}" name="name" required>
+                                                        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                </form>
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        {{-- <label class="form-label" for="phone"> </label> --}}
+                                                        <input type="text" class="form-control {!! $errors->first('phone', 'is-invalid') !!}"
+                                                            id="phone" placeholder="{{ __('general.Mobile') }}"
+                                                            name="phone" pattern="[0-9]+" required>
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{-- <label class="form-label" for="email"></label> --}}
+                                                        <input type="email" class="form-control" id="email"
+                                                            placeholder="{{ __('general.Email') }}" name="email" required>
+                                                        {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{-- <label class="form-label" for="description"> </label> --}}
+                                                        <textarea name="description" class="form-control" rows="3" cols="20"
+                                                            placeholder="{{ __('general.Details') }}">{{ old('description') }}</textarea>
+                                                        @error('description')
+                                                            <div class="help-block">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="mb-3 d-flex align-items-center">
+                                                            <label for="cv_file" class="form-label px-1">C.V</label>
+                                                            <input class="form-control" type="file" name="cv_file"
+                                                                id="cv_file">
+                                                        </div>
+                                                        @error('cv_file')
+                                                            <div class="help-block">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-default btn-sm default-btn rounded">
+                                                        {{ __('general.SUBMIT') }}
+                                                        <span></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
                             </div>
+                            </div>
+
+                            <div class="card card-primary" style="border: none;background: transparent;">
+                                <div class="row" style="margin-top: 1rem">
+                                    <div class="col-12 d-flex align-items-center justify-content-center">
+                                        @if (Session::has('success'))
+                                            <div class="row mr-2 ml-2">
+                                                <div class="alert alert-success mb-2">{{ Session::get('success') }}
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if (Session::has('error'))
+                                            <div class="row mr-2 ml-2">
+                                                <div class="alert alert-danger mb-2">{{ Session::get('error') }}
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        {{-- <div class="row mr-2 ml-2">
+                                            <div class="alert alert-success mb-2">wasd asd asdas dasdasd asd
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

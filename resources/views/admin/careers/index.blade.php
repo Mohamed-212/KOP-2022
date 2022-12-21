@@ -34,7 +34,14 @@
                             <tr>
                                 <td>{{$index + 1 }}</td>
                                 <td>{{ $job->title_en}}</td>
-                                <td><a href="{{route('admin.careers.getapp',$job->id)}}">{{ $job->job_requests->count() }}</a></td>
+                                <td><a href="{{route('admin.careers.getapp',$job->id)}}">
+                                    @php
+                                    // dd(\App\Models\JobRequest::toSql());
+                                        $req = 0;
+                                        $req = \App\Models\JobRequest::where('job_id', $job->id)->count();
+                                    @endphp
+                                    {{ $req }}
+                                </a></td>
                                 <td>{{ $job->getStatus() }}</td>
                                 <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.careers.show', $job->id) }}"
@@ -43,11 +50,11 @@
                                     <a href="{{ route('admin.careers.edit', $job->id) }}"
                                        class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('admin.careers.changestatus', $job->id) }}"
-                                       class="btn btn-primary btn-circle btn-sm" title="change status"><i
+                                       class="btn btn-primary btn-circle btn-sm {{$job->getStatus() == 'Active' ? 'btn-success' : ''}}" title="change status"><i
                                             class="fa fa-lock"></i></a>
 
                                     <a onclick="deleteJob('{{ 'delete-job-' . $job->id }}')" href="#"
-                                       class="btn btn-danger btn-circle btn-sm" title="delete"><i
+                                       class="btn btn-danger btn-circle btn-sm " title="delete"><i
                                             class="fas fa-trash"></i> </a>
                                     <!-- Form Delete category -->
                                     <form
