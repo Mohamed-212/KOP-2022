@@ -526,7 +526,7 @@
                             </li>
                         @endif
 
-                        @if ($order['subtotal'] < $order['total'] && round($order['offer_value']) > 0)
+                        @if (round($order['offer_value']) > 0)
                             <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
                                     : </b> <span id="points" style="font-size: smaller;">-
                                     {{ round($order['offer_value'], 2) }}
