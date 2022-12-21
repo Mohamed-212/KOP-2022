@@ -82,7 +82,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Image</label>
-                                    <img src="{{asset($Anoucement->image) }}" class="img-thumbnail" style="widht: 77px;" />
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($Anoucement->image) }}" class="img-thumbnail" style="widht: 77px;" />
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">

@@ -36,7 +36,7 @@
                 {{__('general.' . $about->type)}}
               </td>
               <td><a href="{{ route('admin.aboutUS.show', $about->id) }}">{{ $about->id }}</a>
-                <img src="{{asset($about->image)}}" class="img-thumbnail" style="    height: 200px;" />
+                <img loading="lazy" data-lazy="true"  src="{{asset($about->image)}}" class="img-thumbnail" style="    height: 200px;" />
               </td>
               <td>{{$about->title_en}}</td>
               <td>{{$about->title_ar}}</td>

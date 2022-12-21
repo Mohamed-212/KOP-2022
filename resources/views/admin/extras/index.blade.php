@@ -69,7 +69,7 @@
                                 <td>{{ $extra->name_en }}</td>
                                 <td>{{ $extra->price }}</td>
                                 <td>{{ $extra->calories }}</td>
-                                {{-- <td><img src="{{ $extra->image }}" style="max-width: 75px" ></td> --}}
+                                {{-- <td><img loading="lazy" data-lazy="true"  src="{{ $extra->image }}" style="max-width: 75px" ></td> --}}
                                 <td style="padding: 0;text-align: center;">
                                     
                                     <a href="{{ route('admin.extra.show', $extra->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>

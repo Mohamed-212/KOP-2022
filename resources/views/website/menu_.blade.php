@@ -43,7 +43,7 @@
                                 @foreach($menu['categories'] as $index => $category)
                                     <li>
                                         <div class="uk-panel h-75">
-                                            <img src="{{$category->image}}" id="{{$category->id}}" class="img-thumbnail rounded w-100 h-100 cat" alt="">
+                                            <img loading="lazy" data-lazy="true"  src="{{$category->image}}" id="{{$category->id}}" class="img-thumbnail rounded w-100 h-100 cat" alt="">
                                             <h4 class="m-1 text-center">{{(app()->getLocale() == 'ar')? $category->name_ar : $category->name_en}}</h4>
                                         </div>
                                     </li>
@@ -132,7 +132,7 @@
                                     '<div class="product-item__media">'+
                                     '<a href="{{url('/item/')}}'+ '/' + item.category_id + '/' + item.id + '">'+
                                     '<div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">'+
-                                    '<img class="w-100 h-100" src="' + item.image + '" alt="Image"/>'+
+                                    '<img loading="lazy" data-lazy="true"  class="w-100 h-100" src="' + item.image + '" alt="Image"/>'+
                                     '</div>'+
                                     '</a>'+
                                     '</div>'+

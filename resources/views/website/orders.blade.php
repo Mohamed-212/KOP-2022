@@ -135,7 +135,7 @@
                                     <div class="gold-members p-4">
                                         <a href="#">
                                             <div class="media">
-                                                <img class="mr-4" src="img/3.jpg" alt="Generic placeholder image">
+                                                <img loading="lazy" data-lazy="true"  class="mr-4" src="img/3.jpg" alt="Generic placeholder image">
                                                 <div class="media-body">
                                                 <span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i
                                                         class="icofont-check-circled text-success"></i></span>
@@ -174,7 +174,7 @@
                                     <div class="gold-members p-4">
                                         <a href="#">
                                             <div class="media">
-                                                <img class="mr-4" src="img/4.jpg" alt="Generic placeholder image">
+                                                <img loading="lazy" data-lazy="true"  class="mr-4" src="img/4.jpg" alt="Generic placeholder image">
                                                 <div class="media-body">
                                                 <span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i
                                                         class="icofont-check-circled text-success"></i></span>
@@ -212,7 +212,7 @@
                                     <div class="gold-members p-4">
                                         <a href="#">
                                             <div class="media">
-                                                <img class="mr-4" src="img/5.jpg" alt="Generic placeholder image">
+                                                <img loading="lazy" data-lazy="true"  class="mr-4" src="img/5.jpg" alt="Generic placeholder image">
                                                 <div class="media-body">
                                                 <span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i
                                                         class="icofont-check-circled text-success"></i></span>
@@ -253,7 +253,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/1.png"> OSAHANEAT50</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/1.png"> OSAHANEAT50</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -268,7 +268,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/2.png"> EAT730</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/2.png"> EAT730</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -285,7 +285,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/3.png"> SAHAN50</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/3.png"> SAHAN50</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -300,7 +300,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/4.png"> GURDEEP50</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/4.png"> GURDEEP50</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -316,7 +316,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/1.png"> OSAHANEAT50</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/1.png"> OSAHANEAT50</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -331,7 +331,7 @@
                                     <div class="col-md-6">
                                         <div class="card offer-card shadow-sm">
                                             <div class="card-body">
-                                                <h5 class="card-title"><img src="img/bank/2.png"> EAT730</h5>
+                                                <h5 class="card-title"><img loading="lazy" data-lazy="true"  src="img/bank/2.png"> EAT730</h5>
                                                 <h6 class="card-subtitle mb-2 text-block">Get 50% OFF on your first
                                                     osahan
                                                     eat order</h6>
@@ -360,7 +360,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/4.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/4.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -395,7 +395,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/5.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/5.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -428,7 +428,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/6.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/6.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -462,7 +462,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/7.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/7.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -496,7 +496,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/8.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/8.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -530,7 +530,7 @@
                                                         class="badge badge-dark">Promoted</span>
                                                 </div>
                                                 <a href="detail.html">
-                                                    <img src="img/list/9.png" class="img-fluid item-img">
+                                                    <img loading="lazy" data-lazy="true"  src="img/list/9.png" class="img-fluid item-img">
                                                 </a>
                                             </div>
                                             <div class="p-3 position-relative">
@@ -567,7 +567,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/1.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/1.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -587,7 +587,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/2.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/2.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -609,7 +609,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/3.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/3.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -629,7 +629,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/4.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/4.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -651,7 +651,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/5.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/5.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -671,7 +671,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/6.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/6.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -693,7 +693,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/1.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/1.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>
@@ -713,7 +713,7 @@
                                             <div class="gold-members p-4">
                                                 <a href="#">
                                                     <div class="media">
-                                                        <img class="mr-3" src="img/bank/2.png"
+                                                        <img loading="lazy" data-lazy="true"  class="mr-3" src="img/bank/2.png"
                                                              alt="Generic placeholder image">
                                                         <div class="media-body">
                                                             <h6 class="mb-1">6070-XXXXXXXX-0666</h6>

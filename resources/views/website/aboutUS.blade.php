@@ -95,7 +95,7 @@
                         <div class="row align-items-center">
                            <div class="col-md-6">
                                <div id="gallery-videos-demo" class="content-img-holder position-relative">
-                                <img src="{{asset( $sec->image)}}" width="700" height="500" alt="img" id="image{{$loop->index}}">
+                                <img loading="lazy" data-lazy="true"  src="{{asset( $sec->image)}}" width="700" height="500" alt="img" id="image{{$loop->index}}">
                                 <div class="position-absolute top-0 w-100 h-100" id="vedo5645">
                                     <video controls width="100%" height="100%" id="video{{$loop->index}}" style="opacity: 0;: hidden;">                                        
                                         <source src="{{asset($sec->video)}}"
@@ -139,8 +139,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="content-img">
-                                        <img src="{{asset( $sec->image)}}" width='600' height="400" alt="img">
-                                        {{-- <img src="{{$sec->image}}" alt="img"> --}}
+                                        <img loading="lazy" data-lazy="true"  src="{{asset( $sec->image)}}" width='600' height="400" alt="img">
+                                        {{-- <img loading="lazy" data-lazy="true"  src="{{$sec->image}}" alt="img"> --}}
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                                 <div class="col-lg-3 col-sm-6 sm-padding">
                                     <div class="team-item">
                                         <div class="team-thumb">
-                                            <img src="{{asset( $emp->image)}}"
+                                            <img loading="lazy" data-lazy="true"  src="{{asset( $emp->image)}}"
                                                 alt="team">
                                             <ul class="team-social">
                                                 @foreach ($emp->links as $link)
@@ -209,8 +209,8 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <div class="content-img">
-                                        {{-- <img src="/website2-assets/img/about03.png" width="600" height="400" alt="img"> --}}
-                                        <img src="{{asset( $sec->image)}}" width="600" height="400" alt="img">
+                                        {{-- <img loading="lazy" data-lazy="true"  src="/website2-assets/img/about03.png" width="600" height="400" alt="img"> --}}
+                                        <img loading="lazy" data-lazy="true"  src="{{asset( $sec->image)}}" width="600" height="400" alt="img">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -244,7 +244,7 @@
                             </div>
                             <div class="col-md-6 wow fadeInRight" data-wow-delay="400ms">
                                 <div class="content-img-holder">
-                                    <img src="{{asset($sec->image)}}" alt="img">
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($sec->image)}}" alt="img">
                                     
                                 </div>
                             </div>

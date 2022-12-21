@@ -40,11 +40,11 @@
                                     <td>{{ $offer->date_from }}</td>
                                     <td>{{ $offer->date_to }}</td>
                                     <td>{{ $offer->service_type }}</td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->website_image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->website_image_menu) }}" /></td>
                                     <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))

@@ -73,8 +73,8 @@
                                     <td>{{ $item->name_en }}</td>
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->calories }}</td>
-                                    <td><img src="{{ asset($item->image) }}" style="max-width: 75px" /></td>
-                                    <td><img src="{{ asset($item->website_image) }}" style="max-width: 75px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" style="max-width: 75px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->website_image) }}" style="max-width: 75px" /></td>
                                     <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))
                                             @if ($item->recommended)

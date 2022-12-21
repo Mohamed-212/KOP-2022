@@ -80,7 +80,7 @@
                             <div class="col-lg-6">
                                 <div class="cart-item" style="align-items: initial">
                                     <div class="" style="height: 100%">
-                                        <img src="{{ asset($item->image) }}" alt="food">
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" alt="food">
                                     </div>
                                     <div class="cart-content">
                                         <h3><a

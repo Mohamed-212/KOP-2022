@@ -245,7 +245,7 @@
                                     </div>
 
                                 @else
-                                    <div class="uk-container uk-container-small"><img class="page-cart__img"
+                                    <div class="uk-container uk-container-small"><img loading="lazy" data-lazy="true"  class="page-cart__img"
                                                                                       src="{{asset('website-assets/img/pages/cart/img-cart.png')}}"
                                                                                       alt="">
                                         <div class="page-cart__box">

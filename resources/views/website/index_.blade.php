@@ -40,19 +40,19 @@
                                 <li>
                                     <div
                                         class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-                                        <img src="{{asset('website-assets/img/pages/home/khome.jpg')}}"
+                                        <img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/pages/home/khome.jpg')}}"
                                              alt="slider-1" data-uk-cover></div>
                                 </li>
                                 <li>
                                     <div
                                         class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-                                        <img src="{{asset('website-assets/img/pages/home/khome2.jpg')}}"
+                                        <img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/pages/home/khome2.jpg')}}"
                                              alt="slider-2" data-uk-cover></div>
                                 </li>
                                 <li>
                                     <div
                                         class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-                                        <img src="{{asset('website-assets/img/pages/home/khome3.jpg')}}"
+                                        <img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/pages/home/khome3.jpg')}}"
                                              alt="slider-3" data-uk-cover></div>
                                 </li>
                             </ul>
@@ -75,7 +75,7 @@
             <!--<div class="section-about">-->
             <!--    <div class="uk-section uk-container">-->
             <!--        <div class="uk-grid uk-child-width-1-2@m uk-flex-middle" data-uk-grid>-->
-            <!--            <div class="uk-text-center"><img src="{{asset('website-assets/img/pages/home/Aboutus.jpg')}}"-->
+            <!--            <div class="uk-text-center"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/pages/home/Aboutus.jpg')}}"-->
             <!--                                             alt=""></div>-->
             <!--            <div>-->
             <!--                <div class="section-title burger wave">-->
@@ -139,7 +139,7 @@
                                 @foreach($menu['categories'] as $index => $category)
                                     <li>
                                         <div class="uk-panel h-75">
-                                            <img src="{{$category->image}}" id="{{$category->id}}" class="img-thumbnail rounded w-100 h-100 cat" alt="">
+                                            <img loading="lazy" data-lazy="true"  src="{{$category->image}}" id="{{$category->id}}" class="img-thumbnail rounded w-100 h-100 cat" alt="">
                                             <h4 class="m-1 text-center">{{(app()->getLocale() == 'ar')? $category->name_ar : $category->name_en}}</h4>
                                         </div>
                                     </li>
@@ -271,7 +271,7 @@
                                                     <div class="product-card__addcart">
                                                         <a class="uk-button uk-width-1-1 d-table" href="{{route('offer.item',$offer->id)}}">
                                                             <span style="display: table-cell;vertical-align: middle;text-align:center;">{{__('general.Get Offer')}}</span>
-                                                            <img class="uk-margin-small-left" src="{{asset('website-assets/img/icons/ice-cream.svg')}}" alt="">
+                                                            <img loading="lazy" data-lazy="true"  class="uk-margin-small-left" src="{{asset('website-assets/img/icons/ice-cream.svg')}}" alt="">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -347,7 +347,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="section-deal-of-the-week__media"><img class="rounded-circle" style="right: 45%;"
+                                                    <div class="section-deal-of-the-week__media"><img loading="lazy" data-lazy="true"  class="rounded-circle" style="right: 45%;"
                                                             src="{{$dealItem->image}}"
                                                             alt="deal-of-the-week">
                                                     </div>
@@ -440,7 +440,7 @@
                                     <li style="height: 260px;">
                                         <div class="featured-deal-item h-100">
                                             <div class="uk-width-1-1 uk-inline-clip uk-transition-toggle h-100" tabindex="0">
-                                                <img class="uk-width-1-1 w-100 h-100"
+                                                <img loading="lazy" data-lazy="true"  class="uk-width-1-1 w-100 h-100"
                                                      src="{{asset($gallery->url)}}"
                                                      alt="featured-deal">
                                                 <a class="uk-transition-fade uk-position-cover uk-position-small uk-overlay uk-overlay-primary uk-flex uk-flex-column uk-flex-center uk-flex-middle"
@@ -478,7 +478,7 @@
                                                     <div class="article-card">
 
                                                         <div class="article-card__media"><a
-                                                                href="{{route('get.new',$new->id)}}"><img 
+                                                                href="{{route('get.new',$new->id)}}"><img loading="lazy" data-lazy="true"  
                                                                     style="height:268px;"
                                                                     src="{{$new->image}}"
                                                                     alt="Soft &amp; fresh-baked chocolate cookie with chunks"></a>
@@ -581,7 +581,7 @@
                                         '<div class="product-item__media">'+
                                         '<a href="{{url('/item/')}}'+ '/' + item.category_id + '/' + item.id + '">'+
                                         '<div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">'+
-                                        '<img class="w-100 h-100" src="' + item.image + '" alt="Image"/>'+
+                                        '<img loading="lazy" data-lazy="true"  class="w-100 h-100" src="' + item.image + '" alt="Image"/>'+
                                         '</div>'+
                                         '</a>'+
                                         '</div>'+

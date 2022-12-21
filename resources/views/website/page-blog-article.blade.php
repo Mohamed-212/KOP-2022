@@ -40,7 +40,7 @@
                                 <div class="col-lg-12 sm-padding">
                                     <div class="post-card">
                                         <div class="post-thumb">
-                                            <img src="{{ asset($article->image) }}" alt="img">
+                                            <img loading="lazy" data-lazy="true"  src="{{ asset($article->image) }}" alt="img">
                                         </div>
                                         <div class="post-content">
                                             <ul class="post-meta">

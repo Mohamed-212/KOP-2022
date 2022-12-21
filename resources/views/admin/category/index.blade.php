@@ -38,7 +38,7 @@
               <td>{{ $category['name_'.app()->getLocale()]}}</td>
               <td>{{ $category->items->count() }}</td>
               <td>{{ $category->extras->count() }}</td>
-              <td><img src="{{ $category->image }}"class="mg-fluid img-thumbnail"style="max-width: 75px"></td>
+              <td><img loading="lazy" data-lazy="true"  src="{{ $category->image }}"class="mg-fluid img-thumbnail"style="max-width: 75px"></td>
               <td style="padding: 0;text-align: center;">
                 <a href="{{ route('admin.category.show', $category->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                 @if (auth()->user()->hasRole('admin')) 

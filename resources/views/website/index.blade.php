@@ -278,7 +278,7 @@
                                             </p>
                                         </div>
                                         <div class="food-thumbw">
-                                            <img src="{{ asset($recommended->website_image) }}" alt="img"
+                                            <img loading="lazy" data-lazy="true"  src="{{ asset($recommended->website_image) }}" alt="img"
                                                 style="height: 210px;width:210px;border-radius: 100%;">
                                         </div>
                                     </div>
@@ -308,7 +308,7 @@
                             <div class="row align-items-center">
                                 <div class="col-md-6 wow fadeInLeft" data-wow-delay="200ms">
                                     <div class="content-img-holder">
-                                        <img src="{{ asset($main_offer->website_image) }}" alt="img">
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($main_offer->website_image) }}" alt="img">
                                         <div class="sale">
                                             @if ($main_offer->discount)
                                                 <div>
@@ -402,7 +402,7 @@
                                     </span>
                                     @endif
                             <div class="product-thumb">
-                                <img src="{{ asset($dealItem->website_image) }}" alt="food"
+                                <img loading="lazy" data-lazy="true"  src="{{ asset($dealItem->website_image) }}" alt="food"
                                     style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;">
                                 <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                     @csrf
@@ -511,7 +511,7 @@
                     </div>
                     <div class="col-md-6 wow fadeInRight" data-wow-delay="400ms">
                         <div class="content-img-holder">
-                            <img src="{{ asset($menu['anoucement'][0]->image) }}" alt="img">
+                            <img loading="lazy" data-lazy="true"  src="{{ asset($menu['anoucement'][0]->image) }}" alt="img">
 
                         </div>
                     </div>
@@ -539,7 +539,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="delivery-boy-wrap">
-                            <img class="delivery" src="{{ asset('website2-assets/img/cloud.png') }}" alt="img">
+                            <img loading="lazy" data-lazy="true"  class="delivery" src="{{ asset('website2-assets/img/cloud.png') }}" alt="img">
                             <div class="delivery-boy"></div>
                         </div>
                     </div>
@@ -554,7 +554,7 @@
                 <div class="row banner-wrapper">
                     <div class="col-md-6 wow fadeInUp" data-wow-delay="200ms">
                         <div class="banner-item">
-                            <img src="{{ asset($menu['homeitem'][0]->image) }}" alt="banner">
+                            <img loading="lazy" data-lazy="true"  src="{{ asset($menu['homeitem'][0]->image) }}" alt="banner">
                             <div class="banner-content">
                                 <h2>{{ app()->getLocale() == 'ar' ? $menu['homeitem'][0]->description_ar : $menu['homeitem'][0]->description_en }}
                                 </h2>
@@ -567,7 +567,7 @@
                         <div class="row">
                             <div class="col-md-6 wow fadeInUp" data-wow-delay="400ms">
                                 <div class="banner-item">
-                                    <img src="{{ asset($menu['homeitem'][1]->image) }}" alt="banner">
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($menu['homeitem'][1]->image) }}" alt="banner">
                                     <div class="banner-content">
                                         <h2>{{ app()->getLocale() == 'ar' ? $menu['homeitem'][1]->description_ar : $menu['homeitem'][1]->description_en }}
                                         </h2>
@@ -579,7 +579,7 @@
                             </div>
                             <div class="col-md-6 wow fadeInUp" data-wow-delay="600ms">
                                 <div class="banner-item">
-                                    <img src="{{ asset($menu['homeitem'][2]->image) }}" alt="banner">
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($menu['homeitem'][2]->image) }}" alt="banner">
                                     <div class="banner-content">
                                         <h2>{{ app()->getLocale() == 'ar' ? $menu['homeitem'][2]->description_ar : $menu['homeitem'][2]->description_en }}
                                         </h2>
@@ -591,7 +591,7 @@
                             </div>
                             <div class="col-md-12 wow fadeInUp" data-wow-delay="800ms">
                                 <div class="banner-item">
-                                    <img src="{{ asset($menu['homeitem'][3]->image) }}" alt="banner">
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($menu['homeitem'][3]->image) }}" alt="banner">
                                     <div class="banner-content">
                                         <h2>{{ app()->getLocale() == 'ar' ? $menu['homeitem'][3]->description_ar : $menu['homeitem'][3]->description_en }}
                                         </h2>
@@ -623,7 +623,7 @@
                                 data-wow-delay="200ms">
                                 <div class="post-card">
                                     <div class="post-thumb">
-                                        <img src="{{ asset($new->image) }}" alt="img">
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($new->image) }}" alt="img">
                                         <div class="category"><a
                                                 href="{{ route('get.new', $new->id) }}">{{ $new['title_' . app()->getLocale()] }}</a>
                                         </div>

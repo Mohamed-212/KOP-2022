@@ -57,7 +57,7 @@
                                     <div class="col-md-6 padding-15 d-flex">
                                         <div class="post-card">
                                             <div class="post-thumb">
-                                                <img src="{{ asset($ar->image) }}" alt="img">
+                                                <img loading="lazy" data-lazy="true"  src="{{ asset($ar->image) }}" alt="img">
                                                 <div class="category">
                                                     @isset($health)
                                                     <a href="{{ route('health-infos.show', $ar->id) }}">

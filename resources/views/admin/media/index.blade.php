@@ -32,7 +32,7 @@
             @foreach($medias as $media)
             <tr>
               <td>{{ $media->id }}
-                <img src="{{asset($media->img)}}" class="img-thumbnail" style="height: 200px;" />
+                <img loading="lazy" data-lazy="true"  src="{{asset($media->img)}}" class="img-thumbnail" style="height: 200px;" />
             </td>
               <td>{{$media->title_en}}</td>
               <td>{{$media->title_ar}}</td>

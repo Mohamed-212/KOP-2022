@@ -60,7 +60,7 @@
                         <div class="ml-auto w-100">
                             <div class="px-2 col-12 mx-auto">
                                 <a href="{{ route('home.page') }}">
-                                    <img class="logo__img logo__img--full m-auto" style="cursor: pointer;height: 10rem;"
+                                    <img loading="lazy" data-lazy="true"  class="logo__img logo__img--full m-auto" style="cursor: pointer;height: 10rem;"
                                         src="{{ asset('website-assets/img/logokop.png') }}" alt="logo">
                                 </a>
                                 <h2 class="text-dark my-0">{{ __('general.Hello There.') }}</h2>

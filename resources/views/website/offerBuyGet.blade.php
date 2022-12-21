@@ -61,7 +61,7 @@
                                                                 <div class="gold-members p-3 border-bottom">
                                                                     <div class="media d-flex">
                                                                         <div class="mr-3 col-3" style="height: 150px;width: 150px;">
-                                                                            <img class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem['image'])}}" alt="">
+                                                                            <img loading="lazy" data-lazy="true"  class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem['image'])}}" alt="">
                                                                         </div>
                                                                         <div class="media-body" style="margin-left: 2%;">
                                                                             <h4 class="m-0" style="font-size: 20px;line-height: 1.8;">{{(app()->getLocale() == 'ar')? $buyItem['name_ar'] : $buyItem['name_en'] }}</h4>
@@ -91,7 +91,7 @@
                                                             <div class="gold-members p-3 border-bottom">
                                                                 <div class="media d-flex">
                                                                     <div class="mr-3 col-3" style="height: 150px;width: 150px;">
-                                                                        <img class="img-thumbnail rounded h-100 w-100" src="{{asset($getItem['image'])}}" alt="">
+                                                                        <img loading="lazy" data-lazy="true"  class="img-thumbnail rounded h-100 w-100" src="{{asset($getItem['image'])}}" alt="">
                                                                     </div>
                                                                     <div class="media-body" style="margin-left: 2%;">
                                                                         <h4 class="m-0" style="font-size: 20px;line-height: 1.8;">{{(app()->getLocale() == 'ar')? $getItem['name_ar'] : $getItem['name_en'] }}</h4>

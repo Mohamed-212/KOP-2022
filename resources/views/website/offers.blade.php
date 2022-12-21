@@ -83,7 +83,7 @@
                                             <div class="sale">-{{ $offer->discount->discount_value }}%</div>
                                         @endif
                                         <div class="product-thumb">
-                                            <img src="{{ asset($offer->website_image_menu) }}" alt="food">
+                                            <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image_menu) }}" alt="food">
                                             <div><a @auth
                                                 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif 
                                                  @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"

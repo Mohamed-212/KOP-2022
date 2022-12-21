@@ -28,7 +28,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <img id="image" src="{{asset($gallery->url)}}" class="img-thumbnail w-100 p-3" style="height: 250px;">
+                                <img loading="lazy" data-lazy="true"  id="image" src="{{asset($gallery->url)}}" class="img-thumbnail w-100 p-3" style="height: 250px;">
                             </div>
                             <div class="col-md-6">
                                 <div class="row">

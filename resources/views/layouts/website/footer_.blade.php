@@ -2,7 +2,7 @@
     <div class="page-footer__top">
         <div class="uk-container">
             <!--<div class="page-footer__logo">-->
-            <!--    <div class="logo"> <a class="logo__link" href="#"><img class="logo__img" src="{{asset('website-assets/img/logokop.bmp')}}" alt="logo"></a></div>-->
+            <!--    <div class="logo"> <a class="logo__link" href="#"><img loading="lazy" data-lazy="true"  class="logo__img" src="{{asset('website-assets/img/logokop.bmp')}}" alt="logo"></a></div>-->
             <!--</div>-->
             <div class="page-footer__contacts">
                 <div class="contact-item-box">
@@ -18,7 +18,7 @@
                     <div class="contact-item-box__value">{{__('general.Email')}}: <a href="mailto:Admin@gulfinvestment.net">Admin@gulfinvestment.net</a><br> {{__('general.Phone')}}: <a href="tel:920001939">920001939</a></div>
                 </div>
                 <div class="contact-item-box w-25">
-                    <img src="{{asset('website-assets/img/icons/tax.svg')}}"
+                    <img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/icons/tax.svg')}}"
                                                            alt="delivery" data-uk-svg>
                 </div>
             </div>
@@ -102,7 +102,7 @@
             </div>
             <hr class="uk-margin">
             <div class="uk-margin-bottom">
-                <div class="block-with-phone"><img src="{{asset('website-assets/img/icons/delivery.svg')}}" alt="delivery" data-uk-svg>
+                <div class="block-with-phone"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/icons/delivery.svg')}}" alt="delivery" data-uk-svg>
                     <div> <span>For Delivery, Call us</span><a href="tel:920001939">920001939</a></div>
                 </div>
             </div>

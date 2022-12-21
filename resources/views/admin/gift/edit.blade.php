@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="row">
-                <img src="{{$gift->image}}">
+                <img loading="lazy" data-lazy="true"  src="{{$gift->image}}">
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="exampleInputFile">Image</label>

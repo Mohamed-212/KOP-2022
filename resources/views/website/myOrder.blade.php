@@ -227,7 +227,7 @@
                                                         <div class="d-flex border-bottom pb-3">
                                                             <div class="text-muted mr-3"
                                                                 style="width: 110px;height: 110px">
-                                                                <img alt="#"
+                                                                <img loading="lazy" data-lazy="true"  alt="#"
                                                                     src="{{ asset('website2-assets/img/order.png') }}"
                                                                     class="w-100 h-100 img-fluid order_img rounded">
                                                             </div>
@@ -306,7 +306,7 @@
                                                         <div class="d-flex border-bottom pb-3">
                                                             <div class="text-muted mr-3"
                                                                 style="width: 110px;height: 110px">
-                                                                <img alt="#"
+                                                                <img loading="lazy" data-lazy="true"  alt="#"
                                                                     src="{{ asset('website2-assets/img/order.png') }}"
                                                                     class="w-100 h-100 img-fluid order_img rounded">
                                                             </div>
@@ -385,7 +385,7 @@
                                                         <div class="d-flex border-bottom pb-3">
                                                             <div class="text-muted"
                                                                 style="width: 110px;height: 110px; @if (app()->getLocale() == 'en') margin-right: 1rem!important; @else margin-left: 1rem!important; @endif">
-                                                                <img alt="#"
+                                                                <img loading="lazy" data-lazy="true"  alt="#"
                                                                     src="{{ asset('website2-assets/img/order.png') }}"
                                                                     class="w-100 h-100 img-fluid order_img rounded">
                                                             </div>
@@ -468,7 +468,7 @@
                                                         <div class="d-flex border-bottom pb-3">
                                                             <div class="text-muted mr-3"
                                                                 style="width: 110px;height: 110px">
-                                                                <img alt="#"
+                                                                <img loading="lazy" data-lazy="true"  alt="#"
                                                                     src="{{ asset('website2-assets/img/order.png') }}"
                                                                     class="w-100 h-100 img-fluid order_img rounded">
                                                             </div>
@@ -550,7 +550,7 @@
                                                         <div class="d-flex border-bottom pb-3">
                                                             <div class="text-muted mr-3"
                                                                 style="width: 110px;height: 110px">
-                                                                <img alt="#"
+                                                                <img loading="lazy" data-lazy="true"  alt="#"
                                                                     src="{{ asset('website2-assets/img/order.png') }}"
                                                                     class="w-100 h-100 img-fluid order_img rounded">
                                                             </div>

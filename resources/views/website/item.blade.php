@@ -274,7 +274,7 @@ content: "\f068" !important;
                                     </span>
                                 @endif
                             <div class="food-details-thumb">
-                                <img src="{{ asset($item->image) }}" alt="food">
+                                <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" alt="food">
                                 <a class="img-popup" data-gall="gallery01" href="{{ asset($item->image) }}"><i
                                         class="fas fa-expand"></i></a>
                             </div>

@@ -69,7 +69,7 @@
                                 <td>{{ $without->name_en }}</td>
                                 <td>{{ $without->price }}</td>
                                 <td>{{ $without->calories }}</td>
-                                {{-- <td><img src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
+                                {{-- <td><img loading="lazy" data-lazy="true"  src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
                                 <td>
                                     <a href="{{ route('admin.without.show', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     @if (auth()->user()->hasRole('admin'))

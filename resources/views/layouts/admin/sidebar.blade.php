@@ -13,7 +13,7 @@
                 <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
                     <div class="pb-3 mt-3 mb-3 user-panel d-flex">
                         <div class="image">
-                            <img src="{{ url('/admin-assets/image/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                            <img loading="lazy" data-lazy="true"  src="{{ url('/admin-assets/image/user2-160x160.jpg') }}" class="img-circle elevation-2"
                                 alt="User Image">
                         </div>
                         <div class="info">

@@ -55,7 +55,7 @@
                                 @foreach ($videos as $video)
                                     <li class="list-group-item play-video d-flex rounded @if($loop->first) bg-primary text-white @else bg-transparent @endif" data-url="{{asset($video->url)}}">
                                         <div class="flex-shrink-0">
-                                            <img width='50' height='50' class="rounded" src="{{ asset($video->img) }}" alt="{{ $video->title_en }}" />
+                                            <img loading="lazy" data-lazy="true"  width='50' height='50' class="rounded" src="{{ asset($video->img) }}" alt="{{ $video->title_en }}" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <div class="fw-bold">
@@ -75,7 +75,7 @@
                                         <svg class="w-100 h-100 animate__animated animate__faster animate__heartBeat animate__infinite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" viewBox="0 0 384 512"><path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z"/></svg>
                                     </div>
                                     @else
-                                        <img src="{{asset($video->img)}}" width='500' height='300' alt="img">
+                                        <img loading="lazy" data-lazy="true"  src="{{asset($video->img)}}" width='500' height='300' alt="img">
                                     @endif
                                     <a class="img-popup" data-gall="gallery01"
                                         href="{{ asset($video->url) }}" data-autoplay="true" data-vbtype="video" title="{{$video['title_'. app()->getLocale()]}}"><i class="fas fa-expand"></i></a>

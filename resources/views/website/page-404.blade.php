@@ -40,7 +40,7 @@
      </section><!--/.page-header-->
     {{-- <div class="page-content">
         <div class="uk-section uk-container uk-container-small">
-            <div class="page-404-error"> <img class="page-404-error__img" src="{{asset('website-assets/img/pages/404/404.svg')}}" alt="">
+            <div class="page-404-error"> <img loading="lazy" data-lazy="true"  class="page-404-error__img" src="{{asset('website-assets/img/pages/404/404.svg')}}" alt="">
                 <div class="page-404-error__form">
                     <div class="page-404-error__form-title">Sorry, but the page has not found.</div>
                     <div class="page-404-error__form-desc">We are unable to find the page you has requested, try searching below:</div>

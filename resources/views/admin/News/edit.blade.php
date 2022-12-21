@@ -73,7 +73,7 @@
                                                 <b>Note</b> Image types: png | jpeg | jpg
                                             </p>
                                         </div>
-                                        <img src="{{ $blog->image }}" class="img-thumbnail" style="width: 250px;" />
+                                        <img loading="lazy" data-lazy="true"  src="{{ $blog->image }}" class="img-thumbnail" style="width: 250px;" />
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">

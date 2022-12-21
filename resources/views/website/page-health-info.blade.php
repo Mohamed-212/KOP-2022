@@ -48,7 +48,7 @@
                                     <div class="col-lg-12 sm-padding my-4">
                                         <div class="post-card">
                                             <div class="post-thumb">
-                                                <img src="{{ asset($info->image) }}" alt="img">
+                                                <img loading="lazy" data-lazy="true"  src="{{ asset($info->image) }}" alt="img">
                                                 <div class="category">
                                                     <a href="javascript:void">
                                                         {{ $info['title_' . app()->getLocale()] }}

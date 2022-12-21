@@ -34,11 +34,11 @@
                                 <div data-uk-slideshow="ratio: 1:1; animation: slide">
                                     <div class="product-full-card__gallery-box">
                                         <ul class="uk-slideshow-items uk-child-width-1-1">
-                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
-                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
-                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
-                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
-                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
+                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
+                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
+                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
+                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
+                                            <li class="uk-flex uk-flex-center uk-flex-middle"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></li>
                                         </ul>
                                         <div class="product-full-card__whish"><i class="fas fa-heart"></i></div>
                                         <div class="product-full-card__type spicy"></div>
@@ -46,11 +46,11 @@
                                     </div>
                                     <div class="uk-margin-top" data-uk-slider="finite: true">
                                         <ul class="uk-thumbnav uk-slider-items uk-grid uk-grid-small uk-child-width-1-3 uk-child-width-1-4@l">
-                                            <li data-uk-slideshow-item="0"><a href="#"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
-                                            <li data-uk-slideshow-item="1"><a href="#"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
-                                            <li data-uk-slideshow-item="2"><a href="#"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
-                                            <li data-uk-slideshow-item="3"><a href="#"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
-                                            <li data-uk-slideshow-item="4"><a href="#"><img src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
+                                            <li data-uk-slideshow-item="0"><a href="#"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
+                                            <li data-uk-slideshow-item="1"><a href="#"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
+                                            <li data-uk-slideshow-item="2"><a href="#"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
+                                            <li data-uk-slideshow-item="3"><a href="#"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
+                                            <li data-uk-slideshow-item="4"><a href="#"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-big.png')}}" alt="pizza-big"></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
                                         <article class="uk-comment">
                                             <header class="uk-comment-header">
                                                 <div class="uk-grid-small uk-grid-divider" data-uk-grid>
-                                                    <div class="uk-width-auto@s"><img class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-1.png')}}" alt></div>
+                                                    <div class="uk-width-auto@s"><img loading="lazy" data-lazy="true"  class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-1.png')}}" alt></div>
                                                     <div class="uk-width-expand@s">
                                                         <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
                                                             <h4 class="uk-comment-title uk-margin-remove">Michael Shaw</h4><span class="uk-text-meta uk-margin-small-left">August 20, 2020</span>
@@ -217,7 +217,7 @@
                                                 <article class="uk-comment">
                                                     <header class="uk-comment-header">
                                                         <div class="uk-grid-small uk-grid-divider" data-uk-grid>
-                                                            <div class="uk-width-auto@s"><img class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-2.png')}}" alt></div>
+                                                            <div class="uk-width-auto@s"><img loading="lazy" data-lazy="true"  class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-2.png')}}" alt></div>
                                                             <div class="uk-width-expand@s">
                                                                 <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
                                                                     <h4 class="uk-comment-title uk-margin-remove">Tom Butler</h4><span class="uk-text-meta uk-margin-small-left">August 20, 2020</span>
@@ -236,7 +236,7 @@
                                         <article class="uk-comment">
                                             <header class="uk-comment-header">
                                                 <div class="uk-grid-small uk-grid-divider" data-uk-grid>
-                                                    <div class="uk-width-auto@s"><img class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-3.png')}}" alt></div>
+                                                    <div class="uk-width-auto@s"><img loading="lazy" data-lazy="true"  class="uk-comment-avatar" src="./{{asset('website-assets/img/blog/img-reviews-3.png')}}" alt></div>
                                                     <div class="uk-width-expand@s">
                                                         <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
                                                             <h4 class="uk-comment-title uk-margin-remove">Jasmine Hold</h4><span class="uk-text-meta uk-margin-small-left">August 20, 2020</span>
@@ -288,7 +288,7 @@
                                                 <div class="product-item__intro">
                                                     <div class="product-item__not-active">
                                                         <div class="product-item__media">
-                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-1.png')}}"><img src="{{asset('website-assets/img/products/pizza-1.png')}}" alt="Creamy Melt Pizza" />
+                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-1.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-1.png')}}" alt="Creamy Melt Pizza" />
                                                                     <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                     <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                                 </a></div>
@@ -393,7 +393,7 @@
                                                 <div class="product-item__intro">
                                                     <div class="product-item__not-active">
                                                         <div class="product-item__media">
-                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-2.png')}}"><img src="{{asset('website-assets/img/products/pizza-2.png')}}" alt="Neapolitan Pizza" />
+                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-2.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-2.png')}}" alt="Neapolitan Pizza" />
                                                                     <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                     <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                                 </a></div>
@@ -498,7 +498,7 @@
                                                 <div class="product-item__intro">
                                                     <div class="product-item__not-active">
                                                         <div class="product-item__media">
-                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
+                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
                                                                     <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                     <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                                 </a></div>
@@ -603,7 +603,7 @@
                                                 <div class="product-item__intro">
                                                     <div class="product-item__not-active">
                                                         <div class="product-item__media">
-                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
+                                                            <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
                                                                     <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                     <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                                 </a></div>

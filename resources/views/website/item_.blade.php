@@ -164,7 +164,7 @@
                         @endif
                         <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin " uk-grid>
                             <div class="uk-card-media-left uk-cover-container" style="height: 340px;">
-                                <img src="{{ asset($item->image) }}" alt="pizza-big" uk-cover>
+                                <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" alt="pizza-big" uk-cover>
                             </div>
                             <div>
                                 <div class="uk-card-body" style="padding: 15px 30px;">

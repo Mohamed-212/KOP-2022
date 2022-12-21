@@ -62,7 +62,7 @@
                             <td>
                                 <a href="" data_id="{{$item->id}}"  class="status btn {{($item->best_seller == 'activate')?'btn-danger':'btn-success'}} btn-circle">{{($item->best_seller == 'activate')?'deactivate':'activate'}}</a>
                             </td>
-                            <td><img src="{{ $item->image }}" style="max-width: 75px" /></td>
+                            <td><img loading="lazy" data-lazy="true"  src="{{ $item->image }}" style="max-width: 75px" /></td>
                             <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.item.show', $item->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                             </td>

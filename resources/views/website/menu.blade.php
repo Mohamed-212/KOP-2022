@@ -85,7 +85,7 @@
                                     @endif
                                     <div class="product-thumb">
 
-                                        <img src="{{ asset($dealItem->website_image) }}" alt="food"
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($dealItem->website_image) }}" alt="food"
                                             style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;" />
                                         <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                             @csrf
@@ -246,7 +246,7 @@
                                         '<a href="{{ url('/item/') }}' + '/' + item
                                         .category_id + '/' + item.id + '">' +
                                         '<div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">' +
-                                        '<img class="w-100 h-100" src="' + asset(item.image) +
+                                        '<img loading="lazy" data-lazy="true"  class="w-100 h-100" src="' + asset(item.image) +
                                         '" alt="Image" style="height: 250px;width:250px;border-radius: 100%;" />' +
                                         '</div>' +
                                         '</a>' +

@@ -29,7 +29,7 @@
                 <div class="uk-grid" data-uk-grid>
                     <div class="uk-width-2-3@m">
                         <article class="article-intro">
-                            <div class="article-intro__image"><a href="page-blog-article.html"><img src="{{asset('website-assets/img/blog/img-blog-full-1.jpg')}}" alt="img-article"></a></div>
+                            <div class="article-intro__image"><a href="page-blog-article.html"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-1.jpg')}}" alt="img-article"></a></div>
                             <div class="article-intro__body">
                                 <div class="article-intro__info">
                                     <div class="article-intro__author"><i class="fas fa-user"></i><span>By Sam Joseph</span></div>
@@ -49,7 +49,7 @@
                         </article>
                         <article class="article-intro">
                             <div class="article-intro__image">
-                                <div class="video" data-uk-lightbox="video-autoplay:true; index: 1"><a href="https://www.youtube.com/watch?v=c2pz2mlSfXA" data-attrs="width: 1280; height: 720;"><img src="{{asset('website-assets/img/blog/img-blog-full-2.png')}}" alt="img-article"></a></div>
+                                <div class="video" data-uk-lightbox="video-autoplay:true; index: 1"><a href="https://www.youtube.com/watch?v=c2pz2mlSfXA" data-attrs="width: 1280; height: 720;"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-2.png')}}" alt="img-article"></a></div>
                             </div>
                             <div class="article-intro__body">
                                 <div class="article-intro__info">
@@ -72,9 +72,9 @@
                             <div class="article-intro__image">
                                 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" data-uk-slideshow>
                                     <ul class="uk-slideshow-items">
-                                        <li><img src="{{asset('website-assets/img/blog/img-blog-full-3.png')}}" alt data-uk-cover></li>
-                                        <li><img src="{{asset('website-assets/img/blog/img-blog-full-2.png')}}" alt data-uk-cover></li>
-                                        <li><img src="{{asset('website-assets/img/blog/img-blog-full-1.jpg')}}" alt data-uk-cover></li>
+                                        <li><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-3.png')}}" alt data-uk-cover></li>
+                                        <li><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-2.png')}}" alt data-uk-cover></li>
+                                        <li><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-1.jpg')}}" alt data-uk-cover></li>
                                     </ul><a class="uk-position-center-left" href="#" data-uk-slidenav-previous data-uk-slideshow-item="previous"></a><a class="uk-position-center-right" href="#" data-uk-slidenav-next data-uk-slideshow-item="next"></a>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                             </div>
                         </article>
                         <article class="article-intro">
-                            <div class="article-intro__image"><a href="page-blog-article.html"><img src="{{asset('website-assets/img/blog/img-blog-full-4.png')}}" alt="img-article"></a></div>
+                            <div class="article-intro__image"><a href="page-blog-article.html"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-blog-full-4.png')}}" alt="img-article"></a></div>
                             <div class="article-intro__body">
                                 <div class="article-intro__info">
                                     <div class="article-intro__author"><i class="fas fa-user"></i><span>By Sam Joseph</span></div>
@@ -141,28 +141,28 @@
                                 <div class="widjet__title">Popular Posts</div>
                                 <ul class="list-articles">
                                     <li class="list-articles-item"><a class="list-articles-item__link" href="page-blog-article.html">
-                                            <div class="list-articles-item__img"><img src="{{asset('website-assets/img/blog/img-article-thumb-1.jpg')}}" alt="article-thumb"></div>
+                                            <div class="list-articles-item__img"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-article-thumb-1.jpg')}}" alt="article-thumb"></div>
                                             <div class="list-articles-item__info">
                                                 <div class="list-articles-item__title">Soft & Freshly Baked Chocolate Cookies With Addons</div>
                                                 <div class="list-articles-item__date">Posted: July 31, 2020</div>
                                             </div>
                                         </a></li>
                                     <li class="list-articles-item"><a class="list-articles-item__link" href="page-blog-article.html">
-                                            <div class="list-articles-item__img"><img src="{{asset('website-assets/img/blog/img-article-thumb-2.jpg')}}" alt="article-thumb"></div>
+                                            <div class="list-articles-item__img"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-article-thumb-2.jpg')}}" alt="article-thumb"></div>
                                             <div class="list-articles-item__info">
                                                 <div class="list-articles-item__title">Some of the Best Pizza Toppings of World 2020</div>
                                                 <div class="list-articles-item__date">Posted: July 31, 2020</div>
                                             </div>
                                         </a></li>
                                     <li class="list-articles-item"><a class="list-articles-item__link" href="page-blog-article.html">
-                                            <div class="list-articles-item__img"><img src="{{asset('website-assets/img/blog/img-article-thumb-3.jpg')}}" alt="article-thumb"></div>
+                                            <div class="list-articles-item__img"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-article-thumb-3.jpg')}}" alt="article-thumb"></div>
                                             <div class="list-articles-item__info">
                                                 <div class="list-articles-item__title">Why You Should Take Desserts After Every Meal</div>
                                                 <div class="list-articles-item__date">Posted: July 31, 2020</div>
                                             </div>
                                         </a></li>
                                     <li class="list-articles-item"><a class="list-articles-item__link" href="page-blog-article.html">
-                                            <div class="list-articles-item__img"><img src="{{asset('website-assets/img/blog/img-article-thumb-3.jpg')}}" alt="article-thumb"></div>
+                                            <div class="list-articles-item__img"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/blog/img-article-thumb-3.jpg')}}" alt="article-thumb"></div>
                                             <div class="list-articles-item__info">
                                                 <div class="list-articles-item__title">Fresh and Premium Sandwiches With Garlic Meat</div>
                                                 <div class="list-articles-item__date">Posted: July 31, 2020</div>
@@ -186,15 +186,15 @@
                             <div class="widjet widjet-gallery">
                                 <div class="widjet__title">Food Gallery</div>
                                 <div class="uk-grid uk-grid-small uk-child-width-1-3" data-uk-grid data-uk-lightbox>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-1.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-2.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-3.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-4.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-5.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-6.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-7.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-8.jpg')}}" alt="gallery"></div>
-                                    <div><img class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-9.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-1.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-2.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-3.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-4.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-5.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-6.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-7.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-8.jpg')}}" alt="gallery"></div>
+                                    <div><img loading="lazy" data-lazy="true"  class="uk-width-1-1" src="{{asset('website-assets/img/blog/img-gallery-thumb-9.jpg')}}" alt="gallery"></div>
                                 </div>
                             </div>
                         </aside>

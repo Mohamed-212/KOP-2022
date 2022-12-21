@@ -44,7 +44,7 @@
                                     <td>{{ $homeitem->description_en }}</td>
                                     <td>@if($homeitem->item){{ $homeitem->item->name_en }}@endif</td>
                                     <td>{{ $homeitem->number }}</td>
-                                    <td><img src="{{ asset($homeitem->image) }}" style="max-width: 75px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($homeitem->image) }}" style="max-width: 75px" /></td>
                                     <td style="padding: 0;text-align: center;">
                                         <a href="{{ route('admin.homeitem.edit', $homeitem->id) }}"
                                             class="btn btn-primary btn-circle btn-sm" title="edit"><i

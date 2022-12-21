@@ -114,7 +114,7 @@
                             @foreach ($galleries as $gallery)
                                 <div class="col-4 my-2 image-card">
                                     <div class="card overflow-hidden">
-                                        <img uk-img class="card-img" src="{{ $gallery->url }}"
+                                        <img loading="lazy" data-lazy="true"  uk-img class="card-img" src="{{ $gallery->url }}"
                                             alt="{{ app()->getLocale('ar') ? $gallery->title_ar : $gallery->title_en }}"
                                             x-on:click.prevent="active = {{ $loop->index }};showModal = true;" />
                                         <div class="card-img-overlay-custom py-1 rounded">
@@ -149,7 +149,7 @@
                                                 x-bind:class="{
                                                     'active': active === {{ $loop->index }}
                                                 }">
-                                                <img uk-img class="d-block w-100" src="{{ $gallery->url }}"
+                                                <img loading="lazy" data-lazy="true"  uk-img class="d-block w-100" src="{{ $gallery->url }}"
                                                     alt="{{ app()->getLocale('ar') ? $gallery->title_ar : $gallery->title_en }}" />
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h5 class="rounded">{{ app()->getLocale('ar') ? $gallery->title_ar : $gallery->title_en }}
@@ -204,7 +204,7 @@
                         @foreach ($galleries as $ga)
                             <div class="col-lg-4 col-sm-6 padding-15">
                                 <div class="gallery-item">
-                                    <img src="{{asset($ga->url)}}" width='500' height='300' alt="img">
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($ga->url)}}" width='500' height='300' alt="img">
                                     <a class="img-popup" data-gall="gallery01"
                                         href="{{asset($ga->url)}}" title="{{$ga['title_'. app()->getLocale()]}}"><i class="fas fa-expand"></i></a>
                                 </div>

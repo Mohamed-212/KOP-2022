@@ -84,7 +84,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Image</label>
-                                <img src="{{ $item->image }}" class="img-thumbnail" style="width: 77px;" />
+                                <img loading="lazy" data-lazy="true"  src="{{ $item->image }}" class="img-thumbnail" style="width: 77px;" />
                             </div>
                         </div>
                     </div>
