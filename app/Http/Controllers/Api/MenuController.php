@@ -197,11 +197,12 @@ class MenuController extends BaseController
                 $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
 
                 $parent_offer = null;
+                // dd($item->id);
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
-
+                    // dd($parent_offer);
                     if ($parent_offer && $parent_offer->offer) {
-
+                        
                         if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
                             $parent_offer = null;
                         }
@@ -210,6 +211,8 @@ class MenuController extends BaseController
                     // Just edit
                     if ($parent_offer)  break;
                 }
+
+                // dd($parent_offer);
 
 
                 $item->offer = $parent_offer;

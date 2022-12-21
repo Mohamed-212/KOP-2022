@@ -339,7 +339,7 @@ content: "\f068" !important;
                                                 @if (isset($cartHasOffers) && $cartHasOffers && $item->offer)
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#offersMultibleInOneOrder" type="button"
-                                                        class="order-btn">@lang('general.Order Now')</button>
+                                                        class="purchase-btn order-btn cart">@lang('general.Order Now')</button>
                                                 @else
                                                 <input type="hidden" name="item_id" value="{{ $item['id'] }}">
                                                 <button type="submit"
@@ -348,7 +348,7 @@ content: "\f068" !important;
                                             @else
                                                 <button data-target="#service-modal" data-bs-toggle="modal"
                                                     data-bs-target="#service-modal" type="button"
-                                                    class="order-btn">@lang('general.Order Now')</button>
+                                                    class="purchase-btn order-btn cart">@lang('general.Order Now')</button>
                                             @endif
 
                                             {{-- <button

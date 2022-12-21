@@ -395,7 +395,7 @@
                                 <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}"
                                     style="display:none;">
                         @endif
-                        <div class="product-item ">
+                        <div class="product-item " style="cursor: pointer;">
                             @if ($dealItem->website_is_out_of_stock)
                                     <span class="badge text-white bg-danger text-uppercase" style="position: absolute;top: 1.5rem;{{app()->getLocale() == 'ar' ? 'right' : 'left'}}: 1rem;z-index: 1;font-size: 1.5rem;">
                                         {{__('general.out of stock')}}

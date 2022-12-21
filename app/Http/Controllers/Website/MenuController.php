@@ -68,6 +68,36 @@ class MenuController extends Controller
         foreach ($return['data'] as $product) {
             if ($product->id == $item_id) {
                 $item = $product;
+
+                $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
+
+                $parent_offer = null;
+                foreach ($offers as $offer) {
+                    $parent_offer = OfferDiscount::find($offer->offer_id);
+
+                    if ($parent_offer) {
+
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
+                    if ($parent_offer)  break;
+                }
+
+                $item->offer = $parent_offer;
+
+                if ($parent_offer) {
+                    if ($parent_offer->discount_type == 1) {
+                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                        $item->offer->offer_price = $item->price - $disccountValue;
+                    } elseif ($parent_offer->discount_type == 2) {
+                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                    }
+
+                    unset($item->offer->offer);
+                }
+
                 break;
             }
         }
