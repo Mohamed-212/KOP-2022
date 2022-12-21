@@ -36,6 +36,7 @@ class ReportController extends Controller
         $orders = Order::when(request()->order_from, function ($q) {
             return $q->where('order_from', request()->order_from);
         })->orderBy('id', 'DESC')->get();
+        // dd($request->all());
         $this->Make_Log('App\Models\Order','report',0);
          return view('admin.report.order' , compact('orders'));
     }

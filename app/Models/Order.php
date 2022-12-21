@@ -30,13 +30,23 @@ class Order extends Model
         'order_from',
         'points',
         'description_box',
-        'payment_type'
+        'payment_type',
+        'is_first_order',
+        'first_order_status'
     ];
 
-    protected $casts = ['delivery_fees' => 'double'];
+    protected $casts = [
+        'is_first_order' => 'boolean',
+        // 'first_order_status' => 'boolean',
+        'delivery_fees' => 'double'
+    ];
 
     public $appends = [
-        'payment_type'
+        'payment_type',
+    ];
+
+    public $hidden = [
+        'first_order_status'
     ];
 
     public function getPaymentTypeAttribute()

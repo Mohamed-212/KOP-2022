@@ -38,8 +38,8 @@
               <td>{{$Anouce->name_ar}}</td>
               <td>{{$Anouce->description_en}}</td>
               <td>{{$Anouce->description_ar}}</td>
-              <td><img src="{{ asset($Anouce->image) }}" style="max-width: 75px" /></td>
-              <td>
+              <td><img loading="lazy" data-lazy="true"  src="{{ asset($Anouce->image) }}" style="max-width: 75px" /></td>
+              <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.Anoucement.edit', $Anouce->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $Anouce->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"

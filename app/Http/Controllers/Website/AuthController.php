@@ -48,7 +48,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'phone' => ['required', 'string', 'size:12', 'unique:users,first_phone']
+            'phone' => ['required', 'string', 'size:9', 'unique:users,first_phone']
         ], [
             'size' => [
                 'string' => $message,
@@ -66,13 +66,22 @@ class AuthController extends Controller
                 'first_name' => $name[0],
                 'last_name' => $name[1],
                 'password' => bcrypt($request->password),
-                'first_phone' => $request->phone,
+                'first_phone' => '966' . $request->phone,
                 'age' => $request->age,
                 'activation_token' => mt_rand(100000, 999999)
             ]);
 
             $user = User::create($request->all());
             $user->attachRole(3);
+
+            $user->token = $user->createToken('AppName')->accessToken;
+            $user->email_verified_at = now();
+            $user->active = true;
+            $user->save();
+
+            auth('web')->login($user);
+
+            return redirect()->route('home.page');
 
             // Mail::to($user->email)->send();
             // try {
@@ -93,15 +102,15 @@ class AuthController extends Controller
                 // return redirect()->back()->withErrors(['errors' => __('auth.phone_number_error')]);
             }
 
-            session(['user' => [
-                'email' => $user->email,
-                'phone' => $user->first_phone,
-                'id' => $user->id
-            ]]);
+            // session(['user' => [
+            //     'email' => $user->email,
+            //     'phone' => $user->first_phone,
+            //     'id' => $user->id
+            // ]]);
 
-            session()->flash('success', __('auth.verify'));
+            // session()->flash('success', __('general.user_updated'));
 
-            return redirect()->route('verifyCode.page');
+            // return redirect()->route('home.page');
 
             // return redirect(route('verifyCode.page'))->with(['success' => __('general.created', ['key' => __('auth.user_account')]), 'email' => $user->email]);
         } catch (\Exception $e) {
@@ -150,6 +159,8 @@ class AuthController extends Controller
                     return redirect()->route('verifyCode.page');
                 }
 
+                auth()->user()->carts()->delete();
+
 
                 $user->branches; //??                    
                 return redirect()->route('home.page');
@@ -163,6 +174,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        auth()->user()->carts()->delete();
         auth()->logout();
         session()->flush();
         return redirect()->route('home.page');

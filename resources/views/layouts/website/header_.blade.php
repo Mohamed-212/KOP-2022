@@ -17,7 +17,7 @@
                     <div class="logo">
                         <div class="logo__box" style="background-color:#fff"><a class="logo__link" href="{{route('home.page')}}"> <img
                                     class="logo__img logo__img--full" src="{{asset('website-assets/img/logokop.bmp')}}"
-                                    alt="logo"><img class="logo__img logo__img-small"
+                                    alt="logo"><img loading="lazy" data-lazy="true"  class="logo__img logo__img-small"
                                                     src="{{asset('website-assets/img/output-onlinepngtools -small.bmp')}}" alt="logo"></a>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
             <div class="uk-navbar-container uk-navbar-transparent" data-uk-navbar="">
                 <div class="uk-navbar-left">
                     <div>
-                        <div class="block-with-phone"><img style="color:#f00" src="{{asset('website-assets/img/icons/delivery-man-') . app()->getLocale() . '.svg' }}"
+                        <div class="block-with-phone"><img loading="lazy" data-lazy="true"  style="color:#f00" src="{{asset('website-assets/img/icons/delivery-man-') . app()->getLocale() . '.svg' }}"
                                                            alt="delivery" data-uk-svg width="42" height="42">
                             <div><span>{{__('header.For Delivery, Call us')}}</span><a href="tel:920001939">920001939</a>
                             </div>

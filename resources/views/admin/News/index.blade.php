@@ -32,8 +32,8 @@
                             <tr>
                                 <td>{{$index + 1 }}</td>
                                 <td>{{ $new->title_en}}</td>
-                                 <td><img src="{{ $new->image }}" style="max-width: 75px" /></td>
-                                 <td>
+                                 <td><img loading="lazy" data-lazy="true"  src="{{ $new->image }}" style="max-width: 75px" /></td>
+                                 <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.news.show', $new->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     <a href="{{ route('admin.news.edit', $new->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
 

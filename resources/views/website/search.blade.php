@@ -49,7 +49,7 @@
                                                 <!--        class="uk-inline-clip uk-transition-toggle uk-light"-->
                                                 <!--        data-uk-lightbox="data-uk-lightbox"><a-->
                                                 <!--            href="{{asset($item->image)}}"-->
-                                                <!--            class="w-100 h-100"><img class="w-100 h-100"-->
+                                                <!--            class="w-100 h-100"><img loading="lazy" data-lazy="true"  class="w-100 h-100"-->
                                                 <!--                                     src="{{asset($item->image)}}"-->
                                                 <!--                                     alt="{{(app()->getLocale() == 'ar')? $item->name_ar : $item->name_en}}"/>-->
                                                 <!--            <div-->
@@ -66,7 +66,7 @@
                                                 <div class="product-item__media">
                                                     <a href="{{route('item.page',[$item->category->id,$item->id])}}">
                                                         <div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">
-                                                            <img class="w-100 h-100" src="{{asset($item->image)}}" alt="Image"/>
+                                                            <img loading="lazy" data-lazy="true"  class="w-100 h-100" src="{{asset($item->image)}}" alt="Image"/>
                                                         </div>
                                                     </a>
                                                 </div>

@@ -29,7 +29,12 @@ class ItemController extends Controller
         $categories = Category::orderBy('id', 'DESC')->get();
         $items = Item::filter($filters)->orderBy('id', 'DESC')->get();
         $this->Make_Log('App\Models\Item','view',0);
-        return view('admin.items.index', compact('categories', 'items'));
+
+        $userBranches = auth()->user()->branches->pluck('id')->toArray();
+
+        // dd($br);
+
+        return view('admin.items.index', compact('categories', 'items', 'userBranches'));
     }
 
     /**
@@ -40,7 +45,10 @@ class ItemController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.items.create', compact('categories'));
+
+        $branches = Branch::all();
+
+        return view('admin.items.create', compact('categories', 'branches'));
     }
 
     /**
@@ -77,6 +85,15 @@ class ItemController extends Controller
             $validatedData['website_image'] = '/items/' . $image_new_name;
         }
         $item = Item::create($validatedData);
+        // $item->branches = $request->branches;
+        // $item->out_of_stock = $request->out_of_stock;
+        $c = Category::findOrFail($request->category_id);
+        $i_bran = $request->branches ?? [];
+        $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+        $item->branches = implode(',', $i_bran);
+        $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
+        $item->save();
+
         $this->Make_Log('App\Models\Item','create',$item->id);
         if (!$item)
             return redirect()->route('admin.item.index')->with([
@@ -140,7 +157,18 @@ class ItemController extends Controller
      */
     public function show(Request $request, Item $item)
     {
-        return view('admin.items.show', compact('item'));
+        $categories = Category::all();
+        $userBranches = auth()->user()->branches;
+
+        $itemBranches = explode(',', $item->branches);
+
+        $outOfStockBr = explode(',', $item->out_of_stock);
+
+        $userBranches = Branch::all();
+
+        $userBranchesArr = auth()->user()->branches->pluck('id')->toArray();
+
+        return view('admin.items.show', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr', 'userBranchesArr'));
     }
 
     /**
@@ -155,7 +183,17 @@ class ItemController extends Controller
         $userBranches = auth()->user()->branches;
 
         $itemBranches = explode(',', $item->branches);
-        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches'));
+
+        $outOfStockBr = explode(',', $item->out_of_stock);
+
+        $userBranches = Branch::all();
+
+        $userBranchesArr = auth()->user()->branches->pluck('id')->toArray();
+
+        // dd($userBranchesArr, $outOfStockBr);;
+        // dd(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock))));
+
+        return view('admin.items.edit', compact('item', 'categories', 'userBranches', 'itemBranches', 'outOfStockBr', 'userBranchesArr'));
     }
 
     /**
@@ -215,8 +253,31 @@ class ItemController extends Controller
                 $r[] = $branch;
             }
         }
-        $item->branches = implode(',', $r);
-        $item->save();
+
+        if (auth()->user()->hasRole('admin')) {
+            $c = Category::findOrFail($request->category_id);
+            $i_bran = $request->branches ?? [];
+            $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+            $item->branches = implode(',', $i_bran);
+            // $item->branches = implode(',', $request->branches ?? []);
+            $item->out_of_stock = implode(',', $request->out_of_stock ?? []);
+            $item->save();
+        }
+
+        if (auth()->user()->hasRole('branch_manager')) {
+            // $c = Category::findOrFail($request->category_id);
+            // $i_bran = auth()->user()->branches ?? [];
+            // if (!$request->is_hidden) {
+
+            // }
+            // $i_bran = array_unique(array_merge($i_bran, explode(',', $c->cat_branches)));
+            // $item->branches = implode(',', $i_bran);
+            // // $item->branches = implode(',', auth()->user()->branches ?? []);
+            // $item->out_of_stock = implode(',', auth()->user()->out_of_stock ?? []);
+            // $item->save();
+        }
+
+        // dd($item->branches);
 
         $this->Make_Log('App\Models\Item','update',$item->id);
         return redirect()->route('admin.item.index')->with([
@@ -385,6 +446,80 @@ class ItemController extends Controller
         $this->Make_Log('App\Models\HomeItem','delete',$homeitem->id);
         return redirect()->back()->with([
             'type' => 'error', 'message' => 'homeitem deleted successfuly'
+        ]);
+    }
+
+    public function hide(Item $item) {
+        $u = auth()->user()->branches->pluck('id')->toArray();
+
+        $i = explode(',', $item->branches);
+
+        $i = array_map(fn($a) => (int)$a, $i);
+
+        
+
+        $item->branches = implode(',', array_unique(array_merge($i, $u)));
+        $item->save();
+
+        $this->Make_Log('App\Models\Item','update',$item->id);
+        return redirect()->route('admin.item.index')->with([
+            'type' => 'success',
+            'message' => 'item hided successfuly'
+        ]);
+    }
+
+    public function unhide(Item $item) {
+        $u = auth()->user()->branches->pluck('id')->toArray();
+
+        $i = explode(',', $item->branches);
+
+        // dd($u, $i);
+        // dd(array_intersect(
+        //     $u,
+        //     array_map(fn($a) => (int)$a, $i)
+        // ));
+
+        $item->branches = implode(',', array_diff($i, $u));
+        $item->save();
+
+        $this->Make_Log('App\Models\Item','update',$item->id);
+        return redirect()->route('admin.item.index')->with([
+            'type' => 'success',
+            'message' => 'item un hided successfuly'
+        ]);
+    }
+
+    public function stock_out(Item $item) {
+        $u = auth()->user()->branches->pluck('id')->toArray();
+
+        $i = explode(',', $item->out_of_stock);
+
+        $i = array_map(fn($a) => (int)$a, $i);
+
+        $item->out_of_stock = implode(',', array_unique(array_merge($i, $u)));
+        $item->save();
+
+        $this->Make_Log('App\Models\Item','update',$item->id);
+
+        return redirect()->route('admin.item.index')->with([
+            'type' => 'success',
+            'message' => 'item is out of stock now'
+        ]);
+    }
+
+    public function stock_in(Item $item) {
+        $u = auth()->user()->branches->pluck('id')->toArray();
+
+        $i = explode(',', $item->out_of_stock);
+
+        $item->out_of_stock = implode(',', array_diff($i, $u));
+        $item->save();
+
+        $this->Make_Log('App\Models\Item','update',$item->id);
+
+        return redirect()->route('admin.item.index')->with([
+            'type' => 'success',
+            'message' => 'item is back in stock now'
         ]);
     }
    

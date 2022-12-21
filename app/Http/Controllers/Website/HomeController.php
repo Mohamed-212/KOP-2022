@@ -106,15 +106,17 @@ class HomeController extends Controller
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
 
+                    if ($parent_offer) {
+
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer) {
-
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+                
 
 
                 $item->offer = $parent_offer;
@@ -143,8 +145,11 @@ class HomeController extends Controller
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 if ($item->offer_id) {
-                    $cartHasOffers = true;
-                    break;
+                    $offer = Offer::find($item->offer_id);
+                    if ($offer && $offer->offer_type == 'buy-get') {
+                        $cartHasOffers = true;
+                        break;
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\DeactivationReason;
 use App\Models\Careers;
 use App\Models\JobRequest;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ use App\Models\HealthInfo;
 use App\Models\Item;
 use App\Models\News;
 use App\Models\Offer;
+use App\Models\OfferDiscount;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Validator;
 
 class FrontController extends BaseController
@@ -148,23 +151,109 @@ class FrontController extends BaseController
         $recommended = Item::where('recommended', true)->get();
 
         // categories with items
-        $categories = Category::with('items','extras','withouts')->get();
+        // $categories = Category::with('items','extras','withouts')->get();
+        $return = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories2())->getOriginalContent();
+
+        if($return['success'] == 'success'){
+             $categories = $return['data'];
+             foreach($categories as $category)
+        {
+            $count=0;
+            foreach($category->items as $item)
+            {
+                if($count == 3)
+                {break;}
+                $item->category_name_ar= $category->name_ar;
+                $item->category_name_en= $category->name_en;
+
+                // $item->
+
+                $item->extra = $category->extras;
+                $item->withouts = $category->withouts;
+
+                // get items offers
+                $offers = FacadesDB::table('offer_discount_items')->where('item_id', $item->id)->get();
+
+                $parent_offer = null;
+                foreach ($offers as $offer) {
+                    $parent_offer = OfferDiscount::find($offer->offer_id);
+
+
+                    if ($parent_offer) {
+
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
+                    if ($parent_offer)  break;
+                }
+
+                
+
+
+                $item->offer = $parent_offer;
+
+                if ($parent_offer) {
+                    if ($parent_offer->discount_type == 1) {
+                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                        $item->offer->offer_price = $item->price - $disccountValue;
+                    } elseif ($parent_offer->discount_type == 2) {
+                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                    }
+
+                    unset($item->offer->offer);
+                }
+
+                // array_push($menu['dealItems'] , $item);
+                $count++;
+            }
+            $count=0;
+        }
+        } else {
+            $categories = [];
+        }
 
         // offers
-        $offers = Offer::with('buyGet', 'discount')->where('main', true)->get();
+        $offerslist = Offer::with('buyGet', 'discount')->where('main', true)->get();
+
+        $offers = [];
+        foreach ($offerslist as $off) {
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+            }
+
+            $offers[] = $off;
+        }
 
         return $this->sendResponse(compact('banner', 'recommended', 'categories', 'offers'), 'Get all menu items');
     }
 
-    public function deactivate()
+    public function deactivate(Request $request)
     {
+        $request->validate([
+            'cancellation_reason' => 'nullable|string|max:255',
+            'reason_id' => 'required|integer|exists:deactivation_reasons,id',
+        ]);
+
         $user = auth()->user();
 
-        $user->update(['status' => 0]);
+        $user->update([
+            'status' => 0,
+            'cancellation_reason' => $request->cancellation_reason,
+            'reason_id' => $request->reason_id
+        ]);
 
         // auth()->logout();
         session()->flush();
 
         return $this->sendResponse(compact('user'), __('auth.use account deactivated'));
+    }
+
+    public function deactivation_reasons()
+    {
+        $reasons = DeactivationReason::all();
+
+        return $this->sendResponse(compact('reasons'), 'get all reasons');
     }
 } 

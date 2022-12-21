@@ -43,19 +43,63 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                @if (auth()->user()->hasRole('admin'))
                                 <div class="form-group">
                                     <label for="exampleInputRole">Hide In</label>
                                     <select class="select2" multiple="multiple" data-placeholder="Select a Branch" style="width: 100%;" name="branches[]">
                                         @foreach($userBranches as $userBranch)
                                         @if(in_array($userBranch->id, $itemBranches))
-                                        <option value="{{ $userBranch->id }}" selected>{{ $userBranch->name_ar }}</option>
+                                        <option value="{{ $userBranch->id }}" selected>{{ $userBranch->name_en }}</option>
                                         @else
-                                        <option value="{{ $userBranch->id }}">{{ $userBranch->name_ar }}</option>
+                                        <option value="{{ $userBranch->id }}">{{ $userBranch->name_en }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
+
+                                {{-- @if (auth()->user()->hasRole('branch_manager'))
+                                    <div style="margin-top: 2.5rem;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="is_hidden" @if(count(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->branches)))) > 0) checked  @endif>
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                      Is Hidden
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault2"  @if(count(array_intersect($userBranchesArr, array_map(fn($a) => (int) $a, explode(',', $item->out_of_stock)))) > 0) checked @endif >
+                                                    <label class="form-check-label" for="flexCheckDefault2" name="is_stock_out">
+                                                      Is out of stock
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif --}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @if (auth()->user()->hasRole('admin'))
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputRole">Out Of Stock In</label>
+                                    <select class="select2" multiple="multiple" data-placeholder="Select a Branch" style="width: 100%;" name="out_of_stock[]">
+                                        @foreach($userBranches as $userBranch)
+                                        @if(in_array($userBranch->id, $outOfStockBr))
+                                        <option value="{{ $userBranch->id }}" selected>{{ $userBranch->name_en }}</option>
+                                        @else
+                                        <option value="{{ $userBranch->id }}">{{ $userBranch->name_en }}</option>
                                         @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            @endif
                         </div>
 
                         <div class="row">
@@ -112,7 +156,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Mobile Image</label>
-                                    <img src="{{ $item->image }}" class="img-thumbnail" style="widht: 77px;" />
+                                    <img loading="lazy" data-lazy="true"  src="{{ $item->image }}" class="img-thumbnail" style="widht: 77px;" />
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
@@ -130,7 +174,7 @@
                                     <div class="help-block text-info">
                                         <b>Note</b> Image Dimensions Must Be: 300 * 300
                                     </div>
-                                    <img src="{{ asset($item->image) }}" class="img-thumbnail" style="width: 77px;" />
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" class="img-thumbnail" style="width: 77px;" />
 
                                     <div class="input-group">
                                         <div class="custom-file">

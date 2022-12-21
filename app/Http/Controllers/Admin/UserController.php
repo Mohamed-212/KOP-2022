@@ -89,8 +89,14 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'activation_token' => "",
-            'active' => 1
+            'active' => 1,
         ]);
+
+        $user->token = $user->createToken('AppName')->accessToken;
+        $user->email_verified_at = now();
+        $user->active = true;
+        $user->activation_token = mt_rand(10000, 99999);
+        $user->save();
 
         $this->Make_Log('App\Models\User','create', $user->id);
         if ($request->hasFile('image')) {

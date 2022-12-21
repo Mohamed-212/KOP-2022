@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class JobRequest extends Model
 {
     use SoftDeletes;
+
+    public $table = 'job_requests';
+
     protected $fillable = [
         'id',
         'name',

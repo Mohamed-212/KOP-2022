@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\OfferDiscount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -26,8 +27,11 @@ class MenuController extends Controller
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
                 if ($item->offer_id) {
-                    $cartHasOffers = true;
-                    break;
+                    $offer = Offer::find($item->offer_id);
+                    if ($offer && $offer->offer_type == 'buy-get') {
+                        $cartHasOffers = true;
+                        break;
+                    }
                 }
             }
         }
@@ -52,7 +56,8 @@ class MenuController extends Controller
         if (auth()->check()) {
             $cart = auth()->user()->carts;
             foreach ($cart as $item) {
-                if ($item->offer_id) {
+                $offer = Offer::find($item->offer_id);
+                if ($offer && $offer->offer_type == 'buy-get') {
                     $cartHasOffers = true;
                     break;
                 }
@@ -63,6 +68,36 @@ class MenuController extends Controller
         foreach ($return['data'] as $product) {
             if ($product->id == $item_id) {
                 $item = $product;
+
+                $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
+
+                $parent_offer = null;
+                foreach ($offers as $offer) {
+                    $parent_offer = OfferDiscount::find($offer->offer_id);
+
+                    if ($parent_offer) {
+
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
+                    if ($parent_offer)  break;
+                }
+
+                $item->offer = $parent_offer;
+
+                if ($parent_offer) {
+                    if ($parent_offer->discount_type == 1) {
+                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                        $item->offer->offer_price = $item->price - $disccountValue;
+                    } elseif ($parent_offer->discount_type == 2) {
+                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                    }
+
+                    unset($item->offer->offer);
+                }
+
                 break;
             }
         }
@@ -83,16 +118,18 @@ class MenuController extends Controller
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
+                    if ($parent_offer && $parent_offer->offer) {
+
+                        if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
                     // Just edit
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer && $parent_offer->offer) {
-
-                    if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+                
 
 
                 $item->offer = $parent_offer;

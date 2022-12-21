@@ -31,8 +31,8 @@
                             @foreach ($banners as $banner)
                             <tr>
                                 <td>{{ $banner->id }}</td>
-                                <td><img src="{{ asset($banner->image) }}" style="max-width: 75px" ></td>
-                                <td>
+                                <td><img loading="lazy" data-lazy="true"  src="{{ asset($banner->image) }}" style="max-width: 75px" ></td>
+                                <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                     <a onclick="deleteCategory('{{ 'delete-banner-' . $banner->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"> <i class="fas fa-trash"></i></a>
                                     <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST" id="{{ 'delete-banner-' . $banner->id }}">

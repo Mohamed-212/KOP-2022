@@ -8,9 +8,6 @@
           <h1>Roles</h1>
         </div>
         <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.role.create')}}">Add New Role</a></li>
-          </ol>
         </div>
       </div>
     </div>
@@ -18,18 +15,23 @@
   <section class="content">
     <div class="container-fluid">
       <div class="card-body">
+        <style>
+          tr th, tr td {
+            text-align: center;
+          }
+        </style>
         <table class="table table-bordered table-striped dataTable">
           <thead>
             <tr>
               <th>Role Name</th>
-              <th>Action</th>
+              {{-- <th>Action</th> --}}
             </tr>
           </thead>
           <tbody>
             @foreach ($roles as  $role)
               <tr>
                 <td>{{$role->name}}</td>
-                <td>
+                {{-- <td>
                   <a href="{{ route('admin.role.edit', $role->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteRole('delete-role-{{ $role->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">
                       <i class="fas fa-trash"></i>
@@ -41,7 +43,7 @@
                       @method('DELETE')
                   </form>
                   <!-- End Delete role -->
-                </td>
+                </td> --}}
               </tr>
             @endforeach
           </tbody>

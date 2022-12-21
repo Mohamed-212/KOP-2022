@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Website;
 
 use App\Events\OrderCreated;
+use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrdersController as ApiOrdersController;
 use App\Models\Branch;
@@ -71,6 +72,74 @@ class OrdersController extends Controller
 
                 session()->forget('payment');
             }
+
+            session()->forget('checkOut_details');
+
+            // return redirect()->route('get.cart')->with(['success' => __('general.Your order been submitted successfully')]);
+            return redirect()->route('get.orders');
+        }
+    }
+
+    public function make_order_reorder(Request $request)
+    {
+        // return $request;
+
+        if (!session()->has('direct_check')) {
+            return redirect()->route('menu.page');
+        }
+       
+        $ord = Order::findOrFail($request->order_id);
+        $items = $ord->items;
+        
+        foreach ($items as $item) {
+            $item->extras = json_decode($item->pivot->item_extras);
+            $item->withouts = json_decode($item->pivot->item_withouts);
+            $item->offerId = $item->pivot->offer_id;
+            $item->offer_price = round($item->pivot->offer_price, 2);
+            $item->price = Item::find($item->pivot->item_id)->price;
+            $item->item_id = $item->pivot->item_id;
+        }
+
+        // dd($items);
+
+        if (!$request->has('points_paid')) {
+            $request = $request->merge([
+                'items' => $items,
+                'points_paid' => 0,
+            ]);
+        } else {
+            $request = $request->merge([
+                'items' => $items,
+                'points_paid' => $request->points_paid,
+            ]);
+        }
+
+        $return = $this->store_order($request);
+
+        // dd($return);
+
+        session()->forget('direct_check');
+
+
+        if ($return['success'] == true) {
+            // foreach ($items as $item) {
+            //     // $item->delete();
+            // }
+            if (session()->has('point_claim_value')) {
+                session()->forget('point_claim_value');
+                session()->forget('points_value');
+            }
+
+            if (session()->has('payment')) {
+                $payment = Payment::where('payment_id', session('payment')['payment_id'])->where('customer_id', Auth::id())->first();
+
+                $payment->order_id = $return['data']['id'];
+                $payment->save();
+
+                session()->forget('payment');
+            }
+
+            session()->forget('checkOut_details');
 
             // return redirect()->route('get.cart')->with(['success' => __('general.Your order been submitted successfully')]);
             return redirect()->route('get.orders');
@@ -169,6 +238,10 @@ class OrdersController extends Controller
                 session()->forget('payment_hash');
             }
 
+            if (session()->has('direct_check')) {
+                return redirect()->route('payment.get_checkout_reorder');
+            }
+
             return redirect()->route('payment.checkout');
         } else {
             if ($request->status == 'failed') {
@@ -197,13 +270,42 @@ class OrdersController extends Controller
 
     public function my_orders()
     {
+
+        // foreach (range(1, 20) as $i) {
+        //     auth()->user()->orders()->create([
+        //         "address_id" => 1,
+        //     "customer_id" => auth()->id(), //$request->user()->id,
+        //     "branch_id" => 16, //$branch->id,
+        //     "service_type" => 'takeaway',
+        //     "state" => 'pending',
+        //     "subtotal" => 25,
+        //     "taxes" => 10,
+        //     "delivery_fees" => 5,
+        //     "total" => 35,
+        //     "points_paid" => 0,
+        //     'points' => 0,
+        //     'offer_value' => 0,
+        //     'order_from' => 'mobile',
+        //     'description_box' => 'sad asdasd',
+        //     'payment_type' => 'cash',
+        //     'is_first_order' => false,
+        //     'state' => 'rejected'
+        //     ]);
+        // }
+
         $pending_orders = auth()->user()->orders()->where('state', 'pending')->paginate(5, ['*'], 'pending');
+
+        $progress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(5, ['*'], 'progress');
+
         $completed_orders = auth()->user()->orders()->where('state', 'completed')->paginate(5, ['*'], 'completed');
         //$inprogress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(10);
-        $canceled_orders = auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->paginate(5, ['*'], 'canceled');
+        // dd(auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->toSql());
+        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled'))->paginate(5, ['*'], 'canceled');
+
+        $rejected_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'rejected'))->paginate(5, ['*'], 'rejected');
         //$on_way = auth()->user()->orders()->where('state', 'on-way')->paginate(10);
 
-        return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders'));
+        return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders', 'progress_orders', 'rejected_orders'));
     }
 
     public function my_orders_details($id, $reorder = null)
@@ -213,7 +315,7 @@ class OrdersController extends Controller
 
         $user = User::find($order->customer_id);
 
-        $firstOrder = $user->orders()->whereIn('state', ['pending', 'in-progress', 'completed'])->first();
+        $firstOrder = $order->is_first_order;
 
         if ($reorder) {
             // $order->total = 0;
@@ -240,7 +342,11 @@ class OrdersController extends Controller
             $payment = Payment::where('order_id', $order->id)->where('customer_id', $order->customer_id)->first();
         }
 
+        // dd($items);
+
         $items->map(function (&$item, $key) {
+            $item->extras_objects = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
+            $item->withouts_objects = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
             if ($item->pivot->offer_id) {
                 $offer = Offer::find($item->pivot->offer_id);
                 if ($offer->date_to > now()) {
@@ -454,9 +560,13 @@ class OrdersController extends Controller
         }
 
         // apply 50% discount if this is first order
-        $firstDiscount = auth()->user()->hasNoOrders();
-        $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
+        $firstDiscount = $customer->hasNoOrders();
+        // $request->total = $this->applyDiscountIfFirstOrder($customer, $firstDiscount ? $request->total*2 : $request->total);
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
+
+        $count = $customer->orders()->count();
+
+        // dd($request->all());
 
         $orderData = [
             "address_id" => $request->address_id,
@@ -472,7 +582,8 @@ class OrdersController extends Controller
             'points' => $pointsValue,
             'order_from' => 'website',
             'description_box' => $request->description,
-            'offer_value' => abs($request->has('offer_value') ? $request->offer_value : round($request->total - ($request->subtotal + $request->taxes), 2))
+            'offer_value' => (float)$request->discount,
+            'is_first_order' => $firstDiscount,
         ];
 
         $order = Order::create($orderData);
@@ -481,7 +592,7 @@ class OrdersController extends Controller
             return ['error' => 'Order not found'];
         }
 
-        if ($pointsValue) {
+        if ($pointsValue && (int)$pointsValue > 0) {
             PointsTransaction::create([
                 'points' => $pointsValue,
                 'order_id' => $order->id,
@@ -489,6 +600,9 @@ class OrdersController extends Controller
                 'status' => 2,
             ]);
         }
+
+        $customer->first_offer_available = 0;
+        $customer->save();
 
         // send notification to all user_branches
         // $cashiers = Branch::find($branch_id);
@@ -508,7 +622,7 @@ class OrdersController extends Controller
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
-              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
               broadcast(new OrderCreated($new_order,$cashier->user_id));
             }
         }
@@ -595,14 +709,77 @@ class OrdersController extends Controller
                     'offer_price' =>  $item->pivot->offer_price,
                     'price' => $item->pivot->price,
                 ]);
-                $cart = (app(CartController::class)->addCart($request))->getOriginalContent();
-                if ($cart['success'] !== true) {
-                    break;
-                    return redirect()->route('menu.page');
-                }
+                // return $this->get_checkout($request);
+                // $cart = (app(CartController::class)->addCart($request))->getOriginalContent();
+                // if ($cart['success'] !== true) {
+                //     break;
+                //     return redirect()->route('menu.page');
+                // }
             }
+
+            session()->put('direct_check', 1);
         }
 
         return response()->json($res);
+    }
+
+    public function get_checkout(Request $request)
+    {
+        $payment = null;
+        if (session()->has('payment')) {
+            $payment = (object) session('payment');
+
+            if (null === $payment->status) {
+                Payment::where('payment_id', $payment->payment_id)->delete();
+
+                session()->forget('payment');
+                // abort(404);
+            } else {
+                $request->merge(session('checkOut_details'));
+            }
+        }
+
+        if ($request['total'] <= 0 && isset($request['points_paid']) && $request['points_paid'] > 0) {
+            return back()->with('loyality_not_used', __('general.loyality_not_used'));
+        }
+
+        $firstDiscount = auth()->user()->hasNoOrders();
+
+        $service_type = session()->get('service_type');
+        if ($service_type == 'delivery') {
+            $address_id = session()->get('address_id');
+            $request->merge(['address_id' => $address_id]);
+        }
+        $branch_id = session()->get('branch_id');
+        $area_id = session()->get('address_area_id');
+        $request->merge([
+            'branch_id' => $branch_id,
+            'service_type' => $service_type,
+            'address_area_id' => $area_id,
+        ]);
+
+        $branch = Branch::where('id', $branch_id)->with(['city', 'area', 'deliveryAreas'])->with(['workingDays' => function ($day) {
+            $day->where('day', strtolower(now()->englishDayOfWeek))->first();
+        }])->first();
+
+        $work_hours = $branch->workingDays()->where('day', strtolower(now()->englishDayOfWeek))->get();
+
+        $isOpen = (app(BranchesController::class)->check($request, $branch_id))->getOriginalContent();
+
+        if ($isOpen['data']['available'] === false) {
+            session()->flash('branch_closed', true);
+            session()->flash('branch_name', $branch['name_' . app()->getLocale()]);
+            return back();
+        }
+
+        unset($request['_token']);
+        session()->put(['checkOut_details' => $request->all()]);
+
+        if (isset($address_id)) {
+            $address = Address::find($address_id);
+            return view('website.checkout', compact('request', 'address', 'work_hours', 'firstDiscount'));
+        }
+
+        return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
     }
 }

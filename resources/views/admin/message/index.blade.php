@@ -35,7 +35,7 @@
                                    <td>{{ $Message->subject }}</td>
                                     <td>{{ $Message->description }}</td>
                                     
-                                    <td>
+                                    <td style="padding: 0;text-align: center;">
                                         
                                        
                                         <a onclick="deleteCategory('{{ 'delete-item-' . $Message->id }}')" href="#"

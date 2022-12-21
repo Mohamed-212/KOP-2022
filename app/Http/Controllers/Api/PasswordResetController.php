@@ -8,7 +8,9 @@ use Carbon\Carbon;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class PasswordResetController extends BaseController
@@ -43,7 +45,12 @@ class PasswordResetController extends BaseController
 
         if ($user && $passwordReset) {
             $user->notify(new PasswordResetRequest($data['token']));
-            return $this->sendResponse(null,__('general.We have e-mailed your password reset link!') );
+
+            if( count(Mail::failures()) > 0 ) {
+                return $this->sendError(__('general.invalid email address'));
+             } else {
+                return $this->sendResponse(null,__('general.We have e-mailed your password reset link') );
+             }
         }
 
         return $this->sendError(__('general.You are not a user'));

@@ -246,6 +246,8 @@ trait GeneralTrait
      */
     public function applyDiscountIfFirstOrder(User $user, float $total): float
     {
+        return $total;
+
         if ($user->hasNoOrders()) {
             $total *= .50;
             $user->first_offer_available = false;
@@ -265,6 +267,8 @@ trait GeneralTrait
      */
     public function removeDiscountIfNotFirstOrder(User $user, float $total): float
     {
+        return $total;
+        
         if ($user->hasNoOrders()) {
             return round($total, 2);
         }
@@ -274,6 +278,7 @@ trait GeneralTrait
 
     public function sendMessage($phoneNumber, string $message): void
     {
+        return;
         // ahmed.adel@212sol
         $accountSid = config('app.twilio.account_sid');
         $authToken  = config('app.twilio.auth_token');

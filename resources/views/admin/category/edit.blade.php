@@ -74,6 +74,25 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (auth()->user()->hasRole('admin'))
+                                <div class="form-group">
+                                    <label for="exampleInputRole">Hide In</label>
+                                    <select class="select2" multiple="multiple" data-placeholder="Select a Branch" style="width: 100%;" name="branches[]">
+                                        @foreach($userBranches as $userBranch)
+                                        @if(in_array($userBranch->id, $itemBranches))
+                                        <option value="{{ $userBranch->id }}" selected>{{ $userBranch->name_en }}</option>
+                                        @else
+                                        <option value="{{ $userBranch->id }}">{{ $userBranch->name_en }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -131,7 +150,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Image</label>
-                                    <img src="{{ $category->image }}" class="mg-fluid img-thumbnail"
+                                    <img loading="lazy" data-lazy="true"  src="{{ $category->image }}" class="mg-fluid img-thumbnail"
                                         style="max-width: 75px"></td>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="image">

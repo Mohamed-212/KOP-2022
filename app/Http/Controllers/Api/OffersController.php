@@ -10,6 +10,8 @@ use App\Models\Offer;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Address;
+use App\Models\Category;
+use App\Models\OfferDiscount;
 use App\Models\Without;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -146,6 +148,86 @@ class OffersController extends BaseController
         }
 
         // return $offer->with('buyGet', 'discount')->first()->toJson();
+    }
+
+    public function get_discount(Request $request, $id)
+    {
+        $offer = Offer::where('id', $id)->with('discount')->first();
+        if (!$offer) {
+            abort(404);
+        }
+        $result = $offer->toArray();
+
+        if ($offer->offer_type == 'discount') {
+            //dd($offer->discount);
+            //$itemsIds = explode(',', $offer->discount->items); // wrong
+            // $itemsIds = [];
+            // foreach ($offer->discount->items as $item) {
+            //     $itemsIds[] = $item['id'];
+            // }
+            // $items = Item::whereIn('id', $itemsIds)->get();
+
+            $cat = Category::find($offer->discount->items->first()->category_id)->load('items');
+            $data = [];
+            $result['items'] = [];
+
+            foreach ($cat->items as $key => $item) {
+                $branches = explode(',', $item->branches);
+                $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
+
+                $parent_offer = null;
+                foreach ($offers as $offer) {
+                    $parent_offer = OfferDiscount::find($offer->offer_id);
+
+                    if ($parent_offer) {
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
+
+                    if ($parent_offer)  break;
+                }
+
+                
+
+
+                $item->offer = $parent_offer;
+                
+
+                if ($parent_offer) {
+                    
+                    if ($parent_offer->discount_type == 1) {
+                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                        $item->offer->offer_price = $item->price - $disccountValue;
+                        $item->offer_price = round($item->price - $disccountValue, 2);
+                        // dump($item);
+                    } elseif ($parent_offer->discount_type == 2) {
+                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                        $item->offer_price = round($item->price - $parent_offer->discount_value, 2);
+                    }
+
+                    // dump($item);
+                    // if ($item->offer->offer_type == 'discount') {
+                        $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                    // }
+
+                    unset($item->offer->offer);
+                    
+                } else {
+                    continue;
+                }
+                $result['items'][] = $item;
+                
+            }
+            // dd($category);
+            // $data[] = $category;
+
+            // $details = $offer->discount;
+            // $details['items'] = $items;
+            // $result['details'] = $details;        
+
+            return $this->sendResponse($result, 'offer details');
+        }
     }
 
     public function check(Request $request)
@@ -848,12 +930,22 @@ class OffersController extends BaseController
     {
 
         $offer_id = DB::table("branch_offer")->where('branch_id',  $branch_id)->pluck('offer_id');
-        $offers = Offer::whereIn('id', $offer_id)->where('offer_type', 'buy-get')->where('service_type', 'takeaway')->with('buyGet')->filter($filters)->get();
+        $offers = Offer::whereIn('id', $offer_id)->where('service_type', 'takeaway')->with('buyGet', 'discount')->filter($filters)->get();
+
+        $offersLIst = [];
+        foreach ($offers as $off) {
+            // dd($off)
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+                // $off->done = 'noooo';
+            }
+            $offersLIst[] = $off;
+        }
 
 
         // $offers = Offer::with('buyGet')->filter($filters)->get();
 
-        return $this->sendResponse($offers, 'Offers retreived successfully');
+        return $this->sendResponse($offersLIst, 'Offers retreived successfully');
     }
 
     protected function delivery_offer(Request $request, OfferFilters $filters, $address_id)
@@ -865,10 +957,18 @@ class OffersController extends BaseController
         $branches = DB::table('branch_delivery_areas')->where('area_id', $address->area_id)->pluck('branch_id');
         if (!empty($branches)) {
             $offer_id = DB::table("branch_offer")->whereIn('branch_id', $branches)->pluck('offer_id');
-            $offers = Offer::whereIn('id', $offer_id)->where('offer_type', 'buy-get')->where('service_type', 'delivery')->with('buyGet')->filter($filters)->get();
+            $offers = Offer::whereIn('id', $offer_id)->where('service_type', 'delivery')->with('buyGet', 'discount')->filter($filters)->get();
+        }
+
+        $offersLIst = [];
+        foreach ($offers as $off) {
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+            }
+            $offersLIst[] = $off;
         }
 
 
-        return $this->sendResponse($offers, 'Offers retreived successfully');
+        return $this->sendResponse($offersLIst, 'Offers retreived successfully');
     }
 }

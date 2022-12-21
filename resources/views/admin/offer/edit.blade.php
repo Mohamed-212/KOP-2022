@@ -131,7 +131,7 @@
 
                                     <label for="exampleInputFile">Mobile Image</label>
                                     @if($offer->image)
-                                    <img src="{{ $offer->image }}" alt="..." class="img-thumbnail">
+                                    <img loading="lazy" data-lazy="true"  src="{{ $offer->image }}" alt="..." class="img-thumbnail">
                                     @endif
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="image"
@@ -154,7 +154,7 @@
                                     <label for="exampleInputFile">Website Home Image</label>
                                     
                                     @if($offer->website_image)
-                                    <img src="{{ asset($offer->website_image) }}" alt="..." class="img-thumbnail">
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image) }}" alt="..." class="img-thumbnail">
                                     @endif
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="website_image"
@@ -178,7 +178,7 @@
                                         <b>Note</b> Image Dimensions Must Be: 300 * 300
                                     </div>
                                     @if($offer->website_image_menu)
-                                    <img src="{{ asset($offer->website_image_menu) }}" alt="..." class="img-thumbnail">
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image_menu) }}" alt="..." class="img-thumbnail">
                                     @endif
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="website_image_menu"

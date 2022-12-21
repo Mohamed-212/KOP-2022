@@ -15,7 +15,7 @@ class ChooseService
      */
     public function handle($request, Closure $next)
     {
-        if (!session()->has('branch_id')){
+        if (!session()->has('branch_id') && !session()->has('address_branch_id')){
             session()->put('status','not');
             return redirect('menu');
         }

@@ -28,16 +28,17 @@ class MenuController extends BaseController
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
+                    if ($parent_offer) {
+
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
 
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer) {
-
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+               
 
 
                 $item->offer = $parent_offer;
@@ -78,6 +79,10 @@ class MenuController extends BaseController
         // $categories->first()->loadMissing('items');
         foreach ($categories as $category) {
             foreach ($category->items as $key => $item) {
+
+                $item->extra = $category->extras;
+                $item->without = $category->withouts;
+
                 $branches = explode(',', $item->branches);
                 $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
 
@@ -85,16 +90,16 @@ class MenuController extends BaseController
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
+                    if ($parent_offer) {
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
 
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer) {
-
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+                
 
 
                 $item->offer = $parent_offer;
@@ -192,19 +197,22 @@ class MenuController extends BaseController
                 $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
 
                 $parent_offer = null;
+                // dd($item->id);
                 foreach ($offers as $offer) {
                     $parent_offer = OfferDiscount::find($offer->offer_id);
+                    // dd($parent_offer);
+                    if ($parent_offer && $parent_offer->offer) {
+                        
+                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                            $parent_offer = null;
+                        }
+                    }
 
                     // Just edit
                     if ($parent_offer)  break;
                 }
 
-                if ($parent_offer && $parent_offer->offer) {
-
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                        $parent_offer = null;
-                    }
-                }
+                // dd($parent_offer);
 
 
                 $item->offer = $parent_offer;

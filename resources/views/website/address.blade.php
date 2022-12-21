@@ -453,6 +453,29 @@
                 </div>
             </div>
         </div>
+        
+        <div class="modal fade" id="closedcitynot" tabindex="-1" aria-labelledby="closedcitynotLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-white" id="closedcitynotLabel">
+                            {{ __('general.warning') }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-capitalize">
+                        {{ __('general.ray_city_mess') }}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" data-bs-dismiss="modal" class="btn default-btn rounded shadow-sm bg-primary confirm">
+                            {{ __('general.close') }}
+                            <span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endsection
 
     @section('scripts')
@@ -471,7 +494,7 @@
                                 return {
                                     id: city.id,
                                     text: city["name_" + "{{ app()->getLocale() }}"]
-                                }
+                                };
                             })
                         };
                     },
@@ -485,6 +508,16 @@
                 let app_url = '{{ url('/') }}';
                 let city_id = $(this).val();
                 let selectele = $(this);
+
+                selectele.parent().parent().next().first().find('.area').html('');
+
+                if ($('option[value="' + city_id + '"]').text().trim() == 'Riyadh') {
+                    const myModal = new bootstrap.Modal('#closedcitynot', {
+                        keyboard: false
+                    });
+                    myModal.show();
+                    return;
+                }
                 $.ajax({
                     type: 'get',
                     url: app_url + "/api/cities/" + city_id + "/areas",

@@ -63,73 +63,184 @@
                         <div class="col-lg-6">
                             {{ __('general.Name') }}
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             {{ __('general.Quantity') }}
                         </div>
                         <div class="col-lg-1">
                             {{ __('menu.Price') }}
                         </div>
+                        <div class="col-lg-1">{{ __('general.ofer price') }}</div>
                         <div class="col-lg-1">
                             {{ __('general.Total') }}
                         </div>
-                        <div class="col-lg-1"></div>
+                        {{-- <div class="col-lg-1"></div> --}}
                     </div>
                     @foreach ($items as $item)
                         <div class="row cart-body pb-30 cart2{{ $item->id }}">
                             <div class="col-lg-6">
-                                <div class="cart-item">
-                                    <img src="{{ asset($item->image) }}" alt="food">
+                                <div class="cart-item" style="align-items: initial">
+                                    <div class="" style="height: 100%">
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" alt="food">
+                                    </div>
                                     <div class="cart-content">
                                         <h3><a
                                                 href="{{ url('item/' . $item->category_id . '/' . $item->id) }}">{{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name_en }}</a>
                                         </h3>
                                         <p> {{ app()->getLocale() == 'ar' ? $item->description_ar : $item->description_en }}
                                         </p>
+                                        <div >
+                                            <div style="font-size: " class="small">
+                                                @if (isset($item['dough_type_' . app()->getLocale()]))
+                                                    <p>
+                                                        {{ __('general.Dough Type') }}:
+                                                        <b>{{ $item['dough_type_' . app()->getLocale()] }}</b>
+                                                    </p>
+                                                @endif
+                                                @if (isset($item['dough_type_2_' . app()->getLocale()]))
+                                                    <p>
+                                                        {{ __('general.Dough Type2') }}:
+                                                        <b>{{ $item['dough_type_2_' . app()->getLocale()] }}</b>
+                                                    </p>
+                                                @endif
+                                                {{-- @php
+                                                    $item->extras_objects = 
+                                                @endphp --}}
+                                                @if (count($item->extras_objects))
+                                                    <p>
+                                                        <b class="text-primary">{{ __('general.Extra') }}:</b>
+                                                        {{-- <ol class="list-group list-group-horizontal list-group-numbered">
+                                                            @foreach ($item->extras_objects as $extra)
+                                                                <li class='list-group-item px-1'>
+                                                                    {{ $extra['name_' . app()->getLocale()] }} - ({{$extra->price}} {{__('general.SR')}})
+                                                                </li>
+                                                            @endforeach
+            
+                                                        </ol> --}}
+                                                    <div class="row">
+                                                        @foreach ($item->extras_objects as $extra)
+                                                            <div class="col-4 text-center border p-1">
+                                                                {{ $extra['name_' . app()->getLocale()] }}<br>({{$extra->price}} {{__('general.SR')}})
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    </p>
+                                                @endif
+                                                @if (count($item->withouts_objects))
+                                                    <p>
+                                                        <b class="text-danger">{{ __('general.Without') }}:</b>
+                                                    <ol class="list-group list-group-horizontal list-group-numbered">
+                                                        @foreach ($item->withouts_objects as $without)
+                                                            <li class='list-group-item px-1'>
+                                                                {{ $without['name_' . app()->getLocale()] }}
+                                                            </li>
+                                                        @endforeach
+        
+                                                    </ol>
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                               
+
                             </div>
-                            <div class="col-4 col-lg-3">
+                            <div class="col-4 col-lg-2">
                                 <div class="form-group stepper-type-2 quantity-up-{{ $item->id }}">
-                                    <input style="width: 25%;" type="number"
+                                    <input style="width: 60%;" type="number"
                                         class="form-control text-bold quantity_ch quantity_change{{ $item->id }}"
                                         value="{{ $item->pivot->quantity }}" readonly>
                                 </div>
                             </div>
-                            <div class="col-3 col-lg-1">
-                                <div class="cart-item d-flex flex-column">
-                                    @if ($item->pivot->offer_id)
-                                        <p class=" text-danger">
-                                            <del>
-                                                {{ $item->price }}
-                                                {{ __('general.SR') }}
-                                            </del>
+                            
+                            <div class="col-2 col-lg-1">
+                                @php
+                                    if ($item->pivot->offer_id) {
+                                            $offer = \App\Models\Offer::find($item->pivot->offer_id);
+                                        } else {
+                                            $offer = (object)['offer_type' => ''];
+                                        }
+                                @endphp
+                                <div class="cart-item" style="flex-direction: column;">
+                                    {{-- @if ($item->pivot->offer_id)
+                                        <p class="text-danger" id="price_without_offer">
+                                            @isset($cart->extras_objects)
+                                                <del>{{ $item->price + collect($cart->extras_objects)->sum('price') }}
+                                                    {{ __('general.SR') }}</del>
+                                            @else
+                                                <del>{{ $item->price }} {{ __('general.SR') }}</del>
+                                            @endisset
+
                                         </p>
-                                    @endif
-                                    <p class="">
-                                        {{ $item->pivot->offer_id ? $item->pivot->offer_price : $item->price }}
-                                        {{ __('general.SR') }}</p>
+                                    @endif --}}
+                                    <p >
+                                        {{-- @dd($item) --}}
+                                        @if ($item->pivot->offer_id && $offer->offer_type != 'buy-get')
+                                        <del>{{ $item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        @if ($item->pivot->offer_id && $offer->offer_type == 'buy-get' && $item->pivot->offer_price == 0)
+                                        <del>{{ $item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        {{ $item->price }}
+                                        {{ __('general.SR') }}
+                                        @endif
+
+                                        @endif
+
+                                        
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-3 col-lg-1">
+                                <div class="cart-item" style="flex-direction: column;">
+                                    {{-- @if ($item->pivot->offer_id)
+                                        <p class="text-danger" id="price_without_offer">
+                                            @isset($cart->extras_objects)
+                                                <del>{{ $item->price + collect($cart->extras_objects)->sum('price') }}
+                                                    {{ __('general.SR') }}</del>
+                                            @else
+                                                <del>{{ $item->price }} {{ __('general.SR') }}</del>
+                                            @endisset
+
+                                        </p>
+                                    @endif --}}
+                                    @if ($item->pivot->offer_id && $offer->offer_type != 'buy-get')
+                                    <p>
+
+                                        {{ $item->pivot->offer_price }}
+                                        {{ __('general.SR') }}
+                                    </p>
+                                    @endif
+
+                                    @if ($item->pivot->offer_id && $offer->offer_type == 'buy-get' && $item->pivot->offer_price == 0)
+                                    <p>
+
+                                        0
+                                        {{ __('general.SR') }}
+                                    </p>
+                                    @endif
+
+                                </div>
+                            </div>
+
+                            <div class="col-3 col-lg-1">
                                 <div class="cart-item d-flex flex-column">
-                                    @if ($item->pivot->offer_id)
+                                    {{-- @if ($item->pivot->offer_id)
                                         <p class="text-danger">
                                             <del>
                                                 {{ $item->price * $item->pivot->quantity }}
                                                 {{ __('general.SR') }}
                                             </del>
                                         </p>
-                                    @endif
+                                    @endif --}}
                                     <p>{{ ($item->pivot->offer_id ? $item->pivot->offer_price : $item->price) * $item->pivot->quantity }}
                                         {{ __('general.SR') }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-2 col-lg-1 ">
-                                <div class="cart-item delete_cart" data-id="">
-                                    {{-- <a class="remove" href="#"><i class="las la-times"></i></a> --}}
-                                </div>
-                            </div>
+                            
                         </div>
                     @endforeach
                     <form method="post" id="checkout-form">
@@ -178,6 +289,7 @@
                                     </div>
                                 </div> --}}
                                 @isset($address)
+                                    <input type="hidden" hidden name="address_id" value="{{$address['id']}}" />
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card-header mt-30">
@@ -307,8 +419,14 @@
                                                 <div class="col-md-4">
                                                     {{ __('general.Total') }}
                                                 </div>
-                                                <div class="col-lg-4 hidden visible-lg text-success">
-                                                    {{ __('general.applied') }}
+                                                <div class="col-lg-4 hidden visible-lg text-dark">
+                                                    @if ($order->state == 'pending' || $order->state == 'in-progress')
+                                            {{__('general.Pending')}}
+                                        @elseif ($order->state == 'completed')
+                                        <span class="text-success"> {{__('general.Valid')}} </span>
+                                        @else
+                                        {{__('general.in Valid')}}
+                                        @endif
                                                 </div>
                                                 <div class="col-lg-4 text-danger">
                                                     <span id="to-earn">
@@ -335,6 +453,7 @@
                                 <ul class="cart-total mt-30">
                                     @isset($reorder)
                                         <input type="hidden" hidden name="reorder_me" value="1" />
+                                        <input type="hidden" hidden name="order_id" value="{{$order['id']}}" />
                                     @endisset
                                     <li>
                                         {{ __('general.Sub Total') }}: </b> <span
@@ -349,6 +468,7 @@
                                             {{ __('general.SR') }}</span>
                                         <input id="taxesinput" hidden name="taxes" value="{{ $order['taxes'] }}" />
                                     </li>
+                                    @if ($order->service_type == 'delivery')
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.Delivery Fees') }}
                                             : </b> <span id="delivery_fees"
                                             style="font-size: smaller;">{{ $order['delivery_fees'] }}
@@ -356,6 +476,7 @@
                                         <input id="delivery_feesnput" hidden name="delivery_fees"
                                             value="{{ $order['delivery_fees'] }}" />
                                     </li>
+                                    @endif
                                     @if (isset($order['points']))
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.Loyality Discount') }}
                                                 : </b> <span id="points" style="font-size: smaller;"> -
@@ -366,16 +487,16 @@
                                         </li>
                                     @endif
 
-                                    @if ($order['subtotal'] < $order['total'])
+                                    @if (round($order['offer_value']) > 0)
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
-                                                : </b> <span id="points" style="font-size: smaller;">
-                                                {{ round($order['total'] - ($order['subtotal'] + $order['taxes']), 2) }}
+                                                : </b> <span id="points" style="font-size: smaller;">- 
+                                                {{ round($order['offer_value'], 2) }}
                                                 {{ __('general.SR') }}</span>
                                             <input id="discount-offers" hidden name="discount"
-                                                value="{{ round($order['total'] < $order['subtotal'], 2) }}" />
+                                                value="{{ round($order['offer_value'], 2) }}" />
                                         </li>
                                     @endif
-                                    @if ($firstOrder->id == $order->id)
+                                    @if ($order->is_first_order)
                                         <li><b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
                                                 : </b> <span style="font-size: smaller;" id="total">-
                                                 {{ $order['total'] }}
@@ -475,7 +596,7 @@
                                 return;
                             }
 
-                            $('#checkout-form').attr('action', "{{ route('add.cart') }}");
+                            $('#checkout-form').attr('action', "{{ route('get_checkout_reorder') }}");
                             $('#checkout-form').submit();
 
                             // window.location.href = "{{ route('get.cart') }}";
@@ -491,4 +612,7 @@
                 })
             });
         </script>
+        @php
+
+        @endphp
     @endsection

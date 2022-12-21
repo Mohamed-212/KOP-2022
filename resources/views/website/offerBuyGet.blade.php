@@ -47,6 +47,7 @@
                                     @csrf
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="offer_id" value="{{$offers['buy_get']['offer_id']}}">
+                                    <input type="hidden" hidden name="from_buy_gey" value="1" />
                                     <div class="row">
                                         @if(count($offers['details']['buy_items']) > 0)
                                             <div class="col-sm-11 m-auto">
@@ -60,7 +61,7 @@
                                                                 <div class="gold-members p-3 border-bottom">
                                                                     <div class="media d-flex">
                                                                         <div class="mr-3 col-3" style="height: 150px;width: 150px;">
-                                                                            <img class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem['image'])}}" alt="">
+                                                                            <img loading="lazy" data-lazy="true"  class="img-thumbnail rounded h-100 w-100" src="{{asset($buyItem['image'])}}" alt="">
                                                                         </div>
                                                                         <div class="media-body" style="margin-left: 2%;">
                                                                             <h4 class="m-0" style="font-size: 20px;line-height: 1.8;">{{(app()->getLocale() == 'ar')? $buyItem['name_ar'] : $buyItem['name_en'] }}</h4>
@@ -90,7 +91,7 @@
                                                             <div class="gold-members p-3 border-bottom">
                                                                 <div class="media d-flex">
                                                                     <div class="mr-3 col-3" style="height: 150px;width: 150px;">
-                                                                        <img class="img-thumbnail rounded h-100 w-100" src="{{asset($getItem['image'])}}" alt="">
+                                                                        <img loading="lazy" data-lazy="true"  class="img-thumbnail rounded h-100 w-100" src="{{asset($getItem['image'])}}" alt="">
                                                                     </div>
                                                                     <div class="media-body" style="margin-left: 2%;">
                                                                         <h4 class="m-0" style="font-size: 20px;line-height: 1.8;">{{(app()->getLocale() == 'ar')? $getItem['name_ar'] : $getItem['name_en'] }}</h4>
@@ -148,8 +149,8 @@
                     else {
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
-                        selectele.next().attr('checked','');
+                        // selectele.addClass("btn-primary");
+                        selectele.next().removeAttr('checked');
                         buy_quantity_counter--;
                     }
                 }
@@ -157,8 +158,9 @@
                     if(selectele.text() == "{{__('general.Cancel')}}"){
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
-                        selectele.next().attr('checked','');
+                        // selectele.addClass("btn-primary");
+                        // selectele.next().attr('checked','');
+                        selectele.next().removeAttr('checked');
                         buy_quantity_counter--;
                     }
                     else
@@ -187,8 +189,9 @@
                     else {
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
-                        selectele.next().attr('checked','');
+                        // selectele.addClass("btn-primary");
+                        // selectele.next().attr('checked','');
+                        selectele.next().removeAttr('checked');
                         get_quantity_counter--;
                     }
                 }
@@ -196,8 +199,9 @@
                     if(selectele.text() == "{{__('general.Cancel')}}"){
                         selectele.text("{{__('general.Buy')}}");
                         selectele.removeClass("btn-success");
-                        selectele.addClass("btn-primary");
-                        selectele.next().attr('checked','');
+                        // selectele.addClass("btn-primary");
+                        // selectele.next().attr('checked','');
+                        selectele.next().removeAttr('checked');
                         get_quantity_counter--;
                     }
                     else
@@ -215,7 +219,12 @@
             $('.submitOffer').click(function (e){
                 e.preventDefault();
                 if(get_quantity == get_quantity_counter && buy_quantity == buy_quantity_counter){
-                    $('#addToCard').submit();
+                    @if($cartHasOffers)
+                    const myModalAlternative = new bootstrap.Modal('#offersMultibleInOneOrder');
+                    myModalAlternative.show();
+                    @else
+                        $('#addToCard').submit();
+                    @endif
                 }
                 else if (buy_quantity > buy_quantity_counter){
                     alert('{{__('general.Please buy')}} {{$offers['buy_get']['buy_quantity']}} {{__('general.at least')}} {{__('general.to get')}} {{$offers['buy_get']['get_quantity']}}')

@@ -80,7 +80,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="exampleInputFile">Image</label>
-                                <img src="{{ $category->image }}" class="mg-fluid img-thumbnail"
+                                <img loading="lazy" data-lazy="true"  src="{{ $category->image }}" class="mg-fluid img-thumbnail"
                                     style="max-width: 75px">
                                 </td>
                             </div>

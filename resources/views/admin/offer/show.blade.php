@@ -97,7 +97,7 @@
                   <label for="exampleInputFile">Mobile Image</label>
                   <br>
                    @if($offer->image)
-                        <img src="{{ $offer->image }}" alt="..." class="img-thumbnail" style="width: 250px;">
+                        <img loading="lazy" data-lazy="true"  src="{{ $offer->image }}" alt="..." class="img-thumbnail" style="width: 250px;">
                     @endif
                 </div>
               </div>

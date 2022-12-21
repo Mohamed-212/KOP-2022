@@ -29,7 +29,7 @@
                               src="{{asset($media->url)}}?controls=0">
                       </iframe>
 
-                      <img src="{{$media->img}}" class="img-thumbnail" />
+                      <img loading="lazy" data-lazy="true"  src="{{$media->img}}" class="img-thumbnail" />
                   </div>
                   <div class="col-md-6">
                       <div class="row">

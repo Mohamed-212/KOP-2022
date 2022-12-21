@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Session;
 use App\Traits\LogfileTrait;
 use App\Models\Gift;
 use App\Models\GiftsOrder;
+use App\Models\Order;
 use App\Models\PointsTransaction;
+use App\Models\User;
 use DB;
 
 class GiftController extends Controller
@@ -195,7 +197,46 @@ class GiftController extends Controller
 
     public function showPointsTransactions()
     {
-        $transactions = PointsTransaction::orderBy('id', 'DESC')->get();
+        $transactions = PointsTransaction::orderBy('id', 'DESC')->groupBy('user_id')->get();
         return view('admin.gift.showPointsTransactions', compact('transactions'));
+    }
+
+    public function showPointsTransactionsForUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // history
+        $completed = Order::where('state', 'completed')->where('customer_id', $user->id)->where('points', '!=', null)->get();
+        $points_still = PointsTransaction::where('status', 0)->where('user_id', $user->id)->get();
+        $pending = PointsTransaction::where('status', 2)->where('user_id', $user->id)->get();
+
+        $history = [];
+        
+        foreach ($points_still as $point) {
+            $history[] = (object)[
+                'points' => (int)$point->points,
+                'order_id' => (int)$point->order_id,
+                'created_at' => $point->created_at
+            ];
+        }
+        foreach ($completed as $order) {
+            $history[] = (object)[
+                'points' => $order->points * -1,
+                'order_id' => $order->id,
+                'created_at' => $order->updated_at
+            ];
+        }
+        foreach ($pending as $point) {
+            $history[] = (object)[
+                'points' => (int)$point->points * -1,
+                'order_id' => (int)$point->order_id,
+                'created_at' => $point->created_at
+            ];
+        }
+
+        $history = (collect($history))->sortBy('order_id');
+
+        $transactions = PointsTransaction::orderBy('id', 'DESC')->where('user_id', $id)->get();
+        return view('admin.gift.showPointsTransactionsForUser', compact('transactions', 'history'));
     }
 }

@@ -32,7 +32,7 @@
                             {{-- <td>#{{$point->id}}</td> --}}
                             <td>{{$point->value}} {{__('general.SR')}}</td>
                             <td>{{$point->for}}</td>
-                            <td>
+                            <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.points.edit', $point->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deletepoint('{{ 'delete-point-' . $point->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">
                                     <i class="fas fa-trash"></i>

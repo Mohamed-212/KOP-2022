@@ -27,7 +27,7 @@
                                         <div class="col-md-4 mb-3 mt-3" style="padding-right: 15px;padding-left: 15px;">
                                             <div class="card offer-card border-1 shadow-sm rounded" style="background-color: inherit;">
                                                 <div class="card-body p-0">
-                                                    <h5 class="card-title w-100 h-100"><img class="w-100 h-100 img-thumbnail rounded" src="{{asset($offer->image)}}"></h5>
+                                                    <h5 class="card-title w-100 h-100"><img loading="lazy" data-lazy="true"  class="w-100 h-100 img-thumbnail rounded" src="{{asset($offer->image)}}"></h5>
                                                    <div class="pl-4 pr-4 pb-1 pt-0" style="overflow: hidden">
                                                        <h3 class="mt-2 mb-1 font-weight-bold">{{(app()->getLocale() == 'ar') ?$offer->title_ar:$offer->title}}</h3>
 

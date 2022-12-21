@@ -261,13 +261,20 @@ content: "\f068" !important;
                         <input type="hidden" name="offer_price"
                             value="{{ $item['offer'] ? round($item['offer']['offer_price'], 2) : '' }}">
                     @endif
-                    <input type="hidden" name="item_id" value="{{ $item['id'] }}">
+                    {{-- <input type="hidden" name="item_id" value="{{ $item['id'] }}"> --}}
+                    @unless ($item->offer && $item->offer->offer_id)
                     <input type='hidden' name='add_items' x-bind:value="getItems" />
+                    @endunless
                     <input type='hidden' name='quantity' x-bind:value="items.length" />
                     <div class="row">
                         <div class="col-md-6 sm-padding product-details-wrap">
+                            @if ($item->website_is_out_of_stock)
+                                    <span class="badge text-white bg-danger text-uppercase" style="position: absolute;top: 15%;{{app()->getLocale() == 'ar' ? 'right' : 'left'}}: 5%;z-index: 1;font-size: 1.5rem;">
+                                        {{__('general.out of stock')}}
+                                    </span>
+                                @endif
                             <div class="food-details-thumb">
-                                <img src="{{ asset($item->image) }}" alt="food">
+                                <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" alt="food">
                                 <a class="img-popup" data-gall="gallery01" href="{{ asset($item->image) }}"><i
                                         class="fas fa-expand"></i></a>
                             </div>
@@ -317,7 +324,34 @@ content: "\f068" !important;
                                                 style="width: 20%;margin-left: 5px; margin-right: 5px;text-align: center;"><span
                                                 class="plus" x-data x-on:click="$dispatch('add-item')"
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
-                                        <div> <button
+
+                                                @if ($item->website_is_out_of_stock)
+                                                <div><button data-target="#stockouterr" data-bs-toggle="modal"
+                                                    data-bs-target="#stockouterr" type="button"
+                                                        class="purchase-btn cart">{{ __('home.Add to Cart') }}</button></div>
+                                                {{-- <div> <button
+                                                    type="button"
+                                                    onclick="javascript:void(0)"
+                                                    class="purchase-btn cart"></button></div> --}}
+                                                @else
+                                        <div> 
+                                            @if (session()->has('branch_id') || session()->has('address_branch_id'))
+                                                @if (isset($cartHasOffers) && $cartHasOffers && $item->offer)
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#offersMultibleInOneOrder" type="button"
+                                                        class="purchase-btn order-btn cart">@lang('general.Order Now')</button>
+                                                @else
+                                                <input type="hidden" name="item_id" value="{{ $item['id'] }}">
+                                                <button type="submit"
+                                                        class="purchase-btn order-btn cart">@lang('general.Order Now')</button>
+                                                @endif
+                                            @else
+                                                <button data-target="#service-modal" data-bs-toggle="modal"
+                                                    data-bs-target="#service-modal" type="button"
+                                                    class="purchase-btn order-btn cart">@lang('general.Order Now')</button>
+                                            @endif
+
+                                            {{-- <button
                                                 @auth
                                                 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
                                                 @if (isset($cartHasOffers) && $cartHasOffers && $item->offer) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"
@@ -325,7 +359,10 @@ content: "\f068" !important;
                                                     @else
                                                     type="submit" @endif
                                                 class="purchase-btn cart"
-                                                type="submit">{{ __('home.Add to Cart') }}</button></div>
+                                                type="submit">{{ __('home.Add to Cart') }}</button> --}}
+
+                                            </div>
+                                                @endif
                                     </div>
                                     <ul class="product-meta">
                                         <li>{{ __('general.calories') }}:<a
@@ -379,7 +416,18 @@ content: "\f068" !important;
         </section>
         <!--Shop Section-->
 
-        <section class="items p-2">
+        @php
+            $hideMe = false;
+            if ($item->offer) {
+                $offer = \App\Models\Offer::find($item->offer->offer_id);
+                if ($offer) {
+                    if ($offer->offer_type == 'discount') {
+                        $hideMe = true;
+                    }
+                }
+            }
+        @endphp
+        <section class="items p-2" style="{{$hideMe ? 'display: none' : ''}}">
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <template x-for="(item, sinx) in items" :key="item.uid">
 
@@ -395,11 +443,11 @@ content: "\f068" !important;
                         <div x-bind:id="'flush-collapse' + item.uid" class="accordion-collapse collapse"
                             x-bind:class="{ 'show': sinx == 0 }" x-bind:aria-labelledby="'flush-heading' + item.uid"
                             data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
+                            <div class="accordion-body" >
                                 <div class="container">
                                     <div class="d-flex justify-content-between">
                                         <div class="container-fluid">
-                                            <div class="row">
+                                            <div class="row" >
                                                 @if (isset($item['dough_type']) && !empty($item['dough_type']) && isset($item['dough_type'][0]))
                                                     <div class="col-md-6 my-2">
                                                         {{ __('general.Dough Type') }}:&nbsp;

@@ -5,7 +5,7 @@
             <div class="primary-header-inner">
                 <div class="header-logo">
                     <a href="{{ route('home.page') }}">
-                        <img class="light" style="max-width: 120px" src="{{ asset('website-assets/img/logokop_l.png') }}"
+                        <img loading="lazy" data-lazy="true"  class="light" style="max-width: 120px" src="{{ asset('website-assets/img/logokop_l.png') }}"
                             alt="Logo" />
                     </a>
                 </div><!-- /.header-logo -->
@@ -55,10 +55,10 @@
                         <li><a href="javascript:void(0)">
                                 {{-- {{ __('general.language') }} --}}
                                 @if (app()->getLocale() === 'ar')
-                                    <img src="{{ asset('/website2-assets/img/icons/sa.svg') }}" width="16"
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset('/website2-assets/img/icons/sa.svg') }}" width="16"
                                         height="16" />
                                 @else
-                                    <img src="{{ asset('/website2-assets/img/icons/us.svg') }}" width="16"
+                                    <img loading="lazy" data-lazy="true"  src="{{ asset('/website2-assets/img/icons/us.svg') }}" width="16"
                                         height="16" />
                                 @endif
                             </a>
@@ -70,10 +70,10 @@
                                             href="{{ strpos(url()->current(), "/$localeCode") > -1 ? 'javascript:void(0)' : LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
                                             class='w-full'>
                                             @if ($localeCode === 'ar')
-                                                <img src="{{ asset('/website2-assets/img/icons/sa.svg') }}"
+                                                <img loading="lazy" data-lazy="true"  src="{{ asset('/website2-assets/img/icons/sa.svg') }}"
                                                     width="16" height="16" />
                                             @else
-                                                <img src="{{ asset('/website2-assets/img/icons/us.svg') }}"
+                                                <img loading="lazy" data-lazy="true"  src="{{ asset('/website2-assets/img/icons/us.svg') }}"
                                                     width="16" height="16" />
                                             @endif
 
@@ -93,10 +93,10 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="javascript:void(0)" onclick="document.getElementById('log112255').click()">
                                             <form action="{{ route('signout') }}" method='post'>
                                                 @csrf
-                                                <button class="" type="submit">
+                                                <button id="log112255" class="" type="submit">
                                                     {{ __('general.logout') }}
                                                 </button>
                                             </form>

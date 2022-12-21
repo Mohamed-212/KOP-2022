@@ -48,6 +48,22 @@
                                 </div>
                             </div>
                             <div class="row">
+                                @if (auth()->user()->hasRole('admin'))
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputRole">Hide In</label>
+                                        <select class="select2" multiple="multiple" data-placeholder="Select a Branch"
+                                            style="width: 100%;" name="branches[]">
+                                            @foreach ($branches as $userBranch)
+                                            <option value="{{ $userBranch->id }}">{{ $userBranch->name_en }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputArabicDescription">Arabic Description</label>

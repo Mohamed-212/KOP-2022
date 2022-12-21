@@ -105,8 +105,9 @@
                 </div>
                 <div class="row cart-header">
                     <div class="col-lg-6">{{ __('general.Name') }}</div>
-                    <div class="col-lg-3">{{ __('general.Quantity') }}</div>
+                    <div class="col-lg-2">{{ __('general.Quantity') }}</div>
                     <div class="col-lg-1">{{ __('menu.Price') }}</div>
+                    <div class="col-lg-1">{{ __('general.ofer price') }}</div>
                     <div class="col-lg-1">{{ __('general.Total') }}</div>
                     <div class="col-lg-1"></div>
                 </div>
@@ -114,8 +115,10 @@
                     @foreach ($carts as $cart)
                         <div class="row cart-body pb-30 cart2{{ $cart->id }}">
                             <div class="col-lg-6">
-                                <div class="cart-item">
-                                    <img src="{{ asset($cart->item->image) }}" alt="food">
+                                <div class="cart-item" style="align-items: initial">
+                                    <div class="" style="height: 100%">
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($cart->item->image) }}" alt="food">
+                                    </div>
                                     <div class="cart-content w-100">
                                         <h3><a
                                                 href="{{ url('item/' . $cart->item->category_id . '/' . $cart->item->id) }}">{{ app()->getLocale() == 'ar' ? $cart->item->name_ar : $cart->item->name_en }}</a>
@@ -164,11 +167,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4 col-lg-3">
+                            <div class="col-4 col-lg-2">
                                 <div class="form-group stepper-type-2 quantity-up-{{ $cart->id }}">
                                     <i class="fas fa-spinner fa-spin d-none"></i>
-                                    <input style="width: 30%;display: inline;" type="number"
-                                        @if ($cart->offer_id && !$cart->dough_type_ar) disabled @endif data-zeros="true"
+                                    @php
+                                        $disalbleQty = false;
+                                        if ($cart->offer_id && !$cart->dough_type_ar) {
+                                            $offer = \App\Models\Offer::find($cart->offer_id);
+                                            // dd($offer);
+                                            if ($offer->offer_type == 'buy-get') {
+                                                $disalbleQty = true;
+                                            }
+                                        }
+                                    @endphp
+                                    <input style="width: 60%;display: inline;" type="number"
+                                        @if ($disalbleQty) disabled @endif data-zeros="true"
                                         value="{{ $cart->quantity }}" min="1" max="20" readonl
                                         data-id="{{ $cart->id }}" data-price="{{ $cart->price }}"
                                         data-prev="{{ $cart->quantity }}" data-price-without-offer="{{$cart->offer_id ? isset($cart->extras_objects) ? $cart->item->price + collect($cart->extras_objects)->sum('price') : $cart->item->price : $cart->price }}"
@@ -177,9 +190,9 @@
                                         
                                 </div>
                             </div>
-                            <div class="col-3 col-lg-1">
+                            <div class="col-2 col-lg-1">
                                 <div class="cart-item" style="flex-direction: column;">
-                                    @if ($cart->offer_id)
+                                    {{-- @if ($cart->offer_id)
                                         <p class="text-danger" id="price_without_offer">
                                             @isset($cart->extras_objects)
                                                 <del>{{ $cart->item->price + collect($cart->extras_objects)->sum('price') }}
@@ -189,17 +202,60 @@
                                             @endisset
 
                                         </p>
-                                    @endif
+                                    @endif --}}
+                                    <p >
+                                        @if ($cart->offer_id && $offer->offer_type != 'buy-get')
+                                        <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                        <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        {{ $cart->price }}
+                                        {{ __('general.SR') }}
+                                        @endif
+
+                                        @endif
+
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-3 col-lg-1">
+                                <div class="cart-item" style="flex-direction: column;">
+                                    {{-- @if ($cart->offer_id)
+                                        <p class="text-danger" id="price_without_offer">
+                                            @isset($cart->extras_objects)
+                                                <del>{{ $cart->item->price + collect($cart->extras_objects)->sum('price') }}
+                                                    {{ __('general.SR') }}</del>
+                                            @else
+                                                <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                            @endisset
+
+                                        </p>
+                                    @endif --}}
+                                    @if ($cart->offer_id && $offer->offer_type != 'buy-get')
                                     <p>
 
                                         {{ $cart->price }}
                                         {{ __('general.SR') }}
                                     </p>
+                                    @endif
+
+                                    @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                    <p>
+
+                                        {{ $cart->price }}
+                                        {{ __('general.SR') }}
+                                    </p>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="col-3 col-lg-1">
                                 <div class="cart-item d-flex flex-column">
-                                    @if ($cart->offer_id)
+                                    {{-- @if ($cart->offer_id)
                                         <p class="text-danger">
                                             @isset($cart->extras_objects)
                                                 <del><span id="without-offer-total{{$cart->id}}">{{ ($cart->item->price + collect($cart->extras_objects)->sum('price')) * $cart->quantity }}</span>
@@ -209,7 +265,7 @@
                                             @endisset
 
                                         </p>
-                                    @endif
+                                    @endif --}}
                                     <p> <span id="total{{ $cart->id }}">{{ $cart->price * $cart->quantity }}</span>
                                         {{ __('general.SR') }}</p>
                                 </div>
@@ -239,7 +295,7 @@
                                         {{__('general.Total')}}
                                     </div>
                                     <div class="col-lg-4 hidden visible-lg text-success">
-                                        {{__('general.applied')}}
+                                        {{__('general.Pending')}}
                                     </div>
                                     <div class="col-lg-4 text-danger">
                                         <span id="to-earn">
@@ -269,16 +325,19 @@
                                     <input id="taxesinput" hidden name="taxes"
                                         value="{{ $arr_check['subtotal_without_offer'] - $arr_check['subtotal_without_offer'] / 1.15 }}" />
                                 </li>
-
-                                <li><b class="inset-right-5 text-gray-light">{{ __('general.Delivery Fees') }}
+                                @if(session('service_type') == 'delivery')
+                                <li>
+                                    <b class="inset-right-5 text-gray-light">{{ __('general.Delivery Fees') }}
                                         : </b> <span id="delivery_fees"
                                         style="font-size: smaller;">{{ $arr_check['delivery_fees'] }}
                                         {{ __('general.SR') }}</span>
-                                    <input id="delivery_feesnput" hidden name="delivery_fees"
-                                        value="{{ $arr_check['delivery_fees'] }}" />
                                 </li>
+                                @endif
+                                <input id="delivery_feesnput" hidden name="delivery_fees"
+                                        value="{{ $arr_check['delivery_fees'] }}" />
                                 @if ($arr_check['subtotal_without_offer'] > $arr_check['subtotal'])
-                                    <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
+                                    @if(round($arr_check['subtotal_without_offer'] - $arr_check['subtotal']) > 0)
+                                    <li id="off_dis55"><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
                                             : </b>
                                         <span id="">
                                             -
@@ -289,9 +348,11 @@
                                                 {{ __('general.SR') }}
                                             </span>
                                         </span>
-                                        <input id="discountinput" hidden name="discount"
-                                            value="{{ round($arr_check['subtotal_without_offer'] - $arr_check['subtotal'], 2) }}" />
+                                        
                                     </li>
+                                    @endif
+                                    <input id="discountinput" hidden name="discount"
+                                            value="{{ round($arr_check['subtotal_without_offer'] - $arr_check['subtotal'], 2) }}" />
                                 @endif
                                 @if (isset($arr_check['points']))
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.Loyality Discount') }}
@@ -474,6 +535,16 @@
                             $('#delivery_feesinput').val(data.delivery_fees);
                             $('#discount').text((data.subtotal_without_offer - data.subtotal)
                                 .toFixed(2));
+
+                            
+                            $('#discountinput').val((data.subtotal_without_offer - data.subtotal)
+                                .toFixed(2));
+                                
+                            if (parseInt((data.subtotal_without_offer - data.subtotal)) == 0) {
+                                $('#off_dis55').fadeOut();
+                                $('#discountinput').val('0');
+                            }
+
                             @if (isset($arr_check['points']))
                                 // $('#points').text(data.arr_check.points);
                                 $('#points').text(data.arr_check.points);
@@ -591,6 +662,12 @@
                             $('#delivery_feesinput').val(data.delivery_fees);
                             $('#discount').text((data.subtotal_without_offer - data.subtotal)
                                 .toFixed(2));
+                                // console.log($('#discountinput'), $('#discountinput').val());
+                            $('#discountinput').val((data.subtotal_without_offer - data.subtotal)
+                                .toFixed(2));
+                                // document.querySelector('#discountinput').value = '25.3';
+                            
+                            
 
                             $(".cart2" + id + ' .quantity_ch').val(quantity);
                             $(".cart2" + id + ' .quantity_ch').attr('data-prev', quantity);

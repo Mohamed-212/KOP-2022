@@ -223,7 +223,10 @@ class OrdersController extends BaseController
 
 
         // apply 50% discount if this is first order
-        $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+        // $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+
+
+        $count = $customer->orders()->count();
 
         $orderData = [
             "address_id" => $request->address_id,
@@ -240,10 +243,15 @@ class OrdersController extends BaseController
             'offer_value' => $request->offer_value,
             'order_from' => 'mobile',
             'description_box' => $request->description,
-            'payment_type' => $request->payment_type
+            'payment_type' => $request->payment_type,
+            'is_first_order' => $count == 0,
         ];
 
         $order = Order::create($orderData);
+
+        $customer->first_offer_available = false;
+        $customer->save();
+
         $savedOrder = $order;
 
         if (!empty($request->payment_id)) {            
@@ -255,7 +263,7 @@ class OrdersController extends BaseController
         }
 
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
-        if ($pointsValue) {
+        if ($pointsValue && (int)$pointsValue > 0) {
             PointsTransaction::create([
                 'points' => $pointsValue,
                 'order_id' => $order->id,
@@ -277,7 +285,7 @@ class OrdersController extends BaseController
             $role->where('name', 'cashier');})->get();
         if ($cashiers) {
             foreach ($cashiers as $cashier) {
-              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
               broadcast(new OrderCreated($new_order,$cashier->user_id));
             }
         }
@@ -451,7 +459,7 @@ class OrdersController extends BaseController
             // ];
 
             // apply 50% discount if this is first order
-            $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
+            // $request->total = $this->applyDiscountIfFirstOrder($customer, $request->total);
 
             $orderData = [
                 "address_id" => $request->address_id,
@@ -479,7 +487,7 @@ class OrdersController extends BaseController
             $role->where('name', 'cashier');})->get();
             if ($cashiers) {
                 foreach ($cashiers as $cashier) {
-                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, "New Order has been placed", "Order", null, null, $request->customer_id);
+                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
                 }
             }
 
@@ -554,6 +562,20 @@ class OrdersController extends BaseController
             return $this->sendError(__('general.Order not found'));
         }
 
+        $bid = $order->branch_id;
+        $branch = Branch::find($bid);
+
+        $return = (app(\App\Http\Controllers\Api\BranchesController::class)->check($request, $bid))->getOriginalContent();
+
+        if ($return['success'] && $return['data']['available'] == true) {
+        } else {
+            $validation = false;
+            
+            if ($branch) {
+                $message = __('general.branch_is_closed', ['branch' => $branch['name_' . app()->getLocale()]]);
+            }
+        }
+
         $items = [];
         $deletedOfferPrice = 0;
         $final_item_price = 0;
@@ -573,13 +595,18 @@ class OrdersController extends BaseController
             $is_valid = false;
             $hasOffer = 0;
 
-
+            if (in_array($bid, explode(',', $item->branches))) {
+                $message = __('general.item is hidden in this branch', ['item' => $item['name_' . app()->getLocale()]]);
+                $validation = false;
+                return $this->sendResponse(['message' => $message, 'validation' => $validation, 'items' => (object)[]], '');
+            }
 
             if ($item->price != OrderItem::where('order_id', $request->order_id)->where('item_id', $item->id)->pluck('pure_price')->first()) {
                 $message = __('general.item price changed');
                 $validation = false;
                 return $this->sendResponse(['message' => $message, 'validation' => $validation, 'items' => (object)[]], '');
             }
+            
             if ($item->pivot->offer_id && (Offer::find($item->pivot->offer_id))['date_to'] < now()) {
                 $message = __('general.offer expired');
                 $validation = false;
@@ -781,7 +808,8 @@ class OrdersController extends BaseController
         $delivery_fees = $order->service_type == 'delivery' ? 10 : 0;
 
         // remove 50% discount if user trying to reorder an order that has this offer
-        $total = $this->removeDiscountIfNotFirstOrder(request()->user(), $requestt->total);
+        // $total = $this->removeDiscountIfNotFirstOrder(request()->user(), $requestt->total);
+        $total = $requestt->total;
 
         $subtotal = $requestt->subtotal;
         $taxes = $requestt->taxes;
@@ -1012,7 +1040,7 @@ class OrdersController extends BaseController
 
         // history
        // history
-       $completed = Order::where('state', 'completed')->where('customer_id', Auth::id())->where('points', '!=', null)->get();
+       $completed = Order::where('state', 'completed')->where('customer_id', Auth::id())->where('points', '!=', null)->where('points', '>', 0)->get();
        $points_still = PointsTransaction::where('status', 0)->where('user_id', Auth::id())->get();
        $pending = PointsTransaction::where('status', 2)->where('user_id', Auth::id())->get();
 

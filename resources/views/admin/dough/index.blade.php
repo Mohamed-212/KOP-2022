@@ -25,7 +25,9 @@
               <th>Group</th>
               <th>name_en</th>
               <th>name_ar</th>
+              @if (auth()->user()->hasRole('admin'))
               <th>Action</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -35,7 +37,8 @@
               <td>#{{$dough->dough_type_id}}</td>
               <td>{{$dough->name_en}}</td>
               <td>{{$dough->name_ar}}</td>
-              <td>
+              @if (auth()->user()->hasRole('admin'))
+              <td  style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.dough.edit', $dough->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $dough->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"
@@ -52,6 +55,7 @@
                   </form>
                   <!-- End Delete offer -->
                 </td>
+                @endif
             </tr>
             @endforeach
           </tbody>

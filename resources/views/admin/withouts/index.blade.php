@@ -8,9 +8,11 @@
                     <h1>Without </h1>
                 </div>
                 <div class="col-sm-6">
+                    @if (auth()->user()->hasRole('admin'))
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.without.create')}}">Add New Without</a></li>
                     </ol>
+                    @endif
                 </div>
             </div>
         </div>
@@ -67,15 +69,17 @@
                                 <td>{{ $without->name_en }}</td>
                                 <td>{{ $without->price }}</td>
                                 <td>{{ $without->calories }}</td>
-                                {{-- <td><img src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
+                                {{-- <td><img loading="lazy" data-lazy="true"  src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
                                 <td>
                                     <a href="{{ route('admin.without.show', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
+                                    @if (auth()->user()->hasRole('admin'))
                                     <a href="{{ route('admin.without.edit', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                     <a onclick="deleteCategory('{{ 'delete-without-' . $without->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"> <i class="fas fa-trash"></i></a>
                                     <form action="{{ route('admin.without.destroy', $without->id) }}" method="POST" id="{{ 'delete-without-' . $without->id }}">
                                         @csrf
                                         @method('DELETE')
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

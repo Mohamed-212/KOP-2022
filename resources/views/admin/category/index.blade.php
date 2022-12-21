@@ -8,9 +8,11 @@
           <h1>Categories</h1>
         </div>
         <div class="col-sm-6">
+          @if (auth()->user()->hasRole('admin')) 
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.category.create')}}">Add New Category</a></li>
           </ol>
+          @endif
         </div>
       </div>
     </div>
@@ -36,10 +38,10 @@
               <td>{{ $category['name_'.app()->getLocale()]}}</td>
               <td>{{ $category->items->count() }}</td>
               <td>{{ $category->extras->count() }}</td>
-              <td><img src="{{ $category->image }}"class="mg-fluid img-thumbnail"style="max-width: 75px"></td>
-              <td>
+              <td><img loading="lazy" data-lazy="true"  src="{{ $category->image }}"class="mg-fluid img-thumbnail"style="max-width: 75px"></td>
+              <td style="padding: 0;text-align: center;">
                 <a href="{{ route('admin.category.show', $category->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
-
+                @if (auth()->user()->hasRole('admin')) 
                 <a href="{{ route('admin.category.edit', $category->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                 <a onclick="deleteCategory('{{ 'delete-category-' . $category->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"><i class="fas fa-trash"></i> </a>
                 <!-- Form Delete category -->
@@ -51,6 +53,7 @@
                     @method('DELETE')
                 </form>
                 <!-- End Delete category -->
+                @endif
               </td>
             </tr>
             @endforeach

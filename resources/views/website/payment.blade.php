@@ -65,7 +65,7 @@
                     <div class="left border">
                         <div class="row"><span class="header"
                                 style="display: contents !important;">{{ __('general.Payment') }}</span>
-                            <div class="icons"><img src="https://img.icons8.com/color/48/000000/visa.png" /> <img
+                            <div class="icons"><img loading="lazy" data-lazy="true"  src="https://img.icons8.com/color/48/000000/visa.png" /> <img
                                     src="https://img.icons8.com/color/48/000000/mastercard-logo.png" /> <img
                                     src="https://img.icons8.com/color/48/000000/maestro.png" /></div>
                         </div>

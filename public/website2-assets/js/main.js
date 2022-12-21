@@ -147,7 +147,7 @@
         const swiperOptions = {
             slidesPerView: 4,
             slidesPerGroup: 1,
-            loop: true,
+            loop: false,
             grabCursor: true,
             speed: 500,
             spaceBetween: 10,
@@ -194,6 +194,8 @@
         };
 
         const swiper = new Swiper( foodCarousel, swiperOptions );
+        
+        
 
         //Testimonial Carousel
         const testimonialCarousel = document.querySelector(".testimonial-carousel");

@@ -68,18 +68,22 @@
                     </div>
                 </div>
                 <div class="nav-outside">
+                    {{-- @foreach ($offers as $offer)
+                        {{$offer->id}}
+                    @endforeach --}}
                     <div class="food-carousel swiper-container nav-visible">
                         <div class="swiper-wrapper">
+                            {{-- @dd($offers) --}}
 
                             @foreach ($offers as $offer)
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-sdasd="{{random_int(1 , 5555)}}">
                                     <div class="product-item"
                                         style="min-height: 510px !important; max-height: 510px !important;">
                                         @if ($offer->offer_type == 'discount')
                                             <div class="sale">-{{ $offer->discount->discount_value }}%</div>
                                         @endif
                                         <div class="product-thumb">
-                                            <img src="{{ asset($offer->website_image_menu) }}" alt="food">
+                                            <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image_menu) }}" alt="food">
                                             <div><a @auth
                                                 @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif 
                                                  @if (isset($cartHasOffers) && $cartHasOffers) data-bs-toggle="modal" data-bs-target="#offersMultibleInOneOrder"

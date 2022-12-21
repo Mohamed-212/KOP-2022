@@ -58,6 +58,9 @@
                 <ul class="food-menu-filter">
                     <li class="active" data-filter="*">@lang('general.All')</li>
                     @foreach ($menu['categories'] as $index => $category)
+                        @if ($category->website_is_hidden)
+                            @continue
+                        @endif
                         @if ($category->items != [])
                             <li data-filter=".{{ $category->id }}">
                                 {{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}</li>
@@ -67,14 +70,23 @@
                 <div class="row product-items">
                     @foreach ($menu['categories'] as $index => $category)
                         @foreach ($category->items as $dealItem)
-                            <div
-                                style="cursor: pointer;"
+                            @if ($dealItem->website_is_hidden)
+                                @continue
+                            @endif
+                            <div style="cursor: pointer;"
                                 class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category->id }}">
                                 <div class="product-item">
                                     <!-- <div class="sale"></div> -->
+                                    @if ($dealItem->website_is_out_of_stock)
+                                        <span class="badge text-white bg-danger text-uppercase"
+                                            style="position: absolute;top: 1.5rem;{{ app()->getLocale() == 'ar' ? 'right' : 'left' }}: 1rem;z-index: 1;font-size: 1.5rem;">
+                                            {{ __('general.out of stock') }}
+                                        </span>
+                                    @endif
                                     <div class="product-thumb">
-                                        <img src="{{ asset($dealItem->website_image) }}" alt="food"
-                                            style="height: 300px;width:300px;border-radius: 100%;" />
+
+                                        <img loading="lazy" data-lazy="true"  src="{{ asset($dealItem->website_image) }}" alt="food"
+                                            style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;" />
                                         <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                             @csrf
                                             @if ($dealItem->offer)
@@ -83,12 +95,39 @@
                                                 <input type="hidden" name="offer_price"
                                                     value="{{ $dealItem->offer ? round($dealItem->offer->offer_price, 2) : '' }}">
                                             @endif
-                                            <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
-                                            <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
+                                            
+                                            @unless($dealItem->offer && $dealItem->offer->offer_id)
+                                                <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
+                                            @endunless
                                             <input type='hidden' name='quantity' value="1" />
 
-                                            <div><button
-                                                    @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
+                                            @if ($dealItem->website_is_out_of_stock)
+                                                <div><button data-target="#stockouterr" data-bs-toggle="modal"
+                                                    data-bs-target="#stockouterr" type="button"
+                                                        class="order-btn">@lang('general.Order Now')</button></div>
+                                            @else
+                                                <div>
+                                                    @auth
+                                                        @if (session()->has('branch_id') || session()->has('address_branch_id'))
+                                                            @if (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#offersMultibleInOneOrder" type="button"
+                                                                    class="order-btn">@lang('general.Order Now')</button>
+                                                            @else
+                                                            <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
+                                                            <button type="submit"
+                                                                    class="order-btn cart">@lang('general.Order Now')</button>
+                                                            @endif
+                                                        @else
+                                                            <button data-target="#service-modal" data-bs-toggle="modal"
+                                                                data-bs-target="#service-modal" type="button"
+                                                                class="order-btn">@lang('general.Order Now')</button>
+                                                        @endif
+                                                    @else
+                                                        <button type="submit" class="order-btn">@lang('general.Order Now')</button>
+                                                    @endauth
+                                                    {{-- <button
+                                                        @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 
                                                     @elseif (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#offersMultibleInOneOrder"
@@ -97,12 +136,15 @@
                                                     type="submit"
                                                     @endif 
                                                     @else
-                                                    type="submit"
-                                                    @endauth
-                                                    class="order-btn cart">@lang('general.Order Now')</button></div>
+                                                    type="submit" @endauth
+                                                        class="order-btn cart">@lang('general.Order Now')</button> --}}
+
+                                                </div>
+                                            @endif
                                         </form>
                                     </div>
-                                    <div class="food-info" onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
+                                    <div class="food-info" style="display: block;text-align:center;margin-top: -1.5rem;"
+                                        onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
                                         <ul class="ratting">
                                             <li>{{ app()->getLocale() == 'ar' ? $category->name_ar : $category->name_en }}
                                             </li>
@@ -154,6 +196,7 @@
                             // console.log(data.data);
                             $('.items').html('');
                             $.each(data.data, function(index, item) {
+                                console.log('wwewewe');
                                 if (!item.is_hidden) {
                                     styleOffer = '';
                                     offerPrice = '';
@@ -203,7 +246,7 @@
                                         '<a href="{{ url('/item/') }}' + '/' + item
                                         .category_id + '/' + item.id + '">' +
                                         '<div class="uk-inline-clip p-4 uk-transition-toggle uk-light" style="background-color: #d6d6d6;">' +
-                                        '<img class="w-100 h-100" src="' + asset(item.image) +
+                                        '<img loading="lazy" data-lazy="true"  class="w-100 h-100" src="' + asset(item.image) +
                                         '" alt="Image" style="height: 250px;width:250px;border-radius: 100%;" />' +
                                         '</div>' +
                                         '</a>' +

@@ -37,7 +37,7 @@
                     {{$role->name}}
                   @endforeach
                 </td>
-                <td>
+                <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteUser('{{ 'delete-user-' . $user->id }}')"
                      href="#" class="btn btn-danger btn-circle btn-sm"

@@ -28,7 +28,7 @@
                                 <label for="exampleInputFile">Image</label>
                                 <br>
                                  @if($info->image)
-                                      <img src="{{ $info->image }}" alt="..." class="img-thumbnail w-90">
+                                      <img loading="lazy" data-lazy="true"  src="{{ $info->image }}" alt="..." class="img-thumbnail w-90">
                                   @endif
                               </div>
                             </div>

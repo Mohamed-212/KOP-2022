@@ -30,19 +30,21 @@ Route::group([
         Route::resource('notification', 'MessageController')->middleware('role:admin');
         Route::get('/show-gifts-orders', 'GiftController@showGiftsOrders')->name('showGiftsOrders')->middleware('role:admin');
         Route::get('/show-points-transactions', 'GiftController@showPointsTransactions')->name('showPointsTransactions')->middleware('role:admin');
+        Route::get('/show-points-transactions/{user_id}', 'GiftController@showPointsTransactionsForUser')->name('showPointsTransactionsForUser')->middleware('role:admin');
         Route::resource('gift', 'GiftController')->middleware('role:admin');
 
         Route::resource('points', 'PointController')->middleware('role:admin,cashier');
         // Route::post('/points-value-post', 'PointController@pointsValuePost')->name('pointsValuePost')->middleware('role:admin,cashier');
         // Route::resource('/points', 'PointController')->middleware('role:admin,cashier');
         // Admin Dashboard
-        Route::get('/home', 'HomeController@index')->name('home')->middleware('role:admin,cashier');
-        Route::get('/', 'HomeController@index')->name('dashboard')->middleware('role:admin,cashier');
+        Route::get('/home', 'HomeController@index')->name('home')->middleware('role:admin|branch_manager');
+        Route::get('/', 'HomeController@index')->name('dashboard')->middleware('role:admin|branch_manager');
 
         Route::resource('hero', 'HeroController');
 
         Route::resource('customer', 'CustomerController')->middleware('role:admin,cashier');
-        Route::resource('category', 'CategoryController')->middleware('role:admin,cashier');
+        // Route::resource('category', 'CategoryController')->middleware('role:admin|branch_manager')->only(['index', 'show']);
+        Route::resource('category', 'CategoryController')->middleware('role:admin|branch_manager');
 
         //homeitem
         Route::get('homeitem', 'ItemController@Homeitem')->name('homeitem.index')->middleware('role:admin');
@@ -54,19 +56,30 @@ Route::group([
         //=======================================================================
 
         // item
-        Route::resource('item', 'ItemController')->middleware('role:admin');
+        Route::resource('item', 'ItemController')->middleware('role:admin|branch_manager');
+        // Route::resource('item', 'ItemController')->middleware('role:admin|branch_manager');
+
+        Route::post('item/{item}/hide', 'ItemController@hide')->name('item.hide')->middleware('role:branch_manager');
+        Route::post('item/{item}/unhide', 'ItemController@unhide')->name('item.unhide')->middleware('role:branch_manager');
+
+        Route::post('item/{item}/stock_out', 'ItemController@stock_out')->name('item.stock_out')->middleware('role:branch_manager');
+        Route::post('item/{item}/stock_in', 'ItemController@stock_in')->name('item.stock_in')->middleware('role:branch_manager');
+
         Route::put('item/{item}/recommended', 'ItemController@recommend')->name('item.recommend')->middleware('role:admin');
         Route::delete('item/{item}/recommended', 'ItemController@unRecommend')->name('item.unrecommend')->middleware('role:admin');
-        Route::resource('extra', 'ExtraController')->middleware('role:admin');
-        Route::resource('without', 'WithoutController')->middleware('role:admin');
-        Route::resource('order', 'OrderController')->middleware('role:admin');
-        Route::resource('offer', 'OfferController')->middleware('role:admin');
+        Route::resource('extra', 'ExtraController')->middleware('role:admin|branch_manager');
+        // Route::resource('extra', 'ExtraController')->middleware('role:admin')->except(['index', 'show']);
+        Route::resource('without', 'WithoutController')->middleware('role:admin|branch_manager');
+        // Route::resource('without', 'WithoutController')->middleware('role:admin')->except(['index', 'show']);
+        Route::resource('order', 'OrderController')->middleware('role:admin|branch_manager');
+        Route::resource('offer', 'OfferController')->middleware('role:admin|branch_manager');
         Route::put('offer/main/{offer}', 'OfferController@setAsMain')->name('offer.main')->middleware('role:admin');
         Route::delete('offer/main/{offer}', 'OfferController@removeFromMain')->name('offer.unmain')->middleware('role:admin');
         Route::resource('banner', 'BannerController')->middleware('role:admin');
         Route::resource('contact', 'ContactController')->middleware('role:admin');
 
-        Route::resource('dough', 'DoughTypeController')->middleware('role:admin');
+        Route::resource('dough', 'DoughTypeController')->middleware('role:admin|branch_manager');
+        // Route::resource('dough', 'DoughTypeController')->middleware('role:admin')->except(['index', 'show']);
 
         // reports
         Route::group(['prefix' => 'reports', 'as' => 'report.', 'middleware' => 'role:admin'], function () {
@@ -127,6 +140,10 @@ Route::group([
         Route::resource('role', 'RoleController')->middleware('role:admin');
         Route::get('/permission/{id}', 'RoleController@permission')->middleware('role:admin')->name('get.permission');
         Route::patch('/permissions/{id}', 'RoleController@asignPermission')->middleware('role:admin')->name('asign.permission');
+
+        Route::resource('reasons', 'ReasonController')->middleware('role:admin');
+        
+        Route::resource('reasons-report', 'ReasonReport')->middleware('role:admin');
     });
 
 
@@ -205,8 +222,11 @@ Route::group([
 
                 /*****************Begin Checkout And Orders Routes ****************/
                 Route::post('get-checkout/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('checkout');
+                Route::post('get-checkout-reorder/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout_reorder'])->name('get_checkout_reorder');
                 Route::get('get-checkout-payment/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout'])->name('payment.checkout');
+                Route::get('get-checkout-payment-reorder/', [\App\Http\Controllers\Website\CartController::class, 'get_checkout_reorder'])->name('payment.get_checkout_reorder');
                 Route::post('make-order/', [\App\Http\Controllers\Website\OrdersController::class, 'make_order'])->name('make_order');
+                Route::post('make-order-reorder/', [\App\Http\Controllers\Website\OrdersController::class, 'make_order_reorder'])->name('make_order_reorder');
                 /*****************End Checkout And Orders Routes ****************/
             });
 
@@ -238,6 +258,7 @@ Route::group([
             //choose service delivery or take away
             Route::get('/takeaway', 'ServiceController@takeawayPage')->name('takeaway.page');
             Route::get('/takeaway/{branch_id}/{service_type}', 'ServiceController@takeawayBranch')->name('takeaway.branch');
+            Route::get('/takeaway/{branch_id}/{service_type}/confirm', 'ServiceController@takeawayBranchConfirm')->name('takeaway.branch-confirm');
 
             // contactUS
             Route::get('/contact-us', 'ContactUSController@contactPage')->name('contact.page');

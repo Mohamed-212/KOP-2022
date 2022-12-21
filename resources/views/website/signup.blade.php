@@ -60,7 +60,7 @@
                         <div class="ml-auto w-100">
                             <div class="px-2 col-12 mx-auto">
                                 <a href="{{ route('home.page') }}">
-                                    <img class="logo__img logo__img--full m-auto" style="cursor: pointer;height: 10rem;"
+                                    <img loading="lazy" data-lazy="true"  class="logo__img logo__img--full m-auto" style="cursor: pointer;height: 10rem;"
                                         src="{{ asset('website-assets/img/logokop.png') }}" alt="logo">
                                 </a>
                                 <h2 class="text-dark my-0">{{ __('general.Hello There.') }}</h2>
@@ -105,13 +105,29 @@
                                             <div class="help-block">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <style>
+                                        .no-arrow {
+  -moz-appearance: textfield;
+}
+.no-arrow::-webkit-inner-spin-button {
+  display: none;
+}
+.no-arrow::-webkit-outer-spin-button,
+.no-arrow::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+                                    </style>
 
                                     <div class="form-group my-2">
                                         <label for="exampleInputNumber1"
                                             class="text-dark">{{ __('general.Mobile') }}</label>
-                                        <input type="number" name="phone" value="{{ old('phone') }}"
-                                            placeholder="{{ __('general.Enter Mobile') }}" class="form-control"
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">+966</span>
+                                        <input type="text" maxlength="9" name="phone" value="{{ old('phone') }}"
+                                            placeholder="{{ __('general.Enter Mobile') }}" class="form-control no-arrow"
                                             id="exampleInputNumber1" aria-describedby="numberHelp">
+                                            </div>
                                         @error('phone')
                                             <div class="help-block">{{ $message }}</div>
                                         @enderror
@@ -150,6 +166,23 @@
         <script>
             $(document).ready(function() {
                 // $('.sticky-header').addClass('sticky-fixed-top');
+                // $('#exampleInputNumber1').on('keyup', function(ev) {
+                //     ev.preventDefault();
+                // })
+
+                $("#exampleInputNumber1").on('keypress', function (e) {
+                    let myArray = [];
+                    for (i = 48; i < 58; i++) myArray.push(i);
+                    if (!(myArray.indexOf(e.which) >= 0)) e.preventDefault();
+                });
+
+                $("#exampleInputNumber1").bind("paste", function(e){
+                    // access the clipboard using the api
+                    e.preventDefault();
+                    var pastedData = e.originalEvent.clipboardData.getData('text');
+                    console.log(pastedData.replace(/[^0-9]/ig, ''));
+                    $('#exampleInputNumber1').val(pastedData.replace(/[^0-9]/ig, ''))
+                } );
             });
         </script>
          <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

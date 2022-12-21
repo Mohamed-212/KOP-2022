@@ -75,7 +75,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-1.png')}}"><img src="{{asset('website-assets/img/products/pizza-1.png')}}" alt="Creamy Melt Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-1.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-1.png')}}" alt="Creamy Melt Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -180,7 +180,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-2.png')}}"><img src="{{asset('website-assets/img/products/pizza-2.png')}}" alt="Neapolitan Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-2.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-2.png')}}" alt="Neapolitan Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -285,7 +285,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -390,7 +390,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -495,7 +495,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-3.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-3.png')}}" alt="Hot n Spicy Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -600,7 +600,7 @@
                                             <div class="product-item__intro">
                                                 <div class="product-item__not-active">
                                                     <div class="product-item__media">
-                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
+                                                        <div class="uk-inline-clip uk-transition-toggle uk-light" data-uk-lightbox="data-uk-lightbox"><a href="{{asset('website-assets/img/products/pizza-4.png')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/products/pizza-4.png')}}" alt="Chees’on Pizza" />
                                                                 <div class="uk-transition-fade uk-position-cover uk-overlay uk-overlay-primary"></div>
                                                                 <div class="uk-position-center"><span class="uk-transition-fade" data-uk-icon="icon: search;"></span></div>
                                                             </a></div>
@@ -716,7 +716,7 @@
                                     <div class="widjet__title">Recommend</div>
                                     <ul class="recommend-list">
                                         <li>
-                                            <div class="recommend-list-item"><img class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-1.jpg')}}" alt="recommend">
+                                            <div class="recommend-list-item"><img loading="lazy" data-lazy="true"  class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-1.jpg')}}" alt="recommend">
                                                 <div class="recommend-list-item__desc">
                                                     <div class="recommend-list-item__title"><a href="page-product.html">Cream Burger</a></div>
                                                     <div class="recommend-list-item__intro">Cream crackers with sprigs of parsley and minced beef</div>
@@ -725,7 +725,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="recommend-list-item"><img class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-2.jpg')}}" alt="recommend">
+                                            <div class="recommend-list-item"><img loading="lazy" data-lazy="true"  class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-2.jpg')}}" alt="recommend">
                                                 <div class="recommend-list-item__desc">
                                                     <div class="recommend-list-item__title"><a href="page-product.html">Hot n Spicy Pizza</a></div>
                                                     <div class="recommend-list-item__intro">Spicy cheese pizza with beef topping, pepperoni ...</div>
@@ -734,7 +734,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="recommend-list-item"><img class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-3.jpg')}}" alt="recommend">
+                                            <div class="recommend-list-item"><img loading="lazy" data-lazy="true"  class="recommend-list-item__img" src="{{asset('website-assets/img/products/recommend-3.jpg')}}" alt="recommend">
                                                 <div class="recommend-list-item__desc">
                                                     <div class="recommend-list-item__title"><a href="page-product.html">Petty Noodles</a></div>
                                                     <div class="recommend-list-item__intro">Thin spring rolls and spicy burgers with masala</div>

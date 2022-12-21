@@ -34,7 +34,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_offer_available',
         'image',
         'token',
-        'status'
+        'status',
+        'cancellation_reason',
+        'reason_id'
     ];
 
     protected $hidden = [
@@ -181,8 +183,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasNoOrders(): bool
     {
-        return $this->orders()->where(function ($q) {
-            return $q->where('state', '!=', 'rejected')->where('state', '!=', 'canceld')->where('state', '!=', 'canceled');
-        })->count() === 0;
+        return $this->orders()->count() == 0 && $this->first_offer_available;
     }
 }

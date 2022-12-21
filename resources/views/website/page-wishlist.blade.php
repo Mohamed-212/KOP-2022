@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="page-content">
-            <div class="uk-margin-large-top uk-container uk-container-small"><img class="page-wishlist__img" src="{{asset('website-assets/img/pages/wishlist/img-wishlist.png')}}" alt="">
+            <div class="uk-margin-large-top uk-container uk-container-small"><img loading="lazy" data-lazy="true"  class="page-wishlist__img" src="{{asset('website-assets/img/pages/wishlist/img-wishlist.png')}}" alt="">
                 <div class="page-wishlist__box">
                     <div class="page-wishlist__title">The Wishlist is currently empty.</div>
                     <div class="page-wishlist__desc">You need to click the icon to add items to your wishlist.</div><a class="uk-button" href="page-catalog.html">Return to Shop</a>

@@ -18,7 +18,7 @@ class Item extends Model
     protected $fillable = ['branches','name_ar', 'name_en', 'price', 'calories', 'category_id', 'description_ar', 'description_en', 'image', 'website_image'];
 
     // protected $hidden = ["branches"];
-    protected $appends = ['is_hidden', 'dough_type', 'dough_type_2', 'favoured', 'price_without_tax', 
+    protected $appends = ['is_hidden', 'is_out_of_stock', 'dough_type', 'dough_type_2', 'favoured', 'price_without_tax', 
     'offer_price_without_tax'
 ];
 
@@ -47,28 +47,82 @@ class Item extends Model
     public function getIsHiddenAttribute()
     {
         if (!request()->has('branch_id')) {
-            return true;
+            return false;
         }
 
         return $this->isHiddenByBranch(request('branch_id', 0));
     }
 
+    public function getIsOutOfStockAttribute()
+    {
+        if (!request()->has('branch_id')) {
+            return false;
+        }
+
+        if (empty($this->out_of_stock)) {
+            return false;
+        }
+
+        $out_of_stock = explode(',', $this->out_of_stock);
+        
+        if (in_array(request('branch_id', 0), $out_of_stock)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isHiddenByBranch($branchId)
     {
         if (empty($this->branches)) {
-            return true;
-        }
-        $branches = explode(',', $this->branches);
-        $target_branch = Branch::find($branchId);
-        if ($target_branch) {
-            foreach ($branches as $branch_id) {
-                if ($target_branch->id == $branch_id) {
-                    return false;
-                }
-            }
+            return false;
         }
 
-        return true;
+        $branches = explode(',', $this->branches);
+        
+        if (in_array(request('branch_id', 0), $branches)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getWebsiteIsHiddenAttribute()
+    {
+        if (!session()->has('branch_id') && !session()->has('address_branch_id')) return false;
+
+        if (empty($this->branches)) {
+            return false;
+        }
+
+        $branchID = session('address_branch_id') ?? session('branch_id') ?? 0;
+
+        $branches = explode(',', $this->branches);
+        
+        if (in_array($branchID, $branches)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getWebsiteIsOutOfStockAttribute()
+    {
+        if (!session()->has('branch_id') && !session()->has('address_branch_id')) return false;
+
+        if (empty($this->out_of_stock)) {
+            return false;
+        }
+
+        $branchID = session('address_branch_id') ?? session('branch_id') ?? 0;
+
+        $out_of_stock = explode(',', $this->out_of_stock);
+        
+        if (in_array($branchID, $out_of_stock)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getDoughTypeAttribute()

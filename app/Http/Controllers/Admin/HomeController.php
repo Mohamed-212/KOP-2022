@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Branch;
 use App\Models\Category;
+use App\Models\Item;
 use App\Models\User;
 use App\Traits\LogfileTrait;
 
@@ -17,6 +18,8 @@ class HomeController extends Controller
     use LogfileTrait;
     public function index()
     {
+
+        // dd(auth()->user()->id);
         // orders
         $ordersCount = Order::where('state', 'pending')->count();
 
@@ -31,7 +34,16 @@ class HomeController extends Controller
             $role->where('name', 'customer');
         })->count();
 
+        $itemsCount = Item::count();
+
         $this->Make_Log('App\Models\dashboard','view',0);
-        return view('admin.dashboard', compact('ordersCount', 'branchesCount', 'categoriesCount', 'customersCount'));
+
+        if (auth()->user()->hasRole('branch_manager')) {
+            $branches = auth()->user()->branches->pluck('id')->toArray();
+            $ordersCount = Order::where('state', 'pending')->whereIn('branch_id', $branches)->count();
+            return view('admin.dashboard_branch_manager', compact('ordersCount', 'branchesCount', 'categoriesCount', 'customersCount', 'itemsCount'));
+        }
+
+        return view('admin.dashboard', compact('ordersCount', 'branchesCount', 'categoriesCount', 'customersCount', 'itemsCount'));
     }
 }

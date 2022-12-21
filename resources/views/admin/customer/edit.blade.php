@@ -102,7 +102,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputFile">Image</label>
                                         @if ($customer->image)
-                                            <img src="{{ $customer->image }}" class="img-thumbnail "
+                                            <img loading="lazy" data-lazy="true"  src="{{ $customer->image }}" class="img-thumbnail "
                                                  style="width: 120px"/>
                                         @endif
                                         <div class="custom-file">

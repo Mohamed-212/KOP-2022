@@ -40,31 +40,33 @@
                                     <td>{{ $offer->date_from }}</td>
                                     <td>{{ $offer->date_to }}</td>
                                     <td>{{ $offer->service_type }}</td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->website_image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img class="img-fluid"
+                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
                                             src="{{ asset($offer->website_image_menu) }}" /></td>
-                                    <td>
+                                    <td style="padding: 0;text-align: center;">
+                                        @if (auth()->user()->hasRole('admin'))
                                         @if ($offer->main)
-                                            <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST">
+                                            <form action="{{ route('admin.offer.unmain', $offer->id) }}" method="POST" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    title="show on home screen">
-                                                    <i class="fas fa-home"></i>
-                                                </button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('admin.offer.main', $offer->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
                                                 <button type="submit" class="btn btn-success btn-sm"
                                                     title="show on home screen">
                                                     <i class="fas fa-home"></i>
                                                 </button>
                                             </form>
+                                        @else
+                                            <form action="{{ route('admin.offer.main', $offer->id) }}" method="POST" style="display: inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-primary btn-sm"
+                                                    title="show on home screen">
+                                                    <i class="fas fa-home"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                         @endif
 
                                         <a href="{{ route('admin.offer.edit', $offer->id) }}"

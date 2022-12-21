@@ -1,7 +1,7 @@
 @extends('layouts.website.app')
 
 @section('title')
-    Contacts
+    {{__('general.contact_us')}}
 @endsection
 
 @section('styles')
