@@ -36,8 +36,8 @@ class ContactUSController extends Controller
         $contact->customer_id = $user->id;
         $contact->save();
 
-        Mail::to("kop@wahfyservices.com")
-            ->send(new Contacts($contact));
+        // Mail::to("kop@wahfyservices.com")
+        //     ->send(new Contacts($contact));
         return redirect()->back()->with(['success' => __('general.Contact Message Sent')]);
     }
 }

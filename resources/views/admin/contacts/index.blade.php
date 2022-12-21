@@ -21,15 +21,17 @@
                                 <th>Subject</th>
                                 <th>date</th>
                                 <th>Customer Name</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($contacts as $contact)
                             <tr>
-                                <td><a href="{{route('admin.contact.show',$contact->id)}}">{{ $contact->id }}</a></td>
+                                <td>{{ $contact->id }}</td>
                                 <td>{{ $contact->subject }}</td>
                                 <td>{{ $contact->created_at }}</td> 
                                 <td>{{ $contact->customer->name }}</td>
+                                <td><a class="btn btn-primary btn-sm" title="Show" href="{{route('admin.contact.show',$contact->id)}}"><i class='fas fa fa-globe'></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>
