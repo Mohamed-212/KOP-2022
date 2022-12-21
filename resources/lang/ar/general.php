@@ -469,5 +469,6 @@ return [
 'this item is not available in this branch' => 'هذا الصنف غير متوفر في هذا الفرع',
 'ofer price' => 'سعر العرض',
 'Valid' => 'صالحة',
-'in Valid' => 'غير صالحة'
+'in Valid' => 'غير صالحة',
+'rejected' => 'مرفوض',
 ];

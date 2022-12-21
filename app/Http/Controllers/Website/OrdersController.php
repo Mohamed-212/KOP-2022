@@ -270,15 +270,42 @@ class OrdersController extends Controller
 
     public function my_orders()
     {
+
+        // foreach (range(1, 20) as $i) {
+        //     auth()->user()->orders()->create([
+        //         "address_id" => 1,
+        //     "customer_id" => auth()->id(), //$request->user()->id,
+        //     "branch_id" => 16, //$branch->id,
+        //     "service_type" => 'takeaway',
+        //     "state" => 'pending',
+        //     "subtotal" => 25,
+        //     "taxes" => 10,
+        //     "delivery_fees" => 5,
+        //     "total" => 35,
+        //     "points_paid" => 0,
+        //     'points' => 0,
+        //     'offer_value' => 0,
+        //     'order_from' => 'mobile',
+        //     'description_box' => 'sad asdasd',
+        //     'payment_type' => 'cash',
+        //     'is_first_order' => false,
+        //     'state' => 'rejected'
+        //     ]);
+        // }
+
         $pending_orders = auth()->user()->orders()->where('state', 'pending')->paginate(5, ['*'], 'pending');
+
+        $progress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(5, ['*'], 'progress');
 
         $completed_orders = auth()->user()->orders()->where('state', 'completed')->paginate(5, ['*'], 'completed');
         //$inprogress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(10);
         // dd(auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->toSql());
-        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled')->orWhere('state', 'rejected'))->paginate(5, ['*'], 'canceled');
+        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled'))->paginate(5, ['*'], 'canceled');
+
+        $rejected_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'rejected'))->paginate(5, ['*'], 'rejected');
         //$on_way = auth()->user()->orders()->where('state', 'on-way')->paginate(10);
 
-        return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders'));
+        return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders', 'progress_orders', 'rejected_orders'));
     }
 
     public function my_orders_details($id, $reorder = null)

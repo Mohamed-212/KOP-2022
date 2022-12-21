@@ -96,7 +96,7 @@
                            <div class="col-md-6">
                                <div id="gallery-videos-demo" class="content-img-holder position-relative">
                                 <img src="{{asset( $sec->image)}}" width="700" height="500" alt="img" id="image{{$loop->index}}">
-                                <div class="position-absolute top-0 w-100 h-100">
+                                <div class="position-absolute top-0 w-100 h-100" id="vedo5645">
                                     <video controls width="100%" height="100%" id="video{{$loop->index}}" style="opacity: 0;: hidden;">                                        
                                         <source src="{{asset($sec->video)}}"
                                                 type="video/mp4">
@@ -267,6 +267,7 @@
 
             $(video).animate({opacity: '1.0'}, 'slow');
             $(this).css('display', 'none');
+            $('#vedo5645').css('background', '#000');
         });
     });
 </script>

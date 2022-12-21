@@ -155,20 +155,25 @@
                                 <ul class="nav nav-tabsa custom-tabsa border-0 flex-column bg-white rounded overflow-hidden shadow-sm p-2 c-t-order"
                                     id="myTab" role="tablist"
                                     style="    box-shadow: 0 .125rem .25rem rgba(0,0,0,.25)!important;">
-                                    <li class="nav-item" role="presentation">
-                                        <a class="nav-link border-0 text-dark py-3 active" id="completed-tab"
-                                            data-bs-toggle="tab" href="#completed" role="tab" aria-controls="completed"
-                                            aria-selected="true">
-                                            <i
-                                                class="fas fa-check @if (app()->getLocale() == 'en') mr-2 @else ml-2 @endif text-success mb-0"></i>
-                                            {{ __('general.Completed') }}
+                                    <li class="nav-item border-top" role="presentation">
+                                        <a class="nav-link border-0 text-dark py-3 active" id="pending-tab" data-bs-toggle="tab"
+                                            href="#pending" role="tab" aria-controls="pending" aria-selected="false">
+                                            <i class="fas fa-clock mr-2 text-warning mb-0"></i>
+                                            {{ __('general.Pending') }}
                                         </a>
                                     </li>
                                     <li class="nav-item border-top" role="presentation">
                                         <a class="nav-link border-0 text-dark py-3" id="progress-tab" data-bs-toggle="tab"
                                             href="#progress" role="tab" aria-controls="progress" aria-selected="false">
-                                            <i class="fas fa-clock mr-2 text-warning mb-0"></i>
+                                            <i class="fas fa-car mr-2 text-warning mb-0"></i>
                                             {{ __('general.On Progress') }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item border-top" role="presentation">
+                                        <a class="nav-link border-0 text-dark py-3" id="completed-tab" data-bs-toggle="tab"
+                                            href="#completed" role="tab" aria-controls="completed" aria-selected="false">
+                                            <i class="fas fa-check @if (app()->getLocale() == 'en') mr-2 @else ml-2 @endif text-success mb-0"></i>
+                                            {{ __('general.Completed') }}
                                         </a>
                                     </li>
                                     <li class="nav-item border-top" role="presentation">
@@ -178,11 +183,196 @@
                                             {{ __('general.Canceled') }}
                                         </a>
                                     </li>
+                                    <li class="nav-item border-top" role="presentation">
+                                        <a class="nav-link border-0 text-dark py-3" id="rejected-tab" data-bs-toggle="tab"
+                                            href="#rejected" role="tab" aria-controls="rejected" aria-selected="false">
+                                            <i class="fas fa-ban mr-2 text-danger mb-0"></i>
+                                            {{ __('general.rejected') }}
+                                        </a>
+                                    </li>
+                                    {{-- <li class="nav-item" role="presentation">
+                                        <a class="nav-link border-0 text-dark py-3 active" id="completed-tab"
+                                            data-bs-toggle="tab" href="#completed" role="tab" aria-controls="completed"
+                                            aria-selected="true">
+                                            <i
+                                                class="fas fa-check @if (app()->getLocale() == 'en') mr-2 @else ml-2 @endif text-success mb-0"></i>
+                                            {{ __('general.Completed') }}
+                                        </a>
+                                    </li>
+                                   
+                                    <li class="nav-item border-top" role="presentation">
+                                        <a class="nav-link border-0 text-dark py-3" id="canceled-tab" data-bs-toggle="tab"
+                                            href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">
+                                            <i class="fas fa-times-circle mr-2 text-danger mb-0"></i>
+                                            {{ __('general.Canceled') }}
+                                        </a>
+                                    </li> --}}
                                 </ul>
                             </div>
 
+                            
+
                             <div class="tab-content col-md-9" id="myTabContent">
-                                <div class="tab-pane fade show active" id="completed" role="tabpanel"
+
+                                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                                    @if (isset($pending_orders))
+                                        @forelse ($pending_orders as $index => $pe)
+                                            <div class="order-body">
+
+                                                <div class="pb-3">
+
+                                                    <div class="p-3 rounded shadow-sm bg-white"
+                                                        style=";box-shadow: 0 .125rem 0.25rem rgba(0,0,0,.25)!important;">
+
+                                                        <div class="d-flex border-bottom pb-3">
+                                                            <div class="text-muted mr-3"
+                                                                style="width: 110px;height: 110px">
+                                                                <img alt="#"
+                                                                    src="{{ asset('website2-assets/img/order.png') }}"
+                                                                    class="w-100 h-100 img-fluid order_img rounded">
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-0 font-weight-bold">
+                                                                    {{ __('general.ORDER') }} {{ $index + 1 }}</p>
+                                                                <p class="mb-0">{{ $pe->items->count() }}
+                                                                    {{ __('general.items') }}</p>
+                                                            </div>
+                                                            <div
+                                                                style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
+                                                                <p
+                                                                    class="bg-warning text-white py-1 px-2 rounded small mb-1">
+                                                                    {{ __('general.Pending') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex pt-3 align-items-center justify-content-between">
+                                                            <div class="text-muted m-0 small"
+                                                                style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
+                                                                {{ __('general.Total') }}
+                                                                :
+                                                                <span
+                                                                    class="text-dark font-weight-bold">{{ $pe->total - $pe->points_paid }}
+                                                                    {{ __('general.SR') }}</span>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                @if (app()->getLocale() == 'en')
+                                                                    <a href="{{ route('order.details', $pe->id) }}"
+                                                                        class="btn px-3 default-btn rounded">{{ __('general.Details') }}
+                                                                        <span></span>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="{{ route('order.details', $pe->id) }}"
+                                                                        class="btn px-3 default-btn">{{ __('general.Details') }}</a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @empty
+                                            <div class="alert alert-info">
+                                                <div class="icon hidden-xs text-white">
+                                                    <i class="fa fa-exclamation-circle"></i>
+                                                </div>
+                                                <p class="text-info">
+                                                    <strong>{{ __('general.info') }}</strong>
+                                                    <Br />
+                                                    {{ __('general.no_orders', [
+                                                        'type' => __('general.Pending'),
+                                                    ]) }}
+                                                </p>
+                                            </div>
+                                        @endforelse
+                                        {{ $pending_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(),
+                                        'progress' => $progress_orders->currentPage(),
+                                        'rejected' => $rejected_orders->currentPage()
+                                        , 'id' => 'pending'])->links() }}
+                                    @endif
+                                </div>
+
+                                <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+                                    @if (isset($progress_orders))
+                                        @forelse ($progress_orders as $index => $pe)
+                                            <div class="order-body">
+
+                                                <div class="pb-3">
+
+                                                    <div class="p-3 rounded shadow-sm bg-white"
+                                                        style=";box-shadow: 0 .125rem 0.25rem rgba(0,0,0,.25)!important;">
+
+                                                        <div class="d-flex border-bottom pb-3">
+                                                            <div class="text-muted mr-3"
+                                                                style="width: 110px;height: 110px">
+                                                                <img alt="#"
+                                                                    src="{{ asset('website2-assets/img/order.png') }}"
+                                                                    class="w-100 h-100 img-fluid order_img rounded">
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-0 font-weight-bold">
+                                                                    {{ __('general.ORDER') }} {{ $index + 1 }}</p>
+                                                                <p class="mb-0">{{ $pe->items->count() }}
+                                                                    {{ __('general.items') }}</p>
+                                                            </div>
+                                                            <div
+                                                                style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
+                                                                <p
+                                                                    class="bg-warning text-white py-1 px-2 rounded small mb-1">
+                                                                    {{ __('general.On Progress') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex pt-3 align-items-center justify-content-between">
+                                                            <div class="text-muted m-0 small"
+                                                                style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
+                                                                {{ __('general.Total') }}
+                                                                :
+                                                                <span
+                                                                    class="text-dark font-weight-bold">{{ $pe->total - $pe->points_paid }}
+                                                                    {{ __('general.SR') }}</span>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                @if (app()->getLocale() == 'en')
+                                                                    <a href="{{ route('order.details', $pe->id) }}"
+                                                                        class="btn px-3 default-btn rounded">{{ __('general.Details') }}
+                                                                        <span></span>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="{{ route('order.details', $pe->id) }}"
+                                                                        class="btn px-3 default-btn">{{ __('general.Details') }}</a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @empty
+                                            <div class="alert alert-info">
+                                                <div class="icon hidden-xs text-white">
+                                                    <i class="fa fa-exclamation-circle"></i>
+                                                </div>
+                                                <p class="text-info">
+                                                    <strong>{{ __('general.info') }}</strong>
+                                                    <Br />
+                                                    {{ __('general.no_orders', [
+                                                        'type' => __('general.On Progress'),
+                                                    ]) }}
+                                                </p>
+                                            </div>
+                                        @endforelse
+                                        {{ $progress_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(),
+                                        'progress' => $progress_orders->currentPage(),
+                                        'rejected' => $rejected_orders->currentPage()
+                                        , 'id' => 'progress'])->links() }}
+                                    @endif
+                                </div>
+
+                                <div class="tab-pane fade" id="completed" role="tabpanel"
                                     aria-labelledby="completed-tab">
                                     @if (isset($completed_orders))
                                         @forelse ($completed_orders as $index => $co)
@@ -255,86 +445,15 @@
                                                 </p>
                                             </div>
                                         @endforelse
-                                        {{ $completed_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(), 'id' => 'completed'])->links() }}
+                                        {{ $completed_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(),
+                                        'progress' => $progress_orders->currentPage(),
+                                        'rejected' => $rejected_orders->currentPage()
+                                        , 'id' => 'completed'])->links() }}
                                     @endif
                                 </div>
 
 
-                                <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
-                                    @if (isset($pending_orders))
-                                        @forelse ($pending_orders as $index => $pe)
-                                            <div class="order-body">
-
-                                                <div class="pb-3">
-
-                                                    <div class="p-3 rounded shadow-sm bg-white"
-                                                        style=";box-shadow: 0 .125rem 0.25rem rgba(0,0,0,.25)!important;">
-
-                                                        <div class="d-flex border-bottom pb-3">
-                                                            <div class="text-muted mr-3"
-                                                                style="width: 110px;height: 110px">
-                                                                <img alt="#"
-                                                                    src="{{ asset('website2-assets/img/order.png') }}"
-                                                                    class="w-100 h-100 img-fluid order_img rounded">
-                                                            </div>
-                                                            <div>
-                                                                <p class="mb-0 font-weight-bold">
-                                                                    {{ __('general.ORDER') }} {{ $index + 1 }}</p>
-                                                                <p class="mb-0">{{ $pe->items->count() }}
-                                                                    {{ __('general.items') }}</p>
-                                                            </div>
-                                                            <div
-                                                                style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
-                                                                <p
-                                                                    class="bg-warning text-white py-1 px-2 rounded small mb-1">
-                                                                    {{ __('general.Pending') }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
-                                                                style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
-                                                                {{ __('general.Total') }}
-                                                                :
-                                                                <span
-                                                                    class="text-dark font-weight-bold">{{ $pe->total - $pe->points_paid }}
-                                                                    {{ __('general.SR') }}</span>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                @if (app()->getLocale() == 'en')
-                                                                    <a href="{{ route('order.details', $pe->id) }}"
-                                                                        class="btn px-3 default-btn rounded">{{ __('general.Details') }}
-                                                                        <span></span>
-                                                                    </a>
-                                                                @else
-                                                                    <a href="{{ route('order.details', $pe->id) }}"
-                                                                        class="btn px-3 default-btn">{{ __('general.Details') }}</a>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        @empty
-                                            <div class="alert alert-info">
-                                                <div class="icon hidden-xs text-white">
-                                                    <i class="fa fa-exclamation-circle"></i>
-                                                </div>
-                                                <p class="text-info">
-                                                    <strong>{{ __('general.info') }}</strong>
-                                                    <Br />
-                                                    {{ __('general.no_orders', [
-                                                        'type' => __('general.Pending'),
-                                                    ]) }}
-                                                </p>
-                                            </div>
-                                        @endforelse
-                                        {{ $pending_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(), 'id' => 'progress'])->links() }}
-                                    @endif
-                                </div>
+                                
 
                                 <div class="tab-pane fade" id="canceled" role="tabpanel"
                                     aria-labelledby="canceled-tab">
@@ -411,9 +530,95 @@
                                                 </p>
                                             </div>
                                         @endforelse
-                                        {{ $canceled_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(), 'id' => 'canceled'])->links() }}
+                                        {{ $canceled_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(),
+                                        'progress' => $progress_orders->currentPage(),
+                                        'rejected' => $rejected_orders->currentPage()
+                                        , 'id' => 'canceled'])->links() }}
                                     @endif
                                 </div>
+
+                                <div class="tab-pane fade" id="rejected" role="tabpanel"
+                                    aria-labelledby="rejected-tab">
+
+                                    @if (isset($rejected_orders))
+                                        @forelse ($rejected_orders as $index => $ca)
+                                            <div class="order-body">
+
+                                                <div class="pb-3">
+                                                    <div class="p-3 rounded shadow-sm bg-white"
+                                                        style=";box-shadow: 0 .125rem 0.25rem rgba(0,0,0,.25)!important;">
+                                                        <div class="d-flex border-bottom pb-3">
+                                                            <div class="text-muted mr-3"
+                                                                style="width: 110px;height: 110px">
+                                                                <img alt="#"
+                                                                    src="{{ asset('website2-assets/img/order.png') }}"
+                                                                    class="w-100 h-100 img-fluid order_img rounded">
+                                                            </div>
+                                                            <div>
+                                                                <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
+                                                                    {{ $index + 1 }}</p>
+                                                                <p class="mb-0">{{ $ca->items->count() }}
+                                                                    {{ __('general.items') }}</p>
+                                                            </div>
+                                                            <div
+                                                                style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
+                                                                <p
+                                                                    class="bg-danger text-white py-1 px-2 rounded small mb-1">
+                                                                    {{ __('general.rejected') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex pt-3 align-items-center justify-content-between">
+                                                            <div class="text-muted m-0 small"
+                                                                style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
+                                                                {{ __('general.Total') }}
+                                                                :
+                                                                <span
+                                                                    class="text-dark font-weight-bold">{{ $ca->total - $ca->points_paid }}
+                                                                    {{ __('general.SR') }}</span>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                @if (app()->getLocale() == 'en')
+                                                                    {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
+                                                                        class="btn bg-danger px-3 default-btn rounded">{{ __('general.Reorder') }}<span></span></a> --}}
+                                                                    <a href="{{ route('order.details', $ca->id) }}"
+                                                                        class="btn px-3 default-btn rounded">{{ __('general.Details') }}
+                                                                        <span></span>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="{{ route('order.details', $ca->id) }}"
+                                                                        class="btn px-3 default-btn">{{ __('general.Details') }}</a>
+                                                                    {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
+                                                                        class="btn btn-outline-primary text-white px-3 default-btn">{{ __('general.Reorder') }}</a> --}}
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @empty
+                                            <div class="alert alert-info">
+                                                <div class="icon hidden-xs text-white">
+                                                    <i class="fa fa-exclamation-circle"></i>
+                                                </div>
+                                                <p class="text-info">
+                                                    <strong>{{ __('general.info') }}</strong>
+                                                    <Br />
+                                                    {{ __('general.no_orders', [
+                                                        'type' => __('general.rejected'),
+                                                    ]) }}
+                                                </p>
+                                            </div>
+                                        @endforelse
+                                        {{ $rejected_orders->appends(['canceled' => $canceled_orders->currentPage(), 'pending' => $pending_orders->currentPage(), 'completed' => $completed_orders->currentPage(),
+                                        'progress' => $progress_orders->currentPage(),
+                                        'rejected' => $rejected_orders->currentPage()
+                                        , 'id' => 'rejected'])->links() }}
+                                    @endif
+                                </div>
+
                             </div>
                         </div>
 
