@@ -114,8 +114,10 @@
                     @foreach ($carts as $cart)
                         <div class="row cart-body pb-30 cart2{{ $cart->id }}">
                             <div class="col-lg-6">
-                                <div class="cart-item">
-                                    <img src="{{ asset($cart->item->image) }}" alt="food">
+                                <div class="cart-item" style="align-items: initial">
+                                    <div class="" style="height: 100%">
+                                        <img src="{{ asset($cart->item->image) }}" alt="food">
+                                    </div>
                                     <div class="cart-content w-100">
                                         <h3><a
                                                 href="{{ url('item/' . $cart->item->category_id . '/' . $cart->item->id) }}">{{ app()->getLocale() == 'ar' ? $cart->item->name_ar : $cart->item->name_en }}</a>
