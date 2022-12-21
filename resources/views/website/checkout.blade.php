@@ -253,9 +253,12 @@
                                 <li><span>{{ __('general.Taxes') }} :</span>{{ round($request->taxes, 2) }}
                                     {{ __('general.SR') }}</li>
 
+                                @if(session('service_type') == 'delivery')
                                 <li><span>{{ __('general.Delivery Fees') }}
-                                        :</span>{{ round($request->delivery_fees, 2) }}
-                                    {{ __('general.SR') }}</li>
+                                    :</span>{{ round($request->delivery_fees, 2) }}
+                                {{ __('general.SR') }}</li>
+                                @endif
+                                
                                 
                                 @if(round($request->discount) > 0)
                                 <li><span>{{ __('general.discount') }} :</span>- {{ round($request->discount, 2) }}

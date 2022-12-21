@@ -325,17 +325,19 @@
                                     <input id="taxesinput" hidden name="taxes"
                                         value="{{ $arr_check['subtotal_without_offer'] - $arr_check['subtotal_without_offer'] / 1.15 }}" />
                                 </li>
-
-                                <li><b class="inset-right-5 text-gray-light">{{ __('general.Delivery Fees') }}
+                                @if(session('service_type') == 'delivery')
+                                <li>
+                                    <b class="inset-right-5 text-gray-light">{{ __('general.Delivery Fees') }}
                                         : </b> <span id="delivery_fees"
                                         style="font-size: smaller;">{{ $arr_check['delivery_fees'] }}
                                         {{ __('general.SR') }}</span>
-                                    <input id="delivery_feesnput" hidden name="delivery_fees"
-                                        value="{{ $arr_check['delivery_fees'] }}" />
                                 </li>
+                                @endif
+                                <input id="delivery_feesnput" hidden name="delivery_fees"
+                                        value="{{ $arr_check['delivery_fees'] }}" />
                                 @if ($arr_check['subtotal_without_offer'] > $arr_check['subtotal'])
                                     @if(round($arr_check['subtotal_without_offer'] - $arr_check['subtotal']) > 0)
-                                    <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
+                                    <li id="off_dis55"><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
                                             : </b>
                                         <span id="">
                                             -
@@ -533,6 +535,16 @@
                             $('#delivery_feesinput').val(data.delivery_fees);
                             $('#discount').text((data.subtotal_without_offer - data.subtotal)
                                 .toFixed(2));
+
+                            
+                            $('#discountinput').val((data.subtotal_without_offer - data.subtotal)
+                                .toFixed(2));
+                                
+                            if (parseInt((data.subtotal_without_offer - data.subtotal)) == 0) {
+                                $('#off_dis55').fadeOut();
+                                $('#discountinput').val('0');
+                            }
+
                             @if (isset($arr_check['points']))
                                 // $('#points').text(data.arr_check.points);
                                 $('#points').text(data.arr_check.points);
@@ -650,6 +662,12 @@
                             $('#delivery_feesinput').val(data.delivery_fees);
                             $('#discount').text((data.subtotal_without_offer - data.subtotal)
                                 .toFixed(2));
+                                // console.log($('#discountinput'), $('#discountinput').val());
+                            $('#discountinput').val((data.subtotal_without_offer - data.subtotal)
+                                .toFixed(2));
+                                // document.querySelector('#discountinput').value = '25.3';
+                            
+                            
 
                             $(".cart2" + id + ' .quantity_ch').val(quantity);
                             $(".cart2" + id + ' .quantity_ch').attr('data-prev', quantity);
