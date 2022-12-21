@@ -263,7 +263,7 @@ class OrdersController extends BaseController
         }
 
         $pointsValue = $request->has('points') ? $request->points : $request->points_value;
-        if ($pointsValue) {
+        if ($pointsValue && (int)$pointsValue > 0) {
             PointsTransaction::create([
                 'points' => $pointsValue,
                 'order_id' => $order->id,
