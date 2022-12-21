@@ -450,4 +450,6 @@ return [
     'close' => 'Close',
     'this item is not available in this branch' => 'this item Is out of stock in this branch',
     'ofer price' => 'Offer Price',
+    'Valid' => 'Valid',
+    'in Valid' => 'In Valid'
 ];
