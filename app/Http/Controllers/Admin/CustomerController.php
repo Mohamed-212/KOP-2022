@@ -61,9 +61,9 @@ class CustomerController extends Controller
             'last_name' => 'required|min:3|max:20',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:4',
-            'first_phone' => 'required|numeric|digits:14',
-            'second_phone' => 'nullable|numeric|digits:14',
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'first_phone' => 'required|numeric|digits:12',
+            'second_phone' => 'nullable|numeric|digits:12',
+            'image' => 'nullable|mimes:jpeg,jpg,png,gif|max:5000'
         ]);
 
         if ($validator->fails())
@@ -173,9 +173,9 @@ class CustomerController extends Controller
             'middle_name' => 'nullable|min:3|max:20',
             'last_name' => 'required|min:3|max:20',
             'email' => 'required|email',
-            'first_phone' => 'required|numeric|digits:14',
-            'second_phone' => 'nullable|numeric|digits:14',
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'first_phone' => 'required|numeric|digits:12',
+            'second_phone' => 'nullable|numeric|digits:12',
+            'image' => 'nullable|mimes:jpeg,jpg,png,gif|max:5000'
         ]);
 
         if ($request->filled('middle_name')) {

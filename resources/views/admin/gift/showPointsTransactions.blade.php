@@ -20,9 +20,9 @@
                         <tr>
                             {{-- <th>ID</th> --}}
                             {{-- <th>Points</th> --}}
-                            <th align="center">Users</th>
+                            <th class="text-center">Users</th>
                             {{-- <th>Status</th> --}}
-                            <th align="center">Action</th>
+                            <th class="text-center">Points Transactions</th>
                         </tr>
                     </thead>
                     <tbody>

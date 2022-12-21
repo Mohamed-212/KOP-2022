@@ -73,8 +73,8 @@ class CareersControllers extends Controller
         $validator = Validator::make($request->all(), 
         [
             'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric|digits:12',
             'job_id' => 'required',
             'description' => 'required',
             'cv_file' => 'required|mimes:pdf',

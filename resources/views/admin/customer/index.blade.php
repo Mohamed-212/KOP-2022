@@ -25,8 +25,8 @@
                 <th>Customer Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Area</th>
                 <th>City</th>
+                <th>Area</th>
                 <th>Actions</th>
             </tr>
           </thead>
@@ -41,8 +41,8 @@
                 </td>
                 <td>{{ $customer->email }}</td>
                 <th>{{ $customer->first_phone }}</th>
-                <th>{{ $customer->addresses->first()->area->name_ar ?? "" }}</th>
-                <th>{{ $customer->addresses->first()->city->name_ar ?? "" }}</th>
+                <th>{{ $customer->addresses->first()->city->name_en ?? "" }}</th>
+                <th>{{ $customer->addresses->first()->area->name_en ?? "" }}</th>
                 <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.customer.edit', $customer->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteCustomer('{{ 'delete-customer-' . $customer->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"><i class="fas fa-trash"></i></a>

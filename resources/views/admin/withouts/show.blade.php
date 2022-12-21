@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Add New Without</h1>
+                    <h1>Without - {{$without->name_en}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Without Arabic Name</label>
+                                <label>Category</label>
                                 <select readonly class="form-control" name="category_id">
                                     <option value="">{{ $without->category['name_'.app()->getLocale()] }}</option>
                                 </select>

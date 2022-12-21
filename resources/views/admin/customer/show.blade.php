@@ -97,13 +97,13 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>City</label>
-                                                            <input readonly type="text" class="form-control" value="{{ $address->city->name_ar }}" />
+                                                            <input readonly type="text" class="form-control" value="{{ $address->city->name_en }}" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Area</label>
-                                                            <input readonly type="text" class="form-control" value="{{ $address->area->name_ar}}" />
+                                                            <input readonly type="text" class="form-control" value="{{ $address->area->name_en}}" />
                                                         </div>
                                                     </div>
                                                 </div>

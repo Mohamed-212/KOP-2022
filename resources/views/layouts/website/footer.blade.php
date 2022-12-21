@@ -136,7 +136,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', end
     <div class="footer-bottom">
         <div class="container">
             <div class="copyright-wrap">
-                <p>© <span ></span>Develop by 212Solutions @2022 All Rights Reserved.</p>
+                <p>© <span ></span>Developed by 212Solutions @2022 All Rights Reserved.</p>
             </div>
         </div>
     </div><!--/.footer-bottom -->
