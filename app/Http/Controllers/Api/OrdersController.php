@@ -1040,7 +1040,7 @@ class OrdersController extends BaseController
 
         // history
        // history
-       $completed = Order::where('state', 'completed')->where('customer_id', Auth::id())->where('points', '!=', null)->get();
+       $completed = Order::where('state', 'completed')->where('customer_id', Auth::id())->where('points', '!=', null)->where('points', '>', 0)->get();
        $points_still = PointsTransaction::where('status', 0)->where('user_id', Auth::id())->get();
        $pending = PointsTransaction::where('status', 2)->where('user_id', Auth::id())->get();
 

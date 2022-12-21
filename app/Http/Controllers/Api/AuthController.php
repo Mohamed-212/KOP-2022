@@ -101,6 +101,9 @@ class AuthController extends BaseController
                 }
                 $user->branches;
 
+                // $user->token = $user->createToken('AppName')->accessToken;
+                // $user->save();
+
 
                 $setPushToken = new NotificationController();
                 $request->request->add(['user_id' => $user->id]);
