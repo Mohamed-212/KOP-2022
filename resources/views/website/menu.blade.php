@@ -102,7 +102,8 @@
                                             <input type='hidden' name='quantity' value="1" />
 
                                             @if ($dealItem->website_is_out_of_stock)
-                                                <div><button onclick="javascript:void(0)" type="button"
+                                                <div><button data-target="#stockouterr" data-bs-toggle="modal"
+                                                    data-bs-target="#stockouterr" type="button"
                                                         class="order-btn">@lang('general.Order Now')</button></div>
                                             @else
                                                 <div>

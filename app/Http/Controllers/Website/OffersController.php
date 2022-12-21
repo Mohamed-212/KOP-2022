@@ -52,7 +52,7 @@ class OffersController extends Controller
         $filters = new OfferFilters($request);
 
         $offer_id = DB::table("branch_offer")->where('branch_id', session()->get('branch_id'))->pluck('offer_id');
-        $offers = Offer::whereIn('id',$offer_id)->with('buyGet', 'discount')->filter($filters)->get();
+        $alloffers = Offer::whereIn('id',$offer_id)->with('buyGet', 'discount')->filter($filters)->get();
 
         // check if cart has items with offers
         $cartHasOffers = false;
@@ -68,6 +68,17 @@ class OffersController extends Controller
                     }
                 }
             } 
+        }
+
+        $offers = [];
+        foreach ($alloffers as $off) {
+            if ($off) {
+                if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                    continue;
+                }
+            }
+
+            $offers[] = $off;
         }
 
         // if ($return['success'] == 'success') {

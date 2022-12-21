@@ -70,6 +70,7 @@
                 <div class="nav-outside">
                     <div class="food-carousel swiper-container nav-visible">
                         <div class="swiper-wrapper">
+                            
 
                             @foreach ($offers as $offer)
                                 <div class="swiper-slide">

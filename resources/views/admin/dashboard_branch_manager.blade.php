@@ -25,7 +25,7 @@
             <a href="{{ route('admin.order.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        {{-- <div class="col-lg-3 col-6">
+        <div class="col-lg-3 col-6">
           <div class="small-box bg-success">
             <div class="inner">
               <h3>{{ $branchesCount }}</h3>
@@ -34,19 +34,19 @@
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="{{ route('admin.branch.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="javascript:void(0)" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <div class="col-lg-3 col-6">
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{ $customersCount }}</h3>
-              <p>User Registrations</p>
+              <h3>{{ $itemsCount }}</h3>
+              <p>Item</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="{{ route('admin.customer.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.item.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <div class="col-lg-3 col-6">
@@ -60,7 +60,7 @@
             </div>
             <a href="{{ route('admin.category.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-        </div> --}}
+        </div>
       </div>
     </div>
   </section>

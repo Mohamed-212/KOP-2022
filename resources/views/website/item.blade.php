@@ -326,10 +326,13 @@ content: "\f068" !important;
                                                 style="font-size: 30px;cursor: pointer;">+</span></span>
 
                                                 @if ($item->website_is_out_of_stock)
-                                                <div> <button
+                                                <div><button data-target="#stockouterr" data-bs-toggle="modal"
+                                                    data-bs-target="#stockouterr" type="button"
+                                                        class="purchase-btn cart">{{ __('home.Add to Cart') }}</button></div>
+                                                {{-- <div> <button
                                                     type="button"
                                                     onclick="javascript:void(0)"
-                                                    class="purchase-btn cart">{{ __('home.Add to Cart') }}</button></div>
+                                                    class="purchase-btn cart"></button></div> --}}
                                                 @else
                                         <div> 
                                             @if (session()->has('branch_id') || session()->has('address_branch_id'))

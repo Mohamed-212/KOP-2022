@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DeactivationReason;
+use App\Models\DeactivationReason;
 use App\Models\Careers;
 use App\Models\JobRequest;
 use Illuminate\Http\Request;
@@ -166,6 +166,11 @@ class FrontController extends BaseController
                 $item->category_name_ar= $category->name_ar;
                 $item->category_name_en= $category->name_en;
 
+                // $item->
+
+                $item->extra = $category->extras;
+                $item->withouts = $category->withouts;
+
                 // get items offers
                 $offers = FacadesDB::table('offer_discount_items')->where('item_id', $item->id)->get();
 
@@ -210,7 +215,16 @@ class FrontController extends BaseController
         }
 
         // offers
-        $offers = Offer::with('buyGet', 'discount')->where('main', true)->get();
+        $offerslist = Offer::with('buyGet', 'discount')->where('main', true)->get();
+
+        $offers = [];
+        foreach ($offerslist as $off) {
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+            }
+
+            $offers[] = $off;
+        }
 
         return $this->sendResponse(compact('banner', 'recommended', 'categories', 'offers'), 'Get all menu items');
     }

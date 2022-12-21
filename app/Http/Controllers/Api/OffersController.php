@@ -932,10 +932,20 @@ class OffersController extends BaseController
         $offer_id = DB::table("branch_offer")->where('branch_id',  $branch_id)->pluck('offer_id');
         $offers = Offer::whereIn('id', $offer_id)->where('service_type', 'takeaway')->with('buyGet', 'discount')->filter($filters)->get();
 
+        $offersLIst = [];
+        foreach ($offers as $off) {
+            // dd($off)
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+                // $off->done = 'noooo';
+            }
+            $offersLIst[] = $off;
+        }
+
 
         // $offers = Offer::with('buyGet')->filter($filters)->get();
 
-        return $this->sendResponse($offers, 'Offers retreived successfully');
+        return $this->sendResponse($offersLIst, 'Offers retreived successfully');
     }
 
     protected function delivery_offer(Request $request, OfferFilters $filters, $address_id)
@@ -950,7 +960,15 @@ class OffersController extends BaseController
             $offers = Offer::whereIn('id', $offer_id)->where('service_type', 'delivery')->with('buyGet', 'discount')->filter($filters)->get();
         }
 
+        $offersLIst = [];
+        foreach ($offers as $off) {
+            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                continue;
+            }
+            $offersLIst[] = $off;
+        }
 
-        return $this->sendResponse($offers, 'Offers retreived successfully');
+
+        return $this->sendResponse($offersLIst, 'Offers retreived successfully');
     }
 }
