@@ -79,6 +79,7 @@ class OffersController extends Controller
             }
 
             $offers[] = $off;
+            // $offers[] = $off;$offers[] = $off;$offers[] = $off;$offers[] = $off;
         }
 
         // if ($return['success'] == 'success') {

@@ -68,12 +68,15 @@
                     </div>
                 </div>
                 <div class="nav-outside">
+                    {{-- @foreach ($offers as $offer)
+                        {{$offer->id}}
+                    @endforeach --}}
                     <div class="food-carousel swiper-container nav-visible">
                         <div class="swiper-wrapper">
-                            
+                            {{-- @dd($offers) --}}
 
                             @foreach ($offers as $offer)
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" data-sdasd="{{random_int(1 , 5555)}}">
                                     <div class="product-item"
                                         style="min-height: 510px !important; max-height: 510px !important;">
                                         @if ($offer->offer_type == 'discount')
