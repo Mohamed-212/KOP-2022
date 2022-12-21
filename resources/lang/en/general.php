@@ -448,5 +448,6 @@ return [
     'Remove Cart' => 'Remove Cart?',
     'ray_city_mess' => 'Kindly note that Delivery Service is not available in Riyadh at the moment',
     'close' => 'Close',
-    'this item is not available in this branch' => 'this item Is out of stock in this branch'
+    'this item is not available in this branch' => 'this item Is out of stock in this branch',
+    'ofer price' => 'Offer Price',
 ];

@@ -256,9 +256,11 @@
                                 <li><span>{{ __('general.Delivery Fees') }}
                                         :</span>{{ round($request->delivery_fees, 2) }}
                                     {{ __('general.SR') }}</li>
-
+                                
+                                @if(round($request->discount) > 0)
                                 <li><span>{{ __('general.discount') }} :</span>- {{ round($request->discount, 2) }}
                                     {{ __('general.SR') }}</li>
+                                @endif
 
                                 @if ($firstDiscount)
                                     <li><span>{{ __('general.first_discount') }} :</span>-

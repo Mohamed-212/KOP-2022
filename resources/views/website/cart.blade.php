@@ -105,8 +105,9 @@
                 </div>
                 <div class="row cart-header">
                     <div class="col-lg-6">{{ __('general.Name') }}</div>
-                    <div class="col-lg-3">{{ __('general.Quantity') }}</div>
+                    <div class="col-lg-2">{{ __('general.Quantity') }}</div>
                     <div class="col-lg-1">{{ __('menu.Price') }}</div>
+                    <div class="col-lg-1">{{ __('general.ofer price') }}</div>
                     <div class="col-lg-1">{{ __('general.Total') }}</div>
                     <div class="col-lg-1"></div>
                 </div>
@@ -166,7 +167,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4 col-lg-3">
+                            <div class="col-4 col-lg-2">
                                 <div class="form-group stepper-type-2 quantity-up-{{ $cart->id }}">
                                     <i class="fas fa-spinner fa-spin d-none"></i>
                                     @php
@@ -179,7 +180,7 @@
                                             }
                                         }
                                     @endphp
-                                    <input style="width: 30%;display: inline;" type="number"
+                                    <input style="width: 60%;display: inline;" type="number"
                                         @if ($disalbleQty) disabled @endif data-zeros="true"
                                         value="{{ $cart->quantity }}" min="1" max="20" readonl
                                         data-id="{{ $cart->id }}" data-price="{{ $cart->price }}"
@@ -189,9 +190,9 @@
                                         
                                 </div>
                             </div>
-                            <div class="col-3 col-lg-1">
+                            <div class="col-2 col-lg-1">
                                 <div class="cart-item" style="flex-direction: column;">
-                                    @if ($cart->offer_id)
+                                    {{-- @if ($cart->offer_id)
                                         <p class="text-danger" id="price_without_offer">
                                             @isset($cart->extras_objects)
                                                 <del>{{ $cart->item->price + collect($cart->extras_objects)->sum('price') }}
@@ -201,17 +202,60 @@
                                             @endisset
 
                                         </p>
-                                    @endif
+                                    @endif --}}
+                                    <p >
+                                        @if ($cart->offer_id && $offer->offer_type != 'buy-get')
+                                        <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                        <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                        @else
+
+                                        {{ $cart->price }}
+                                        {{ __('general.SR') }}
+                                        @endif
+
+                                        @endif
+
+                                        
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-3 col-lg-1">
+                                <div class="cart-item" style="flex-direction: column;">
+                                    {{-- @if ($cart->offer_id)
+                                        <p class="text-danger" id="price_without_offer">
+                                            @isset($cart->extras_objects)
+                                                <del>{{ $cart->item->price + collect($cart->extras_objects)->sum('price') }}
+                                                    {{ __('general.SR') }}</del>
+                                            @else
+                                                <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
+                                            @endisset
+
+                                        </p>
+                                    @endif --}}
+                                    @if ($cart->offer_id && $offer->offer_type != 'buy-get')
                                     <p>
 
                                         {{ $cart->price }}
                                         {{ __('general.SR') }}
                                     </p>
+                                    @endif
+
+                                    @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                    <p>
+
+                                        {{ $cart->price }}
+                                        {{ __('general.SR') }}
+                                    </p>
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="col-3 col-lg-1">
                                 <div class="cart-item d-flex flex-column">
-                                    @if ($cart->offer_id)
+                                    {{-- @if ($cart->offer_id)
                                         <p class="text-danger">
                                             @isset($cart->extras_objects)
                                                 <del><span id="without-offer-total{{$cart->id}}">{{ ($cart->item->price + collect($cart->extras_objects)->sum('price')) * $cart->quantity }}</span>
@@ -221,7 +265,7 @@
                                             @endisset
 
                                         </p>
-                                    @endif
+                                    @endif --}}
                                     <p> <span id="total{{ $cart->id }}">{{ $cart->price * $cart->quantity }}</span>
                                         {{ __('general.SR') }}</p>
                                 </div>
@@ -251,7 +295,7 @@
                                         {{__('general.Total')}}
                                     </div>
                                     <div class="col-lg-4 hidden visible-lg text-success">
-                                        {{__('general.applied')}}
+                                        {{__('general.Pending')}}
                                     </div>
                                     <div class="col-lg-4 text-danger">
                                         <span id="to-earn">
@@ -290,6 +334,7 @@
                                         value="{{ $arr_check['delivery_fees'] }}" />
                                 </li>
                                 @if ($arr_check['subtotal_without_offer'] > $arr_check['subtotal'])
+                                    @if(round($arr_check['subtotal_without_offer'] - $arr_check['subtotal']) > 0)
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.discount') }}
                                             : </b>
                                         <span id="">
@@ -301,9 +346,11 @@
                                                 {{ __('general.SR') }}
                                             </span>
                                         </span>
-                                        <input id="discountinput" hidden name="discount"
-                                            value="{{ round($arr_check['subtotal_without_offer'] - $arr_check['subtotal'], 2) }}" />
+                                        
                                     </li>
+                                    @endif
+                                    <input id="discountinput" hidden name="discount"
+                                            value="{{ round($arr_check['subtotal_without_offer'] - $arr_check['subtotal'], 2) }}" />
                                 @endif
                                 @if (isset($arr_check['points']))
                                     <li><b class="inset-right-5 text-gray-light">{{ __('general.Loyality Discount') }}
