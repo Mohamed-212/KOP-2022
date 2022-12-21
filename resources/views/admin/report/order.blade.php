@@ -15,28 +15,7 @@
       <div class="card-body">
 
         <form method="get">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>From</label>
-                <input type="date" class="form-control" name="from" value="{{ request('from') }}">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>To</label>
-                <input type="date" class="form-control" name="to" value="{{ request('to') }}">
-              </div>
-            </div>
-            <div class="col-md-1">
-              <div class="form-group">
-                <label class="form-label" style="width: 100%;"></label>
-                <div class="input-group pull-right">
-                    <button type="submit" class="btn btn-primary" style="margin-top: 6px; height: 35px;width: 80%;">Go</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </form>
 
           <form action="{{ route('admin.report.order') }}">
@@ -57,11 +36,34 @@
 
                   </div><!-- end of col -->
 
-                  <div class="col-md-6">
+                  {{-- <div class="col-md-6">
                       <button class="btn btn-primary">Go</button>
-                  </div>
+                  </div> --}}
 
               </div><!-- end of row -->
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>From</label>
+                    <input type="date" class="form-control" name="from" value="{{ request('from') }}">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>To</label>
+                    <input type="date" class="form-control" name="to" value="{{ request('to') }}">
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label class="form-label" style="width: 100%;"></label>
+                    <div class="input-group pull-right">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 6px; height: 35px;width: 80%;">Go</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
           </form>
       </div>
