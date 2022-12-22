@@ -267,7 +267,7 @@
                         <div class="swiper-wrapper">
                             @foreach ($menu['recommended'] as $recommended)
                                 <div class="swiper-slide">
-                                    <div class="food-item">
+                                    <div class="food-item" onclick="window.location = '{{route('item.page', [$recommended->category_id, $recommended->id])}}'">
                                         <div class="food-icon">
                                             <i class="fi fi-pizza-slice"></i>
                                         </div>
@@ -309,7 +309,7 @@
                                 <div class="col-md-6 wow fadeInLeft" data-wow-delay="200ms">
                                     <div class="content-img-holder">
                                         <img loading="lazy" data-lazy="true"  src="{{ asset($main_offer->website_image) }}" alt="img">
-                                        <div class="sale">
+                                        <div class="sale" style="display: none">
                                             @if ($main_offer->discount)
                                                 <div>
                                                     <h4>@lang('general.Get')</h4>
@@ -631,7 +631,7 @@
                                     <div class="post-content">
                                         <ul class="post-meta">
                                             <li><i class="far fa-calendar-alt"></i><a
-                                                    href="#">{{ $new->created_at }}</a></li>
+                                                    href="{{route('news.archive', [$new->updated_at->year, $new->updated_at->format('m')])}}">{{ $new->created_at }}</a></li>
 
                                         </ul>
                                         <p class="line-clamp5">{{ $new['description_' . app()->getLocale()] }}</p>

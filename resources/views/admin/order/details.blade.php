@@ -395,7 +395,7 @@
                             @endisset
 
                             @isset($branch)
-                                <div class='row my-3'>
+                                <div class='row'>
                                     <div class="card-header">
                                         <h5 class='card-title'>
                                             {{ __('general.Receive Your Order From') }}
@@ -482,7 +482,7 @@
                         <div class="col-lg-6 ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="card-header mt-30">
+                                    <div class="card-header">
                                         <h5 class='card-title text-center'>
                                             {{ __('general.loyality_earneings') }}
                                         </h5>

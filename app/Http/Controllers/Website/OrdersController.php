@@ -293,16 +293,16 @@ class OrdersController extends Controller
         //     ]);
         // }
 
-        $pending_orders = auth()->user()->orders()->where('state', 'pending')->paginate(5, ['*'], 'pending');
+        $pending_orders = auth()->user()->orders()->where('state', 'pending')->latest('id')->paginate(5, ['*'], 'pending');
 
-        $progress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(5, ['*'], 'progress');
+        $progress_orders = auth()->user()->orders()->where('state', 'in-progress')->latest('id')->paginate(5, ['*'], 'progress');
 
-        $completed_orders = auth()->user()->orders()->where('state', 'completed')->paginate(5, ['*'], 'completed');
+        $completed_orders = auth()->user()->orders()->where('state', 'completed')->latest('id')->paginate(5, ['*'], 'completed');
         //$inprogress_orders = auth()->user()->orders()->where('state', 'in-progress')->paginate(10);
         // dd(auth()->user()->orders()->where('state', 'canceled')->orWhere('state', 'rejected')->toSql());
-        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled'))->paginate(5, ['*'], 'canceled');
+        $canceled_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'canceled'))->latest('id')->paginate(5, ['*'], 'canceled');
 
-        $rejected_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'rejected'))->paginate(5, ['*'], 'rejected');
+        $rejected_orders = auth()->user()->orders()->where(fn($q) => $q->where('state', 'rejected'))->latest('id')->paginate(5, ['*'], 'rejected');
         //$on_way = auth()->user()->orders()->where('state', 'on-way')->paginate(10);
 
         return view('website.myOrder', compact('pending_orders', 'completed_orders', 'canceled_orders', 'progress_orders', 'rejected_orders'));
