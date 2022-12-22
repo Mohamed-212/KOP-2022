@@ -277,7 +277,7 @@
                                     results: $.map(data['data'], function (city) {
                                         return {
                                             id: city.id,
-                                            text: city["name_" + "{{app()->getLocale()}}"]
+                                            text: city["name_en"]
                                         }
                                     })
                                 };
@@ -297,12 +297,11 @@
                   
                     $.get(endpoint, function (res) {
                         var element = '';
-                        var size = res.length;
-                     
-                        for (var k = 0; k < res.length; k++) {
-                            var name = res[k]['name_'+'{{app()->getLocale()}}'];
+                        var size = res['data'].length;
+                        for (var k = 0; k < size; k++) {
+                            var name = res['data'][k]['name_en'];
                             var index = k + 1;
-                            var id = res[k].id;
+                            var id = res['data'][k].id;
 
                             element += `<option value="${id}">${name}</option>`;
                         }

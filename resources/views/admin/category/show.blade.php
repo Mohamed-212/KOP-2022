@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Category {{ $category->name_ar }}</h1>
+                    <h1>Category - {{ $category->name_en }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -58,24 +58,29 @@
                             </div>
                         </div>
                     </div>
+                    @if($category->dough_type_id == 0)
+                    @elseif($category->dough_type_id == 1)
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="dough_type_id">Dough Type</label>
-                                @if($category->dough_type_id == 0)
                                 <input readonly type="text" class="form-control" id="exampleInputEnglishName"
-                                    placeholder="Enter English Name" name="dough_type_id" value="مشروبات">
-                                @elseif($category->dough_type_id == 1)
-                                <input readonly type="text" class="form-control" id="exampleInputEnglishName"
-                                    placeholder="Enter English Name" name="dough_type_id" value="غير المعجنات">
-                                @else
-                                <input readonly type="text" class="form-control" id="exampleInputEnglishName"
-                                    placeholder="Enter English Name" name="dough_type_id" value="معجنات">
-                                @endif
-
+                        placeholder="Enter English Name" name="dough_type_id" value="(Borr - بر, normal - عادي)">
                             </div>
                         </div>
                     </div>
+                    @else
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="dough_type_id">Dough Type</label>
+                                <input readonly type="text" class="form-control" id="exampleInputEnglishName"
+                        placeholder="Enter English Name" name="dough_type_id" value="(Thick - سميكة, Thin - رقيقة)">
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

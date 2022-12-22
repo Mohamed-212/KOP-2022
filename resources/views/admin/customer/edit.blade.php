@@ -271,7 +271,7 @@
                                     results: $.map(data['data'], function (city) {
                                         return {
                                             id: city.id,
-                                            text: city["name_" + "{{app()->getLocale()}}"]
+                                            text: city["name_en"]
                                         }
                                     })
                                 };
@@ -294,7 +294,7 @@
                         var size = res.length;
                         for (let i = 0; i < res.length; i++) {
 
-                            let name = res[i].name_ar;
+                            let name = res[i].name_en;
                             let index = i + 1;
                             let id = res[i].id;
 
@@ -331,7 +331,7 @@
                             console.log("#area" + id);
                             $("#area" + id).append('<option selected value="">Choose Area</option>');
                             $.each(data, function (index, area) {
-                                $("#area" + id).append('<option value="' + area.id + '">' + area.name_ar + '</option>');
+                                $("#area" + id).append('<option value="' + area.id + '">' + area.name_en + '</option>');
                             });
                         }
                     },
@@ -375,7 +375,7 @@
             append += '<label>City' + i + '</label>';
             append += '<select data-id="' + i + '" id="city' + i + '" onclick="selectCity(' + i + ')" class="form-control select2-edit-cities" name="Address[' + rmoveID + '][city_id]" required>';
             append += '<option value="">Select City</option>';
-            append += '<option @if($address->city->id == $address->city_id) selected @endif  value="{{$address->city_id}}">{{$address->city->name_ar}}</option>';
+            append += '<option @if($address->city->id == $address->city_id) selected @endif  value="{{$address->city_id}}">{{$address->city->name_en}}</option>';
             append += '</select>';
             append += '</div>';
             append += '</div>';
@@ -384,7 +384,7 @@
             append += '<label>Area' + i + '</label>';
             append += '<select id="area' + i + '" class="form-control select2-area-edit " name="Address[' + rmoveID + '][area_id]" required>';
             append += '<option value="">Select Area</option>';
-            append += '<option @if($address->area->id == $address->area_id) selected @endif value="{{$address->area_id}}" >{{$address->area->name_ar}}</option>';
+            append += '<option @if($address->area->id == $address->area_id) selected @endif value="{{$address->area_id}}" >{{$address->area->name_en}}</option>';
             append += '</select>';
             append += '</div>';
             append += '</div>';
@@ -449,7 +449,7 @@
                                 results: $.map(data['data'], function (city) {
                                     return {
                                         id: city.id,
-                                        text: city["name_" + "{{app()->getLocale()}}"]
+                                        text: city["name_en"]
                                     }
                                 })
                             };
@@ -469,12 +469,12 @@
 
                 $.get(endpoint, function (res) {
                     var element = '';
-                    var size = res.length;
-                    for (let i = 0; i < res.length; i++) {
+                    var size = res['data'].length;
+                    for (let i = 0; i < size; i++) {
 
-                        let name = res[i].name_ar;
+                        let name = res['data'][i].name_en;
                         let index = i + 1;
-                        let id = res[i].id;
+                        let id = res['data'][i].id;
 
                         element += `<option value="${id}">${name}</option>`;
                     }

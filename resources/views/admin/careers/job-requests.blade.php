@@ -26,9 +26,8 @@
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Details</th>
-
                             <th>C.V</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                         </thead>
                         <tbody>
@@ -41,7 +40,7 @@
                                 <td>{{ $request->description}}</td>
                                 <td><a href="{{asset($request->cv_file)}}">View C.V</a></td>
 
-                                <td>
+                                <!-- <td>
                                     <a href="{{ route('admin.careers.show', $request->id) }}"
                                        class="btn btn-primary btn-circle btn-sm" title="Show"><i
                                             class="fa fa-globe"></i></a>
@@ -51,7 +50,7 @@
                                     <a onclick="deleteRequest('{{ 'delete-request-' . $request->id }}')" href="#"
                                        class="btn btn-danger btn-circle btn-sm" title="delete"><i
                                             class="fas fa-trash"></i> </a>
-                                    <!-- Form Delete category -->
+                                  
                                     <form
                                         action="{{ route('admin.careers.delete', $request->id) }}"
                                         method="POST"
@@ -59,8 +58,8 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                    <!-- End Delete category -->
-                                </td>
+                                   
+                                </td> -->
                             </tr>
                         @endforeach
                         </tbody>

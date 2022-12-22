@@ -162,7 +162,7 @@
                                                     <div class="form-group">
                                                         {{-- <label class="form-label" for="name"></label> --}}
                                                         <input type="text" class="form-control " id="name"
-                                                            placeholder="{{ __('general.Name') }}" name="name" required>
+                                                            placeholder="{{ __('general.Name') }}" name="name" required value="{{ old('name') }}">
                                                         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                                     </div>
                                                 </div>
@@ -173,9 +173,9 @@
                                                         {{-- <label class="form-label" for="phone"> </label> --}}
                                                         <input type="text" class="form-control {!! $errors->first('phone', 'is-invalid') !!}"
                                                             id="phone" placeholder="{{ __('general.Mobile') }}"
-                                                            name="phone" pattern="[0-9]+" required>
+                                                            name="phone" pattern="[0-9]+" required value="{{ old('phone') }}">
+                                                            {!! $errors->first('phone', '<p class="help-block">:message</p>') !!}
                                                     </div>
-    
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -183,7 +183,7 @@
                                                     <div class="form-group">
                                                         {{-- <label class="form-label" for="email"></label> --}}
                                                         <input type="email" class="form-control" id="email"
-                                                            placeholder="{{ __('general.Email') }}" name="email" required>
+                                                            placeholder="{{ __('general.Email') }}" name="email" required value="{{ old('email') }}">
                                                         {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
     
                                                     </div>
