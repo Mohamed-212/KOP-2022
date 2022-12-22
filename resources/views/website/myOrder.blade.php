@@ -233,9 +233,14 @@
                                                             </div>
                                                             <div>
                                                                 <p class="mb-0 font-weight-bold">
-                                                                    {{ __('general.ORDER') }} {{ $index + 1 }}</p>
+                                                                    {{ __('general.ORDER') }} {{ $pe->id }}</p>
                                                                 <p class="mb-0">{{ $pe->items->count() }}
                                                                     {{ __('general.items') }}</p>
+                                                                    <p>
+                                                                        <i class="fas fa fa-clock"></i>&nbsp;{{$pe->created_at->format('d - M - Y H:i:s')}}
+
+
+                                                                    </p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -247,14 +252,14 @@
                                                         </div>
                                                         <div
                                                             class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
+                                                            <strong><div class="text-muted m-0 small"
                                                                 style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
                                                                 {{ __('general.Total') }}
                                                                 :
                                                                 <span
                                                                     class="text-dark font-weight-bold">{{ $pe->total - $pe->points_paid }}
                                                                     {{ __('general.SR') }}</span>
-                                                            </div>
+                                                            </div></strong>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
                                                                     <a href="{{ route('order.details', $pe->id) }}"
@@ -312,9 +317,13 @@
                                                             </div>
                                                             <div>
                                                                 <p class="mb-0 font-weight-bold">
-                                                                    {{ __('general.ORDER') }} {{ $index + 1 }}</p>
+                                                                    {{ __('general.ORDER') }} {{ $pe->id }}</p>
                                                                 <p class="mb-0">{{ $pe->items->count() }}
-                                                                    {{ __('general.items') }}</p>
+                                                                    {{ __('general.items') }}</p><p>
+                                                                        <i class="fas fa fa-clock"></i>&nbsp;{{$pe->created_at->format('d - M - Y H:i:s')}}
+
+
+                                                                    </p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -326,14 +335,14 @@
                                                         </div>
                                                         <div
                                                             class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
+                                                            <strong><div class="text-muted m-0 small"
                                                                 style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
                                                                 {{ __('general.Total') }}
                                                                 :
                                                                 <span
                                                                     class="text-dark font-weight-bold">{{ $pe->total - $pe->points_paid }}
                                                                     {{ __('general.SR') }}</span>
-                                                            </div>
+                                                            </div></strong>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
                                                                     <a href="{{ route('order.details', $pe->id) }}"
@@ -391,9 +400,13 @@
                                                             </div>
                                                             <div>
                                                                 <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
-                                                                    {{ $index + 1 }}</p>
+                                                                    {{ $co->id }}</p>
                                                                 <p class="mb-0">{{ $co->items->count() }}
-                                                                    {{ __('general.items') }}</p>
+                                                                    {{ __('general.items') }}</p><p>
+                                                                        <i class="fas fa fa-clock"></i>&nbsp;{{$co->created_at->format('d - M - Y H:i:s')}}
+
+
+                                                                    </p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -403,14 +416,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
+                                                            <strong><div class="text-muted m-0 small"
                                                                 style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
                                                                 {{ __('general.Total') }}
                                                                 :
                                                                 <span
                                                                     class="text-dark font-weight-bold">{{ $co->total - $co->points_paid }}
                                                                     {{ __('general.SR') }}</span>
-                                                            </div>
+                                                            </div></strong>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
                                                                     <a {{$co->status != 'completed' ? 'style="display:none;"' : 'wwww'}} href="{{ route('order.details', [$co->id, 'reorder']) }}"
@@ -474,9 +487,13 @@
                                                             </div>
                                                             <div>
                                                                 <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
-                                                                    {{ $index + 1 }}</p>
+                                                                    {{ $ca->id }}</p>
                                                                 <p class="mb-0">{{ $ca->items->count() }}
-                                                                    {{ __('general.items') }}</p>
+                                                                    {{ __('general.items') }}</p><p>
+                                                                        <i class="fas fa fa-clock"></i>&nbsp;{{$ca->created_at->format('d - M - Y H:i:s')}}
+
+
+                                                                    </p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -488,14 +505,14 @@
                                                         </div>
                                                         <div
                                                             class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
+                                                            <strong><div class="text-muted m-0 small"
                                                                 style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
                                                                 {{ __('general.Total') }}
                                                                 :
                                                                 <span
                                                                     class="text-dark font-weight-bold">{{ $ca->total - $ca->points_paid }}
                                                                     {{ __('general.SR') }}</span>
-                                                            </div>
+                                                            </div></strong>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
                                                                     {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
@@ -556,9 +573,13 @@
                                                             </div>
                                                             <div>
                                                                 <p class="mb-0 font-weight-bold">{{ __('general.ORDER') }}
-                                                                    {{ $index + 1 }}</p>
+                                                                    {{ $ca->id }}</p>
                                                                 <p class="mb-0">{{ $ca->items->count() }}
-                                                                    {{ __('general.items') }}</p>
+                                                                    {{ __('general.items') }}</p><p>
+                                                                        <i class="fas fa fa-clock"></i>&nbsp;{{$ca->created_at->format('d - M - Y H:i:s')}}
+
+
+                                                                    </p>
                                                             </div>
                                                             <div
                                                                 style="@if (app()->getLocale() == 'en') margin-left: auto!important; @else margin-right: auto!important; @endif">
@@ -570,14 +591,14 @@
                                                         </div>
                                                         <div
                                                             class="d-flex pt-3 align-items-center justify-content-between">
-                                                            <div class="text-muted m-0 small"
+                                                            <strong><div class="text-muted m-0 small"
                                                                 style="padding: 8px; @if (app()->getLocale() == 'en') margin-right: auto!important; @else margin-left: auto!important; @endif">
                                                                 {{ __('general.Total') }}
                                                                 :
                                                                 <span
                                                                     class="text-dark font-weight-bold">{{ $ca->total - $ca->points_paid }}
                                                                     {{ __('general.SR') }}</span>
-                                                            </div>
+                                                            </div></strong>
                                                             <div class="text-right">
                                                                 @if (app()->getLocale() == 'en')
                                                                     {{-- <a href="{{ route('order.details', [$ca->id, 'reorder']) }}"
