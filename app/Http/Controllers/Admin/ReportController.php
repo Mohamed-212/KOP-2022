@@ -98,7 +98,7 @@ class ReportController extends Controller
 
     public function getPayments(Request $request, PaymentFilter $filters)
     {
-        $payments = Payment::filter($filters)->orderBy('id', 'DESC')->get();
+        $payments = Payment::filter($filters)->orderBy('id', 'DESC')->with(['order', 'customer'])->get();
         $this->Make_Log('App\Models\Payment','report',0);
     	return view('admin.payment.index' , compact('payments'));
     }
