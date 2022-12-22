@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Add New homeitem</h1>
+                    <h1>Edit Home Item</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">homeitem Details</h3>
+                    <h3 class="card-title">Home Item Details</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.homeitem.update',$homeitem->id) }}" method="post" enctype="multipart/form-data">
@@ -58,7 +58,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>homeitem Arabic Description</label>
+                                    <label>Home Item Arabic Description</label>
                                     <textarea class="form-control {!! $errors->first('description_ar', 'is-invalid') !!}" placeholder="Enter Item Arabic Description" name="description_ar">{{ old('description_ar') ?? "" }}</textarea>
                                     {!! $errors->first('description_ar', '<p class="help-block">:message</p>') !!}
                                 </div>
@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>homeitem English Description</label>
+                                    <label>Home Item English Description</label>
                                     <textarea class="form-control {!! $errors->first('description_en', 'is-invalid') !!}" placeholder="Enter Item English Description" name="description_en">{{ old('description_en') }}</textarea>
                                     {!! $errors->first('description_en', '<p class="help-block">:message</p>') !!}
                                 </div>
@@ -76,7 +76,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>homeitem number</label>
+                                    <label>Home Item Number</label>
                                     <input type="number" step="any" class="form-control {!! $errors->first('number', 'is-invalid') !!}" placeholder="Enter homeitem number" name="number" min='1' max='4' value="{{ old('number') }}">
                                     {!! $errors->first('number', '<p class="help-block">:message</p>') !!}
                                 </div>

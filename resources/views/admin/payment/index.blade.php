@@ -71,9 +71,15 @@
                                                 {{ $py->payment_id }}
                                             </a>
                                         </td>
-                                        <td>{{ $py->order_id }}</td>
-                                        <td>{{ $py->customer_id }}</td>
-                                        <td>{{ $py->total_paid }}</td>
+                                        <td>{{ ($py->order)?$py->order->id:'' }}</td>
+                                        
+                                        <td>
+                                        <a href="{{route('admin.customer.show' , $py->customer->id)}}">
+                                            {{ $py->customer->name }}
+                                        </a>
+                                        </td>
+                                        <td>{{ number_format((float)($py->total_paid / 100), 2, '.', '') }}</td>
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

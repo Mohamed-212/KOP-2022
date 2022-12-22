@@ -22,10 +22,10 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Name_en</th>
-              <th>Name_ar</th>
-              <th>Description_en</th>
-              <th>Description_ar</th>
+              <th>Name En</th>
+              <th>Name Ar</th>
+              <th>Description En</th>
+              <th>Description Ar</th>
               <th>Image</th>
               <th>Action</th>
             </tr>

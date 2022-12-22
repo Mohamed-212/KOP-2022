@@ -24,8 +24,9 @@
           <thead>
             <tr>
               <th>Type</th>
-              <th>Title_en</th>
-              <th>Title_ar</th>
+              <th>Image</th>
+              <th>Title En</th>
+              <th>Title Ar</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -35,8 +36,8 @@
               <td>
                 {{__('general.' . $about->type)}}
               </td>
-              <td><a href="{{ route('admin.aboutUS.show', $about->id) }}">{{ $about->id }}</a>
-                <img loading="lazy" data-lazy="true"  src="{{asset($about->image)}}" class="img-thumbnail" style="    height: 200px;" />
+              <td>
+                <img loading="lazy" data-lazy="true"  src="{{asset($about->image)}}" class="img-thumbnail" style="max-width: 80px;" />
               </td>
               <td>{{$about->title_en}}</td>
               <td>{{$about->title_ar}}</td>

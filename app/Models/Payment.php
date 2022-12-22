@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Order;
-use App\Models\Customer;
 
 
 class Payment extends Model
@@ -30,7 +28,7 @@ class Payment extends Model
 
     public function order()
     {
-        $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo('App\Models\Order', 'order_id', 'id');
     }
 
     public function scopeFilter($query, QueryFilter $filters)
@@ -40,6 +38,6 @@ class Payment extends Model
 
     public function customer()
     {
-        $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo('App\Models\User', 'customer_id');
     }
 }

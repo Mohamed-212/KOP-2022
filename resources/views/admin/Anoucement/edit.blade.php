@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name_en">name English</label>
+                                        <label for="name_en">Name English</label>
                                         <input type="text"
                                                class="form-control"
                                                id="name_en" placeholder="Enter name" value="{{$Anoucement->name_en}}"
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name_ar">name Arabic</label>
+                                        <label for="name_ar">Name Arabic</label>
                                         <input type="text"
                                                class="form-control "
                                                id="name_ar" placeholder="Enter name" value="{{$Anoucement->name_ar}}"
@@ -82,7 +82,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Image</label>
-                                    <img loading="lazy" data-lazy="true"  src="{{asset($Anoucement->image) }}" class="img-thumbnail" style="widht: 77px;" />
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($Anoucement->image) }}" class="img-thumbnail" style="width: 77px;" />
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
