@@ -206,7 +206,7 @@ class GiftController extends Controller
         $user = User::findOrFail($id);
 
         // history
-        $completed = Order::where('state', 'completed')->where('customer_id', $user->id)->where('points', '!=', null)->get();
+        $completed = Order::where('state', 'completed')->where('customer_id', $user->id)->where('points', '!=', null)->where('points', '>', 0)->get();
         $points_still = PointsTransaction::where('status', 0)->where('user_id', $user->id)->get();
         $pending = PointsTransaction::where('status', 2)->where('user_id', $user->id)->get();
 
