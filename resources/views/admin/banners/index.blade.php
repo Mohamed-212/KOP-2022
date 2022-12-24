@@ -24,14 +24,16 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Image</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($banners as $banner)
+                            @foreach ($banners as $index =>$banner)
                             <tr>
-                                <td>{{ $banner->id }}</td>
-                                <td><img loading="lazy" data-lazy="true"  src="{{ asset($banner->image) }}" style="max-width: 75px" ></td>
+                                <td>{{ $index +1 }}</td>
+                                <td>
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($banner->image)}}" class="img-thumbnail"  style="max-width: 80px" />
+                                  </td>
                                 <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                     <a onclick="deleteCategory('{{ 'delete-banner-' . $banner->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"> <i class="fas fa-trash"></i></a>

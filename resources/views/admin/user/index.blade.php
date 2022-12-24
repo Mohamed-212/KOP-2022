@@ -24,7 +24,7 @@
               <th>User Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Action</th>
+              <th style="text-align: center">Action</th>
             </tr>
           </thead>
           <tbody>

@@ -3,10 +3,13 @@
 class CustomerFilter extends QueryFilter
 {
     public function search($value=null) {
-        if ($value)
-            return $this->builder->where('name', "LIKE", "%$value%")
+        if ($value){
+            return $this->builder->where(function($q) use($value){
+                $q->where('name', "LIKE", "%$value%")
                 ->orWhere('first_name', "LIKE", "%$value%")
                 ->orWhere('last_name', "LIKE", "%$value%");
+            });
+        }
     }
 
 

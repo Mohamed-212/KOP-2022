@@ -62,10 +62,9 @@
                                     <div class="form-group">
                                         <label>Video</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Video Minimum dimensions: 720 * 650
-                                            <p class="text-info">
-                                                <b>Note</b> Video types: mp4 | ogg | wmv
-                                            </p>
+                                            <b>Note:</b> Video Minimum dimensions: 720 * 650
+                                            <br>
+                                            <b>Note:</b> Video types: mp4 | ogg | wmv
                                         </div>
                                         <div class="input-group">
                                             <div class="custom-file">
@@ -79,17 +78,13 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Image</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 150 * 150
-                                            <p class="text-info">
-                                                <b>Note</b> Image types: png | jpeg | jpg
-                                            </p>
+                                            <b>Note:</b> Image dimensions: 150 * 150
+                                            <br>
+                                            <b>Note:</b> Image types: png | jpeg | jpg
                                         </div>
                                         <div class="input-group">
                                             <div class="custom-file">

@@ -27,80 +27,80 @@
                     @method('PATCH')
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-7">
-                                <iframe id="video" class="w-100" height="330"
-                                        src="{{asset($media->url)}}">
+                            <input type="hidden" name="id" value="{{$media->id}}">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="title_en">Title English</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="title_en" placeholder="Enter Title" value="{{$media->title_en}}" name="title_en" >
+                                    @error('title_en')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="title_ar">Title Arabic</label>
+                                    <input type="text"
+                                           class="form-control "
+                                           id="title_ar" placeholder="Enter Title" value="{{$media->title_ar}}" name="title_ar" >
+                                    @error('title_ar')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="author">Author</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="author" placeholder="Enter Author Name" value="{{$media->author}}" name="author" >
+                                    @error('author')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <iframe class="w-100" height="250"
+                                        src="{{asset($media->url)}}?controls=0">
                                 </iframe>
                             </div>
-                            <div class="col-md-5">
-                                <div class="row">
-                                    <input type="hidden" name="id" value="{{$media->id}}">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="title_en">Title English</label>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   id="title_en" placeholder="Enter Title" value="{{$media->title_en}}" name="title_en" >
-                                            @error('title_en')
-                                            <div class="help-block">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Video</label>
+                                    <div class="help-block text-info">
+                                        <b>Note:</b> Video Minimum dimensions: 720 * 650
+                                        <br>
+                                        <b>Note:</b> Video types: mp4 | ogg | wmv
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="title_ar">Title Arabic</label>
-                                            <input type="text"
-                                                   class="form-control "
-                                                   id="title_ar" placeholder="Enter Title" value="{{$media->title_ar}}" name="title_ar" >
-                                            @error('title_ar')
-                                            <div class="help-block">{{ $message }}</div>
-                                            @enderror
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input id="fileimage" type="file" class="custom-file-input {!! $errors->first('url', 'is-invalid') !!}" name="url">
+                                            <label class="custom-file-label">Choose Video</label>
                                         </div>
-                                    </div>
-                                    {{-- <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="author">Author</label>
-                                            <div class="help-block text-info">
-                                                .
-                                            </div>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   id="author" placeholder="Enter Author Name" value="{{$media->author}}" name="author" >
-                                            @error('author')
-                                            <div class="help-block">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div> --}}
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Video</label>
-                                            <div class="help-block text-info">
-                                                <b>Note</b> Video Minimum dimensions: 720 * 650
-                                                <p class="text-info">
-                                                    <b>Note</b> Video types: mp4 | ogg | wmv
-                                                </p>
-                                            </div>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input id="fileimage" type="file" class="custom-file-input {!! $errors->first('url', 'is-invalid') !!}" name="url">
-                                                    <label class="custom-file-label">Choose Video</label>
-                                                </div>
-                                                @error('url')
-                                                <div class="help-block">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        @error('url')
+                                        <div class="help-block">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img loading="lazy" data-lazy="true"  src="{{$media->img}}" class="img-thumbnail w-100" style="height: 250px" />
+                              </div>
+                            <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Image</label>
                                             <div class="help-block text-info">
-                                                <b>Note</b> Image dimensions: 150 * 150
-                                                <p class="text-info">
-                                                    <b>Note</b> Image types: png | jpeg | jpg
-                                                </p>
+                                                <b>Note:</b> Image dimensions: 150 * 150
+                                                <br>
+                                                <b>Note:</b> Image types: png | jpeg | jpg
                                             </div>
                                             <div class="input-group">
                                                 <div class="custom-file">

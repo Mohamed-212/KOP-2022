@@ -75,7 +75,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="exampleInputAddressDescription"> Address Description</label>
+                  <label for="exampleInputAddressDescription"> Address Description Arabic</label>
                   <textarea class="form-control {!! $errors->first('address_description', 'is-invalid') !!}" id="exampleInputAddressDescription" name="address_description">{{old('address_description')}}</textarea>
                     @error('address_description')
                     <div class="help-block">{{ $message }}</div>
@@ -95,31 +95,29 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail">Email</label>
+                  <input type="email" value="{{old('email')}}" class="form-control {!! $errors->first('email', 'is-invalid') !!}" id="exampleInputEmail" placeholder="Enter Email" name="email">
+                    @error('email')
+                    <div class="help-block">{{ $message }}</div>
+                    @enderror
+                </div>
+              </div>
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="exampleInputFirstPhone">First Phone</label>
-                  <input type="text" value="{{old('first_phone')}}" class="form-control {!! $errors->first('first_phone', 'is-invalid') !!}" id="exampleInputFirstPhone" placeholder="Enter First Phone" name="first_phone">
+                  <input type="text" value="{{old('first_phone')}}" class="form-control {!! $errors->first('first_phone', 'is-invalid') !!}" id="exampleInputFirstPhone" placeholder="Enter First Phone" name="first_phone" required>
                     @error('first_phone')
                     <div class="help-block">{{ $message }}</div>
                     @enderror
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="exampleInputSecondPhone">Second Phone</label>
                   <input type="text" value="{{old('second_phone')}}" class="form-control {!! $errors->first('second_phone', 'is-invalid') !!}" id="exampleInputSecondPhone" placeholder="Enter Second Phone" name="second_phone">
                     @error('second_phone')
-                    <div class="help-block">{{ $message }}</div>
-                    @enderror
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="exampleInputEmail">Email</label>
-                  <input type="email" value="{{old('email')}}" class="form-control {!! $errors->first('email', 'is-invalid') !!}" id="exampleInputEmail" placeholder="Enter Email" name="email">
-                    @error('email')
                     <div class="help-block">{{ $message }}</div>
                     @enderror
                 </div>

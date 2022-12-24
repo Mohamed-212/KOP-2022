@@ -27,7 +27,7 @@
               <th>Image</th>
               <th>Title En</th>
               <th>Title Ar</th>
-              <th>Action</th>
+              <th style="text-align: center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +37,7 @@
                 {{__('general.' . $about->type)}}
               </td>
               <td>
-                <img loading="lazy" data-lazy="true"  src="{{asset($about->image)}}" class="img-thumbnail" style="max-width: 80px;" />
+                <img loading="lazy" data-lazy="true"  src="{{asset($about->image)}}" class="img-thumbnail"  style="max-width: 80px" />
               </td>
               <td>{{$about->title_en}}</td>
               <td>{{$about->title_ar}}</td>

@@ -23,20 +23,20 @@
                         <thead>
                         <tr>
                             <th>#ID</th>
-                            <th>English Title</th>
-                            <th>Arabic Title</th>
-                            <th>Action</th>
-
+                            <th>Title En</th>
+                            <th>Title Ar</th>
+                            <th>Image</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                             
                         @foreach ($infos as $index => $info)
                             <tr>
-                                <td><img loading="lazy" data-lazy="true"  class="img-fluid" src="{{asset($info->image)}}" height="150" width="150" /></td>
+                                <td>{{$index + 1 }}</td>
                                 <td>{{ $info->title_en}}</td>
                                 <td>{{ $info->title_ar}}</td>
-
+                                <td><img loading="lazy" data-lazy="true" src="{{asset($info->image)}}" class="img-thumbnail"  style="max-width: 80px" /></td>
                                 <td style="padding: 0;text-align: center;">
                                     <a href="{{ route('admin.healthinfo.show', $info->id) }}"
                                        class="btn btn-primary btn-circle btn-sm" title="Show"><i

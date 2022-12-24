@@ -24,9 +24,8 @@
                             <th>#ID</th>
                             <th>Job Title</th>
                             <th>No. Of Applications</th>
-
                             <th>Status</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                         </thead>
                         <tbody>

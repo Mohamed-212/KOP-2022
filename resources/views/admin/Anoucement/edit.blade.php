@@ -79,26 +79,27 @@
                             </div>
 
                             <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Image</label>
-                                    <img loading="lazy" data-lazy="true"  src="{{asset($Anoucement->image) }}" class="img-thumbnail" style="width: 77px;" />
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
-                                            <label class="custom-file-label">Choose file</label>
-                                        </div>
-                                    </div>
-                                    {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+                                <div class="col-md-6">
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($Anoucement->image) }}" class="img-thumbnail w-100" style="height: 250px" />
                                 </div>
-                                <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 1100 * 1000
-                                            <p>
-                                                <b>Note</b> Image types: png | jpeg | jpg
-                                            </p>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <div class="help-block text-info">
+                                            <b>Note:</b> Image dimensions: 1100 * 1000
+                                            <br>
+                                            <b>Note:</b> Image types: png | jpeg | jpg
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
+                                                <label class="custom-file-label">Choose file</label>
+                                            </div>
+                                        </div>
+                                        {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                            
                         </div>
                         </div>

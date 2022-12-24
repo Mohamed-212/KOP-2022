@@ -23,10 +23,10 @@
             <tr>
               {{-- <th>#ID</th> --}}
               <th>Group</th>
-              <th>name_en</th>
-              <th>name_ar</th>
+              <th>Name En</th>
+              <th>Name Ar</th>
               @if (auth()->user()->hasRole('admin'))
-              <th>Action</th>
+              <th style="text-align: center">Action</th>
               @endif
             </tr>
           </thead>

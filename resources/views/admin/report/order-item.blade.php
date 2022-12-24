@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Orders / Item</h1>
+          <h1>Orders / Branch</h1>
         </div>
       </div>
     </div>
@@ -61,12 +61,12 @@
           <thead>
             <tr>
               <th>Order ID</th>
-              <th>Datetime</th>
               <th>Branch Name</th>
               <th>Order From</th>
               <th>Item</th>
               <th>Quantity</th>
               <th>Price</th>
+              <th>Datetime</th>
             </tr>
           </thead>
           <tbody>
@@ -74,12 +74,12 @@
               @foreach($order->items as $item)
                 <tr>
                     <td>{{$order->id}}</td>
-                    <td>{{$order->created_at}}</td>
-                    <td>{{$order->branch->name_ar}}</td>
+                    <td>{{$order->branch->name_en}}</td>
                     <td>{{$order->order_from}}</td>
-                    <td>{{$item->name_ar}}</td>
+                    <td>{{$item->name_en}}</td>
                     <td>{{$item->pivot->quantity}}</td>
                     <td>{{$item->pivot->quantity * $item->pivot->price}}</td>
+                    <td>{{$order->created_at->format('Y-m-d H:i:s')}}</td>
                 </tr>
               @endforeach
             @endforeach

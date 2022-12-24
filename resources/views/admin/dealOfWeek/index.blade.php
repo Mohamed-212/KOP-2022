@@ -43,12 +43,12 @@
                         <tr>
                             <th>#ID</th>
                             <th>Category Name</th>
-                            <th>Name AR</th>
-                            <th>Name EN</th>
+                            <th>Name En</th>
+                            <th>Name Ar</th>
                             <th>Price</th>
                             <th>Deal Of Week</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +62,7 @@
                             <td>
                                 <a href="" data_id="{{$item->id}}"  class="status btn {{($item->best_seller == 'activate')?'btn-danger':'btn-success'}} btn-circle">{{($item->best_seller == 'activate')?'deactivate':'activate'}}</a>
                             </td>
-                            <td><img loading="lazy" data-lazy="true"  src="{{ $item->image }}" style="max-width: 75px" /></td>
+                            <td><img loading="lazy" data-lazy="true"  src="{{ $item->image }}" class="img-thumbnail"  style="max-width: 80px" /></td>
                             <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.item.show', $item->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                             </td>

@@ -26,7 +26,7 @@
                         @csrf
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Choose Category</label>
                                     <select class="form-control categories select2" id="categories" name="category_id">
@@ -40,8 +40,8 @@
                                     {!! $errors->first('category_id', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label>Choose Item</label>
                                     <select class="form-control select2" id="items" name="item_id">
                                     <option value="" disabled>Select Items</option>
@@ -54,12 +54,19 @@
                                     {!! $errors->first('item_id', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Home Item Number</label>
+                                    <input type="number" step="any" class="form-control {!! $errors->first('number', 'is-invalid') !!}" placeholder="Enter homeitem number" name="number" min='1' max='4' value="{{ old('number', $homeitem->number) }}">
+                                    {!! $errors->first('number', '<p class="help-block">:message</p>') !!}
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Home Item Arabic Description</label>
-                                    <textarea class="form-control {!! $errors->first('description_ar', 'is-invalid') !!}" placeholder="Enter Item Arabic Description" name="description_ar">{{ old('description_ar') ?? "" }}</textarea>
+                                    <textarea class="form-control {!! $errors->first('description_ar', 'is-invalid') !!}" placeholder="Enter Item Arabic Description" name="description_ar">{{ old('description_ar', $homeitem->description_ar) }}</textarea>
                                     {!! $errors->first('description_ar', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>
@@ -68,24 +75,35 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Home Item English Description</label>
-                                    <textarea class="form-control {!! $errors->first('description_en', 'is-invalid') !!}" placeholder="Enter Item English Description" name="description_en">{{ old('description_en') }}</textarea>
+                                    <textarea class="form-control {!! $errors->first('description_en', 'is-invalid') !!}" placeholder="Enter Item English Description" name="description_en">{{ old('description_en', $homeitem->description_en) }}</textarea>
                                     {!! $errors->first('description_en', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Home Item Number</label>
-                                    <input type="number" step="any" class="form-control {!! $errors->first('number', 'is-invalid') !!}" placeholder="Enter homeitem number" name="number" min='1' max='4' value="{{ old('number') }}">
-                                    {!! $errors->first('number', '<p class="help-block">:message</p>') !!}
-                                </div>
+                                <img loading="lazy" data-lazy="true"  src="{{asset($homeitem->image) }}" class="img-thumbnail w-100" style="height: 250px"/>
                             </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Image</label>
-                                    
+                                    @if($homeitem->number==1)
+                                    <div class="help-block text-info">
+                                            <b>Note:</b> Image dimensions: 550 * 450
+                                        </div>
+                                    @elseif($homeitem->number==2)
+                                    <div class="help-block text-info">
+                                            <b>Note:</b> Image dimensions: 550 * 465
+                                        </div>
+                                    @elseif($homeitem->number==3)
+                                    <div class="help-block text-info">
+                                            <b>Note:</b> Image dimensions: 550 * 465
+                                        </div>
+                                    @elseif($homeitem->number==4)
+                                    <div class="help-block text-info">
+                                            <b>Note:</b> Image dimensions: 550 * 220
+                                        </div>
+                                    @endif
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
@@ -95,23 +113,7 @@
                                     </div>
                                     {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
                                 </div>
-                                @if($homeitem->number==1)
-                                    <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 550 * 450
-                                        </div>
-                                    @elseif($homeitem->number==2)
-                                    <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 550 * 465
-                                        </div>
-                                    @elseif($homeitem->number==3)
-                                    <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 550 * 465
-                                        </div>
-                                    @elseif($homeitem->number==4)
-                                    <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 550 * 220
-                                        </div>
-                                    @endif
+                                
                             </div>
                     </div>
                 </div>

@@ -66,7 +66,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="exampleInputAddressDescription"> Address Description</label>
+                  <label for="exampleInputAddressDescription"> Address Description Arabic</label>
                   <textarea class="form-control" id="exampleInputAddressDescription" name="address_description">{{$branch->address_description}}</textarea>
                 </div>
                 {!! $errors->first('address_description', '<p class="invalid-feedback">:message</p>') !!}
@@ -82,29 +82,27 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="exampleInputFirstPhone">First Phone</label>
-                  <input type="text" class="form-control" id="exampleInputFirstPhone" placeholder="Enter First Phone" name="first_phone" value="{{$branch->first_phone}}">
-                  {!! $errors->first('first_phone', '<p class="invalid-feedback">:message</p>') !!}
-
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="exampleInputSecondPhone">Second Phone</label>
-                  <input type="text" class="form-control" id="exampleInputSecondPhone" placeholder="Enter Second Phone" name="second_phone" value="{{$branch->second_phone}}">
-                  {!! $errors->first('second_phone', '<p class="invalid-feedback">:message</p>') !!}
-                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="exampleInputEmail">Email</label>
                   <input type="email" class="form-control" id="exampleInputEmail" placeholder="Enter Email" name="email" value="{{$branch->email}}">
                   {!! $errors->first('email', '<p class="invalid-feedback">:message</p>') !!}
                 </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputFirstPhone">First Phone</label>
+                  <input type="text" class="form-control" id="exampleInputFirstPhone" placeholder="Enter First Phone" name="first_phone" value="{{$branch->first_phone}}" required>
+                  {!! $errors->first('first_phone', '<p class="invalid-feedback">:message</p>') !!}
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="exampleInputSecondPhone">Second Phone</label>
+                  <input type="text" class="form-control" id="exampleInputSecondPhone" placeholder="Enter Second Phone" name="second_phone" value="{{$branch->second_phone}}">
+                  {!! $errors->first('second_phone', '<p class="invalid-feedback">:message</p>') !!}
+                 </div>
               </div>
             </div>
               {{-- <div class="row">

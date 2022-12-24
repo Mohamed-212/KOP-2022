@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add New AboutUS</h1>
+                        <h1>Add New About US</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -107,10 +107,9 @@
                                             Image
                                         </label>
                                             <div class="help-block text-info">
-                                                <b>hint:</b> dimensional: <span class="img-size">600*400</span>
-                                                <p>
-                                                    <b>Note</b> Image types: png | jpeg | jpg
-                                                </p>
+                                                <b>Note:</b> dimensional: <span class="img-size">600*400</span>
+                                                <br>
+                                                <b>Note:</b> Image types: png | jpeg | jpg
                                             </div>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}"

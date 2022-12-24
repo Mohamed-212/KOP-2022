@@ -152,7 +152,7 @@
                                     <div class="form-group">
                                         <label>Website Image</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Image Dimensions Must Be: 300 * 300
+                                            <b>Note:</b> Image Dimensions Must Be: 300 * 300
                                         </div>
                                         <div class="input-group">
                                             <div class="custom-file">

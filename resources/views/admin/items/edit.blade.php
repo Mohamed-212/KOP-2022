@@ -172,7 +172,7 @@
                                 <div class="form-group">
                                     <label>Website Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
+                                        <b>Note:</b> Image Dimensions Must Be: 300 * 300
                                     </div>
                                     <img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" class="img-thumbnail" style="width: 77px;" />
 

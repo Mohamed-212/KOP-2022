@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>edit reason</h1>
+                        <h1>Edit Reason</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">reason Details</h3>
+                        <h3 class="card-title">Reason Details</h3>
                     </div>
                     <form action="{{ route('admin.reasons.update', $reson->id) }}" method="POST" enctype="multipart/form-data"
                         id="add-category">
@@ -29,9 +29,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputArabicName">Arabic reason</label>
+                                        <label for="exampleInputArabicName">Arabic Reason</label>
                                         <input type="text" class="form-control" id="exampleInputArabicName"
-                                            placeholder="Enter Arabic Name" value="{{ old('reason_ar', $reson->reason_ar) }}" name="reason_ar">
+                                            placeholder="Enter Arabic Reason" value="{{ old('reason_ar', $reson->reason_ar) }}" name="reason_ar">
                                         @error('reason_ar')
                                             <div class="help-block">{{ $message }}</div>
                                         @enderror
@@ -39,9 +39,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEnglishName">English reason</label>
+                                        <label for="exampleInputEnglishName">English Reason</label>
                                         <input type="text" class="form-control" id="exampleInputEnglishName"
-                                            value="{{ old('reason_en', $reson->reason_en) }}" placeholder="Enter English Name" name="reason_en">
+                                            value="{{ old('reason_en', $reson->reason_en) }}" placeholder="Enter English Reason" name="reason_en">
                                         @error('reason_en')
                                             <div class="help-block">{{ $message }}</div>
                                         @enderror

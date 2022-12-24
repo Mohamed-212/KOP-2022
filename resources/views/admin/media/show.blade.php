@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Media: {{ $media->title_en }}</h1>
+          <h1>Media - {{ $media->title_en }}</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -23,43 +23,42 @@
         </div>
 
           <div class="card-body">
-              <div class="row">
-                  <div class="col-md-6">
-                      <iframe class="w-100" height="250"
-                              src="{{asset($media->url)}}?controls=0">
-                      </iframe>
-
-                      <img loading="lazy" data-lazy="true"  src="{{$media->img}}" class="img-thumbnail" />
-                  </div>
-                  <div class="col-md-6">
-                      <div class="row">
-                          <div class="col-md-12">
-                              <div class="form-group">
-                                  <label for="title_en">Title English</label>
-                                  <input type="text"
-                                         class="form-control"
-                                         id="title_en" disabled placeholder="Enter Title" value="{{$media->title_en}}">
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                              <div class="form-group">
-                                  <label for="title_ar">Title Arabic</label>
-                                  <input type="text"
-                                         class="form-control "
-                                         id="title_ar" disabled placeholder="Enter Title" value="{{$media->title_ar}}">
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                              <div class="form-group">
-                                  <label for="author">Author</label>
-                                  <input type="text"
-                                         class="form-control"
-                                         id="author" disabled placeholder="Enter Author Name" value="{{$media->author}}" name="author">
-                              </div>
-                          </div>
-                      </div>
+            <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="title_en">Title English</label>
+                      <input type="text"
+                             class="form-control"
+                             id="title_en" disabled placeholder="Enter Title" value="{{$media->title_en}}">
                   </div>
               </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="title_ar">Title Arabic</label>
+                      <input type="text"
+                             class="form-control "
+                             id="title_ar" disabled placeholder="Enter Title" value="{{$media->title_ar}}">
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="author">Author</label>
+                      <input type="text"
+                             class="form-control"
+                             id="author" disabled placeholder="Enter Author Name" value="{{$media->author}}" name="author">
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <iframe class="w-100" height="250"
+                          src="{{asset($media->url)}}?controls=0">
+                  </iframe>
+              </div>
+              <div class="col-md-6">
+                <img loading="lazy" data-lazy="true"  src="{{$media->img}}" class="img-thumbnail w-100" style="height: 250px" />
+              </div>
+            </div>
           </div>
 
       </div>

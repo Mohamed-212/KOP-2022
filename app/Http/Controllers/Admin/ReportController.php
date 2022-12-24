@@ -35,7 +35,7 @@ class ReportController extends Controller
     {
         $orders = Order::when(request()->order_from, function ($q) {
             return $q->where('order_from', request()->order_from);
-        })->orderBy('id', 'DESC')->get();
+        })->filter($filters)->orderBy('id', 'DESC')->get();
         // dd($request->all());
         $this->Make_Log('App\Models\Order','report',0);
          return view('admin.report.order' , compact('orders'));
@@ -51,7 +51,9 @@ class ReportController extends Controller
 
     public function getIncome(Request $request, IncomeFilters $filters)
     {
-        $orders = Order::filter($filters)->where('state', 'completed')->orderBy('id', 'DESC')->get();
+        $orders = Order::when(request()->order_from, function ($q) {
+            return $q->where('order_from', request()->order_from);
+        })->filter($filters)->where('state', 'completed')->orderBy('id', 'DESC')->get();
         // $orders = Order::when(request()->order_from, function ($q) {
         //     return $q->where('order_from', request()->order_from)->where('state', 'completed');
         // })->orderBy('id', 'DESC')->get();
@@ -80,7 +82,7 @@ class ReportController extends Controller
     {
         $orders = Order::when(request()->order_from, function ($q) {
             return $q->where('order_from', request()->order_from);
-        })->orderBy('id', 'DESC')->get();
+        })->filter($filters)->orderBy('id', 'DESC')->get();
         $this->Make_Log('App\Models\OrderStatus','report',0);
         return view('admin.report.order-status' , compact('orders'));
     }

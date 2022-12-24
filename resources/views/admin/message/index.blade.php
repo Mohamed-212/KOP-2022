@@ -25,7 +25,7 @@
                                 <th>#ID</th>
                                 <th>Subject</td>
                                 <th>Description</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>

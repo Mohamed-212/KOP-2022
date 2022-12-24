@@ -52,12 +52,12 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Category Name</th>
-                                <th>Name AR</th>
-                                <th>Name EN</th>
+                                <th>Name En</th>
+                                <th>Name Ar</th>
                                 <th>Price</th>
                                 <th>Calories</th>
                                 {{-- <th>Image</th> --}}
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,7 @@
                                 <td>{{ $without->name_en }}</td>
                                 <td>{{ $without->price }}</td>
                                 <td>{{ $without->calories }}</td>
-                                {{-- <td><img loading="lazy" data-lazy="true"  src="{{ $without->image }}" style="max-width: 75px" ></td> --}}
+                                {{-- <td><img loading="lazy" data-lazy="true"  src="{{ $without->image }}" class="img-thumbnail"  style="max-width: 80px" ></td> --}}
                                 <td>
                                     <a href="{{ route('admin.without.show', $without->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                     @if (auth()->user()->hasRole('admin'))

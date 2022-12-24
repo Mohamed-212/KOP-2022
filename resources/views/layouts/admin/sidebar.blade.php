@@ -300,7 +300,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reasons-report.index') }}" class="nav-link">
                                         <i class="fas fa-code-branch nav-icon"></i>
-                                        <p>Deactivated users Report</p>
+                                        <p>Deactivation Customers Report</p>
                                     </a>
                                 </li>
                                 <li
@@ -366,7 +366,7 @@
                                         <li class="nav-item">
                                             <a href="{{ route('admin.report.order-item') }}" class="nav-link"><i
                                                     class="fas fa-dice-three nav-icon"></i>
-                                                <p>Order / Item</p>
+                                                <p>Order / Branch</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">

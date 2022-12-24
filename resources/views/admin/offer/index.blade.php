@@ -29,23 +29,26 @@
                                 <th>Mobile Image</th>
                                 <th>Website Home Image</th>
                                 <th>Website Menu Image</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($offers as $offer)
+                            @foreach ($offers as $index => $offer)
                                 <tr>
-                                    <td><a href="{{ route('admin.offer.show', $offer->id) }}">{{ $offer->id }}</a></td>
+                                    <td>{{ $index + 1 }}</td>
                                     <td>{{ $offer->title }}</td>
                                     <td>{{ $offer->date_from }}</td>
                                     <td>{{ $offer->date_to }}</td>
                                     <td>{{ $offer->service_type }}</td>
-                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
-                                            src="{{ asset($offer->image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
-                                            src="{{ asset($offer->website_image) }}" /></td>
-                                    <td style="max-width:50px" class="text-center"><img loading="lazy" data-lazy="true"  class="img-fluid"
-                                            src="{{ asset($offer->website_image_menu) }}" /></td>
+                                    <td>
+                                        <img loading="lazy" data-lazy="true"  src="{{asset($offer->image)}}" class="img-thumbnail"  style="max-width: 80px" />
+                                    </td>
+                                    <td>
+                                        <img loading="lazy" data-lazy="true"  src="{{asset($offer->website_image)}}" class="img-thumbnail"  style="max-width: 80px" />
+                                    </td>
+                                    <td>
+                                        <img loading="lazy" data-lazy="true"  src="{{asset($offer->website_image_menu)}}" class="img-thumbnail"  style="max-width: 80px" />
+                                    </td>
                                     <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))
                                         @if ($offer->main)
@@ -68,7 +71,7 @@
                                             </form>
                                         @endif
                                         @endif
-
+                                        <a href="{{ route('admin.offer.show', $offer->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
                                         <a href="{{ route('admin.offer.edit', $offer->id) }}"
                                             class="btn btn-primary btn-circle btn-sm" title="edit"><i
                                                 class="fa fa-edit"></i></a>

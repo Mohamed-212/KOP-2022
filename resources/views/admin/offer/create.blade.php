@@ -40,6 +40,17 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="exampleInputTitle1">Title Arabic</label>
+                                    <input type="text"
+                                        class="form-control {!! $errors->first('title_ar', 'is-invalid') !!}"
+                                        id="exampleInputTitle1" placeholder="Enter Title" name="title_ar" value="{{old('title_ar')}}">
+                                    @error('title_ar')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label for="exampleInputService">Service</label>
                                     <select class="form-control {!! $errors->first('service_type', 'is-invalid') !!}"
                                         id="exampleInputService" name="service_type">
@@ -49,17 +60,6 @@
                                         <option value="takeaway">Takeaway</option>
                                     </select>
                                     @error('service_type')
-                                    <div class="help-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputTitle1">Title Arabic</label>
-                                    <input type="text"
-                                        class="form-control {!! $errors->first('title_ar', 'is-invalid') !!}"
-                                        id="exampleInputTitle1" placeholder="Enter Title" name="title_ar" value="{{old('title_ar')}}">
-                                    @error('title_ar')
                                     <div class="help-block">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -138,10 +138,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-
                                     <label for="exampleInputFile">Mobile Image </label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 550 * 465
+                                        <b>Note:</b> Image Dimensions Must Be: 550 * 465
                                     </div>
                                     <div class="custom-file">
                                         <input type="file"
@@ -160,7 +159,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputFile">Website Home Page Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 509 * 459
+                                        <b>Note:</b> Image Dimensions Must Be: 509 * 459
                                     </div>
                                     <div class="custom-file">
                                         <input type="file"
@@ -179,7 +178,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputFile">Website Menu Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
+                                        <b>Note:</b> Image Dimensions Must Be: 300 * 300
                                     </div>
                                     <div class="custom-file">
                                         <input type="file"
@@ -194,7 +193,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputOfferType">Offer Type</label>
                                     <select class="form-control {!! $errors->first('offer_type', 'is-invalid') !!}"

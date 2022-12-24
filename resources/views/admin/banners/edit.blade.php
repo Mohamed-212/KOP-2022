@@ -1,30 +1,44 @@
 @extends('layouts.admin.app')
 @section('content')
 <div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Banner</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{url()->previous()}}">Back</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="content">
         <div class="container-fluid">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Banner Details</h3>
                 </div>
+                <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
                 <div class="card-body">
-                    <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PATCH')
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Image</label>
-                                    <img loading="lazy" data-lazy="true"  src="{{ $banner->image }}" class="img-thumbnail" style="widht: 77px;" />
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
-                                            <label class="custom-file-label">Choose file</label>
-                                        </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img loading="lazy" data-lazy="true"  src="{{asset($banner->image) }}" class="img-thumbnail w-100" style="height: 250px" />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Image</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}" name="image" value="{{ old('image') }}">
+                                        <label class="custom-file-label">Choose file</label>
                                     </div>
-                                    {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
                                 </div>
+                                {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
                             </div>
                         </div>
                     </div>

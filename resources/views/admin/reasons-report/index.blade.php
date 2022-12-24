@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Reasons Report</h1>
+                    <h1>Deactivation Customers Report</h1>
                 </div>
             </div>
         </div>
@@ -16,18 +16,19 @@
                 <table class="table table-bordered table-striped dataTable">
                     <thead>
                         <tr>
-                            <th>user id</th>
-                            <th>user name</th>
-                            <th>user phone</th>
+                            <th>#</th>
+                            <th>Customer Name</th>
+                            <th>Phone</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as  $u)
+                        @foreach ($users as $index => $u)
                         <tr>
-                            <td>#{{$u->id}}</td>
-                            <td>
+                            <td> {{ $index + 1 }}</td>
+                            <a href="{{route('admin.customer.show' , $u->id)}}">
                                 {{$u->name}}
-                            </td>
+                            </a>
                             <td>
                                 {{$u->first_phone}}
                             </td>

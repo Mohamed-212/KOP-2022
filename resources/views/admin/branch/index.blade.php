@@ -25,7 +25,7 @@
                             <th>Arabic Name</th>
                             <th>Service Type</th>
                             <th>Address</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@
                             <td>{{$branch->name_en}}</td>
                             <td>{{$branch->name_ar}}</td>
                             <td>{{$branch->service_type}}</td>
-                            <td>{{$branch->address_description}}</td>
+                            <td>{{$branch->address_description_en}}</td>
                             <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.branch.edit', $branch->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deleteBranch('{{ 'delete-branch-' . $branch->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">

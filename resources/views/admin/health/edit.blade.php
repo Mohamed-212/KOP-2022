@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Category Details</h3>
+                        <h3 class="card-title">Health Info Details</h3>
                     </div>
                     <form action="{{ route('admin.healthinfo.update' , $info->id) }}" method="POST"
                           enctype="multipart/form-data" id="add-category">
@@ -70,16 +70,17 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($info->image) }}" class="img-thumbnail w-100" style="height: 250px" />
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputFile">Image</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 1000 * 650
-                                            <p class="text-info">
-                                                <b>Note</b> Image types: png | jpeg | jpg
-                                            </p>
+                                            <b>Note:</b> Image dimensions: 1000 * 650
+                                            <br>
+                                            <b>Note:</b> Image types: png | jpeg | jpg
                                         </div>
-                                        <img loading="lazy" data-lazy="true"  src="{{ asset($info->image) }}" class="img-thumbnail" style="width: 250px;" />
                                         <div class="custom-file">
                                             <input type="file"
                                                 class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}"

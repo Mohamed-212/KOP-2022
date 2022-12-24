@@ -19,9 +19,9 @@
               <div class="form-group">
                   <label>Select Category</label>
                   <select class="form-control" name="category">
-                    <option value="0">All</option>
+                    <option value="all">All</option>
                       @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @if(request('category_id') == $category->id) selected @endif>
+                        <option value="{{ $category->id }}" @if(request('category') == $category->id) selected @endif>
                           {{$category->name_en}}
                         </option>
                       @endforeach
@@ -60,17 +60,21 @@
           <table class="table table-bordered table-striped dataTable">
             <thead>
               <tr>
+                <th>Category</th>
                 <th>Extra</th>
                 <th>Price</th>
                 <th>Calories</th>
+                <th>Datetime</th>
               </tr>
             </thead>
             <tbody>
               @foreach($extras as $extra)
                 <tr>
+                  <td>{{$extra->category->name_en}}</td>
                   <td>{{$extra->name_en}}</td>
                   <td>{{$extra->price}}</td>
                   <td>{{$extra->calories}}</td>
+                  <td>{{$extra->created_at->format('Y-m-d H:i:s')}}</td>
                 </tr>
               @endforeach
             </tbody>

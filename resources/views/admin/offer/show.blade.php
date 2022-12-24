@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Offer: {{ $offer->title }}</h1>
+          <h1>Offer - {{ $offer->title }}</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,7 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="exampleInputTitle">Title</label>
+                  <label for="exampleInputTitle">Title English</label>
                     <input type="text" class="form-control" value="{{ $offer->title }} " disabled>
                 </div>
               </div>
@@ -59,26 +59,23 @@
                 </div>
               </div>
             </div>
-            {{-- <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label>Branch</label>
-                  <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" name="branches[]">
-                    <option value="Branch1">Branch1</option>
-                    <option value="Branch2">Branch2</option>
-                    <option value="Branch3">Branch3</option>
-                    <option value="Branch4">Branch4</option>
-                    <option value="Branch5">Branch5</option>
-                    <option value="Branch6">Branch6</option>
-                    <option value="Branch7">Branch7</option>
-                  </select>
-                </div>
-              </div>
-            </div> --}}
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="offerDescription">Description</label>
+                  <label>Branches</label>
+                  <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" name="branches[]" disabled>
+                    @foreach($branches as $branch)
+                        <option value="{{$branch->id}}"
+                                @if($offer->branches->contains($branch->id)) selected @endif>{{$branch->name_en}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="offerDescription">Description English</label>
                   <textarea disabled class="form-control">{{$offer->description}}</textarea>
                 </div>
               </div>
@@ -92,18 +89,30 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="exampleInputFile">Mobile Image</label>
-                  <br>
-                   @if($offer->image)
-                        <img loading="lazy" data-lazy="true"  src="{{ $offer->image }}" alt="..." class="img-thumbnail" style="width: 250px;">
-                    @endif
-                </div>
+              <div class="col-md-4">
+                <label>Mobile Image</label>
+                <br>
+                @if($offer->image)
+                <img loading="lazy" data-lazy="true"  src="{{ $offer->image }}" class="img-thumbnail w-100" style="height: 250px">
+                @endif
+              </div>
+              <div class="col-md-4">
+                <label>Website Home Image</label>
+                <br>
+                @if($offer->website_image)
+                <img loading="lazy" data-lazy="true"  src="{{ $offer->website_image }}" class="img-thumbnail w-100" style="height: 250px">
+                @endif
+              </div>
+              <div class="col-md-4">
+                <label>Website Menu Image</label>
+                <br>
+                @if($offer->website_image_menu)
+                <img loading="lazy" data-lazy="true"  src="{{ $offer->website_image_menu }}" class="img-thumbnail w-100" style="height: 250px">
+                @endif
               </div>
             </div>
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="exampleInputOfferType">Offer Type</label>
                   <input type="text" class="form-control" value="{{ $offer->offer_type }} " disabled>

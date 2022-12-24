@@ -230,7 +230,8 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        return view('admin.offer.show', compact('offer'));
+        $branches = Branch::get();
+        return view('admin.offer.show', compact('offer', 'branches'));
     }
 
     /**

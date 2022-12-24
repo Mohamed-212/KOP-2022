@@ -26,12 +26,12 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Category Name</th>
-                                <th>Description AR</th>
-                                <th>Description EN</th>
+                                <th>Description Ar</th>
+                                <th>Description En</th>
                                 <th>Item Name</th>
                                 <th>Number</td>
                                 <th>Image</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                                     <td>{{ $homeitem->description_en }}</td>
                                     <td>@if($homeitem->item){{ $homeitem->item->name_en }}@endif</td>
                                     <td>{{ $homeitem->number }}</td>
-                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($homeitem->image) }}" style="max-width: 75px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($homeitem->image) }}" class="img-thumbnail"  style="max-width: 80px" /></td>
                                     <td style="padding: 0;text-align: center;">
                                         <a href="{{ route('admin.homeitem.edit', $homeitem->id) }}"
                                             class="btn btn-primary btn-circle btn-sm" title="edit"><i

@@ -22,20 +22,21 @@
           <thead>
             <tr>
               <th>#ID</th>
-              <th>Title_en</th>
-              <th>Title_ar</th>
-              {{-- <th>Author</th> --}}
-              <th>Action</th>
+              <th>Title En</th>
+              <th>Title Ar</th>
+              <th>Image</th>
+              <th style="text-align: center">Action</th>
             </tr>
           </thead>
           <tbody>
             @foreach($medias as $media)
             <tr>
-              <td>{{ $media->id }}
-                <img loading="lazy" data-lazy="true"  src="{{asset($media->img)}}" class="img-thumbnail" style="height: 200px;" />
-            </td>
+              <td>{{ $media->id }}</td>
               <td>{{$media->title_en}}</td>
               <td>{{$media->title_ar}}</td>
+              <td>
+                <img loading="lazy" data-lazy="true"  src="{{asset($media->img)}}" class="img-thumbnail"  style="max-width: 80px" />
+              </td>
               {{-- <td>{{$media->author}}</td> --}}
               <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.media.show', $media->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>

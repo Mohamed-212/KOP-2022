@@ -50,13 +50,13 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Category Name</th>
-                                <th>Name AR</th>
-                                <th>Name EN</th>
+                                <th>Name En</th>
+                                <th>Name Ar</th>
                                 <th>Price</th>
                                 <th>Calories</th>
                                 <th>Mobile Image</th>
                                 <th>Website Image</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,8 +73,8 @@
                                     <td>{{ $item->name_en }}</td>
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->calories }}</td>
-                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" style="max-width: 75px" /></td>
-                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->website_image) }}" style="max-width: 75px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->image) }}" class="img-thumbnail"  style="max-width: 80px" /></td>
+                                    <td><img loading="lazy" data-lazy="true"  src="{{ asset($item->website_image) }}" class="img-thumbnail"  style="max-width: 80px" /></td>
                                     <td style="padding: 0;text-align: center;">
                                         @if (auth()->user()->hasRole('admin'))
                                             @if ($item->recommended)

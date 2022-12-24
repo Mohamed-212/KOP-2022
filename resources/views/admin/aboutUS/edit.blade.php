@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit AboutUS</h1>
+                        <h1>Edit About US</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -112,13 +112,16 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <img loading="lazy" data-lazy="true"  src="{{asset($about->image) }}" class="img-thumbnail w-100" style="height: 250px" />
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputFile">
                                             Image
                                         </label>
                                             <div class="help-block text-info">
-                                                <b>Note</b> Image Size: <span class="img-size">
+                                                <b>Note:</b> Image dimensions: <span class="img-size">
                                                     @if ($about->type === 'emp')
                                                     800 * 1142
                                                     @elseif ($about->type === 'with-bg')
@@ -127,9 +130,8 @@
                                                     600 * 400
                                                     @endif
                                                 </span>
-                                                <p>
-                                                    <b>Note</b> Image types: png | jpeg | jpg
-                                                </p>
+                                                <br>
+                                                <b>Note:</b> Image types: png | jpeg | jpg
                                             </div>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input {!! $errors->first('image', 'is-invalid') !!}"
@@ -145,7 +147,12 @@
                             
                             @if ($about->type === 'first')
                             <div class="row" id="wvideo">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <iframe class="w-100" height="250"
+                                        src="{{asset($about->video)}}?controls=0">
+                                    </iframe>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="video-file">Video</label>
                                         <div class="custom-file">

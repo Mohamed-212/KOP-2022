@@ -21,10 +21,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Banner Details</h3>
                 </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.banner.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-
+                <form action="{{ route('admin.banner.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -39,11 +38,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary float-right">Submit</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
 </section>

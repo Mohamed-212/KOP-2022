@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add New Category</h1>
+                        <h1>Add New Blog</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -46,7 +46,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputArabicDescription">Arabic Description</label>
                                         <textarea class="form-control" id="exampleInputArabicDescription"
-                                                  placeholder="Enter Arabic Description" name="description_ar">{{ old('description_ar') ?? "" }}</textarea>
+                                                  placeholder="Enter Arabic Description" name="description_ar">{{ old('description_ar') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEnglishDescription">English Description</label>
                                         <textarea class="form-control" id="exampleInputEnglishDescription"
-                                                  placeholder="Enter English Description" name="description_en"> {{ old('description_en') ?? "" }}</textarea>
+                                                  placeholder="Enter English Description" name="description_en"> {{ old('description_en') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -64,10 +64,9 @@
                                     <div class="form-group">
                                         <label>Image</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 1000 * 650
-                                            <p class="text-info">
-                                                <b>Note</b> Image types: png | jpeg | jpg
-                                            </p>
+                                            <b>Note:</b> Image dimensions: 1000 * 650
+                                            <br>
+                                            <b>Note:</b> Image types: png | jpeg | jpg
                                         </div>
                                         <div class="input-group">
                                             <div class="custom-file">

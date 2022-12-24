@@ -19,7 +19,7 @@
               <div class="form-group">
                   <label>Select Customer</label>
                   <select class="form-control" name="customer">
-                    <option>All</option>
+                    <option value="all">All</option>
                     @foreach($customers as $customer)
                       <option value="{{ $customer->id }}" @if(request('customer') == $customer->id) selected @endif>
                         {{ $customer->name }}
@@ -63,9 +63,9 @@
                 <th>Customer Name</th>
                 <th>Order ID</th>
                 <th>Order From</th>
-                <th>Date</th>
                 <th>Total</th>
                 <th>Status</th>
+                <th>Datetime</th>
               </tr>
             </thead>
             <tbody>
@@ -74,9 +74,9 @@
                   <td>{{$order->customer->name}}</td>
                   <td>{{$order->id}}</td>
                     <td>{{$order->order_from}}</td>
-                    <td>{{$order->created_at}}</td>
                   <td>{{$order->total}}</td>
                   <td>{{$order->state}}</td>
+                  <td>{{$order->created_at->format('Y-m-d H:i:s')}}</td>
                 </tr>
               @endforeach
             </tbody>

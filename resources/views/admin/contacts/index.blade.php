@@ -21,7 +21,7 @@
                                 <th>Subject</th>
                                 <th>date</th>
                                 <th>Customer Name</th>
-                                <th>Action</th>
+                                <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                         <tbody>

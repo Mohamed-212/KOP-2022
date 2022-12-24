@@ -70,10 +70,9 @@
                                     <div class="form-group">
                                         <label for="exampleInputFile">Image</label>
                                         <div class="help-block text-info">
-                                            <b>Note</b> Image dimensions: 1000 * 650
-                                            <p class="text-info">
-                                                <b>Note</b> Image types: png | jpeg | jpg
-                                            </p>
+                                            <b>Note:</b> Image dimensions: 1000 * 650
+                                            <br>
+                                            <b>Note:</b> Image types: png | jpeg | jpg
                                         </div>
                                         <div class="custom-file">
                                             <input type="file"

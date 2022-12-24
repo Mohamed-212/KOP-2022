@@ -25,7 +25,7 @@
                             <th>Arabic Name</th>
                             <th>Points</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@
                             <td>{{$gift->name_en}}</td>
                             <td>{{$gift->name}}</td>
                             <td>{{$gift->points}}</td>
-                            <td><img loading="lazy" data-lazy="true"  style="width:200px;" src="{{$gift->image}}"></td>
+                            <td><img loading="lazy" data-lazy="true" src="{{$gift->image}}" class="img-thumbnail"  style="max-width: 80px" ></td>
                             <td style="padding: 0;text-align: center;">
                                 <a href="{{ route('admin.gift.edit', $gift->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                                 <a onclick="deleteGift('{{ 'delete-gift-' . $gift->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete">

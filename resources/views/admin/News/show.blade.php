@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1> Job {{ $blog->title_ar }}</h1>
+                        <h1> Blog - {{ $blog->title_en }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -59,11 +59,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Image</label>
-                                    <img loading="lazy" data-lazy="true"  src="{{ $blog->image }}" class="img-thumbnail" style="width: 77px;" />
-                                </div>
+                            <div class="col-md-6">
+                                <label>Image</label><br>
+                                <img loading="lazy" data-lazy="true"  src="{{asset($blog->image) }}" class="img-thumbnail w-100" style="height: 250px" />
                             </div>
                         </div>
 

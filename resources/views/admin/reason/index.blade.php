@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Reasons Report</h1>
+                    <h1>Deactivation Reasons</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -24,8 +24,9 @@
                     <thead>
                         <tr>
                             {{-- <th>id</th> --}}
-                            <th>reason arabic</th>
-                            <th>reason english</th>
+                            <th>Reason Ar</th>
+                            <th>Reason En</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>

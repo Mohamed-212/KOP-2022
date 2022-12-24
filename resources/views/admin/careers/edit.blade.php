@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Category Details</h3>
+                        <h3 class="card-title">Job Details</h3>
                     </div>
                     <form action="{{ route('admin.careers.update' , $job->id) }}" method="POST"
                           enctype="multipart/form-data" id="add-category">

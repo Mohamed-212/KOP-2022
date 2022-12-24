@@ -39,6 +39,16 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="exampleInputTitle1">Title Arabic</label>
+                                    <input type="text" class="form-control" id="exampleInputTitle1"
+                                        placeholder="Enter Title" name="title_ar" value="{{$offer->title_ar}}">
+                                    @error('title_ar')
+                                    <div class="help-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label for="exampleInputService">Service</label>
                                     <select class="form-control" id="exampleInputService" name="service_type">
                                         <option value="">Select Service</option>
@@ -48,16 +58,6 @@
                                             @endif>Take awy</option>
                                     </select>
                                     @error('service_type')
-                                    <div class="help-block">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputTitle1">Title Arabic</label>
-                                    <input type="text" class="form-control" id="exampleInputTitle1"
-                                        placeholder="Enter Title" name="title_ar" value="{{$offer->title_ar}}">
-                                    @error('title_ar')
                                     <div class="help-block">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -126,13 +126,17 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                @if($offer->image)
+                                <img loading="lazy" data-lazy="true"  src="{{asset($offer->image) }}" class="img-thumbnail w-100" style="height: 250px" />
+                                @endif
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
-
                                     <label for="exampleInputFile">Mobile Image</label>
-                                    @if($offer->image)
-                                    <img loading="lazy" data-lazy="true"  src="{{ $offer->image }}" alt="..." class="img-thumbnail">
-                                    @endif
+                                    <div class="help-block text-info">
+                                        <b>Note:</b> Image Dimensions Must Be: 550 * 465
+                                    </div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="image"
                                             value="{{$offer->image}}">
@@ -141,21 +145,23 @@
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
-                                    <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 550 * 465
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                @if($offer->website_image)
+                                <img loading="lazy" data-lazy="true"  src="{{asset($offer->website_image) }}" class="img-thumbnail w-100" style="height: 250px" />
+                                @endif
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Website Home Image</label>
-                                    
-                                    @if($offer->website_image)
-                                    <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image) }}" alt="..." class="img-thumbnail">
-                                    @endif
+                                    <div class="help-block text-info">
+                                        <b>Note:</b> Image Dimensions Must Be: 509 * 459
+                                    </div>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="website_image"
                                             value="{{ asset($offer->website_image)}}">
@@ -164,22 +170,22 @@
                                         @enderror
                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                     </div>
-                                    <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 509 * 459
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                @if($offer->website_image_menu)
+                                <img loading="lazy" data-lazy="true"  src="{{asset($offer->website_image_menu) }}" class="img-thumbnail w-100" style="height: 250px" />
+                                @endif
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Website Menu Image</label>
                                     <div class="help-block text-info">
-                                        <b>Note</b> Image Dimensions Must Be: 300 * 300
+                                        <b>Note:</b> Image Dimensions Must Be: 300 * 300
                                     </div>
-                                    @if($offer->website_image_menu)
-                                    <img loading="lazy" data-lazy="true"  src="{{ asset($offer->website_image_menu) }}" alt="..." class="img-thumbnail">
-                                    @endif
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" name="website_image_menu"
                                             value="{{$offer->website_image_menu}}">
@@ -192,7 +198,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputOfferType">Offer Type</label>
                                     <select class="form-control" id="exampleInputOfferType" name="offer_type" readonly>

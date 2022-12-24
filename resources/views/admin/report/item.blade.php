@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <label>Select Category</label>
                     <select class="form-control" name="category">
-                      <option value="null">All</option>
+                      <option value="all">All</option>
                       @foreach($categories as $category)
                         <option value="{{ $category->id }}" @if(request('category') == $category->id) selected @endif >{{$category->name_en}}</option>
                       @endforeach
@@ -62,6 +62,7 @@
                 <th>Item</th>
                 <th>Price</th>
                 <th>Calories</th>
+                <th>Datetime</th>
               </tr>
             </thead>
             <tbody>
@@ -71,6 +72,7 @@
                   <td>{{$item->name_en}}</td>
                   <td>{{$item->price}}</td>
                   <td>{{$item->calories}}</td>
+                  <td>{{$item->created_at->format('Y-m-d H:i:s')}}</td>
                 </tr>
               @endforeach
             </tbody>

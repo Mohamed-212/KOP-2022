@@ -22,10 +22,10 @@
           <thead>
             <tr>
               <th>#ID</th>
-              <th>Title_en</th>
-              <th>Title_ar</th>
+              <th>Title En</th>
+              <th>Title Ar</th>
               <th>Image</th>
-              <th>Action</th>
+              <th style="text-align: center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +34,8 @@
               <td>{{ $gallery->id }}</td>
               <td>{{$gallery->title_en}}</td>
               <td>{{$gallery->title_ar}}</td>
-              <td><img loading="lazy" data-lazy="true"  src="{{ asset($gallery->url) }}" style="max-width: 75px" ></td>
+              <td><img loading="lazy" data-lazy="true"  src="{{ asset($gallery->url) }}" class="img-thumbnail"  style="max-width: 80px" >
+              </td>
               <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.gallery.edit', $gallery->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteOffer('{{ 'delete-offer-' . $gallery->id }}')"
