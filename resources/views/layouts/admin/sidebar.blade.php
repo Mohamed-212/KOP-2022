@@ -202,7 +202,7 @@
                                         <li class="nav-item">
                                             <a href="{{ route('admin.Anoucement.index') }}" class="nav-link"><i
                                                     class="fab fa-first-order nav-icon"></i>
-                                                <p>Anoucement</p>
+                                                <p>Annoucement</p>
                                             </a>
                                         </li>
                                         {{-- <li class="nav-item">

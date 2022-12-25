@@ -57,7 +57,11 @@ class OfferController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $branches = Branch::get();
+        if (auth()->user()->hasRole('branch_manager')) {
+            $branches = auth()->user()->branches;
+        }else{
+            $branches = Branch::get();
+        }
         return view('admin.offer.create', compact('categories','branches'));
     }
 

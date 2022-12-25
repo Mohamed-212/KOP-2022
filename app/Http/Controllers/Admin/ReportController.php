@@ -33,9 +33,13 @@ class ReportController extends Controller
 
     public function getOrder(Request $request, OrderFilters $filters)
     {
-        $orders = Order::when(request()->order_from, function ($q) {
-            return $q->where('order_from', request()->order_from);
-        })->filter($filters)->orderBy('id', 'DESC')->get();
+        $orders = Order::query();
+        if(request()->order_from != 'all'){
+            $orders->when(request()->order_from, function ($q) {
+                return $q->where('order_from', request()->order_from);
+            });
+        }
+        $orders = $orders->filter($filters)->orderBy('id', 'DESC')->get();
         // dd($request->all());
         $this->Make_Log('App\Models\Order','report',0);
          return view('admin.report.order' , compact('orders'));
@@ -51,9 +55,13 @@ class ReportController extends Controller
 
     public function getIncome(Request $request, IncomeFilters $filters)
     {
-        $orders = Order::when(request()->order_from, function ($q) {
-            return $q->where('order_from', request()->order_from);
-        })->filter($filters)->where('state', 'completed')->orderBy('id', 'DESC')->get();
+        $orders = Order::query();
+        if(request()->order_from != 'all'){
+            $orders->when(request()->order_from, function ($q) {
+                return $q->where('order_from', request()->order_from);
+            });
+        }
+        $orders = $orders->filter($filters)->where('state', 'completed')->orderBy('id', 'DESC')->get();
         // $orders = Order::when(request()->order_from, function ($q) {
         //     return $q->where('order_from', request()->order_from)->where('state', 'completed');
         // })->orderBy('id', 'DESC')->get();
@@ -80,9 +88,13 @@ class ReportController extends Controller
 
     public function getOrderStatus(Request $request, OrderFilters $filters)
     {
-        $orders = Order::when(request()->order_from, function ($q) {
-            return $q->where('order_from', request()->order_from);
-        })->filter($filters)->orderBy('id', 'DESC')->get();
+        $orders = Order::query();
+        if(request()->order_from != 'all'){
+            $orders->when(request()->order_from, function ($q) {
+                return $q->where('order_from', request()->order_from);
+            });
+        }
+        $orders = $orders->filter($filters)->orderBy('id', 'DESC')->get();
         $this->Make_Log('App\Models\OrderStatus','report',0);
         return view('admin.report.order-status' , compact('orders'));
     }

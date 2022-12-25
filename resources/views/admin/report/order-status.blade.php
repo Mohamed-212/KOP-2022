@@ -19,7 +19,7 @@
               <div class="form-group">
                 <label>Order From</label>
                 <select name="order_from"  class="form-control" id="">
-                    @foreach(['website', 'mobile'] as $from)
+                    @foreach(['all', 'website', 'mobile'] as $from)
                         <option value="{{ $from }}" @if(request('order_from') == $from) selected @endif>{{ $from }}</option>
                     @endforeach
                 </select>
