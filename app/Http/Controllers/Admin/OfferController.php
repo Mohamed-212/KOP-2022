@@ -295,8 +295,20 @@ class OfferController extends Controller
         //         break;
         // }
         $categories = \App\Models\Category::all();
-        $branches = Branch::get();
-        return view('admin.offer.edit', compact('offer', 'categories','branches'));
+        $branches = Branch::all();
+
+        // dd($branches->toArray(), auth()->user()->branches->toArray());
+
+        $user_branches = auth()->user()->branches;
+
+    //    dd( $offer->branches);
+
+        $diff = $offer->branches->pluck('id')->diff($user_branches->pluck('id'));
+
+        // dd($offer->branches->pluck('id'), $user_branches->pluck('id'), $diff);
+
+
+        return view('admin.offer.edit', compact('offer', 'categories','branches', 'diff'));
     }
 
     /**

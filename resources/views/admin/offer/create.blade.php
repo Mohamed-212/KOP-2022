@@ -98,16 +98,34 @@
                         <div class="row">
 
                         <div class="col-md-12">
+                        @if(auth()->user()->hasRole('admin'))
                         <div class="form-group">
-                          <label for="exampleInputBranch">Branches</label>
-                          <select class="select2  {!! $errors->first('branches', 'is-invalid') !!}" multiple="multiple" data-placeholder="Select a branch" style="width: 100%;" name="branches[]">
-                            @foreach($branches as $branch)
-                            <option value="{{$branch->id}}">{{$branch->name_en}}</option>
-                            @endforeach
-                          </select>
-                          {!! $errors->first('branches', '<p class="help-block">:message</p>') !!}
+                            <label for="exampleInputBranch">Branches</label>
+                            <select class="select2  {!! $errors->first('branches', 'is-invalid') !!}" multiple="multiple" data-placeholder="Select a branch" style="width: 100%;" name="branches[]">
+                              @foreach($branches as $branch)
+                              <option value="{{$branch->id}}">{{$branch->name_en}}</option>
+                              @endforeach
+                            </select>
+                            {!! $errors->first('branches', '<p class="help-block">:message</p>') !!}
+  
+                          </div>
 
-                        </div>
+                          @else
+                          {{-- <div class="form-group" style="display: none">
+                            <label for="exampleInputBranch">Branches</label>
+                            <select class="select2  {!! $errors->first('branches', 'is-invalid') !!}" multiple="multiple" data-placeholder="Select a branch" style="width: 100%;" name="branches[]" disabled>
+                              @foreach(auth()->user()->branches as $branch)
+                              <option value="{{$branch->id}}" selected>{{$branch->name_en}}</option>
+                              @endforeach
+                            </select>
+                            {!! $errors->first('branches', '<p class="help-block">:message</p>') !!}
+  
+                          </div> --}}
+                          @foreach(auth()->user()->branches as $branch)
+                          <input type="checkbox" value="{{$branch->id}}" name="branches[]" checked style="display: none" />
+                          @endforeach
+
+                        @endif
                       </div>
                         </div>
                         <div class="row">

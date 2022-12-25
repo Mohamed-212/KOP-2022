@@ -72,11 +72,15 @@
                                         @endif
                                         @endif
                                         <a href="{{ route('admin.offer.show', $offer->id) }}" class="btn btn-primary btn-circle btn-sm" title="Show"><i class="fa fa-globe"></i></a>
+                                        @php
+                                            $diff = $offer->branches->pluck('id')->diff(auth()->user()->branches->pluck('id'));
+                                            // dd($diff);
+                                        @endphp
                                         <a href="{{ route('admin.offer.edit', $offer->id) }}"
-                                            class="btn btn-primary btn-circle btn-sm" title="edit"><i
+                                            class="btn btn-primary btn-circle btn-sm" title="edit" style="{{$diff->count() > 0 ? 'display: none;' : ''}}"><i
                                                 class="fa fa-edit"></i></a>
                                         <a onclick="deleteOffer('{{ 'delete-offer-' . $offer->id }}')" href="#"
-                                            class="btn btn-danger btn-circle btn-sm" title="delete">
+                                            class="btn btn-danger btn-circle btn-sm" title="delete" style="{{$diff->count() > 0 ? 'display: none;' : ''}}">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                         <!-- Form Delete offer -->
