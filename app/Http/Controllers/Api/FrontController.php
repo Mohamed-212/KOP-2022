@@ -143,7 +143,7 @@ class FrontController extends BaseController
         }
     }
 
-    public function getHomeSections()
+    public function getHomeSections(Request $request)
     {
         $banner = Banner::all();
 
@@ -152,63 +152,65 @@ class FrontController extends BaseController
 
         // categories with items
         // $categories = Category::with('items','extras','withouts')->get();
-        $return = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories2())->getOriginalContent();
+        $return = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories($request))->getOriginalContent();
+
+        $categories = $return['data'];
 
         if($return['success'] == 'success'){
              $categories = $return['data'];
              foreach($categories as $category)
         {
-            $count=0;
-            foreach($category->items as $item)
-            {
-                if($count == 3)
-                {break;}
-                $item->category_name_ar= $category->name_ar;
-                $item->category_name_en= $category->name_en;
+            // $count=0;
+            // foreach($category->items as $item)
+            // {
+            //     if($count == 3)
+            //     {break;}
+            //     $item->category_name_ar= $category->name_ar;
+            //     $item->category_name_en= $category->name_en;
 
-                // $item->
+            //     // $item->
 
-                $item->extra = $category->extras;
-                $item->withouts = $category->withouts;
+            //     $item->extra = $category->extras;
+            //     $item->withouts = $category->withouts;
 
-                // get items offers
-                $offers = FacadesDB::table('offer_discount_items')->where('item_id', $item->id)->get();
+            //     // get items offers
+            //     $offers = FacadesDB::table('offer_discount_items')->where('item_id', $item->id)->get();
 
-                $parent_offer = null;
-                foreach ($offers as $offer) {
-                    $parent_offer = OfferDiscount::find($offer->offer_id);
+            //     $parent_offer = null;
+            //     foreach ($offers as $offer) {
+            //         $parent_offer = OfferDiscount::find($offer->offer_id);
 
 
-                    if ($parent_offer) {
+            //         if ($parent_offer) {
 
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
-                            $parent_offer = null;
-                        }
-                    }
+            //             if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+            //                 $parent_offer = null;
+            //             }
+            //         }
 
-                    if ($parent_offer)  break;
-                }
+            //         if ($parent_offer)  break;
+            //     }
 
                 
 
 
-                $item->offer = $parent_offer;
+            //     $item->offer = $parent_offer;
 
-                if ($parent_offer) {
-                    if ($parent_offer->discount_type == 1) {
-                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
-                        $item->offer->offer_price = $item->price - $disccountValue;
-                    } elseif ($parent_offer->discount_type == 2) {
-                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
-                    }
+            //     if ($parent_offer) {
+            //         if ($parent_offer->discount_type == 1) {
+            //             $disccountValue = $item->price * $parent_offer->discount_value / 100;
+            //             $item->offer->offer_price = $item->price - $disccountValue;
+            //         } elseif ($parent_offer->discount_type == 2) {
+            //             $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+            //         }
 
-                    unset($item->offer->offer);
-                }
+            //         unset($item->offer->offer);
+            //     }
 
-                // array_push($menu['dealItems'] , $item);
-                $count++;
-            }
-            $count=0;
+            //     // array_push($menu['dealItems'] , $item);
+            //     $count++;
+            // }
+            // $count=0;
         }
         } else {
             $categories = [];
