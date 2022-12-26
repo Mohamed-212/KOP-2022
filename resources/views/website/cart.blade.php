@@ -168,14 +168,15 @@
                                 </div>
                             </div>
                             <div class="col-4 col-lg-2">
-                                <div class="form-group stepper-type-2 quantity-up-{{ $cart->id }}">
+                                <div class="form-group stepper-type-2 quantity-up-{{ $cart->id }}" id="{{$cart->offer_id}}">
                                     <i class="fas fa-spinner fa-spin d-none"></i>
                                     @php
                                         $disalbleQty = false;
-                                        if ($cart->offer_id && !$cart->dough_type_ar) {
+                                        $offer = null;
+                                        if ($cart->offer_id) {
                                             $offer = \App\Models\Offer::find($cart->offer_id);
-                                            // dd($offer);
-                                            if ($offer->offer_type == 'buy-get') {
+                                            // dd(optional($offer));
+                                            if (optional($offer)->offer_type == 'buy-get') {
                                                 $disalbleQty = true;
                                             }
                                         }
@@ -204,11 +205,11 @@
                                         </p>
                                     @endif --}}
                                     <p >
-                                        @if ($cart->offer_id && $offer->offer_type != 'buy-get')
+                                        @if ($cart->offer_id && optional($offer)->offer_type != 'buy-get')
                                         <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
                                         @else
 
-                                        @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                        @if ($cart->offer_id && optional($offer)->offer_type == 'buy-get' && $cart->price == 0)
                                         <del>{{ $cart->item->price }} {{ __('general.SR') }}</del>
                                         @else
 
@@ -235,7 +236,7 @@
 
                                         </p>
                                     @endif --}}
-                                    @if ($cart->offer_id && $offer->offer_type != 'buy-get')
+                                    @if ($cart->offer_id && optional($offer)->offer_type != 'buy-get')
                                     <p>
 
                                         {{ $cart->price }}
@@ -243,7 +244,7 @@
                                     </p>
                                     @endif
 
-                                    @if ($cart->offer_id && $offer->offer_type == 'buy-get' && $cart->price == 0)
+                                    @if ($cart->offer_id && optional($offer)->offer_type == 'buy-get' && $cart->price == 0)
                                     <p>
 
                                         {{ $cart->price }}

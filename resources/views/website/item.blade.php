@@ -262,9 +262,9 @@ content: "\f068" !important;
                             value="{{ $item['offer'] ? round($item['offer']['offer_price'], 2) : '' }}">
                     @endif
                     {{-- <input type="hidden" name="item_id" value="{{ $item['id'] }}"> --}}
-                    @unless ($item->offer && $item->offer->offer_id)
+                    {{-- @unless ($item->offer && $item->offer->offer_id) --}}
                     <input type='hidden' name='add_items' x-bind:value="getItems" />
-                    @endunless
+                    {{-- @endunless --}}
                     <input type='hidden' name='quantity' x-bind:value="items.length" />
                     <div class="row">
                         <div class="col-md-6 sm-padding product-details-wrap">
@@ -418,16 +418,9 @@ content: "\f068" !important;
 
         @php
             $hideMe = false;
-            if ($item->offer) {
-                $offer = \App\Models\Offer::find($item->offer->offer_id);
-                if ($offer) {
-                    if ($offer->offer_type == 'discount') {
-                        $hideMe = true;
-                    }
-                }
-            }
+            
         @endphp
-        <section class="items p-2" style="{{$hideMe ? 'display: none' : ''}}">
+        <section class="items p-2">
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <template x-for="(item, sinx) in items" :key="item.uid">
 

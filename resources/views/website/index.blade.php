@@ -256,6 +256,12 @@
         </div><!-- slider-section -->
 
         <section class="promo-section bg-grey padding">
+            <style>
+                .food-item:hover {
+                    cursor: pointer;
+                }
+            </style>
+
             <div class="bg-shape white"></div>
             <div class="container">
                 <div class="section-heading mb-30 text-center wow fadeInUp" data-wow-delay="200ms">

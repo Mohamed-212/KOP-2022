@@ -146,6 +146,7 @@ class ServiceController extends Controller
             
             session(['branch_id' => $return['data']['id']]);
             session(['service_type' => $service_type]);
+            // dd($return);
             if ($service_type == 'delivery') {
                 session(['address_id' => $id]);
                 $address = Address::findOrFail($id);
