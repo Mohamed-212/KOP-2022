@@ -433,7 +433,7 @@ return [
     'insta' => 'Instagram',
     'share' => 'Share',
     'only' => 'only',
-    'no_multible_offers' => 'Sorry you can Add Only One Offer',
+    'no_multible_offers' => 'Sorry you can Add Only One type of Offers',
     'first_discount' => 'First Offer Discount',
     'confirm_btn' => 'Confirm',
     'confirm_online_mess' => 'Do you want to use online payment option',
@@ -453,4 +453,5 @@ return [
     'Valid' => 'Valid',
     'in Valid' => 'In Valid',
     'rejected' => 'Rejected',
+    'Order Now2' => 'Add to Cart',
 ];

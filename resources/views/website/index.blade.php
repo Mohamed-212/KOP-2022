@@ -396,10 +396,10 @@
                 @endif
                         @if ($c == $dealItem->category_id)
                             <div style="cursor: pointer;"
-                                class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}">
+                                class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}"  onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
                             @else
                                 <div class="col-lg-4 col-md-6 padding-15 isotop-grid {{ $dealItem->category_id }}"
-                                    style="display:none;">
+                                    style="display:none;"  onclick="location.href='{{ url('item/' . $dealItem->category_id . '/' . $dealItem->id) }}';">
                         @endif
                         <div class="product-item " style="cursor: pointer;">
                             @if ($dealItem->website_is_out_of_stock)
@@ -409,7 +409,10 @@
                                     @endif
                             <div class="product-thumb">
                                 <img loading="lazy" data-lazy="true"  src="{{ asset($dealItem->website_image) }}" alt="food"
-                                    style="height: 300px;width:300px;border-radius: 100%;margin-top: -4rem;">
+                                    style="    height: 270px;
+                                    width: 270px;
+                                    border-radius: 100%;
+                                    margin-top: -2rem;">
                                 <form id="addToCard" action="{{ route('add.cart') }}" method="POST">
                                     @csrf
                                     @if ($dealItem->offer)
@@ -419,15 +422,13 @@
                                             value="{{ $dealItem->offer ? round($dealItem->offer->offer_price, 2) : '' }}">
                                     @endif
                                     {{-- <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}"> --}}
-                                    @unless ($dealItem->offer && $dealItem->offer->offer_id)
-                                            <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />                                                
-                                        @endunless
+                                    <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
                                     <input type='hidden' name='quantity' value="1" />
 
                                     @if ($dealItem->website_is_out_of_stock)
                                         <div><button data-target="#stockouterr" data-bs-toggle="modal"
                                             data-bs-target="#stockouterr" type="button"
-                                                class="order-btn">@lang('general.Order Now')</button></div>
+                                                class="order-btn">@lang('general.Order Now2')</button></div>
                                             @else
                                     <div>
                                         @auth
@@ -435,19 +436,19 @@
                                                 @if (isset($cartHasOffers) && $cartHasOffers && $dealItem->offer)
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#offersMultibleInOneOrder" type="button"
-                                                        class="order-btn">@lang('general.Order Now')</button>
+                                                        class="order-btn">@lang('general.Order Now2')</button>
                                                 @else
                                                 <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}">
                                                 <button type="submit"
-                                                        class="order-btn cart">@lang('general.Order Now')</button>
+                                                        class="order-btn cart">@lang('general.Order Now2')</button>
                                                 @endif
                                             @else
                                                 <button data-target="#service-modal" data-bs-toggle="modal"
                                                     data-bs-target="#service-modal" type="button"
-                                                    class="order-btn">@lang('general.Order Now')</button>
+                                                    class="order-btn">@lang('general.Order Now2')</button>
                                             @endif
                                         @else
-                                            <button type="submit" class="order-btn">@lang('general.Order Now')</button>
+                                            <button type="submit" class="order-btn">@lang('general.Order Now2')</button>
                                         @endauth
                                         {{-- <button
                                             @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" 

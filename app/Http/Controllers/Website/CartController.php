@@ -10,6 +10,9 @@ use App\Models\Offer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Category;
+use App\Models\DoughType;
+use App\Models\Item;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Traits\GeneralTrait;
@@ -52,6 +55,20 @@ class CartController extends Controller
                 $newRequest->merge(['offer_price' => $request->offer_price ? $request->offer_price : null]);
                 $newRequest->merge(['quantity' => (isset($item->quantity)) ? $item->quantity : 1]);
 
+                // dd($item['dough_type'][1]);
+
+                if (isset($item['dough_type']) && isset($item['dough_type'][1])) {
+                    // $dough_type = explode(',', $item['dough_type'][1]);
+                    $request->merge([
+                        'dough_type_ar' => $item['dough_type'][1]['name_ar'],
+                    ]);
+                    $request->merge([
+                        'dough_type_en' => $item['dough_type'][1]['name_en'],
+                    ]);
+                }
+
+                // dd(isset($item['dough_type']) && isset($item['dough_type'][1]), $request->all());
+
                 if (isset($item->dough)) {
                     $dough = explode(',', $item->dough);
                     $request->merge([
@@ -85,7 +102,7 @@ class CartController extends Controller
                 //     'offer_price' =>  $request->offer_price,
                 // ]);
 
-                if ($request->offer_id && $cartHasOffers) continue;
+                // if ($request->offer_id && $cartHasOffers) continue;
 
                 $cart = Cart::create([
                     'user_id' =>  Auth::user()->id,
@@ -113,6 +130,18 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => $request->offer_price[$index]]);
                 $newRequest->merge(['quantity' => $request->quantity]);
+                $i = Item::find($newRequest->item_id);
+                if ($i) {
+                    $c = Category::find($i->category_id);
+                    if ($c) {
+                        $d = DoughType::where('dough_type_id', $c->dough_type_id)->latest('id')->get()->first();
+                        if ($d) {
+                            $newRequest->merge(['dough_type_ar' => $d->name_ar, 'dough_type_en' => $d->name_en]);
+                        }
+                    }
+                }
+                
+                // dd($d);
                 if ($newRequest->offer_id && $cartHasOffers) continue;
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }
@@ -122,6 +151,16 @@ class CartController extends Controller
                 $newRequest->merge(['offer_id' => $request->offer_id]);
                 $newRequest->merge(['offer_price' => 0]);
                 $newRequest->merge(['quantity' => $request->quantity]);
+                $i = Item::find($newRequest->item_id);
+                if ($i) {
+                    $c = Category::find($i->category_id);
+                    if ($c) {
+                        $d = DoughType::where('dough_type_id', $c->dough_type_id)->latest('id')->get()->first();
+                        if ($d) {
+                            $newRequest->merge(['dough_type_ar' => $d->name_ar, 'dough_type_en' => $d->name_en]);
+                        }
+                    }
+                }
                 if ($newRequest->offer_id && $cartHasOffers) continue;
                 (app(\App\Http\Controllers\Api\CartController::class)->addCart($newRequest))->getOriginalContent();
             }

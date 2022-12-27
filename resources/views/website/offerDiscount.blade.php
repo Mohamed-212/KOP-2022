@@ -37,6 +37,7 @@
                                                             <input type="hidden" name="quantity" value="{{$offers['details']['quantity']}}">
                                                             <input type="hidden" name="offer_id" value="{{$offers['details']['offer_id']}}">
                                                             <input type="hidden" name="offer_price" value="{{round($item['offer_price'], 2)}}">
+                                                            <input type='hidden' name='add_items[]' value="{{ $item }}" />
                                                             <div class="gold-members p-3 border-bottom">
                                                                 <div class="media d-flex">
                                                                     <div class="mr-3 col-3" style="height: 150px;width: 150px;">

@@ -15,6 +15,17 @@ class ServiceController extends Controller
     /* show all branches with its working hours */
     public function takeawayPage()
     {
+        //  dd(session()->all());
+
+        if(!session()->has('url.service'))
+        {
+            session(['url.service' => url()->previous()]);
+        }
+
+        // session()->forget('branch_id');
+       
+        // session()->forget('url.service');
+
 
         $branches = Branch::with(['city', 'area', 'deliveryAreas', 'workingDays'])->get();
 
@@ -88,9 +99,9 @@ class ServiceController extends Controller
 
             auth()->user()->carts()->delete();
 
-            return redirect()->route('menu.page');
+            return redirect(session('url.service'));
             // if (auth()->user()->carts()->get()->count() > 0) {
-            //     return redirect()->route('menu.page');
+            //     return redirect(session('url.service'));
             //     // return back();
             // }
             // return redirect()->intended();
@@ -109,7 +120,6 @@ class ServiceController extends Controller
     /* choose delivery(takeaway) branch or delivery address  */
     public function takeawayBranch($id, $service_type)
     {
-
         $request = new Request();
         if ($service_type == 'takeaway') {
             $request->merge(['branch_id' => $id]);
@@ -161,10 +171,10 @@ class ServiceController extends Controller
                 
             }
             session()->forget('status');
-            return redirect()->route('menu.page');
+            return redirect(session('url.service'));
             // if (auth()->user()->carts()->get()->count() > 0) {
-            //     return redirect()->route('menu.page');
-            //     // return back();
+            //     return redirect(session('url.service'));
+            //     // return redirect(session('url.service'));
             // }
             // return redirect()->intended();
         }

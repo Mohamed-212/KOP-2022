@@ -136,6 +136,11 @@
             $('.buyBtnAdd').click(function (e) {
                
                 e.preventDefault();
+                @if($cartHasOffers)
+                    const myModalAlternative = new bootstrap.Modal('#offersMultibleInOneOrder');
+                    myModalAlternative.show();
+                    return;
+                    @endif
                 let selectele = $(this);
                 if(buy_quantity_counter < buy_quantity){
                    
@@ -176,6 +181,11 @@
 
             $('.getBtnAdd').click(function (e) {
                 e.preventDefault();
+                @if($cartHasOffers)
+                    const myModalAlternative = new bootstrap.Modal('#offersMultibleInOneOrder');
+                    myModalAlternative.show();
+                    return;
+                    @endif
                 let selectele = $(this);
                 if(get_quantity_counter < get_quantity){
                     if(selectele.text() == "{{__('general.Buy')}}"){

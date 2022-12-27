@@ -454,7 +454,7 @@ return [
 'insta' => 'إنستجرام',
 'share' => 'مشاركة',
 'only' => 'فقط',
-'no_multible_offers' => 'عذراً يمكنك إستخدام عرض واحد فقط',
+'no_multible_offers' => 'عذرا ، يمكنك إضافة نوع واحد فقط من العروض',
 'first_discount' => 'خصم  اول عرض',
 'We can\'t find a user with that e-mail address.' => 'لا يمكننا العثور على مستخدم بعنوان البريد الإلكتروني هذا.',
 'invalid email address' => 'عنوان البريد الإلكتروني غير صحيح',
@@ -471,4 +471,5 @@ return [
 'Valid' => 'صالحة',
 'in Valid' => 'غير صالحة',
 'rejected' => 'مرفوض',
+'Order Now2' => 'أضف إلى السلة',
 ];
