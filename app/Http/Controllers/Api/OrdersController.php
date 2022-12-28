@@ -1170,13 +1170,16 @@ class OrdersController extends BaseController
             return redirect()->route('payment');
         }
 
-        $testMessage = ' (Test Environment)';
+        // $testMessage = ' (Test Environment)';
 
-        if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage") {
+        // if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage") {
+            
+
+        if ($request->status == 'initiated') {
 
             $payment = \Moyasar\Facades\Payment::fetch($request->id);
 
-            abort_if($payment->status !== 'paid' || $payment->amount !== (int)$paymentId->total_paid, 404);
+            abort_if($payment->status !== 'paid' || ($payment->amount * 100) !== (int)$paymentId->total_paid, 404);
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');
