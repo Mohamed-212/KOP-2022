@@ -58,7 +58,8 @@
                                     <th>#ID</th>
                                     <th>Payment Id</th>
                                     <th>Order Id</th>
-                                    <th>Customer Id</th>
+                                    <th>Status</th>
+                                    <th>Customer</th>
                                     <th>Total Paid</th>
                                 </tr>
                             </thead>
@@ -72,7 +73,7 @@
                                             </a>
                                         </td>
                                         <td>{{ ($py->order)?$py->order->id:'' }}</td>
-                                        
+                                        <td>{{ $py->status }}</td>
                                         <td>
                                         <a href="{{route('admin.customer.show' , $py->customer->id)}}">
                                             {{ $py->customer->name }}
