@@ -584,6 +584,7 @@ class OrdersController extends Controller
             'description_box' => $request->description,
             'offer_value' => (float)$request->discount,
             'is_first_order' => $firstDiscount,
+            'total_before_discount' => $request->total_before_discount,
         ];
 
         $order = Order::create($orderData);
@@ -667,7 +668,7 @@ class OrdersController extends Controller
                 'dough_type_en' => ($item['dough_type_en']) ? $item['dough_type_en'] : null,
                 'price' => $itemPrice,
                 'pure_price' => $orderItem->price,
-                'offer_price' => ($item['offer_price'] && $item['offer_price'] != null) ? $itemOfferPrice : null, // TODO: Remove price
+                'offer_price' => ($item['offer_price'] && $item['offer_price'] != null) ? $item['offer_price'] : null, // TODO: Remove price
                 'offer_id' => optional($offer)->id,
                 'offer_last_updated_at' => optional($offer)->updated_at, //??
                 'quantity' => ($item['quantity']) ? $item['quantity'] : 1

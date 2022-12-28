@@ -81,6 +81,29 @@
                     </div>
                     @endif
                     
+                    @if($category->dough_type_2_id == 0)
+                    @elseif($category->dough_type_2_id == 1)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="dough_type_2_id">Dough Type 2</label>
+                                <input readonly type="text" class="form-control" id="exampleInputEnglishName"
+                        placeholder="Enter English Name" name="dough_type_2_id" value="(Borr - بر, normal - عادي)">
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="dough_type_2_id">Dough Type 2</label>
+                                <input readonly type="text" class="form-control" id="exampleInputEnglishName"
+                        placeholder="Enter English Name" name="dough_type_2_id" value="(Thick - سميكة, Thin - رقيقة)">
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

@@ -245,6 +245,7 @@ class OrdersController extends BaseController
             'description_box' => $request->description,
             'payment_type' => $request->payment_type,
             'is_first_order' => $count == 0,
+            'total_before_discount' => $request->total_before_discount,
         ];
 
         $order = Order::create($orderData);
@@ -369,7 +370,7 @@ class OrdersController extends BaseController
                 'dough_type_2_en' => array_key_exists('dough_type_2_en', $item) && isset($item['dough_type_2_en'][0]) ? $item['dough_type_2_en'][0] : null,
                 'price' => $itemPrice,
                 'pure_price' => $orderItem->price,
-                'offer_price' => array_key_exists('offer_price', $item) ? $itemOfferPrice : null, // TODO: Remove price
+                'offer_price' => array_key_exists('offer_price', $item) ? $item['offer_price'] : null, // TODO: Remove price
                 'offer_id' => optional($offer)->id,
                 'offer_last_updated_at' => optional($offer)->updated_at,
                 'quantity' => array_key_exists('quantity', $item) ? $item['quantity'] : 1,

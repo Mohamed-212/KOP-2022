@@ -24,10 +24,10 @@ class PaymentController extends BaseController
 
         $user = User::findOrFail($id);
 
-        session(['payment_hash' => $hash]);
-        session(['user_id' => $user->id]);
-        session(['payment_amount' => $amount]);
-
+        session()->put('payment_hash', $hash);
+        session()->put('user_id', $user->id);
+        session()->put('payment_amount', $amount);
+        session()->save();
         return view('website.payment', compact('user', 'amount'));
     }
 

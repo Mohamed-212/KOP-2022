@@ -105,7 +105,7 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" name="dough_type{{$loop->index > 0 ? '_2' : ''}}_id" type="checkbox"
                                                     value="{{ $doughGroup->first()->dough_type_id }}"
-                                                    id="flexCheckDefault{{ $doughGroup->first()->dough_type_id }}" @if($category->dough_type_id === $doughGroup->first()->dough_type_id) checked @endif>
+                                                    id="flexCheckDefault{{ $doughGroup->first()->dough_type_id }}" @if($category->dough_type_id === $doughGroup->first()->dough_type_id) checked @endif @if($category->dough_type_2_id === $doughGroup->first()->dough_type_id) checked @endif>
                                                 <label class="form-check-label"
                                                     for="flexCheckDefault{{ $doughGroup->first()->dough_type_id }}">
                                                     ({{ $doughGroup->first()->name_en }} -

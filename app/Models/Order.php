@@ -32,7 +32,8 @@ class Order extends Model
         'description_box',
         'payment_type',
         'is_first_order',
-        'first_order_status'
+        'first_order_status',
+        'total_before_discount'
     ];
 
     protected $casts = [
