@@ -159,7 +159,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-danger w-75 mx-auto">
-                            {{ __('general.' . session('error')) }}
+                            {{-- {{ __('general.' . session('error')) }} --}}
+                            {{ session('error') }}
                         </div>
                     </div>
                 </div>
