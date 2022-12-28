@@ -159,11 +159,11 @@ class OrdersController extends Controller
         // $testMessage = ' (Test Environment)';
 
         // if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage" && session('checkOut_details')) {
-        if ($request->status == 'initiated' && session('checkOut_details')) {
+        if ($request->status == "paid" && $request->message == "APPROVED" && session('checkOut_details')) {
 
             $payment = \Moyasar\Facades\Payment::fetch($request->id);
 
-            abort_if($payment->status !== 'paid' || ($payment->amount * 100) !== (int)$paymentId->total_paid, 404);
+            abort_if($payment->status !== 'paid' || $payment->amount !== $paymentId->total_paid, 404);
 
             // $payment = $paymentId;
 

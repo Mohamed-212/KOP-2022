@@ -1174,15 +1174,15 @@ class OrdersController extends BaseController
 
         // if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage") {
             
-
-        if ($request->status == 'initiated') {
+        if ($request->status == "paid" && $request->message == "APPROVED") {
 
             $payment = \Moyasar\Facades\Payment::fetch($request->id);
 
-            abort_if($payment->status !== 'paid' || ($payment->amount * 100) !== (int)$paymentId->total_paid, 404);
+            abort_if($payment->status != "paid" || $payment->amount !== $paymentId->total_paid, 404);
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');
+            session()->save();
             // session(['payment' => $paymentId->toArray()]);
             $paymentId->status = $request->status;
             $paymentId->message = $request->message;
