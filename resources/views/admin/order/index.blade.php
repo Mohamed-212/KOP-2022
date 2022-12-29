@@ -26,7 +26,7 @@
 
                                 <div class="form-group">
                                     <select name="order_from"  class="form-control" id="">
-                                        @foreach(['website', 'mobile'] as $from)
+                                        @foreach(['all','website', 'mobile'] as $from)
                                             <option value="{{ $from }}">{{ $from }}</option>
                                         @endforeach
                                     </select>

@@ -79,6 +79,7 @@
                                         <a href="{{ route('admin.offer.edit', $offer->id) }}"
                                             class="btn btn-primary btn-circle btn-sm" title="edit" style="{{$diff->count() > 0 ? 'display: none;' : ''}}"><i
                                                 class="fa fa-edit"></i></a>
+                                        @if (auth()->user()->hasRole('admin'))
                                         <a onclick="deleteOffer('{{ 'delete-offer-' . $offer->id }}')" href="#"
                                             class="btn btn-danger btn-circle btn-sm" title="delete" style="{{$diff->count() > 0 ? 'display: none;' : ''}}">
                                             <i class="fas fa-trash"></i>
@@ -90,6 +91,7 @@
                                             @method('DELETE')
                                         </form>
                                         <!-- End Delete offer -->
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

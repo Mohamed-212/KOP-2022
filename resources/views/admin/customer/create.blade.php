@@ -97,7 +97,7 @@
                                         <label for="exampleInputFirstPhone">Primary Phone</label>
                                         <input type="text" class="form-control" id="exampleInputFirstPhone"
                                                placeholder="Enter First Phone" required value="{{old('first_phone')}}"
-                                               name="first_phone">
+                                               name="first_phone" maxlength="12">
                                         @error('first_phone')
                                         <div class="help-block">{{ $message }}</div>
                                         @enderror
@@ -107,7 +107,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputSecondPhone">Secondary Phone</label>
                                         <input type="text" class="form-control" id="exampleInputSecondPhone"
-                                               placeholder="Enter Second Phone" name="second_phone">
+                                               placeholder="Enter Second Phone" name="second_phone" maxlength="12">
                                         @error('second_phone')
                                         <div class="help-block">{{ $message }}</div>
                                         @enderror
