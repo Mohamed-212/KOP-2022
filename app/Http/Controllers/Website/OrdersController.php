@@ -52,10 +52,15 @@ class OrdersController extends Controller
             ]);
         }
 
+        // dd('ww');
+
         $return = $this->store_order($request);
 
 
+
         if ($return['success'] == true) {
+            
+
             foreach ($items as $item) {
                 $item->delete();
             }
@@ -511,6 +516,8 @@ class OrdersController extends Controller
         // get customer information
         $customer = User::where('id', auth()->id())->first();
 
+        // dd($customer);
+
         $branch_id = 0;
         if ($request->service_type == 'delivery') {
 
@@ -635,18 +642,46 @@ class OrdersController extends Controller
         }
 
         $subtotal = 0;
+        // dd($request->items);
+        // $items = [];
+        // // dd($items);
+        // $x = 0;
+        // foreach ($request->items as $i) {
+        //     if ($x > 2) {
+        //         $items[] = $i;
+        //     }
+            
+        //     $x++;
+        // }
+
+        // dd($items);
+
+
         foreach ($request->items as $item) {
 
-            $orderItem = Item::where('id', $item['item_id'])->first();
+            
+                $orderItem = Item::where('id', $item['item_id'])->first();
             $orderItemExtras = null;
+           
+            // if ("[]")
+
             if ($item['extras']) {
+                if ($item['extras'] == "[]" || !is_array($item['extras'])) {
+                    $item['extras'] = [0];
+                }
                 $orderItemExtras = Extra::whereIn('id', $item['extras'])->get();
             }
 
             $orderItemWithouts = null;
             if ($item['withouts']) {
+                if ($item['withouts'] == "[]" || !is_array($item['withouts'])) {
+                    $item['withouts'] = [0];
+                }
                 $orderItemWithouts = Without::whereIn('id', $item['withouts'])->get();
             }
+
+
+            // dd($item);
 
 
             // check if there is offer price
@@ -665,6 +700,8 @@ class OrdersController extends Controller
                 $itemPrice = round($orderItem->price, 2) + $extras;
             }
 
+            
+
             $subtotal = $subtotal + $itemPrice;
             $offer = Offer::find((isset($item['offerId']) && $item['offerId'] != null) ? $item['offerId'] : 0);
             $order->items()->attach($item['item_id'], [
@@ -679,7 +716,11 @@ class OrdersController extends Controller
                 'offer_last_updated_at' => optional($offer)->updated_at, //??
                 'quantity' => ($item['quantity']) ? $item['quantity'] : 1
             ]);
+            
+            
+
         }
+        
 
         return (app(ApiOrdersController::class)->sendResponse($order,  __('general.Order created successfully!')))->getOriginalContent();
 
