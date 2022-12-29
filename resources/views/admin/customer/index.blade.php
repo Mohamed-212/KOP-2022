@@ -18,6 +18,42 @@
   <section class="content">
     <div class="container-fluid">
       <div class="card-body">
+        <form method="get">
+          <div class="row">
+            <div class="col-md-5" style="display: none">
+                <div class="form-group">
+                  <label>Search</label>
+                  <input type="text" class="form-control" name="search" value="{{ request('search') }}">
+                </div>
+              </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>From</label>
+                <input type="date" class="form-control" name="from" value="{{ request('from') }}">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>To</label>
+                <input type="date" class="form-control" name="to" value="{{ request('to') }}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group">
+                <label class="form-label" style="width: 100%;"></label>
+                <div class="input-group pull-right">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 6px; height: 35px;width: 80%;">Go</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="card-body">
         <table class="table table-bordered table-striped dataTable">
           <thead>
             <tr>
@@ -27,6 +63,7 @@
                 <th>Mobile</th>
                 <th>City</th>
                 <th>Area</th>
+                <th>Registered At</th>
                 <th>Actions</th>
             </tr>
           </thead>
@@ -43,6 +80,7 @@
                 <th>{{ $customer->first_phone }}</th>
                 <th>{{ $customer->addresses->first()->city->name_en ?? "" }}</th>
                 <th>{{ $customer->addresses->first()->area->name_en ?? "" }}</th>
+                <th>{{$customer->created_at}}</th>
                 <td style="padding: 0;text-align: center;">
                   <a href="{{ route('admin.customer.edit', $customer->id) }}" class="btn btn-primary btn-circle btn-sm" title="edit"><i class="fa fa-edit"></i></a>
                   <a onclick="deleteCustomer('{{ 'delete-customer-' . $customer->id }}')" href="#" class="btn btn-danger btn-circle btn-sm" title="delete"><i class="fas fa-trash"></i></a>

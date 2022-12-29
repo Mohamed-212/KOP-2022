@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Filters\CustomerFilter;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,11 +26,11 @@ class CustomerController extends Controller
 
     use LogfileTrait;
 
-    public function index()
+    public function index(Request $request, CustomerFilter $filters)
     {
         $customers = User::whereHas('roles', function ($role) {
             $role->where('name', 'customer');
-        })->orderBy('id', 'DESC')->get();
+        })->filter($filters)->orderBy('id', 'DESC')->get();
         $this->Make_Log('App\Models\User','view',0);
         return view('admin.customer.index', compact('customers'));
     }
