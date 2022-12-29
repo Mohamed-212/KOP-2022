@@ -92,7 +92,7 @@
                                 <label for="exampleInputBranch">Branches</label>
                                 <select class="select2  {!! $errors->first('branches', 'is-invalid') !!}"
                                         multiple="multiple" data-placeholder="Select a branch"
-                                        style="width: 100%;" @if($diff->count() > 0) disabled="true" @else name="branches[] @endif>
+                                        style="width: 100%;" @if($diff->count() > 0) disabled="true" @else name="branches[]" @endif>
                                     @foreach($branches as $branch)
                                         <option value="{{$branch->id}}"
                                                  @if($offer->branches->contains($branch->id)) selected @endif>{{$branch->name_en}}</option>
