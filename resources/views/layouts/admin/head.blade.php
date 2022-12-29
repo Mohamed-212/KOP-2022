@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
 <link rel="stylesheet" href="{{ asset('admin-assets/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin-assets/css/jquery.dataTables.min.css') }}">
-<link rel="stylesheet" href="http://cdn.datatables.net/plug-ins/28e7751dbec/integration/jqueryui/dataTables.jqueryui.css">
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/28e7751dbec/integration/jqueryui/dataTables.jqueryui.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.0/css/jquery.dataTables_themeroller.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="{{ asset('admin-assets/css/icheck-bootstrap.min.css') }}">

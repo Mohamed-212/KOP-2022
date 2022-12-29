@@ -84,7 +84,11 @@ class OffersController extends Controller
                  }
                  $start = Carbon::createFromTimeString(substr($off->date_from, 11));
                  $end = Carbon::createFromTimeString(substr($off->date_to, 11));
-                 // dd($start, $end);
+
+                //  dd(now());
+
+
+                //  dd($start, $end, Carbon::now()->between($start, $end));
                  if (!Carbon::now()->between($start, $end)) {
                      continue;
                  }

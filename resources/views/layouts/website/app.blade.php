@@ -194,6 +194,26 @@
             </div>
         </div>
 
+        <div class="modal fade" id="offDateErr" tabindex="-1" aria-labelledby="offDateErrLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="offDateErrLabel">{{ __('general.warning') }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger text-center">
+                            {{ __('general.no_time_offers') }} <span id="df55" dir="ltr">00:00 am</span> {{ __('general.off_to') }} <span id="dt55"  dir="ltr">00:00 pm</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{__('general.close')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="cartempty" tabindex="-1" aria-labelledby="cartemptyLabel"
             aria-hidden="true">
             <div class="modal-dialog">

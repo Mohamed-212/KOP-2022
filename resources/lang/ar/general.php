@@ -472,4 +472,6 @@ return [
 'in Valid' => 'غير صالحة',
 'rejected' => 'مرفوض',
 'Order Now2' => 'أضف إلى السلة',
+'no_time_offers' => 'هذا العرض ساري فقط من ',
+'off_to' => ' إلى ',
 ];

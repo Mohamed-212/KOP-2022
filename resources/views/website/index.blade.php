@@ -307,7 +307,7 @@
 
         <div id="main-slider1" dir="ltr">
             @foreach ($menu['main_offer'] as $main_offer)
-                <div>
+                <div data-err="{{$main_offer->show_error_time ? 'wwwwww' : 'eeeee'}}">
                     <section class="about-section padding">
                         <div class="bg-shape grey"></div>
                         <div class="container" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
@@ -351,10 +351,14 @@
                                             <li><i class="fas fa-check"></i>{!! __('home.desc3') !!}</li>
                                             <li><i class="fas fa-check"></i>{!! __('home.desc4') !!}</li>
                                         </ul>
-
+                                        
+                                        @if($main_offer->show_error_time)
+                                            <button type="button" class="default-btn cart" id="off55" data-df="{{date('H:i a', strtotime($main_offer->date_from))}}" data-dt="{{date('H:i a', strtotime($main_offer->date_to))}}">@lang('general.Order Now') <span></span></button>
+                                        @else
                                         <a @auth @if (!session()->has('branch_id')) data-toggle="modal" data-target="#service-modal" @endif @endauth
                                             href="{{ route('offer.item', $main_offer->id) }}"
                                             class="default-btn cart">@lang('general.Order Now') <span></span></a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -364,6 +368,8 @@
                 </div>
             @endforeach
         </div>
+
+
 
         <section class="food-menu bg-grey padding">
             <div class="container">
@@ -676,6 +682,20 @@
                     slidesToShow: 1,
                     adaptiveHeight: true,
                     rtl: false
+                });
+
+                $(document).on('click', '#off55',function() {
+                    const myModal = new bootstrap.Modal(document.getElementById('offDateErr'));
+
+                    var df = $(this).attr('data-df');
+                    var dt = $(this).attr('data-dt');
+
+                    // alert(df, dt);
+
+                    $('#df55').text(df);
+                    $('#dt55').text(dt);
+
+                    myModal.show();
                 });
             });
         </script>

@@ -380,7 +380,7 @@ content: "\f068" !important;
                                                     allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                                             </li> --}}
                                             <li>
-                                                <a href="http://www.facebook.com/share.php?u={{ route('item.page', [$item->category_id, $item->id]) }}"
+                                                <a href="https://www.facebook.com/share.php?u={{ route('item.page', [$item->category_id, $item->id]) }}"
                                                     class="fb mx-1" title="Join us on Facebook"
                                                     style="background-color: #3B5998 !important;">
                                                     <i class="fab fa-facebook-f" aria-hidden="true"></i>

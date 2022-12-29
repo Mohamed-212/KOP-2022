@@ -233,7 +233,7 @@ class FrontController extends BaseController
             }
             $start = Carbon::createFromTimeString(substr($off->date_from, 11));
             $end = Carbon::createFromTimeString(substr($off->date_to, 11));
-            // dd($start, $end);
+            // dump($start, $end);
             if (!Carbon::now()->between($start, $end)) {
                 continue;
             }

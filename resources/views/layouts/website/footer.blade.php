@@ -8,7 +8,7 @@
                     <div class="footer-widget">
                         <div class="row d-flex align-items-center justify-content-between">
                             <div class="col-6 p-0 m-0">
-                                <a class="logo" href="{{route('home.page')}}"><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/logokop.png')}}" alt="img"></a>
+                                <a class="logo" href="{{route('home.page')}}" style=""><img loading="lazy" data-lazy="true"  src="{{asset('website-assets/img/logokop.png')}}" alt="img" style="margin-top: -57px;"></a>
                             </div>
                             <div class="col-6 p-0 m-0">
                                 <span style="max-width: 100%">
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         
-                        <ul class="footer-social">
+                        <ul class="footer-social" style="margin-top: -50px;">
                             <li><a style ="background-color: #3B5998 !important;" target="_blank" href="https://www.facebook.com/groups/1324000870991750/?ref=share"><i class="fab fa-facebook"></i></a></li>
                             <li><a style ="background-color: #1da1f2 !important;" target="_blank" href="https://twitter.com/kingdomof_p?s=21&t=8gPTwTI5Ao33PFBlqOYatQ"><i class="fab fa-twitter"></i></a></li>
                             <li><a style ="  background: #f09433; 

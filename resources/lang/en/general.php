@@ -454,4 +454,6 @@ return [
     'in Valid' => 'In Valid',
     'rejected' => 'Rejected',
     'Order Now2' => 'Add to Cart',
+    'no_time_offers' => 'Offer is Valid  only from ',
+    'off_to' => 'to ',
 ];

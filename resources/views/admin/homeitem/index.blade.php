@@ -50,10 +50,10 @@
                                             class="btn btn-primary btn-circle btn-sm" title="edit"><i
                                                 class="fa fa-edit"></i></a>
 
-                                        <a onclick="deleteCategory('{{ 'delete-item-' . $homeitem->id }}')" href="#"
+                                        {{-- <a onclick="deleteCategory('{{ 'delete-item-' . $homeitem->id }}')" href="#"
                                             class="btn btn-danger btn-circle btn-sm" title="delete">
                                             <i class="fas fa-trash"></i>
-                                        </a>
+                                        </a> --}}
 
                                         <form action="{{ route('admin.homeitem.destroy', $homeitem->id) }}" method="POST"
                                             id="{{ 'delete-item-' . $homeitem->id }}">
