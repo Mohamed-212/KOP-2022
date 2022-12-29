@@ -44,9 +44,12 @@ class Cart extends Model
         $objects = [];
         //return $objects= json_decode($this->attributes['extras']);
         if (isset($this->attributes['extras']) && $this->attributes['extras'] != 'null' && is_string($this->attributes['extras'])) {
-            foreach (json_decode($this->attributes['extras']) as $extra) {
-                $extra = Extra::find($extra);
-                if ($extra) $objects[] = $extra;
+            $ex = json_decode($this->attributes['extras']);
+            if (is_iterable($ex)) {
+                foreach ($ex as $extra) {
+                    $extra = Extra::find($extra);
+                    if ($extra) $objects[] = $extra;
+                }
             }
         }
 
@@ -62,9 +65,12 @@ class Cart extends Model
         $objects = [];
         //return $objects = json_decode($this->attributes['withouts']);
         if (isset($this->attributes['withouts']) && $this->attributes['withouts'] != 'null' && is_string($this->attributes['withouts'])) {
-            foreach (json_decode($this->attributes['withouts']) as $without) {
-                $without = Without::find($without);
-                if ($without) $objects[] = $without;
+            $ex = json_decode($this->attributes['withouts']);
+            if (is_iterable($ex)) {
+                foreach ($ex as $without) {
+                    $without = Without::find($without);
+                    if ($without) $objects[] = $without;
+                }
             }
         }
 

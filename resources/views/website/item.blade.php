@@ -263,7 +263,8 @@ content: "\f068" !important;
                     @endif
                     {{-- <input type="hidden" name="item_id" value="{{ $item['id'] }}"> --}}
                     {{-- @unless ($item->offer && $item->offer->offer_id) --}}
-                    <input type='hidden' name='add_items' x-bind:value="getItems" />
+                    <input type='hidden' name='add_items_2' x-bind:value="getItems" />
+                    <input type='hidden' name='item55' value="11" />
                     {{-- @endunless --}}
                     <input type='hidden' name='quantity' x-bind:value="items.length" />
                     <div class="row">

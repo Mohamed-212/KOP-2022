@@ -42,6 +42,79 @@ class CartController extends Controller
             }
         }
 
+        if ($request->has('add_items_2') && $request->has('item55')) {
+            $items = (is_array($request->add_items_2)) ? $request->add_items_2 : json_decode($request->add_items_2);
+            // dd($items);
+            foreach ($items as $index => $item) {
+                if (is_string($item)) {
+                    $item = json_decode($item, true);
+                }
+
+                // dd($item);
+                $newRequest = new Request();
+                $newRequest->merge(['item_id' => $request->item_id]);
+                $newRequest->merge(['offer_id' => $request->offer_id ? $request->offer_id : null]);
+                $newRequest->merge(['offer_price' => $request->offer_price ? $request->offer_price : null]);
+                $newRequest->merge(['quantity' => 1]);
+
+                if (isset($item->dough)) {
+                    $dough = explode(',', $item->dough);
+                    $newRequest->merge([
+                        'dough_type_ar' => $dough[0],
+                    ]);
+                    $newRequest->merge([
+                        'dough_type_en' => $dough[1],
+                    ]);
+                }
+
+                if (isset($item->dough2)) {
+                    $dough = explode(',', $item->dough2);
+                    $newRequest->merge([
+                        'dough_type_2_ar' => $dough[0],
+                    ]);
+                    $newRequest->merge([
+                        'dough_type_2_en' => $dough[1],
+                    ]);
+                }
+
+                $d2 = is_array($item) && isset($item['dough_type_2'])? $item['dough_type_2'] : [];
+                if (is_object($item) && isset($item->dough_type_2)) {
+                    $d2 = $item->dough_type_2;
+                }
+
+
+                if (!empty($d2)) {
+                    $dough = $d2[0];
+                    // dd($dough);
+                    $newRequest->merge([
+                        'dough_type_2_ar' => $dough['name_ar'],
+                    ]);
+                    $newRequest->merge([
+                        'dough_type_2_en' => $dough['name_en'],
+                    ]);
+                }
+
+                // dd($item);
+
+                $cart = Cart::create([
+                    'user_id' =>  Auth::user()->id,
+                    'item_id' =>  $newRequest->item_id,
+                    'extras' => (isset($item->extras)) ? json_encode($item->extras) : null,
+                    'withouts' => (isset($item->withouts)) ? json_encode($item->withouts) : null,
+                    'dough_type_ar' =>  $newRequest->has('dough_type_ar') ? $newRequest->dough_type_ar : null,
+                    'dough_type_en' =>  $newRequest->has('dough_type_en') ? $newRequest->dough_type_en : null,
+                    'dough_type_2_ar' =>  $newRequest->has('dough_type_2_ar') ? $newRequest->dough_type_2_ar : null,
+                    'dough_type_2_en' =>  $newRequest->has('dough_type_2_en') ? $newRequest->dough_type_2_en : null,
+                    'quantity' => isset($newRequest->quantity)? $newRequest->quantity : 1,
+                    'offer_id' =>  $newRequest->offer_id,
+                    'offer_price' =>  $newRequest->offer_price,
+                ]);
+
+
+
+            }
+        }
+
         if ($request->has('add_items')) {
             //  dd(json_decode($request->add_items));
             $items = (is_array($request->add_items)) ? $request->add_items : json_decode($request->add_items);
@@ -55,7 +128,7 @@ class CartController extends Controller
                 $newRequest->merge(['offer_price' => $request->offer_price ? $request->offer_price : null]);
                 $newRequest->merge(['quantity' => (isset($item->quantity)) ? $item->quantity : 1]);
 
-                // dd($item['dough_type'][1]);
+                // dd($item);
 
                 if (is_array($item)) {
                     if (isset($item['dough_type']) && isset($item['dough_type'][1])) {
@@ -71,6 +144,8 @@ class CartController extends Controller
 
                 // dd(isset($item['dough_type']) && isset($item['dough_type'][1]), $request->all());
 
+                // dd($item);
+
                 if (isset($item->dough)) {
                     $dough = explode(',', $item->dough);
                     $request->merge([
@@ -81,8 +156,8 @@ class CartController extends Controller
                     ]);
                 }
 
-                if (isset($item->dough2)) {
-                    $dough = explode(',', $item->dough2);
+                if (isset($item->dough_type_2)) {
+                    $dough = explode(',', $item->dough_type_2);
                     $request->merge([
                         'dough_type_2_ar' => $dough[0],
                     ]);
@@ -90,6 +165,62 @@ class CartController extends Controller
                         'dough_type_2_en' => $dough[1],
                     ]);
                 }
+
+                $d2 = is_array($item) && isset($item['dough_type_2'])? $item['dough_type_2'] : [];
+                if (is_object($item) && isset($item->dough_type_2)) {
+                    $d2 = $item->dough_type_2;
+                }
+
+
+                if (!empty($d2)) {
+                    $dough = $d2[0];
+                    // dd($dough);
+                    $request->merge([
+                        'dough_type_2_ar' => $dough['name_ar'],
+                    ]);
+                    $request->merge([
+                        'dough_type_2_en' => $dough['name_en'],
+                    ]);
+                }
+
+                // dd($request->all(), $item->has('dough_type_2'), $item);
+
+                // dump($item['quantity']);
+
+                $return = (app(\App\Http\Controllers\Api\CartController::class)->getCart())->getOriginalContent();
+
+                // dump($item['quantity']);
+
+                foreach ($return['data'] as $item) {
+                    if ($item->item_id == $request->item_id) {
+                        if ($request->offer_id) {
+                            $offer = Offer::findOrFail($request->offer_id);
+
+                            // dd($offer);
+    
+                            if ($offer && $request->has('sa55')) {
+                                $carti = Cart::find($item->id);
+                                    
+                                    if ($carti) {
+                                        $carti->quantity += $request->quantity;
+                                        $carti->save();
+    
+                                        return redirect()->route('menu.page');
+                                    }
+                            }
+                        }
+                        // if (($item->extras == $request->extras) && ($item->withouts == $request->withouts) && ($item->dough_type_en == $request->dough_type_en)) {
+                           
+                        //     return redirect()->route('menu.page');
+                        // }
+                    }
+                }
+
+                // dump($item['quantity']);
+
+                // if ($request->has('sa55')) {
+
+                // }
 
 
                 // dd([
@@ -106,6 +237,13 @@ class CartController extends Controller
 
                 // if ($request->offer_id && $cartHasOffers) continue;
 
+                // dd($item);
+                // $qty = is_array($item) && isset($item['quantity']) && $item['quantity'] > 0? $item['quantity'] : 1;
+                // if (is_object($item) && isset($item->quantity)) {
+                //     $qty = $item->quantity > 0 ? $item->quantity : 1;
+                //     dd(request()->all());
+                // }
+
                 $cart = Cart::create([
                     'user_id' =>  Auth::user()->id,
                     'item_id' =>  $request->item_id,
@@ -115,7 +253,7 @@ class CartController extends Controller
                     'dough_type_en' =>  $request->has('dough_type_en') ? $request->dough_type_en : null,
                     'dough_type_2_ar' =>  $request->has('dough_type_2_ar') ? $request->dough_type_2_ar : null,
                     'dough_type_2_en' =>  $request->has('dough_type_2_en') ? $request->dough_type_2_en : null,
-                    'quantity' => (isset($item->quantity)) ? $item->quantity : "1",
+                    'quantity' => isset($request->quantity)? $request->quantity : 1,
                     'offer_id' =>  $request->offer_id,
                     'offer_price' =>  $request->offer_price,
                 ]);

@@ -101,6 +101,7 @@
                                             
                                             {{-- @unless($dealItem->offer && $dealItem->offer->offer_id) --}}
                                                 <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
+                                                <input type='hidden' name='sa55' value="1" />
                                             {{-- @endunless --}}
                                             {{-- {{dd()}} --}}
                                             {{-- @php

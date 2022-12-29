@@ -423,6 +423,7 @@
                                     @endif
                                     {{-- <input type="hidden" name="item_id" value="{{ $dealItem['id'] }}"> --}}
                                     <input type='hidden' name='add_items[]' value="{{ $dealItem }}" />
+                                    <input type='hidden' name='sa55' value="1" />
                                     <input type='hidden' name='quantity' value="1" />
 
                                     @if ($dealItem->website_is_out_of_stock)
