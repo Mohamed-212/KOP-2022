@@ -18,6 +18,7 @@ use App\Models\Item;
 use App\Models\News;
 use App\Models\Offer;
 use App\Models\OfferDiscount;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Validator;
 
@@ -220,11 +221,22 @@ class FrontController extends BaseController
         $offerslist = Offer::with('buyGet', 'discount')->where('main', true)->get();
 
         $offers = [];
-        foreach ($offerslist as $off) {
-            if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+        foreach($offerslist as $off){
+            if (!$off) {
+               continue; 
+            }
+            // dump(date('H:i'));
+            // dump(date('Y-m-d', strtotime($off->date_from)), date('Y-m-d', strtotime($off->date_to)));
+            // dump($off->date_from, $off->date_to);
+            if (date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($off->date_to))) {
                 continue;
             }
-
+            $start = Carbon::createFromTimeString(substr($off->date_from, 11));
+            $end = Carbon::createFromTimeString(substr($off->date_to, 11));
+            // dd($start, $end);
+            if (!Carbon::now()->between($start, $end)) {
+                continue;
+            }
             $offers[] = $off;
         }
 

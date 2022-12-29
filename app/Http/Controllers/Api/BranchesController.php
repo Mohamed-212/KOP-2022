@@ -65,18 +65,37 @@ class BranchesController extends BaseController
             'available' => false,
         ];
 
+       
+
         foreach ($branch->workingDays as $workingDay) {
             $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
             $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
 
             if ($workingDay->time_to == '1:00 AM') {
                 $timeTo->addDay();
+                // $timeFrom->addDay();
+                // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
             }
 
-            if (now('Asia/Riyadh')->gte($timeFrom) && now('Asia/Riyadh')->lte($timeTo)) {
+            // dump($workingDay->time_to);
+            $now = Carbon::now(); 
+            if ($now->gte($timeFrom) && $now->lte($timeTo)) {
+                // $data['available'] = true;
+            }
+
+            
+            $now = Carbon::now();        
+            $start = Carbon::createFromTimeString($workingDay->time_from);
+            $end = Carbon::createFromTimeString($workingDay->time_to);
+            if ($workingDay->time_to == '1:00 AM') $end->addDay();
+            // dump($start, $end);
+
+            if ($now->between($start, $end)) {
                 $data['available'] = true;
             }
         }
+
+        // dd($data);
 
         return $this->sendResponse($data, __('general.branch_ret'));
     }

@@ -156,14 +156,19 @@ class OrdersController extends Controller
             return redirect()->route('payment');
         }
 
+        // dump($request->all());
+
         // $testMessage = ' (Test Environment)';
 
         // if ($request->status == 'paid' && $request->message == "Succeeded!$testMessage" && session('checkOut_details')) {
         if ($request->status == "paid" && $request->message == "APPROVED" && session('checkOut_details')) {
 
             $payment = \Moyasar\Facades\Payment::fetch($request->id);
+            // dd($payment->status, $payment->amount, (int)$paymentId->total_paid);
 
-            abort_if($payment->status !== 'paid' || $payment->amount !== $paymentId->total_paid, 404);
+            // dd($payment);
+
+            abort_if($payment->amount !== (int)$paymentId->total_paid, 404);
 
             // $payment = $paymentId;
 

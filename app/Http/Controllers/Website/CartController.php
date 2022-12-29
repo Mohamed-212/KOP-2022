@@ -57,14 +57,16 @@ class CartController extends Controller
 
                 // dd($item['dough_type'][1]);
 
-                if (isset($item['dough_type']) && isset($item['dough_type'][1])) {
-                    // $dough_type = explode(',', $item['dough_type'][1]);
-                    $request->merge([
-                        'dough_type_ar' => $item['dough_type'][1]['name_ar'],
-                    ]);
-                    $request->merge([
-                        'dough_type_en' => $item['dough_type'][1]['name_en'],
-                    ]);
+                if (is_array($item)) {
+                    if (isset($item['dough_type']) && isset($item['dough_type'][1])) {
+                        // $dough_type = explode(',', $item['dough_type'][1]);
+                        $request->merge([
+                            'dough_type_ar' => $item['dough_type'][1]['name_ar'],
+                        ]);
+                        $request->merge([
+                            'dough_type_en' => $item['dough_type'][1]['name_en'],
+                        ]);
+                    }
                 }
 
                 // dd(isset($item['dough_type']) && isset($item['dough_type'][1]), $request->all());

@@ -9,6 +9,7 @@ use App\Models\Address;
 use App\Http\Controllers\Api\BaseController;
 use DB;
 use App\Models\OfferDiscount;
+use Carbon\Carbon;
 
 class MenuController extends BaseController
 {
@@ -30,9 +31,29 @@ class MenuController extends BaseController
 
                     if ($parent_offer) {
 
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+                         
+
+
                     }
 
                     if ($parent_offer)  break;
@@ -91,9 +112,28 @@ class MenuController extends BaseController
                     $parent_offer = OfferDiscount::find($offer->offer_id);
 
                     if ($parent_offer) {
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                        
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+
                     }
 
                     if ($parent_offer)  break;
@@ -157,9 +197,26 @@ class MenuController extends BaseController
 
                 if ($parent_offer) {
 
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                    if ($parent_offer->offer) {
+                        if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                            $parent_offer = null;
+                        }
+
+                        if ($parent_offer && $parent_offer->offer) {
+                            $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                            $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                            // dd($start, $end);
+                            if (!Carbon::now()->between($start, $end)) {
+                                $parent_offer = null;
+                            }
+                        }
+                        
+                     } else {
                         $parent_offer = null;
-                    }
+                     }
+                     // dump(date('H:i'));
+                     // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                     // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
                 }
 
 
@@ -203,9 +260,26 @@ class MenuController extends BaseController
                     // dd($parent_offer);
                     if ($parent_offer && $parent_offer->offer) {
                         
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
                     }
 
                     // Just edit
@@ -255,9 +329,26 @@ class MenuController extends BaseController
 
                 if ($parent_offer) {
 
-                    if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                    if ($parent_offer->offer) {
+                        if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                            $parent_offer = null;
+                        }
+
+                        if ($parent_offer && $parent_offer->offer) {
+                            $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                            $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                            // dd($start, $end);
+                            if (!Carbon::now()->between($start, $end)) {
+                                $parent_offer = null;
+                            }
+                        }
+                        
+                     } else {
                         $parent_offer = null;
-                    }
+                     }
+                     // dump(date('H:i'));
+                     // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                     // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
                 }
 
 

@@ -9,6 +9,7 @@ use App\Models\OfferDiscount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -39,6 +40,8 @@ class MenuController extends Controller
         if ($return['success'] == 'success') {
             $menu['categories'] = $return['data'];
         }
+
+        // dd($return['data'][0]);
 
         return view('website.menu', compact('menu', 'cartHasOffers'));
     }
@@ -77,9 +80,27 @@ class MenuController extends Controller
 
                     if ($parent_offer) {
 
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+    
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+                         
                     }
 
                     if ($parent_offer)  break;
@@ -120,9 +141,26 @@ class MenuController extends Controller
 
                     if ($parent_offer && $parent_offer->offer) {
 
-                        if (\Carbon\Carbon::now() < $parent_offer->offer->date_from || \Carbon\Carbon::now() > $parent_offer->offer->date_to) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+    
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
                     }
 
                     // Just edit

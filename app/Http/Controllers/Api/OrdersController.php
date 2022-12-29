@@ -1178,7 +1178,7 @@ class OrdersController extends BaseController
 
             $payment = \Moyasar\Facades\Payment::fetch($request->id);
 
-            abort_if($payment->status != "paid" || $payment->amount !== $paymentId->total_paid, 404);
+            abort_if($payment->amount !== (int)$paymentId->total_paid, 404);
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');

@@ -182,6 +182,11 @@
     </div>
 @endsection
 
+@php
+    // $user->token = $user->createToken('AppName')->accessToken;
+    // $user->save();
+@endphp
+
 @section('scripts')
     <script>
         $(document).ready(function() {

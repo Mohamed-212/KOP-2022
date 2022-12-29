@@ -6,6 +6,7 @@
 
 @section('styles')
     <style>
+        /* {{session('url_service')}} */
         .text-primary {
             color: #e23744 !important;
             text-decoration: none !important;
@@ -49,7 +50,7 @@
     @endsection
 
     @section('content')
-        <main class="page-main">
+        <main class="page-main" ddd="{{session('url_service')}}">
 
             <section class="page-header"
                 style="background-image: url({{ asset('/website2-assets/img/page-header-theme.jpg') }})">

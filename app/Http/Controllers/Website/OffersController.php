@@ -73,9 +73,21 @@ class OffersController extends Controller
         $offers = [];
         foreach ($alloffers as $off) {
             if ($off) {
-                if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
-                    continue;
-                }
+                if (!$off) {
+                    continue; 
+                 }
+                 // dump(date('H:i'));
+                 // dump(date('Y-m-d', strtotime($off->date_from)), date('Y-m-d', strtotime($off->date_to)));
+                 // dump($off->date_from, $off->date_to);
+                 if (date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($off->date_to))) {
+                     continue;
+                 }
+                 $start = Carbon::createFromTimeString(substr($off->date_from, 11));
+                 $end = Carbon::createFromTimeString(substr($off->date_to, 11));
+                 // dd($start, $end);
+                 if (!Carbon::now()->between($start, $end)) {
+                     continue;
+                 }
             }
 
             $offers[] = $off;

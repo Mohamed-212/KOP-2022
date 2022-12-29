@@ -21,6 +21,31 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function homePage(Request $request){
+
+        // session()->flush();
+
+        $o_list = Offer::all();
+
+        $o = [];
+        foreach($o_list as $off){
+            if (!$off) {
+               continue; 
+            }
+            // dump(date('H:i'));
+            // dump(date('Y-m-d', strtotime($off->date_from)), date('Y-m-d', strtotime($off->date_to)));
+            // dump($off->date_from, $off->date_to);
+            if (date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($off->date_to))) {
+                continue;
+            }
+            $start = Carbon::createFromTimeString(substr($off->date_from, 11));
+            $end = Carbon::createFromTimeString(substr($off->date_to, 11));
+            // dd($start, $end);
+            if (!Carbon::now()->between($start, $end)) {
+                continue;
+            }
+            $o[] = $off;
+        }
+
         $menu = [];
 
         // $areas = Excelll::toArray(new AreaImport, storage_path('/app/public/areas.xlsx'));
@@ -108,9 +133,31 @@ class HomeController extends Controller
 
                     if ($parent_offer) {
 
-                        if (\Carbon\Carbon::now() < optional($parent_offer->offer)->date_from || \Carbon\Carbon::now() > optional($parent_offer->offer)->date_to) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+    
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
                             $parent_offer = null;
-                        }
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+                         
+
                     }
 
                     if ($parent_offer)  break;

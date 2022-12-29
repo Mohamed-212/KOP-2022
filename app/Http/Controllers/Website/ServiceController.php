@@ -15,16 +15,19 @@ class ServiceController extends Controller
     /* show all branches with its working hours */
     public function takeawayPage()
     {
-        //  dd(session()->all());
+        //  dump(session()->all(), session()->has('url_service'));
 
-        if(!session()->has('url.service'))
+        if(!session('url_service'))
         {
-            session(['url.service' => url()->previous()]);
+            session()->put('url_service', url()->previous());
+            session()->save();
         }
+
+        // dump(session()->all(), session()->has('url_service'));
 
         // session()->forget('branch_id');
        
-        // session()->forget('url.service');
+        // session()->forget('url_service');
 
 
         $branches = Branch::with(['city', 'area', 'deliveryAreas', 'workingDays'])->get();
@@ -99,9 +102,9 @@ class ServiceController extends Controller
 
             auth()->user()->carts()->delete();
 
-            return redirect(session('url.service'));
+            return redirect(session('url_service', route('menu.page')));
             // if (auth()->user()->carts()->get()->count() > 0) {
-            //     return redirect(session('url.service'));
+            //     return redirect(session('url_service'));
             //     // return back();
             // }
             // return redirect()->intended();
@@ -139,7 +142,10 @@ class ServiceController extends Controller
             // session()->put(['address_id'=>$id]);
         }
 
+        
+
         $isOpen = (app(\App\Http\Controllers\Api\BranchesController::class)->check($request, $branchId))->getOriginalContent();
+        
 
         if ($isOpen['data']['available'] === false) {
             session()->flash('branch_closed', true);
@@ -147,6 +153,7 @@ class ServiceController extends Controller
             // dd($isOpen);
             return back();
         }
+        // dd($isOpen);
 
         $return = (app(\App\Http\Controllers\Api\BranchesController::class)->getBranchWorkingHours($request))->getOriginalContent();
 
@@ -156,7 +163,7 @@ class ServiceController extends Controller
             
             session(['branch_id' => $return['data']['id']]);
             session(['service_type' => $service_type]);
-            // dd($return);
+            
             if ($service_type == 'delivery') {
                 session(['address_id' => $id]);
                 $address = Address::findOrFail($id);
@@ -168,13 +175,16 @@ class ServiceController extends Controller
                         session(['address_branch_id' => $branch->branch_id]);
                     }
                 }
+
+                // dd(session('url_service'));
                 
             }
             session()->forget('status');
-            return redirect(session('url.service'));
+            // dd(session('url_service'));
+            return redirect()->to(session('url_service', route('menu.page')));
             // if (auth()->user()->carts()->get()->count() > 0) {
-            //     return redirect(session('url.service'));
-            //     // return redirect(session('url.service'));
+            //     return redirect(session('url_service'));
+            //     // return redirect(session('url_service'));
             // }
             // return redirect()->intended();
         }
