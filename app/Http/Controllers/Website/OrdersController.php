@@ -30,6 +30,8 @@ class OrdersController extends Controller
 
     public function make_order(Request $request)
     {
+
+        // dd($request->all());
         // return $request;
         $items = auth()->user()->carts;
         foreach ($items as $item) {
@@ -597,7 +599,7 @@ class OrdersController extends Controller
             'description_box' => $request->description,
             'offer_value' => (float)$request->discount,
             'is_first_order' => $firstDiscount,
-            'total_before_discount' => $request->total_before_discount,
+            'total_before_discount' => $request->total_before_discount ?? null,
         ];
 
         $order = Order::create($orderData);

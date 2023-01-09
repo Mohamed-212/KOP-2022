@@ -125,7 +125,7 @@
                             <div class="slider-caption big">
                                 <div class="inner-layer">
                                     <div data-animation="reveal-text" data-delay="1s">
-                                        {{ __('home.Order Today, While It’s Hot!') }}</div>
+                                        {!! __('home.Order Today, While It’s Hot!') !!}</div>
                                 </div>
                             </div>
                             <div class="slider-caption small">

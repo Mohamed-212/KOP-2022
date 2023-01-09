@@ -493,6 +493,7 @@ class CartController extends Controller
         }
 
         $payment = null;
+        // session()->forget('payment');
         if (session()->has('payment')) {
             $payment = (object) session('payment');
 
@@ -568,6 +569,10 @@ class CartController extends Controller
             $address = Address::find($address_id);
             return view('website.checkout', compact('request', 'address', 'work_hours', 'firstDiscount'));
         }
+
+        if ($payment) {
+            return view('website.checkout-pay', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
+        } 
 
         return view('website.checkout', compact('request', 'branch', 'work_hours', 'payment', 'firstDiscount'));
     }

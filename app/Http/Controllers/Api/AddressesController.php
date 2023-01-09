@@ -310,21 +310,34 @@ class AddressesController extends BaseController
         if ($validator->fails())
             return $this->sendError(__('general.validation_errors'), $validator->errors(), 400);
         $areaId=null;
-        $cityId=null;
+        // $cityId=null;
         $request->area=str_replace('حي ','',$request->area);
-        $city = City::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
-        if($city){
-            $area = Area::where('city_id', $city->id)->where('name_en', "LIKE", "%$request->area%")->orWhere('name_ar', "LIKE", "%$request->area%")->first();
+        // $city = City::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
+        // if($city){
+            $area = $request->area;
+            $city = $request->city;
+            $area = Area::where(function($q) use($area){
+                $q->where('name_en', "LIKE", "%$area%")->orWhere('name_ar', "LIKE", "%$area%");
+            })
+            ->orWhere(function($q) use($city){
+                $q->where('name_en', "LIKE", "%$city%")->orWhere('name_ar', "LIKE", "%$city%");
+            })
+            ->with('city')->first();
+            // $area = Area::where('city_id', $city->id)->where('name_en', "LIKE", "%$request->area%")->orWhere('name_ar', "LIKE", "%$request->area%")->first();
             if($area){
-                $cityId = $city->id;
+                // $cityId = $city->id;
                 $areaId = $area->id;
             }
-        }
+        // }
         $data =[
-            'city_id' => $cityId,
-            'area_id' => $areaId
+            'city_id' => $area->city_id,
+            'city_ar' => $area->city->name_ar,
+            'city_en' => $area->city->name_en,
+            'area_id' => $areaId,
+            'area_ar' => $area->name_ar,
+            'area_en' => $area->name_en,
         ];
-        if($cityId){
+        if($area){
             return $this->sendResponse($data, __('general.address.created'));
         }
         return $this->sendError(__('general.address.city_not_found'));

@@ -84,12 +84,14 @@ class BranchesController extends BaseController
             }
 
             
-            $now = Carbon::now();        
+            $now = Carbon::now();  
+            // dd($now)      
             $start = Carbon::createFromTimeString($workingDay->time_from);
             $end = Carbon::createFromTimeString($workingDay->time_to);
-            if ($workingDay->time_to == '1:00 AM') $end->addDay();
-            // dump($start, $end);
-
+            if ($workingDay->time_to == '1:00 AM'){
+              $start->subDay();
+            } 
+             
             if ($now->between($start, $end)) {
                 $data['available'] = true;
             }

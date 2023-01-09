@@ -12,7 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    'pick it up really fast, happy to SERVE you at our branches' => 'pick it up fast,<br>happy to serve you',
+    'pick it up really fast, happy to SERVE you at our branches' => 'Happy to Serve you<br> at our branches',
     'Fresh Ingredients' => 'Fresh Ingredients',
     'desc1' => 'Delicious &amp; Healthy Foods',
     'desc2' => 'Spacific Family And Kids Zone',
@@ -24,19 +24,18 @@ return [
     'Calories' => 'Calories' ,
     'Add to Cart' => 'Add to Cart' ,
     'Tasty Pizza' => 'Tasty Pizza' ,
-    'Eat Sleep And' => 'Eat Sleep And',
-    'slider2_descriptiopn' => 'Hungry, there is no solution but to taste <br>delicious pizza.',
+    'Eat Sleep And' => 'Just like Home, but more TASTY',
+    'slider2_descriptiopn' => 'Fresh, Hot & Yummy',
     'slider3_descriptiopn' => 'The best variety of pastries <br> we have only.',
     'Fried masala' => 'Fried masala <br>in town!',
-
     'Price' => 'Price' ,
     'Order Your Own Tasty Food' => 'Order Your Own Tasty Food' ,
     'It Takes 2 Minutes To Make Your' => 'It Takes 2 Minutes To Make Your' ,
     'Own Tasty Pizza And Order From Us' => 'Own Tasty Pizza And Order From Us' ,
     'Read More' => 'Read More' ,
     'View Our Menu' => 'View Our Menu' ,
-    'Order Today, While It’s Hot!' => 'Order Today, While It’s Hot!' ,
-    'Eat Delicious & Tasty Fast-Foods With Real Flavours' => 'Eat Delicious & Tasty Fast-Foods With Real Flavours' ,
+    'Order Today, While It’s Hot!' => "Just like Home, but more TASTY" ,
+    'Eat Delicious & Tasty Fast-Foods With Real Flavours' => 'On Time , Just Call & we’ll deliver to your doorstep.' ,
     'Create & Order Now!' => 'Create & Order Now!' ,
     'Our Offers' => 'Our Offers' ,
     'Deal of the Week' => 'Deal of the Week' ,

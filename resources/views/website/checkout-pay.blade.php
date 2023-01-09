@@ -10,10 +10,35 @@
         .checkout-form .form-field input {
             color: #6c757d !important;
         }
+        /* Preloader */
+.loaded .site-preloader-wrapp {
+    opacity: 1;
+    visibility: visible;
+}
+.site-preloader-wrapp {
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    top: 0;left: 0
+}
+
+.site-preloader-wrapp .spinner {
+    background-color: #ff9d2d;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -20px;
+    margin-top: -20px;
+}
     </style>
 @endsection
 
 @section('pageName')
+    <div class="site-preloader-wrapp" style="display: block !important">
+        <div class="spinner"></div>
+    </div><!-- /.site-preloader-wrap -->
 
     <body class="page-article dm-light">
     @endsection
@@ -194,13 +219,14 @@
                                     <div class="mb-20">
                                         <button class="btn default-btn bg-primary rounded shadow selectTypeCash"
                                             type="button"  data-bs-toggle="modal" data-bs-target="#confirm_cash">
-                                            {{ __('general.cash') }}
+                                            {{ __('general.Confirm Order Cash') }}
 
                                             <span></span>
                                         </button>
                                         <button class="btn default-btn bg-primary rounded shadow selectTypeOnline"
                                             type="button"  data-bs-toggle="modal" data-bs-target="#confirm_online">
-                                            {{ __('general.visa') }}
+                                            {{ __('general.Confirm Order OnlinePay') }}
+
                                             <span></span>
                                         </button>
                                     </div>
@@ -240,8 +266,8 @@
 
 
                             </ul>
-                            {{-- <button type="submit" class="default-btn">{{ __('general.confirm_order') }}
-                                <span></span></button> --}}
+                            <button type="submit" class="default-btn">{{ __('general.confirm_order') }}
+                                <span></span></button>
                         </div>
                         <input type="hidden" hidden name="discount" value="{{ round($request->discount, 2) }}" />
                         <div class="col-lg-4 sm-padding">
@@ -262,14 +288,12 @@
                                 @if(round($request->discount) > 0)
                                 <li><span>{{ __('general.discount') }} :</span>- {{ round($request->discount, 2) }}
                                     {{ __('general.SR') }}</li>
-                                    
                                 @endif
 
                                 @if ($firstDiscount)
                                     <li><span>{{ __('general.first_discount') }} :</span>-
                                         {{ round($request->total, 2) }}
                                         {{ __('general.SR') }}</li>
-                                        <input type="hidden" name="total_before_discount" value="{{$request->total_before_discount}}" />
                                 @endif
 
                                 @if ($request->has('points_paid'))
@@ -319,7 +343,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('general.Cancel')}}</button>
-                      <button type="button" class="btn btn-primary confirm_cash_btn" data-formaction="{{ route('make_order') }}" data-bs-dismiss="modal">{{__('general.confirm_order')}}</button>
+                      <button type="button" class="btn btn-primary confirm_cash_btn" data-formaction="{{ route('make_order') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
                     </div>
                   </div>
                 </div>
@@ -336,7 +360,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('general.Cancel')}}</button>
-                      <button type="button" class="btn btn-primary confirm_online_btn" data-formaction="{{ route('payment') }}" data-bs-dismiss="modal">{{__('general.confirm_order')}}</button>
+                      <button type="button" class="btn btn-primary confirm_online_btn" data-formaction="{{ route('payment') }}" data-bs-dismiss="modal">{{__('general.confirm_btn')}}</button>
                     </div>
                   </div>
                 </div>
@@ -350,28 +374,7 @@
     @section('scripts')
         <script>
             $(document).ready(function() {
-                $('.confirm_cash_btn').click(function(e) {
-                    $('.checkout-form-wrap').attr('action', $(this).attr('data-formaction'));
-                    $('.selectTypeOnline').removeClass('bg-success');
-                    $('.selectTypeCash').addClass('bg-success');
-
-                    $('.checkout-form-wrap').submit();
-                });
-
-                $('.confirm_online_btn').click(function(e) {
-                    $('.checkout-form-wrap').attr('action', $(this).attr('data-formaction'));
-                    $('.selectTypeCash').removeClass('bg-success');
-                    $('.selectTypeOnline').addClass('bg-success');
-
-                    $('.checkout-form-wrap').submit();
-                });
-
-                $('.checkout-form-wrap').submit(function(e) {
-                    if (!$('.selectTypeCash').hasClass('bg-success') && !$('.selectTypeOnline').hasClass('bg-success')) {
-                        e.preventDefault();
-                        return false;
-                    }
-                });
+                $('.checkout-form-wrap').submit();
             });
-        </script>
+       </script>
     @endsection

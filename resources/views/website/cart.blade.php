@@ -374,6 +374,7 @@
                                     <b class="inset-right-5 text-gray-light">{{ __('general.first_discount') }}
                                         : </b> <span style="font-size: smaller;">50%</span>
                                 </li>
+                                <input type="hidden" name="total_before_discount" value="{{$arr_check['total']}}" />
                                 @endif
 
                                 <li><b class="inset-right-5 text-gray-light">{{ __('general.Total') }}
