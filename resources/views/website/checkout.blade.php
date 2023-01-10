@@ -279,7 +279,7 @@
                                 <li><span>{{ __('general.Total') }}
                                         :</span>{{ $firstDiscount ? round($request->total, 2) : round($request->total, 2) }}
                                     {{ __('general.SR') }}
-                                </li>
+                                </li> 
 
 
 
