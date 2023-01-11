@@ -89,11 +89,17 @@ class BranchesController extends BaseController
             $start = Carbon::createFromTimeString($workingDay->time_from);
             $end = Carbon::createFromTimeString($workingDay->time_to);
             if (str_contains($workingDay->time_to, 'AM') || str_contains($workingDay->time_to, 'am')){
-                $start = Carbon::createFromTimeString('12:00 AM');
-              }
-             
+                $end = Carbon::createFromTimeString('11:59 PM');
+                $tmpStart = Carbon::createFromTimeString('12:00 AM');
+                $tmpEnd = Carbon::createFromTimeString('01:00 AM');
+                if($now->between($tmpStart, $tmpEnd)){
+                    $end = Carbon::createFromTimeString('01:00 AM');
+                    $start = Carbon::createFromTimeString('12:00 AM');
+                }
+            }
             if ($now->between($start, $end)) {
                 $data['available'] = true;
+                break;
             }
         }
 
