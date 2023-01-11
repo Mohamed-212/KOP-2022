@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Website\OrdersController;
 
-
+Route::get('qr', function(){
+  return view('qr');
+});
 
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),

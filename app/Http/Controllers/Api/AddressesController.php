@@ -310,34 +310,72 @@ class AddressesController extends BaseController
         if ($validator->fails())
             return $this->sendError(__('general.validation_errors'), $validator->errors(), 400);
         $areaId=null;
-        // $cityId=null;
+        $areaEn=null;
+        $areaAr=null;
+        $cityId=null;
+        $cityAr=null;
+        $cityEn=null;
         $request->area=str_replace('حي ','',$request->area);
-        // $city = City::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
-        // if($city){
-            $area = $request->area;
-            $city = $request->city;
-            $area = Area::where(function($q) use($area){
-                $q->where('name_en', "LIKE", "%$area%")->orWhere('name_ar', "LIKE", "%$area%");
+        $city = City::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
+         if($city){
+            $cityAr = $city->name_ar;
+            $cityEn = $city->name_en;
+             $area = Area::where('city_id', $city->id)->where('name_en', "LIKE", "%$request->area%")->orWhere('name_ar', "LIKE", "%$request->area%")->first();
+            if($area){
+                $cityId = $city->id;
+                $areaId = $area->id;
+                $areaAr=$area->name_ar;
+                $areaEn=$area->name_en;
+            }
+         }
+         else{
+           $cityName = $request->city;
+           $areaName = $request->area;
+           $area = Area::where(function($q) use($areaName){
+                $q->where('name_en', "LIKE", "%$areaName%")->orWhere('name_ar', "LIKE", "%$areaName%");
             })
-            ->orWhere(function($q) use($city){
-                $q->where('name_en', "LIKE", "%$city%")->orWhere('name_ar', "LIKE", "%$city%");
+            ->orWhere(function($q) use($cityName){
+              $q->where('name_en', "LIKE", "%$cityName%")->orWhere('name_ar', "LIKE", "%$cityName%");
             })
             ->with('city')->first();
-            // $area = Area::where('city_id', $city->id)->where('name_en', "LIKE", "%$request->area%")->orWhere('name_ar', "LIKE", "%$request->area%")->first();
             if($area){
-                // $cityId = $city->id;
-                $areaId = $area->id;
+                $cityId = $area->city->id;
+              $cityAr = $area->city->name_ar;
+              $cityEn = $area->city->name_en;
+              $areaId = $area->id;
+              $areaAr=$area->name_ar;
+              $areaEn=$area->name_en;
             }
-        // }
+         }
+         
+         if($areaId == null){
+             $cityName = $request->city;
+             $areaName = $request->area;
+             $area = Area::where(function($q) use($areaName){
+                $q->where('name_en', "LIKE", "%$areaName%")->orWhere('name_ar', "LIKE", "%$areaName%");
+            })
+            ->orWhere(function($q) use($cityName){
+              $q->where('name_en', "LIKE", "%$cityName%")->orWhere('name_ar', "LIKE", "%$cityName%");
+            })
+            ->with('city')->first();
+            if($area){
+                $cityId = $area->city->id;
+              $cityAr = $area->city->name_ar;
+              $cityEn = $area->city->name_en;
+              $areaId = $area->id;
+              $areaAr=$area->name_ar;
+              $areaEn=$area->name_en;
+            }
+         }
         $data =[
-            'city_id' => $area->city_id,
-            'city_ar' => $area->city->name_ar,
-            'city_en' => $area->city->name_en,
+            'city_id' => $cityId,
+            'city_ar' => $cityAr,
+            'city_en' => $cityEn,
             'area_id' => $areaId,
-            'area_ar' => $area->name_ar,
-            'area_en' => $area->name_en,
+            'area_ar' => $areaAr,
+            'area_en' => $areaEn,
         ];
-        if($area){
+        if($areaId){
             return $this->sendResponse($data, __('general.address.created'));
         }
         return $this->sendError(__('general.address.city_not_found'));
