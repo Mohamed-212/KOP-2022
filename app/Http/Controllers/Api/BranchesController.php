@@ -65,9 +65,7 @@ class BranchesController extends BaseController
             'available' => false,
         ];
 
-        // dd( Branch::where('id', $id)->with('workingDays')->get());
-
-    //    dd($branch->workingDays->pluck('time_from', 'time_to'));
+       
 
         foreach ($branch->workingDays as $workingDay) {
             // $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
@@ -78,12 +76,11 @@ class BranchesController extends BaseController
             //     // $timeFrom->addDay();
             //     // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
             // }
+
             // // dump($workingDay->time_to);
             // $now = Carbon::now(); 
-            // dump($now, $timeFrom, $timeTo, $workingDay);
             // if ($now->gte($timeFrom) && $now->lte($timeTo)) {
             //     // $data['available'] = true;
-            //     break;
             // }
 
             
@@ -92,13 +89,11 @@ class BranchesController extends BaseController
             $start = Carbon::createFromTimeString($workingDay->time_from);
             $end = Carbon::createFromTimeString($workingDay->time_to);
             if (str_contains($workingDay->time_to, 'AM') || str_contains($workingDay->time_to, 'am')){
-              $end->addDay();
-              $start->createFromTimeString('12:00 AM');
-            } 
+                $start = Carbon::createFromTimeString('12:00 AM');
+              }
              
             if ($now->between($start, $end)) {
                 $data['available'] = true;
-                // break;
             }
         }
 
