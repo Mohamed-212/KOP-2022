@@ -106,7 +106,33 @@ class HomeController extends Controller
         // if($return['success'] ==  nt($return['data']))? $return['data'] : [];
         // }
         $menu['offers'] = $offers;
-        $menu['main_offer']=Offer::with('buyGet','discount')->filter($filters)->where('main',true)->get();
+        $all_offers = Offer::with('buyGet','discount')->where('main',true)->get();
+        $offs = [];
+        // dd($all_offers);
+
+
+        foreach ($all_offers as $off) {
+            // dd($off)
+            if (!$off) {
+                continue; 
+             }
+             // dump(date('H:i'));
+             // dump(date('Y-m-d', strtotime($off->date_from)), date('Y-m-d', strtotime($off->date_to)));
+             // dump($off->date_from, $off->date_to);
+            //  dd(date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)));
+             if (date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($off->date_to))) {
+                 continue;
+             }
+             $start = Carbon::createFromTimeString(substr($off->date_from, 11));
+             $end = Carbon::createFromTimeString(substr($off->date_to, 11));
+             // dd($start, $end);
+             if (!Carbon::now()->between($start, $end)) {
+                $off->show_error_time = true;
+             }
+            $offs[] = $off;
+        }
+
+        $menu['main_offer'] = $offs;
 
         // $catData = (app(\App\Http\Controllers\Api\MenuController::class)->getAllCategories($request))->getOriginalContent();
 

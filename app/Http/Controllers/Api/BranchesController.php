@@ -68,28 +68,30 @@ class BranchesController extends BaseController
        
 
         foreach ($branch->workingDays as $workingDay) {
-            $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
-            $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
+            // $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
+            // $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
 
-            if ($workingDay->time_to == '1:00 AM') {
-                $timeTo->addDay();
-                // $timeFrom->addDay();
-                // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
-            }
+            // if ($workingDay->time_to == '1:00 AM') {
+            //     $timeTo->addDay();
+            //     // $timeFrom->addDay();
+            //     // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
+            // }
 
-            // dump($workingDay->time_to);
-            $now = Carbon::now(); 
-            if ($now->gte($timeFrom) && $now->lte($timeTo)) {
-                // $data['available'] = true;
-            }
+            // // dump($workingDay->time_to);
+            // $now = Carbon::now(); 
+            // if ($now->gte($timeFrom) && $now->lte($timeTo)) {
+            //     // $data['available'] = true;
+            // }
 
             
-            $now = Carbon::now();        
+            $now = Carbon::now();  
+            // dd($now)      
             $start = Carbon::createFromTimeString($workingDay->time_from);
             $end = Carbon::createFromTimeString($workingDay->time_to);
-            if ($workingDay->time_to == '1:00 AM') $end->addDay();
-            // dump($start, $end);
-
+            if (str_contains($workingDay->time_to, 'AM') || str_contains($workingDay->time_to, 'am')){
+                $start = Carbon::createFromTimeString('12:00 AM');
+              }
+             
             if ($now->between($start, $end)) {
                 $data['available'] = true;
             }

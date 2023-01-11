@@ -62,12 +62,12 @@ class Order extends Model
 
     public function branch()
     {
-        return $this->belongsTo('App\Models\Branch');
+        return $this->belongsTo('App\Models\Branch')->withTrashed();
     }
 
     public function address()
     {
-        return $this->belongsTo('App\Models\Address','address_id');
+        return $this->belongsTo('App\Models\Address','address_id')->withTrashed();
     }
 
     public function items()

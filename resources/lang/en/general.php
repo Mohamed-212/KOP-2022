@@ -436,7 +436,7 @@ return [
     'no_multible_offers' => 'Sorry you can Add Only One type of Offers',
     'first_discount' => 'First Offer Discount',
     'confirm_btn' => 'Confirm',
-    'confirm_online_mess' => 'Do you want to use online payment option',
+    'confirm_online_mess' => 'Do you want to use visa payment option',
     'confirm_cash_mess' => 'Do you want to use cash payment option',
     'We can\'t find a user with that e-mail address.' => "We can't find a user with that email address.",
     'invalid email address' => 'Invalid Email Address',
@@ -454,4 +454,8 @@ return [
     'in Valid' => 'In Valid',
     'rejected' => 'Rejected',
     'Order Now2' => 'Add to Cart',
+    'no_time_offers' => 'Offer is Valid  only from ',
+    'off_to' => 'to ',
+    'cash' => 'Cash',
+    'visa' => 'Visa',
 ];
