@@ -28,13 +28,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Payment ID</label>
-                                <input readonly type="text" class="form-control" placeholder="Enter Item Arabic Name" name="name_ar" value="{{ $py->payment_id }}">
+                                <input readonly type="text" class="form-control" placeholderdd="Enter Item Arabic Name" name="name_ar" value="{{ $py->payment_id }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Order ID</label>
-                                <input readonly type="text" class="form-control" placeholder="Enter Item English Name" name="name_en" value="{{ $py->order_id }}">
+                                <input readonly type="text" class="form-control" placeholderdd="Enter Item English Name" name="name_en" value="{{ $py->order_id }}">
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Customer ID</label>
-                                <input readonly type="text" class="form-control" placeholder="Enter Item English Name" name="name_en" value="{{ $py->customer_id }}">
+                                <input readonly type="text" class="form-control" placeholderdd="Enter Item English Name" name="name_en" value="{{ $py->customer_id }}">
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Total Paid</label>
-                                <input readonly type="text" class="form-control" placeholder="Enter Item English Name" name="name_en" value="{{ $py->total_paid }}">
+                                <input readonly type="text" class="form-control" placeholderdd="Enter Item English Name" name="name_en" value="{{ $py->total_paid }}">
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Created at</label>
-                                <input readonly type="text" class="form-control {!! $errors->first('price', 'is-invalid') !!}" placeholder="Enter Item Price" name="price" value="{{ $py->created_at->format('d M Y H:i:sa') }}">
+                                <input readonly type="text" class="form-control {!! $errors->first('price', 'is-invalid') !!}" placeholderdd="Enter Item Price" name="price" value="{{ $py->created_at->format('d M Y H:i:sa') }}">
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,24 @@
                                 <table class="table table-bordered table-striped">
                                     <tbody>
                                         @foreach ($data->toArray() as $key => $val)
-
+                                            @if ($key == 'metadata')
+                                            <tr>
+                                                <td>
+                                                    Meta Data
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach ($data->toArray()['metadata'] as $k => $v)
+                                                    <li>
+                                                            <span style="text-transform: uppercase">
+                                                            <b>{{$k}}</b>: &nbsp;&nbsp;{{$v}}
+                                                    </li>
+                                                @endforeach
+                                                    </ul>
+                                                </td>
+                                                
+                                            </tr>
+                                            @else
                                             <tr>
                                                 <td>
                                                     {{$key }}
@@ -83,6 +100,7 @@
                                                     {{$key === 'source' ? '' : $val}}
                                                 </td>
                                             </tr>
+                                            @endif
 
                                             @if($key === 'source')
                                                 @foreach ($source as $k => $v)

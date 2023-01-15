@@ -493,6 +493,7 @@ class CartController extends Controller
         }
 
         $payment = null;
+        // dd(session()->all());
         // session()->forget('payment');
         if (session()->has('payment')) {
             $payment = (object) session('payment');
@@ -506,6 +507,8 @@ class CartController extends Controller
                 $request->merge(session('checkOut_details'));
             }
         }
+
+        // dd($payment);
 
         if ($request['total'] <= 0 && isset($request['points_paid']) && $request['points_paid'] > 0) {
             return back()->with('loyality_not_used', __('general.loyality_not_used'));
@@ -565,7 +568,7 @@ class CartController extends Controller
         unset($request['_token']);
         session()->put(['checkOut_details' => $request->all()]);
 
-        if (isset($address_id)) {
+        if (isset($address_id) && !$payment) {
             $address = Address::find($address_id);
             return view('website.checkout', compact('request', 'address', 'work_hours', 'firstDiscount'));
         }

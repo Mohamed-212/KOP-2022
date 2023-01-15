@@ -1182,6 +1182,7 @@ class OrdersController extends BaseController
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');
+            session()->forget('payment_hash');
             session()->save();
             // session(['payment' => $paymentId->toArray()]);
             $paymentId->status = $request->status;
@@ -1200,12 +1201,12 @@ class OrdersController extends BaseController
                 $paymentId->delete();
 
                 return redirect(route('get.paymentMobile', [
-                    session('user_id'), session('payment_amount'), session('payment_hash')
+                    session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
                 ]));
             }
             session()->flash('error', __('general.error'));
             return redirect()->route('get.paymentMobile', [
-                session('user_id'), session('payment_amount'), session('payment_hash')
+                session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
             ]);
         }
     }

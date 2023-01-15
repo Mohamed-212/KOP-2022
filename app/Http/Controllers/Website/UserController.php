@@ -19,7 +19,7 @@ class UserController extends Controller
         $req = (object) $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . Auth::user()->id],
-            'phone' => ['required', 'string', 'size:12', 'unique:users,first_phone,' . Auth::user()->id],
+            'phone' => ['required', 'string', 'max:13', 'unique:users,first_phone,' . Auth::user()->id],
             // 'second_phone' => 'nullable|numeric|min:10',
             'age' => 'required|integer|min:7',
             'image' => 'nullable|mimes:jpeg,jpg,png,gif|max:5000'

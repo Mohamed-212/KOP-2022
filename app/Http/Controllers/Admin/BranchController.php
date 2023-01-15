@@ -204,6 +204,8 @@ class BranchController extends Controller
             $days = array_filter($request->WorkingDay, function ($day) {
                 return isset($day['on']);
             });
+
+            // dd($days);
             foreach ($days as $name => $day) {
                 if (!empty($day['time_from']) && !empty($day['time_to'])) {
                     BranchWorkingDay::create([

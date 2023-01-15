@@ -48,7 +48,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'phone' => ['required', 'string', 'size:9', 'unique:users,first_phone']
+            'phone' => ['required', 'string', 'max:10', 'unique:users,first_phone']
         ], [
             'size' => [
                 'string' => $message,

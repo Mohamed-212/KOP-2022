@@ -124,7 +124,7 @@
                                             class="text-dark">{{ __('general.Mobile') }}</label>
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">+966</span>
-                                        <input type="text" maxlength="9" name="phone" value="{{ old('phone') }}"
+                                        <input type="text" maxlength="10" name="phone" value="{{ old('phone') }}"
                                             placeholder="{{ __('general.Enter Mobile') }}" class="form-control no-arrow"
                                             id="exampleInputNumber1" aria-describedby="numberHelp">
                                             </div>

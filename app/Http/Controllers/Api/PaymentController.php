@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
+use App\Models\Branch;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 
@@ -17,7 +19,7 @@ class PaymentController extends BaseController
 {
 
 
-    public function index($id, $amount, $hash)
+    public function index($id, $amount, $hash, $branch)
     {
         if (!is_numeric($amount) || strlen($hash) < 16) {
             return $this->sendError('hash is less than 16 chars');
@@ -25,9 +27,12 @@ class PaymentController extends BaseController
 
         $user = User::findOrFail($id);
 
+        $branch = Branch::findOrFail($branch);
+
         Session::put('payment_hash', $hash);
         Session::put('user_id', $user->id);
         Session::put('payment_amount', $amount);
+        Session::put('payment_branch_id', $branch->id);
         Session::save();
         return view('website.payment', compact('user', 'amount'));
     }

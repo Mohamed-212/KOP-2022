@@ -132,7 +132,7 @@ class AuthController extends BaseController
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'phone' => ['required', 'string', 'size:12', 'unique:users,first_phone']
+            'phone' => ['required', 'string', 'max:13', 'unique:users,first_phone']
         ], [
             'size' => [
                 'string' => $message,
@@ -449,7 +449,7 @@ class AuthController extends BaseController
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::user()->id],
             'password' => ['string', 'min:8'],
-            'phone' => ['required', 'string', 'size:12', 'unique:users,first_phone,' . Auth::user()->id],
+            'phone' => ['required', 'string', 'max:13', 'unique:users,first_phone,' . Auth::user()->id],
             'image' => 'image|max:5000'
         ], [
             'size' => [
