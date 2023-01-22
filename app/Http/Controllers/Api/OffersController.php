@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\OfferDiscount;
+use App\Models\User;
 use App\Models\Without;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,50 @@ class OffersController extends BaseController
 {
     public function index(Request $request, OfferFilters $filters)
     {
+        $user_branches = Auth::user()->branches()->pluck('branches.id')->toArray();
+        $offers = [];
+        if (!empty($user_branches)) {
+            $offer_id = DB::table("branch_offer")->whereIn('branch_id', $user_branches)->pluck('offer_id');
+            $offers_list = Offer::whereIn('id', $offer_id)->with('buyGet')->filter($filters)->orderBy('created_at', 'desc')->get();
+
+            $offers = [];
+            foreach ($offers_list as $off) {
+                if (!$off) {
+                    continue; 
+                 }
+                 // dump(date('H:i'));
+                 // dump(date('Y-m-d', strtotime($off->date_from)), date('Y-m-d', strtotime($off->date_to)));
+                 // dump($off->date_from, $off->date_to);
+                //  if (date('Y-m-d') < date('Y-m-d', strtotime($off->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($off->date_to))) {
+                //      continue;
+                //  }
+                //  $start = Carbon::createFromTimeString(substr($off->date_from, 11));
+                //  $end = Carbon::createFromTimeString(substr($off->date_to, 11));
+                //  // dd($start, $end);
+                //  if (!Carbon::now()->between($start, $end)) {
+                //      continue;
+                //  }
+
+                if (\Carbon\Carbon::now() < optional($off)->date_from || \Carbon\Carbon::now() > optional($off)->date_to) {
+                        $parent_offer = null;
+                    }
+    
+                $offers[] = $off;
+            }
+        }
+
+        // $offers =  $offerswith('buyGet', 'discount')->filter($filters)->get();
+
+        return $this->sendResponse($offers, 'Offers retreived successfully');
+    }
+
+    public function index2(Request $request, OfferFilters $filters)
+    {
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+
         $user_branches = Auth::user()->branches()->pluck('branches.id')->toArray();
         $offers = [];
         if (!empty($user_branches)) {
@@ -177,6 +222,108 @@ class OffersController extends BaseController
 
     public function get_discount(Request $request, $id)
     {
+        $offer = Offer::where('id', $id)->with('discount')->first();
+        if (!$offer) {
+            abort(404);
+        }
+        $result = $offer->toArray();
+
+        if ($offer->offer_type == 'discount') {
+            //dd($offer->discount);
+            //$itemsIds = explode(',', $offer->discount->items); // wrong
+            // $itemsIds = [];
+            // foreach ($offer->discount->items as $item) {
+            //     $itemsIds[] = $item['id'];
+            // }
+            // $items = Item::whereIn('id', $itemsIds)->get();
+
+            $cat = Category::find($offer->discount->items->first()->category_id)->load('items');
+            $data = [];
+            $result['items'] = [];
+
+            foreach ($cat->items as $key => $item) {
+                $branches = explode(',', $item->branches);
+                $offers = DB::table('offer_discount_items')->where('item_id', $item->id)->get();
+
+                $parent_offer = null;
+                foreach ($offers as $offer) {
+                    $parent_offer = OfferDiscount::find($offer->offer_id);
+
+                    if ($parent_offer) {
+                        if ($parent_offer->offer) {
+                            if (date('Y-m-d') < date('Y-m-d', strtotime($parent_offer->offer->date_from)) || date('Y-m-d') > date('Y-m-d', strtotime($parent_offer->offer->date_to))) {
+                                $parent_offer = null;
+                            }
+    
+                            if ($parent_offer && $parent_offer->offer) {
+                                $start = Carbon::createFromTimeString(substr($parent_offer->offer->date_from, 11));
+                                $end = Carbon::createFromTimeString(substr($parent_offer->offer->date_to, 11));
+                                // dd($start, $end);
+                                if (!Carbon::now()->between($start, $end)) {
+                                    $parent_offer = null;
+                                }
+                            }
+                            
+                         } else {
+                            $parent_offer = null;
+                         }
+                         // dump(date('H:i'));
+                         // dump(date('Y-m-d', strtotime($parent_offer->offer->date_from)), date('Y-m-d', strtotime($parent_offer->offer->date_to)));
+                         // dump($parent_offer->offer->date_from, $parent_offer->offer->date_to);
+                    }
+
+                    if ($parent_offer)  break;
+                }
+
+                
+
+
+                $item->offer = $parent_offer;
+                
+
+                if ($parent_offer) {
+                    
+                    if ($parent_offer->discount_type == 1) {
+                        $disccountValue = $item->price * $parent_offer->discount_value / 100;
+                        $item->offer->offer_price = $item->price - $disccountValue;
+                        $item->offer_price = round($item->price - $disccountValue, 2);
+                        // dump($item);
+                    } elseif ($parent_offer->discount_type == 2) {
+                        $item->offer->offer_price = $item->price - $parent_offer->discount_value;
+                        $item->offer_price = round($item->price - $parent_offer->discount_value, 2);
+                    }
+
+                    // dump($item);
+                    // if ($item->offer->offer_type == 'discount') {
+                        $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                    // }
+
+                    unset($item->offer->offer);
+                    
+                } else {
+                    continue;
+                }
+                $result['items'][] = $item;
+                
+            }
+            // dd($category);
+            // $data[] = $category;
+
+            // $details = $offer->discount;
+            // $details['items'] = $items;
+            // $result['details'] = $details;        
+
+            return $this->sendResponse($result, 'offer details');
+        }
+    }
+
+    public function get_discount2(Request $request, $id)
+    {
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+
         $offer = Offer::where('id', $id)->with('discount')->first();
         if (!$offer) {
             abort(404);

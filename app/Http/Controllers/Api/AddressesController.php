@@ -89,7 +89,11 @@ class AddressesController extends BaseController
         }
 
         if ($address->area) {
-            $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+            $branch = DB::table('branch_delivery_areas')
+            ->join('areas', 'branch_delivery_areas.area_id', '=', 'areas.id')
+            ->where('branch_delivery_areas.area_id', $address->area->id . "")
+            ->where('areas.city_id', $address->city->id . "")
+            ->first();
             if ($branch) {
                 $address->branch = Branch::find($branch->branch_id);
             }
@@ -153,7 +157,11 @@ class AddressesController extends BaseController
             return $this->sendError(__('general.error'), 400);
 
             if ($address->area) {
-                $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                $branch = DB::table('branch_delivery_areas')
+                ->join('areas', 'branch_delivery_areas.area_id', '=', 'areas.id')
+                ->where('branch_delivery_areas.area_id', $address->area->id . "")
+                ->where('areas.city_id', $address->city->id . "")
+                ->first();
                 if ($branch) {
                     $address->branch = Branch::find($branch->branch_id);
                 }
@@ -216,7 +224,11 @@ class AddressesController extends BaseController
             return $this->sendError(__('general.error'), 400);
 
             if ($address->area) {
-                $branch = DB::table('branch_delivery_areas')->where('area_id', $address->area->id . "")->first();
+                $branch = DB::table('branch_delivery_areas')
+                ->join('areas', 'branch_delivery_areas.area_id', '=', 'areas.id')
+                ->where('branch_delivery_areas.area_id', $address->area->id . "")
+                ->where('areas.city_id', $address->city->id . "")
+                ->first();
                 if ($branch) {
                     $address->branch = Branch::find($branch->branch_id);
                 }
@@ -329,23 +341,40 @@ class AddressesController extends BaseController
             }
          }
          else{
-           $cityName = $request->city;
-           $areaName = $request->area;
-           $area = Area::where(function($q) use($areaName){
-                $q->where('name_en', "LIKE", "%$areaName%")->orWhere('name_ar', "LIKE", "%$areaName%");
-            })
-            ->orWhere(function($q) use($cityName){
-              $q->where('name_en', "LIKE", "%$cityName%")->orWhere('name_ar', "LIKE", "%$cityName%");
-            })
-            ->with('city')->first();
-            if($area){
-                $cityId = $area->city->id;
-              $cityAr = $area->city->name_ar;
-              $cityEn = $area->city->name_en;
-              $areaId = $area->id;
-              $areaAr=$area->name_ar;
-              $areaEn=$area->name_en;
-            }
+
+            $cityName = $request->city;
+            $city2 = Area::where('name_en', "LIKE", "%$request->city%")->orWhere('name_ar', "LIKE", "%$request->city%")->first();
+          
+                $areaName = $request->area;
+                $area = Area::where(function($q) use($areaName){
+                     $q->where('name_en', "LIKE", "%$areaName%")->orWhere('name_ar', "LIKE", "%$areaName%");
+                 })
+                 ->orWhere(function($q) use($cityName){
+                   $q->where('name_en', "LIKE", "%$cityName%")->orWhere('name_ar', "LIKE", "%$cityName%");
+                 });
+                 
+                 if ($city2 && $city2->city) {
+                    $area->where('city_id', $city2->city->id);
+                 }
+                 
+                 $area = $area->with('city')->first();
+                 if($area){
+                    if ($city2) {
+                        $cityId = $city2 ? $city2->city->id : $area->city->id;
+                        $cityAr = $city2->city->name_ar;
+                        $cityEn = $city2->city->name_en;
+                        $areaId = $area->id;
+                        $areaAr=$area->name_ar;
+                        $areaEn=$area->name_en;
+                    } else {
+                        $cityId = $city2 ? $city2->city->id : $area->city->id;
+                        $cityAr = $area->city->name_ar;
+                        $cityEn = $area->city->name_en;
+                        $areaId = $area->id;
+                        $areaAr=$area->name_ar;
+                        $areaEn=$area->name_en;
+                    }
+                 }
          }
          
          if($areaId == null){
