@@ -108,6 +108,51 @@ class OrdersController extends BaseController
         return $this->sendResponse($orders->toArray(),  __('general.Orders retrieved successfully.'));
     }
 
+    public function getUserOrders2(Request $request)
+    {
+
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+
+        $orders = auth('api')->user()->orders()->with(['branch', 'items'])->with(['address' => function ($address) {
+            $address->with(['city', 'area']);
+        }])->orderBy('id', 'DESC')->paginate(10);
+        foreach ($orders as $order) {
+            foreach ($order->items as $item) {
+                $item->extras = Extra::whereIn('id', explode(', ', $item->pivot->item_extras))->get();
+                $item->withouts = Without::whereIn('id', explode(', ', $item->pivot->item_withouts))->get();
+                // $offerId = $item->pivot->offer_id;
+                // $offer = Offer::find($offerId);
+                $item->offer_price = $item->pivot->offer_price;
+                // if ($item->offer->offer_type == 'discount') {
+                //     $item->offer_price = $item->offer_price > 0 ? $item->offer_price : null;
+                // }
+                // $extras = $item->pivot->item_extras;
+                // $extras = $extras ? explode(", ", $extras) : [];
+
+                // $all_extras = [];
+                // foreach ($extras as $extra) {
+                //     $all_extras[] = Extra::find($extra);
+                // }
+
+                // $item->extras = $all_extras;
+
+                // $withouts = $item->pivot->item_withouts;
+                // $withouts = $withouts ? explode(", ", $withouts) : [];
+
+                // $all_withouts = [];
+                // foreach ($withouts as $without) {
+                //     $all_withouts[] = Without::find($without);
+                // }
+
+                // $item->withouts = $all_withouts;
+            }
+        }
+        return $this->sendResponse($orders->toArray(),  __('general.Orders retrieved successfully.'));
+    }
+
     /**
      * Request Body:
      *  - customer_id
@@ -836,6 +881,15 @@ class OrdersController extends BaseController
         return $this->sendResponse($order->toArray(), 'Order retrieved successfully.');
     }
 
+    public function getById2(Request $request, Order $order)
+    {
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+        return $this->sendResponse($order->toArray(), 'Order retrieved successfully.');
+    }
+
     public function acceptOrder(Request $request, Order $order)
     {
 
@@ -935,8 +989,75 @@ class OrdersController extends BaseController
         return $this->sendResponse($order->toArray(), __('general.Order has been canceled'));
     }
 
+    public function cancelOrder2(Request $request, Order $order)
+    {
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+
+        if ($order->state == 'completed' or $order->state == 'rejected') {
+            return $this->sendError(__('general.You cannot cancel this order'));
+        }
+
+        $order->update(['state' => 'canceled', 'cancellation_reason' => $request->cancellation_reason]);
+
+
+        if ($order->points_paid != 0 && is_int($order->points)) {
+            // PointsTransaction::create([
+            //     'points' => $order->points,
+            //     'user_id' => $order->customer_id,
+            //     'order_id' => $order->id,
+            //     'status' => 4
+            // ]);
+            $point = PointsTransaction::where('order_id', $order->id)->where('user_id', $order->customer_id)->where('points', $order->points)->where('status', 2)->first();
+            if ($point) {
+                $point->status = 1; // canceled
+                $point->save();
+            }
+        }
+
+        \App\Http\Controllers\NotificationController::pushNotifications($order->customer_id, "Your Order has been Cancelled, لقد تم إلغاء طلبك", "Order");
+        return $this->sendResponse($order->toArray(), __('general.Order has been canceled'));
+    }
+
     public function getBranch(Request $request)
     {
+        $customer = User::where('id', $request->customer_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'customer');
+        })->first();
+
+        $customerAddress = $customer->addresses->where('id', $request->address_id)->first();
+
+        // get the branch covers customer area and open
+        $area = $customerAddress->area;
+        if ($area) {
+            $branch = DB::table('branch_delivery_areas')->where('area_id', $area->id . "")->first();
+
+            if ($branch) {
+                $branch = Branch::find($branch->branch_id);
+
+                if ($branch) {
+                    $branch_id = $branch->id;
+                    return $this->sendResponse($branch_id, 'Related Branch');
+                } else {
+                    return $this->sendError(__('general.sorry there is no branch cover this area'));
+                }
+            } else {
+                return $this->sendError(__('general.sorry there is no branch cover this area'));
+            }
+        } else {
+            return $this->sendError(__('general.sorry there is no branch cover this area'));
+        }
+    }
+
+    public function getBranch2(Request $request)
+    {
+        $user = User::find(auth()->id());
+        if ($user->hasRole('customer')) {
+            abort(404);
+        }
+
         $customer = User::where('id', $request->customer_id)->whereHas('roles', function ($role) {
             $role->where('name', 'customer');
         })->first();
@@ -1182,6 +1303,7 @@ class OrdersController extends BaseController
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');
+            session()->forget('payment_hash');
             session()->save();
             // session(['payment' => $paymentId->toArray()]);
             $paymentId->status = $request->status;
@@ -1200,12 +1322,12 @@ class OrdersController extends BaseController
                 $paymentId->delete();
 
                 return redirect(route('get.paymentMobile', [
-                    session('user_id'), session('payment_amount'), session('payment_hash')
+                    session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
                 ]));
             }
             session()->flash('error', __('general.error'));
             return redirect()->route('get.paymentMobile', [
-                session('user_id'), session('payment_amount'), session('payment_hash')
+                session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
             ]);
         }
     }

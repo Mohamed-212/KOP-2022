@@ -56,46 +56,68 @@ class BranchesController extends BaseController
             $day->where('day', strtolower(now()->englishDayOfWeek))->latest()->limit(2)->get();
         }])->first();
 
-        $open = $branch->open();
-        $close = $branch->close();
+        if (count($branch->workingDays)) {
 
-        $data = [
-            'open at' => $open,
-            'close at' => $close,
-            'available' => false,
-        ];
 
-       
-
-        foreach ($branch->workingDays as $workingDay) {
-            // $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
-            // $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
-
-            // if ($workingDay->time_to == '1:00 AM') {
-            //     $timeTo->addDay();
-            //     // $timeFrom->addDay();
-            //     // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
-            // }
-
-            // // dump($workingDay->time_to);
-            // $now = Carbon::now(); 
-            // if ($now->gte($timeFrom) && $now->lte($timeTo)) {
-            //     // $data['available'] = true;
-            // }
-
-            
-            $now = Carbon::now();  
-            // dd($now)      
-            $start = Carbon::createFromTimeString($workingDay->time_from);
-            $end = Carbon::createFromTimeString($workingDay->time_to);
-            if (str_contains($workingDay->time_to, 'AM') || str_contains($workingDay->time_to, 'am')){
-                $start = Carbon::createFromTimeString('12:00 AM');
-              }
-             
-            if ($now->between($start, $end)) {
-                $data['available'] = true;
+            $open = $branch->open();
+            $close = $branch->close();
+    
+            $data = [
+                'open at' => $open,
+                'close at' => $close,
+                'available' => false,
+            ];
+    
+            foreach ($branch->workingDays as $workingDay) {
+                // $timeFrom = Carbon::createFromFormat('H:i a', $workingDay->time_from);
+                // $timeTo = Carbon::createFromFormat('H:i a', $workingDay->time_to);
+    
+                // if ($workingDay->time_to == '1:00 AM') {
+                //     $timeTo->addDay();
+                //     // $timeFrom->addDay();
+                //     // dump($timeFrom, $timeTo, $now->gte($timeFrom) , $now->lte($timeTo));
+                // }
+    
+                // // dump($workingDay->time_to);
+                // $now = Carbon::now(); 
+                // if ($now->gte($timeFrom) && $now->lte($timeTo)) {
+                //     // $data['available'] = true;
+                // }
+    
+                
+                $now = Carbon::now();  
+                // dd($now)      
+                $start = Carbon::createFromTimeString($workingDay->time_from);
+                $end = Carbon::createFromTimeString($workingDay->time_to);
+                if ((str_contains($workingDay->time_to, 'AM') || str_contains($workingDay->time_to, 'am'))
+                && (str_contains($workingDay->time_from, 'PM') || str_contains($workingDay->time_from, 'pm'))){
+                    $end = Carbon::createFromTimeString('11:59 PM');
+                    $tmpStart = Carbon::createFromTimeString('12:00 AM');
+                    $tmpEnd = Carbon::createFromTimeString('01:00 AM');
+                    if($now->between($tmpStart, $tmpEnd)){
+                        $end = Carbon::createFromTimeString($workingDay->time_to);
+                        $start = Carbon::createFromTimeString('12:00 AM');
+                    }
+                }
+                if ($now->between($start, $end)) {
+                    $data['available'] = true;
+                    break;
+                }
             }
+        } else  {
+            $data = [
+                'open at' => [
+                    "00:00 AM",
+                    "00:00 PM"
+                ],
+                "close at" => [
+                    "00:00 PM",
+                    "00:00 AM"
+                ],
+                'available' => false,
+            ];
         }
+
 
         // dd($data);
 

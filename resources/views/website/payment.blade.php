@@ -185,6 +185,28 @@
 @php
     // $user->token = $user->createToken('AppName')->accessToken;
     // $user->save();
+
+    $brN = '';
+    if (session('address_branch_id')) {
+        $br = App\Models\Branch::find(session('address_branch_id'));
+        if ($br) {
+            $brN = $br->name_en . ' - ' . $br->name_ar;
+        }
+    }
+    if (session('branch_id')) {
+        $br = App\Models\Branch::find(session('branch_id'));
+        if ($br) {
+            $brN = $br->name_en . ' - ' . $br->name_ar;
+        }
+    }
+
+    if (session('payment_branch_id')) {
+        $br = App\Models\Branch::find(session('payment_branch_id'));
+        if ($br) {
+            $brN = $br->name_en . ' - ' . $br->name_ar;
+        }
+    }
+
 @endphp
 
 @section('scripts')
@@ -195,10 +217,13 @@
                 element: '.mysr-form',
                 amount: {{ $amount * 100 }},
                 currency: 'SAR',
-                description: '{{ $user->name }} Order',
+                description: '{{ $user->name }} {{__('general.ORDER')}}',
                 publishable_api_key: '{{config('app.moyasar.publisher')}}',
                 callback_url: "{{ session()->has('payment_hash') ? route('api.make-order.payment') : route('make-order.payment') }}",
                 language: "{{ app()->getLocale() }}",
+                metadata: {
+                    branch: '{{$brN}}'
+                },
                 on_completed: function(payment) {
                     return new Promise(function(resolve, reject) {
                         // This is just an example, provide anything you want here

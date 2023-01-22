@@ -76,7 +76,7 @@ class OrderController extends Controller
 
         $address = null;
         if ($order->address_id) {
-            $address = Address::find($order->address_id);
+            $address = Address::withTrashed()->find($order->address_id);
         }
 
         $items = $order->items;
