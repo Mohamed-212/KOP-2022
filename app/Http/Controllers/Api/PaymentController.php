@@ -20,9 +20,9 @@ class PaymentController extends BaseController
 {
 
 
-    public function index(int $orderId)
+    public function index($orderId)
     {
-        $order = Order::withTrashed()->findOrFail($orderId);
+        $order = Order::withTrashed()->where('id', $orderId)->first();
 
         $amount = $order->total;
 
