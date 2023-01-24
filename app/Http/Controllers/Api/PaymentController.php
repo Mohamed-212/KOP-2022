@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Branch;
-use App\Models\Order;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 
@@ -18,30 +17,28 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends BaseController
 {
-
-
-    public function index($orderId)
+    public function index($id, $amount, $hash, $branch)
     {
-        $order = Order::withTrashed()->where('id', $orderId)->first();
+        if (!is_numeric($amount) || strlen($hash) < 20) {
+            return $this->sendError('hash is less than 20 chars');
+        }
 
-        $amount = $order->total;
 
-        $user = User::findOrFail($order->customer->id);
+        $user = User::findOrFail($id);
 
-        $branch = Branch::findOrFail($order->branch->id);
+        $branch = Branch::findOrFail($branch);
 
-        Session::put('payment_hash', mt_rand(1000009, 9999999));
+        Session::put('payment_hash', $hash);
         Session::put('user_id', $user->id);
         Session::put('payment_amount', $amount);
         Session::put('payment_branch_id', $branch->id);
-        Session::put('payment_order_id', $order->id);
         Session::save();
         return view('website.payment', compact('user', 'amount'));
     }
 
     public function check($hash)
     {
-        $payment = Payment::where('order_id', $hash)->where('customer_id', Auth::id())->first();
+        $payment = Payment::where('hash', $hash)->where('customer_id', Auth::id())->first();
 
         if (!$payment) {
             return $this->sendError(__('general.payment_not_found'));
@@ -157,8 +154,6 @@ class PaymentController extends BaseController
             'total_paid' => $request->amount,
             'data' => json_encode($request->all()),
             'hash' => session('payment_hash', null),
-            'order_id' => session('payment_order_id'),
-            'deleted_at' => now()
         ]);
 
         if ($payment) {

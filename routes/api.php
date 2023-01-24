@@ -21,13 +21,13 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::middleware('api')->group(function () {
-    Route::group(['prefix' => 'offers', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'offers', 'middleware' => 'auth.api'], function () {
         Route::get('/', 'Api\OffersController@index2')->name("offers.index2");
         Route::get('/discount/{offer}', 'Api\OffersController@get_discount2');
         Route::get('/{offer}', 'Api\OffersController@get');
     });
 
-    Route::group(['middleware' => ['auth:api'], 'prefix' => 'orders'], function () {
+    Route::group(['middleware' => ['auth.api'], 'prefix' => 'orders'], function () {
         // list all orders
         Route::get('/', "Api\OrdersController@index")->name('api.orders.index2');
         Route::get('/order-history', "Api\OrdersController@order_history")->name('api.orders.order_history2');
@@ -55,10 +55,10 @@ Route::middleware('api')->group(function () {
         Route::post('/branch', "Api\OrdersController@getBranch2")->name('api.orders.branch2');
     });
 
-    Route::get('/get-user-orders', "Api\OrdersController@getUserOrders2")->name('api.getUserOrders2')->middleware('auth:api');
+    Route::get('/get-user-orders', "Api\OrdersController@getUserOrders2")->name('api.getUserOrders2')->middleware('auth.api');
 });
 
-Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth:api');
+Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth.api');
 
 
 
@@ -95,7 +95,7 @@ Route::group(['prefix' => 'new'], function () {
 
         Route::post('verify-user/{id}', 'Api\AuthController@activateUser')->name('verify-user');
 
-        Route::group(['middleware' => ['auth:api', 'verifyTwilio']], function () {
+        Route::group(['middleware' => ['auth.api', 'verifyTwilio']], function () {
             Route::get('user', 'Api\AuthController@getUser');
             Route::put('user', 'Api\AuthController@updateUser');
             Route::get('logout', 'Api\AuthController@logout');
@@ -106,7 +106,7 @@ Route::group(['prefix' => 'new'], function () {
 
     Route::middleware('api')->group(function () {
 
-        Route::group(['middleware' => ['auth:api']], function () {
+        Route::group(['middleware' => ['auth.api']], function () {
             Route::get('get-user-points', 'Api\AuthController@getUserPoints');
             Route::post('change-user-points', 'Api\AuthController@changeUserPoints');
             Route::get('get-gifts', 'Api\GiftsController@getGifts');
@@ -139,11 +139,11 @@ Route::group(['prefix' => 'new'], function () {
         Route::post('/set-push-token', "Api\NotificationController@setPushToken")->name('api.setPushToken');
         Route::post('/set-first-offer-flag', "Api\AuthController@setFirstOfferFlag")->name('api.setFirstOfferFlag');
 
-        Route::get('/get-user-orders', "Api\OrdersController@getUserOrders")->name('api.getUserOrders')->middleware('auth:api');
+        Route::get('/get-user-orders', "Api\OrdersController@getUserOrders")->name('api.getUserOrders')->middleware('auth.api');
 
 
         // orders routes
-        Route::group(['middleware' => ['auth:api'], 'prefix' => 'orders'], function () {
+        Route::group(['middleware' => ['auth.api'], 'prefix' => 'orders'], function () {
             // list all orders
             Route::get('/', "Api\OrdersController@index")->name('api.orders.index');
             Route::get('/order-history', "Api\OrdersController@order_history")->name('api.orders.order_history');
@@ -171,7 +171,7 @@ Route::group(['prefix' => 'new'], function () {
             Route::post('/branch', "Api\OrdersController@getBranch")->name('api.orders.branch');
         });
 
-        Route::group(['middleware' => ['auth:api']], function () {
+        Route::group(['middleware' => ['auth.api']], function () {
             Route::get('/points/history', 'Api\OrdersController@getPointsHistory')->name('points.history');
             Route::get('/points/screen', 'Api\OrdersController@getPointsScreen')->name('points.screen');
         });
@@ -183,20 +183,20 @@ Route::group(['prefix' => 'new'], function () {
         Route::post('/payment/complete', 'Api\OrdersController@orderPayed');
 
 
-        Route::group(['prefix' => 'offers', 'middleware' => 'auth:api'], function () {
+        Route::group(['prefix' => 'offers', 'middleware' => 'auth.api'], function () {
             Route::get('/', 'Api\OffersController@index')->name("offers.index");
             Route::get('/discount/{offer}', 'Api\OffersController@get_discount');
             Route::get('/{offer}', 'Api\OffersController@get');
         });
         // offers routes
-        Route::group(['middleware' => ['auth:api'], 'prefix' => 'offers'], function () {
+        Route::group(['middleware' => ['auth.api'], 'prefix' => 'offers'], function () {
             Route::get('/check/{order_id}', 'Api\OffersController@check');
             Route::post('/delivery-offer/{address_id}', 'Api\OffersController@delivery_offer');
             Route::post('/takeway-offer/{branch_id}', 'Api\OffersController@takeway_offer');
         });
 
         // Address routes
-        Route::group(['middleware' => ['auth:api']], function () {
+        Route::group(['middleware' => ['auth.api']], function () {
             Route::resource('/address', 'Api\AddressesController');
             Route::post('/addressmaps', 'Api\AddressesController@sotreWithMaps');
             Route::post('/add-address', 'Api\AddressesController@sotre');
@@ -231,8 +231,8 @@ Route::group(['prefix' => 'new'], function () {
         Route::get('/recommended', 'Api\MenuController@getRecommendedItems');
     });
     Route::get('/payment/make-order', 'Api\OrdersController@make_order_payment')->name('api.make-order.payment');
-    Route::get('/payment/{orderId}', 'Api\PaymentController@index')->name('get.paymentMobile');
-    Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth:api')->name('api.payment.store');
+    Route::get('/payment/{id}/{amount}/{hash}/{branch}', 'Api\PaymentController@index')->name('get.paymentMobile');
+    Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth.api')->name('api.payment.store');
 
     Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth.api')->name('check.paymentMobile');
 
@@ -259,18 +259,18 @@ Route::group(['prefix' => 'new'], function () {
         Route::get('/careers', 'Api\FrontController@getAllJobs');
         Route::post('/careers/{id}', 'Api\FrontController@jobRequest');
     });
-    Route::group(['middleware' => ['auth:api']], function () {
+    Route::group(['middleware' => ['auth.api']], function () {
         Route::get('/payment/refund/{id}', 'Api\PaymentController@refund');
         Route::get('/payment/response', 'Api\PaymentController@paymentResponse');
         // Route::get('/payment/{amount}', 'Api\PaymentController@index')->name('get.paymentMobile');
         Route::post('payment/check', 'Api\PaymentController@get_payment')->name('do.paymentMobile');
     });
 
-    Route::get('/notifications/logs/', 'Api\GetNotificationLogs')->name('notifications.logs')->middleware('auth:api');
-    Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth:api');
+    Route::get('/notifications/logs/', 'Api\GetNotificationLogs')->name('notifications.logs')->middleware('auth.api');
+    Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth.api');
 
 
-    Route::group(['middleware' => ['auth:api'], 'prefix' => 'favourites', 'as' => 'api.favourites.'], function () {
+    Route::group(['middleware' => ['auth.api'], 'prefix' => 'favourites', 'as' => 'api.favourites.'], function () {
         require __DIR__ . '/favourites_routes.php';
     });
 });
@@ -304,7 +304,7 @@ Route::group(['prefix' => 'new'], function () {
 
 //     Route::post('verify-user/{id}', 'Api\AuthController@activateUser')->name('verify-user');
 
-//     Route::group(['middleware' => ['auth:api', 'verifyTwilio']], function () {
+//     Route::group(['middleware' => ['auth.api', 'verifyTwilio']], function () {
 //         Route::get('user', 'Api\AuthController@getUser');
 //         Route::put('user', 'Api\AuthController@updateUser');
 //         Route::get('logout', 'Api\AuthController@logout');
@@ -315,7 +315,7 @@ Route::group(['prefix' => 'new'], function () {
 
 // Route::middleware('api')->group(function () {
 
-//     Route::group(['middleware' => ['auth:api']], function () {
+//     Route::group(['middleware' => ['auth.api']], function () {
 //         Route::get('get-user-points', 'Api\AuthController@getUserPoints');
 //         Route::post('change-user-points', 'Api\AuthController@changeUserPoints');
 //         Route::get('get-gifts', 'Api\GiftsController@getGifts');
@@ -348,11 +348,11 @@ Route::group(['prefix' => 'new'], function () {
 //     Route::post('/set-push-token', "Api\NotificationController@setPushToken")->name('api.setPushToken');
 //     Route::post('/set-first-offer-flag', "Api\AuthController@setFirstOfferFlag")->name('api.setFirstOfferFlag');
 
-//     Route::get('/get-user-orders', "Api\OrdersController@getUserOrders")->name('api.getUserOrders')->middleware('auth:api');
+//     Route::get('/get-user-orders', "Api\OrdersController@getUserOrders")->name('api.getUserOrders')->middleware('auth.api');
 
 
 //     // orders routes
-//     Route::group(['middleware' => ['auth:api'], 'prefix' => 'orders'], function () {
+//     Route::group(['middleware' => ['auth.api'], 'prefix' => 'orders'], function () {
 //         // list all orders
 //         Route::get('/', "Api\OrdersController@index")->name('api.orders.index');
 //         Route::get('/order-history', "Api\OrdersController@order_history")->name('api.orders.order_history');
@@ -380,7 +380,7 @@ Route::group(['prefix' => 'new'], function () {
 //         Route::post('/branch', "Api\OrdersController@getBranch")->name('api.orders.branch');
 //     });
 
-//     Route::group(['middleware' => ['auth:api']], function () {
+//     Route::group(['middleware' => ['auth.api']], function () {
 //         Route::get('/points/history', 'Api\OrdersController@getPointsHistory')->name('points.history');
 //         Route::get('/points/screen', 'Api\OrdersController@getPointsScreen')->name('points.screen');
 //     });
@@ -392,20 +392,20 @@ Route::group(['prefix' => 'new'], function () {
 //     Route::post('/payment/complete', 'Api\OrdersController@orderPayed');
 
 
-//     Route::group(['prefix' => 'offers', 'middleware' => 'auth:api'], function () {
+//     Route::group(['prefix' => 'offers', 'middleware' => 'auth.api'], function () {
 //         Route::get('/', 'Api\OffersController@index')->name("offers.index");
 //         Route::get('/discount/{offer}', 'Api\OffersController@get_discount');
 //         Route::get('/{offer}', 'Api\OffersController@get');
 //     });
 //     // offers routes
-//     Route::group(['middleware' => ['auth:api'], 'prefix' => 'offers'], function () {
+//     Route::group(['middleware' => ['auth.api'], 'prefix' => 'offers'], function () {
 //         Route::get('/check/{order_id}', 'Api\OffersController@check');
 //         Route::post('/delivery-offer/{address_id}', 'Api\OffersController@delivery_offer');
 //         Route::post('/takeway-offer/{branch_id}', 'Api\OffersController@takeway_offer');
 //     });
 
 //     // Address routes
-//     Route::group(['middleware' => ['auth:api']], function () {
+//     Route::group(['middleware' => ['auth.api']], function () {
 //         Route::resource('/address', 'Api\AddressesController');
 //         Route::post('/addressmaps', 'Api\AddressesController@sotreWithMaps');
 //         Route::post('/add-address', 'Api\AddressesController@sotre');
@@ -441,9 +441,9 @@ Route::group(['prefix' => 'new'], function () {
 // });
 // Route::get('/payment/make-order', 'Api\OrdersController@make_order_payment')->name('api.make-order.payment');
 // Route::get('/payment/{id}/{amount}/{hash}/{branch}', 'Api\PaymentController@index')->name('get.paymentMobile');
-// Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth:api')->name('api.payment.store');
+// Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth.api')->name('api.payment.store');
 
-// Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth:api')->name('check.paymentMobile');
+// Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth.api')->name('check.paymentMobile');
 
 // // helper endpoints
 // Route::get('/cities', "Api\HelperController@getCities");
@@ -468,17 +468,17 @@ Route::group(['prefix' => 'new'], function () {
 //     Route::get('/careers', 'Api\FrontController@getAllJobs');
 //     Route::post('/careers/{id}', 'Api\FrontController@jobRequest');
 // });
-// Route::group(['middleware' => ['auth:api']], function () {
+// Route::group(['middleware' => ['auth.api']], function () {
 //     Route::get('/payment/refund/{id}', 'Api\PaymentController@refund');
 //     Route::get('/payment/response', 'Api\PaymentController@paymentResponse');
 //     // Route::get('/payment/{amount}', 'Api\PaymentController@index')->name('get.paymentMobile');
 //     Route::post('payment/check', 'Api\PaymentController@get_payment')->name('do.paymentMobile');
 // });
 
-// Route::get('/notifications/logs/', 'Api\GetNotificationLogs')->name('notifications.logs')->middleware('auth:api');
-// Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth:api');
+// Route::get('/notifications/logs/', 'Api\GetNotificationLogs')->name('notifications.logs')->middleware('auth.api');
+// Route::get('/notifications', 'Api\GetNotificationLogs@getAllNotification')->name('notifications.all')->middleware('auth.api');
 
 
-// Route::group(['middleware' => ['auth:api'], 'prefix' => 'favourites', 'as' => 'api.favourites.'], function () {
+// Route::group(['middleware' => ['auth.api'], 'prefix' => 'favourites', 'as' => 'api.favourites.'], function () {
 //     require __DIR__ . '/favourites_routes.php';
 // });

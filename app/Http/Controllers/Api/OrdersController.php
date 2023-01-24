@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Filters\OrderFilters;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
+use App\JsonFile;
 use App\Models\Branch;
 use App\Models\Order;
 use App\Models\Item;
@@ -23,6 +24,8 @@ use App\Models\PointsTransaction;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Str;
 
 class OrdersController extends BaseController
 {
@@ -211,6 +214,21 @@ class OrdersController extends BaseController
             $role->where('name', 'customer');
         })->first();
 
+        if ($request->has('hash') && strlen($request->hash) >= 20) {
+            $data = $request->all();
+            $f = 'json/' . Str::slug(microtime() . $request->hash). '.json';
+            file_put_contents(public_path($f), json_encode($data));
+
+            JsonFile::create([
+                'hash' => $request->hash,
+                'file' => $f,
+            ]);
+
+            return $this->sendResponse([
+                'hash' => $request->hash
+            ], '');
+        }
+
         $branch_id = 0;
 
         if ($request->service_type == 'delivery') {
@@ -308,20 +326,14 @@ class OrdersController extends BaseController
             }
         }
 
-        $new_order=Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
-            $address->with(['city', 'area']);
-        }])->where('id', $savedOrder->id)->first();
-
-        if ($new_order->payment_type == 'cash') {
-            $pointsValue = $request->has('points') ? $request->points : $request->points_value;
-            if ($pointsValue && (int)$pointsValue > 0) {
-                PointsTransaction::create([
-                    'points' => $pointsValue,
-                    'order_id' => $order->id,
-                    'user_id' => Auth::id(),
-                    'status' => 2,
-                ]);
-            }
+        $pointsValue = $request->has('points') ? $request->points : $request->points_value;
+        if ($pointsValue && (int)$pointsValue > 0) {
+            PointsTransaction::create([
+                'points' => $pointsValue,
+                'order_id' => $order->id,
+                'user_id' => Auth::id(),
+                'status' => 2,
+            ]);
         }
 
         // try{
@@ -329,16 +341,16 @@ class OrdersController extends BaseController
         // }catch(\Exception $ex){
         //     return $this->sendError('Order did not placed');
         // }
-        
+        $new_order=Order::with(['customer', 'branch', 'items'])->with(['address' => function ($address) {
+            $address->with(['city', 'area']);
+        }])->where('id', $savedOrder->id)->first();
 
-        if ($new_order->payment_type == 'cash') {
-            $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
-                $role->where('name', 'cashier');})->get();
-            if ($cashiers) {
-                foreach ($cashiers as $cashier) {
-                \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
-                broadcast(new OrderCreated($new_order,$cashier->user_id));
-                }
+        $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$branch_id)->whereHas('roles', function ($role) {
+            $role->where('name', 'cashier');})->get();
+        if ($cashiers) {
+            foreach ($cashiers as $cashier) {
+              \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $request->customer_id);
+              broadcast(new OrderCreated($new_order,$cashier->user_id));
             }
         }
 
@@ -426,11 +438,6 @@ class OrdersController extends BaseController
                 'offer_last_updated_at' => optional($offer)->updated_at,
                 'quantity' => array_key_exists('quantity', $item) ? $item['quantity'] : 1,
             ]);
-        }
-
-        if ($new_order->payment_type == 'online') {
-            $new_order->deleted_at = now();
-            $new_order->save();
         }
 
         return $this->sendResponse($order,  __('general.Order created successfully!'));
@@ -1295,7 +1302,7 @@ class OrdersController extends BaseController
     public function make_order_payment(Request $request)
     {
 
-        $paymentId = Payment::where('payment_id', $request->id)->where('order_id', session('payment_order_id'))->first();
+        $paymentId = Payment::where('payment_id', $request->id)->where('hash', session('payment_hash'))->first();
 
         if (!$paymentId) {
             session()->flash('error', 'payment id is not valid');
@@ -1317,42 +1324,31 @@ class OrdersController extends BaseController
             $paymentId->status = $request->status;
             $paymentId->message = $request->message;
             $paymentId->data = $payment->toJson();
-            $paymentId->deleted_at = null;
             // $paymentId->order_id = $return['data']['id'];
             $paymentId->save();
 
-            $order = Order::find(session('payment_order_id'));
+            $jf = JsonFile::where('hash', session('payment_hash'))->first();
 
-            if ($order) {
-                $order->deleted_at = null;
-                $order->save();
+            if ($jf) {
+                $nreq = new Request();
+                $nreq->merge(
+                    json_decode(file_get_contents(public_path($jf->file)), true)
+                );
+                $nreq->hash = null;
 
-                $pointsValue = $order->points ? $order->points : null;
-                if ($pointsValue && (int)$pointsValue > 0) {
-                    PointsTransaction::create([
-                        'points' => $pointsValue,
-                        'order_id' => $order->id,
-                        'user_id' => $order->customer->id,
-                        'status' => 2,
-                    ]);
-                }
+                $return = (app(static::class)->store($nreq))->getOriginalContent();
 
-                $cashiers =  User::join('branch_user','branch_user.user_id','users.id')->where('branch_user.branch_id',$order->branch->id)->whereHas('roles', function ($role) {
-                    $role->where('name', 'cashier');})->get();
-                if ($cashiers) {
-                    foreach ($cashiers as $cashier) {
-                    \App\Http\Controllers\NotificationController::pushNotifications($cashier->user_id, __("general.New Order has been placed"), "Order", null, null, $order->customer->id);
-                    broadcast(new OrderCreated($order,$cashier->user_id));
-                    }
+                if ($return['success'] == true) {
+                    $order = $return['data'];
+                    $paymentId->order_id = $order->id;
+                    $paymentId->save();
                 }
             }
 
             session()->flash('success', __('general.Order Payed Successfully'));
             session()->forget('payment_hash');
             session()->forget('payment_hash');
-            session()->forget('payment_order_id');
             session()->save();
-
 
             return view('api.payment_response');
         } else {
@@ -1360,13 +1356,16 @@ class OrdersController extends BaseController
             if ($request->status == 'failed') {
                 session()->flash('error', strtolower(str_replace(" (Test Environment)", "", $request->message)));
 
+                // delete this payment from payments
+                $paymentId->delete();
+
                 return redirect(route('get.paymentMobile', [
-                    session('payment_order_id')
+                    session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
                 ]));
             }
             session()->flash('error', __('general.error'));
             return redirect()->route('get.paymentMobile', [
-                session('payment_order_id')
+                session('user_id'), session('payment_amount'), session('payment_hash'), session('payment_branch_id')
             ]);
         }
     }
