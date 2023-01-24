@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthByToken;
 use App\Http\Middleware\ChooseService;
 // use App\Http\Middleware\ForceHttps;
 use App\Http\Middleware\GetUserIfTokenPreset;
@@ -83,6 +84,8 @@ class Kernel extends HttpKernel
         'authIfTokenFound' => GetUserIfTokenPreset::class,
 
         'forceHttps' => \App\Http\Middleware\ForceHttps::class,
+
+        'auth.api' => AuthByToken::class,
     ];
 
     /**

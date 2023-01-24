@@ -234,7 +234,7 @@ Route::group(['prefix' => 'new'], function () {
     Route::get('/payment/{orderId}', 'Api\PaymentController@index')->name('get.paymentMobile');
     Route::post('payment/save', 'Api\PaymentController@store_payment')->middleware('auth:api')->name('api.payment.store');
 
-    Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth:api')->name('check.paymentMobile');
+    Route::post('/payment/check/{hash}', 'Api\PaymentController@check')->middleware('auth.api')->name('check.paymentMobile');
 
     // helper endpoints
     Route::get('/cities', "Api\HelperController@getCities");
