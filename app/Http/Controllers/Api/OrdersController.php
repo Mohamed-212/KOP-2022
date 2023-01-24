@@ -1327,6 +1327,8 @@ class OrdersController extends BaseController
             // $paymentId->order_id = $return['data']['id'];
             $paymentId->save();
 
+            Auth::setUser(User::findOrFail($paymentId->customer_id));
+
             $jf = JsonFile::where('hash', session('payment_hash'))->first();
 
             if ($jf) {
