@@ -42,18 +42,18 @@ class Order extends Model
         'delivery_fees' => 'double'
     ];
 
-    public $appends = [
-        'payment_type',
-    ];
+    // public $appends = [
+    //     'payment_type',
+    // ];
 
     public $hidden = [
         'first_order_status'
     ];
 
-    public function getPaymentTypeAttribute()
-    {
-        return Payment::where('order_id', $this->id)->exists() ? 'online' : 'cash';
-    }
+    // public function getPaymentTypeAttribute()
+    // {
+    //     return Payment::where('order_id', $this->id)->exists() ? 'online' : 'cash';
+    // }
 
     public function customer()
     {
